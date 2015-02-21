@@ -21,6 +21,7 @@ namespace ContentSearchService
         private CompanyRepository companyRepository = new CompanyRepository();
         private TaskTicketRepository taskrepository = new TaskTicketRepository();
 
+        
         public TaskSearch(Guid userId)
         {
             // TODO: Complete member initialization
