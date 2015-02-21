@@ -1,0 +1,19 @@
+﻿@model IEnumerable<MessageViewModel>
+<li class="dropdown notif">
+    <a id="notify-hover" href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown"><i class="notif-block fa fa-comments-o"></i><span class="badge badge-primary">@Model.Count()</span></a>
+    <ul class="dropdown-menu chat media-list">
+        @foreach (var item in Model)
+        {
+            <li id="ntfy@(item.NotifyId)" class="media">
+                <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                <div class="media-body">
+                    <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
+                    <h5 class="media-heading">@item.Title</h5>
+                    <p class="margin-none">@item.Msg</p>
+                    <span class="btn btn-success pull-right padding-none" onclick='setViewNotifyItem(@(item.NotifyId), "@(item.IsLocal.ToString())");'>&nbsp;Просмотрено&nbsp;</span>
+                </div>
+            </li>
+        }        
+        <li><a href="/notify/indexnotifies" class="btn btn-primary"><i class="fa fa-list"></i> <span>Все уведомления</span></a></li>
+    </ul>
+</li>

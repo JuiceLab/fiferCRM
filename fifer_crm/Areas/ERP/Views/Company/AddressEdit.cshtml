@@ -1,0 +1,104 @@
+﻿@model CompanyAddressViewModel
+@{
+    var cities = ViewBag.Cities as List<SelectListItem>;
+    if (cities.Any(m => m.Text == Model.City))
+    {
+        cities.FirstOrDefault(m => m.Text == Model.City).Selected = true;
+    }
+}
+
+@using (Html.BeginForm("Edit", "Address", null, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m => m.CompanyId)
+    @Html.HiddenFor(m => m.AddrId)
+    @Html.HiddenFor(m => m.IsLegal)
+    @Html.HiddenFor(m => m.Longitude)
+    @Html.HiddenFor(m => m.Latitude)
+    <!-- Row -->
+    <div class="row">
+        <!-- Column -->
+        <div class="col-md-6">
+            <!-- Group -->
+            <div class="form-group margin-none innerB">
+                @Html.LabelFor(m => m.City, new { @class = "col-md-6 control-label" })
+                <div class="col-md-6">
+                    <div class="input-group">
+                        @Html.DropDownListFor(m => m.City, cities, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                        @Html.ValidationMessageFor(m=>m.City)
+                    </div>
+                </div>
+            </div>
+            <!-- // Group END -->
+            <div class="form-group margin-none innerB">
+                @Html.LabelFor(m => m.Street, new { @class = "col-md-6 control-label" })
+                <div class="col-md-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                        @Html.ValidationMessageFor(m => m.Street)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group margin-none innerB">
+                @Html.LabelFor(m => m.Number, new { @class = "col-md-6 control-label" })
+                <div class="col-md-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                        @Html.ValidationMessageFor(m => m.Number)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group margin-none innerB">
+                @Html.LabelFor(m => m.AddNumber, new { @class = "col-md-6 control-label" })
+                <div class="col-md-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.AddNumber, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group margin-none innerB">
+                @Html.LabelFor(m => m.ZipCode, new { @class = "col-md-6 control-label" })
+                <div class="col-md-6">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Column END -->
+        <!-- Column -->
+        <div class="col-md-6">
+            <!-- Group -->
+            <div class="form-group margin-none innerB">
+                <label class="col-md-6 control-label" style="text-align:left;">
+                    Электронная почта&nbsp;<span class="btn btn-default padding-none" onclick="addTagsInputItem(this)">&nbsp;<i class="fa fa-plus"></i>&nbsp;</span>
+                </label>
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Mails, new { @class = "form-control" })
+                        </div>
+                    </div>
+            </div>
+            <div class="form-group margin-none innerB">
+                <label class="col-md-6 control-label" style="text-align:left;">Телефоны&nbsp;<span class="btn btn-default padding-none" onclick="addTagsInputItem(this)">&nbsp;<i class="fa fa-plus"></i>&nbsp;</span>
+                </label> 
+                <div class="col-md-12">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.Phones, new {  @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <!-- // Group END -->
+        </div>
+    </div>
+    <div class="separator line bottom"></div>
+    <div class="separator top">
+        <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+        <span onclick="initFormDialogMap(this)" class="edit-on btn btn-primary"><i class="fa fa-fw fa-globe"></i> Задать местоположение</span>
+    </div>
+}

@@ -1,0 +1,93 @@
+﻿@model UserNotifyModel[]
+@{
+    var types = Enum.GetValues(typeof(NotifyCategoryType)) as IEnumerable<NotifyCategoryType>;
+    Dictionary<NotifyCategoryType, List<int>> notifyByCategories = NotifySingletonWrapper.Instance.Notifies
+        .GroupBy(m => m.NotifyObjectCategory)
+        .ToDictionary(m => (NotifyCategoryType)m.Key, m => m.Select(n=>n.NotifyId).ToList());
+     var listNotify = Model.ToList();
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Настройки уведомлений</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using ( Ajax.BeginForm("NotifySettingsEdit", "Notify", new AjaxOptions(){  HttpMethod = "Post",  OnComplete="location.reload();"}, new { @class = "form-horizontal", id="settings-update", role = "form" }))
+            {
+                <input id="photoType" type="hidden" value="employee" />
+
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- Widget heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a href="#tab-@(types.FirstOrDefault().ToString())" data-toggle="tab"><i></i>@types.FirstOrDefault().GetStringValue()</a></li>
+
+                            @foreach (NotifyCategoryType item in types.Skip(1))
+                            {
+                                <li><a href="#tab-@(item.ToString())" data-toggle="tab"><i></i>@item.GetStringValue()</a></li>
+
+                            }
+                        </ul>
+                    </div>
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                        @foreach (NotifyCategoryType item in types)
+                        {
+                            <div class="tab-pane @(item.ToString() == types.FirstOrDefault().ToString()? "active": string.Empty)" id="tab-@(item.ToString())">
+                                <div class="widget-body innerAll inner-2x">
+                                    <!-- Table -->
+                                    <table class="table table-bordered table-primary">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th class="center">Уведомление</th>
+                                                <th>Назначены мне</th>
+                                                <th>Назначены мной</th>
+                                                <th>Мои подчиненные</th>
+                                                <th>Активно?</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+                                        <tbody>
+                   
+                                            <!-- Table row -->
+                                            @foreach (var setting in Model.Where(m=>notifyByCategories[item].Contains(m.NotifyId)))
+                                            {
+                                                var index = listNotify.IndexOf(setting);
+                                                @Html.HiddenFor(m => m[index].NotifyId, new { name = "profile[" + index + "].NotifyId" })
+                                                <tr>
+                                                    <td class="center">@NotifySingletonWrapper.Instance.Notifies.FirstOrDefault(m=>m.NotifyId == setting.NotifyId).Name</td>
+                                                    <td>@Html.CheckBoxFor(m => m[index].ToMe, new { name = "profile[" + index + "].ToMe" })</td>
+                                                    <td>@Html.CheckBoxFor(m => m[index].FromMe, new { name = "profile[" + index + "].FromMe" })</td>
+                                                    <td>@Html.CheckBoxFor(m => m[index].UnderMe, new { name = "profile[" + index + "].UnderMe" })</td>
+                                                    <td>@Html.CheckBoxFor(m => m[index].IsActive, new { name = "profile[" + index + "].IsActive" })</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <!-- // Table body END -->
+
+                                    </table>
+                                    <!-- // Table END -->
+                                </div>
+                            </div>
+                        }
+                            <!-- // Tab content END -->
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <span onclick="updateSettings()" class="btn btn-primary">Обновить</span>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

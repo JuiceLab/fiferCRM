@@ -1,0 +1,22 @@
+﻿@model List<SelectListItem>
+@using (Html.BeginForm("FuncRoleByUser", "Role", new { userId = ViewBag.User }, FormMethod.Post, null))
+{
+    <ol>
+        @foreach (var item in Model)
+        {
+            <li style="margin-bottom:10px">
+                <div class="" style="border-bottom:solid 1px">
+                    @if (item.Selected)
+                    {
+                        <input id="@item.Text" class="" type="checkbox" value="@item.Value" name="roles" checked="checked" />
+                    }
+                    else
+                    {
+                        <input id="@item.Text" class="" type="checkbox" value="@item.Value" name="roles" />
+                    }<label for="@item.Text" class="" style="float:right">@item.Text</label>&nbsp
+                </div>
+            </li>
+        }
+    </ol>
+    <input class='btn btn-success' type="submit" value="обновить" />
+}

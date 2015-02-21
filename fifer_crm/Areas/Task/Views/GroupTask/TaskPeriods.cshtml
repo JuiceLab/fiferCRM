@@ -1,0 +1,57 @@
+﻿@model FiferTaskTicket
+@{
+    var assigned = ViewBag.Assign as IEnumerable<SelectListItem>;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Периодическая задача</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR row">
+            <div class="widget widget-tabs border-bottom-none">
+                <!-- Widget heading -->
+
+                <div class="widget-body">
+                    <div class="col-sm-4">
+
+                        <!-- col-separator -->
+                        <div class="col-separator col-separator-first box col-unscrollable">
+
+                            <!-- col-table -->
+                            <div id="scrolled-div" class="col-table">
+                                <div class="scroll-body" style="max-height:300px">
+                                    <ul class="list-group list-group-1 borders-none">
+                                        @foreach (var item in Model.Periods.OrderBy(m=>m.DateStarted))
+                                        {
+                                            var user =item.Assigned.HasValue?
+                                                assigned.FirstOrDefault(m=>m.Value == item.Assigned.Value.ToString())
+                                                : null;
+                                            <li class="list-group-item" style="border:1px solid; padding:10px">
+                                                <small>@item.DateStarted.ToShortDateString()</small>
+                                                <h5>@(user !=null? user.Text : "нет исполнителя")</h5>
+                                                <span>@(((WFTaskStatus)item.StatusId).GetStringValue())</span>
+                                                <a class="btn btn-info padding-none" href="#" onclick="getPeriod('@(item.TaskPeriodId)'); $('.list-group-item').removeClass('active'); $(this).parents('li').addClass('active') ">&nbsp; Изменить</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-separator-h box"></div>
+                            </div>
+                            <!-- // END col-table -->
+                        </div>
+                        <!-- // END col-separator.box -->
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="innerLR" id="period-editor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

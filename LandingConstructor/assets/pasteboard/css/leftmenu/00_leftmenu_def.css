@@ -1,0 +1,126 @@
+/*Левая колонка*/
+.l_column
+{
+	
+	padding-top: 0px;
+	padding-bottom: 20px;
+	padding-left: 0px;
+	padding-right: 0px;
+	vertical-align: top;
+	width: 245px;
+}
+.l_column table
+{	
+	 width: 205px;
+}
+.l_column table td
+{	
+	padding: 0px 20px 0px 20px;
+	background-color: #8291A6;
+	height: 30px;		
+}
+.l_column table td.zero
+{	
+	padding: 0px 15px 0px 20px;	
+	background-color: #8291A6;	
+	height: auto;
+}
+.l_column table .zero_img
+{	
+	width:157px;height:1px;background:url(left_line.jpg) 0 0 no-repeat;;
+}
+.l_column table .last .zero
+{	
+	padding:0;display:none;
+}
+.l_column table .last_zero_img
+{	
+	width:205px;height:16px;background:url(left_bot.jpg) 0 0 no-repeat;
+}
+.zagauto
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	color: #ffffff;
+	font-weight: bold;
+	text-decoration: none;
+	padding: 21px 0px 3px 22px;
+	 background-image: url(left_top.jpg);
+	 background-position: top;
+	 background-repeat: repeat-x;
+	 width: 205px;
+	 height: 55px;
+	 bgcolor:#005d8c;
+}
+.l_column table tr td.active
+{	 font-family: Arial, Helvetica, sans-serif;
+background-color: #F6F6F6;
+	color: #4D6280;	
+	font-size: 11px;	
+	line-height: 12px;
+	padding: 0px 20px 0px 20px;
+	background-image: url(left_arr.gif);
+	background-repeat: no-repeat;
+	background-position: 91% 50%;	
+}
+.l_column table tr.active td
+{	 font-family: Arial, Helvetica, sans-serif;
+background-color: #F6F6F6;
+	color: #4D6280;	
+	font-size: 11px;	
+	line-height: 12px;
+	padding: 0px 20px 0px 20px;
+	background-image: url(left_arr.gif);
+	background-repeat: no-repeat;
+	background-position: 91% 50%;	
+}
+.l_column table tr.active td a{color:#4D6280;}
+
+.l_column table tr.active + tr.active{display:none;}
+
+.l_column table td.on
+{	 font-family: Arial, Helvetica, sans-serif;
+background-color: #CBD2DD;
+	color: #4D6280;	
+	font-size: 11px;	
+	line-height: 12px;
+	padding: 0px 20px 0px 20px;
+	background-image: url(left_arr.gif);
+	background-repeat: no-repeat;
+	background-position: 90% 50%;	
+}
+.l_column td a,.l_column table td.on a
+{	 font-family: Arial, Helvetica, sans-serif;
+	color:white;
+	text-decoration: none;
+	
+	font-size: 11px;	
+	line-height: 12px;
+}
+
+.l_column_td a:hover
+{
+	color: #C7C7C7;
+}
+
+.l_subitem_a
+{
+	font-weight: bold;
+	font-size:11px;
+	color: #D0CECE;
+	padding: 2px 0 2px 20px;
+}
+
+.l_subitem_a a
+{
+	font-weight: bold;
+	color: #D0CECE;
+	text-decoration: underline;
+}
+
+.l_subitem_a a:hover
+{
+	color: #ACACAC;
+}
+
+/*Левая колонка*/

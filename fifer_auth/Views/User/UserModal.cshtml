@@ -1,0 +1,63 @@
+﻿@model RegisterModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Новый пользователь</h3>
+</div>
+<div class="modal-body">
+    @using (Html.BeginForm("Register", "User"))
+    {
+        @Html.AntiForgeryToken()
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="control-group">
+                <label class="control-label">Логин</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Login)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Имя</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.LastName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Фамилия</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName)
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="control-group">
+                <label class="control-label">Почтовый ящик</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Email)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Пароль</label>
+                <div class="controls">
+                    @Html.PasswordFor(m => m.Pass)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Пароль повторно</label>
+                <div class="controls">
+                    @Html.PasswordFor(m => m.Pass_repeat)
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success" value="Зарегистрировать" />
+                    @Html.ValidationSummary()
+                </div>
+            </div>
+    }
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+</div>

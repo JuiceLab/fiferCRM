@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A3919BA-172A-4746-BE55-C41820F5DF8C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FilterModel</RootNamespace>
+    <AssemblyName>FilterModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomerSearchFilter.cs" />
+    <Compile Include="FinanceFilter.cs" />
+    <Compile Include="LegalEntitySearch.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskSearchFilter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyContext\CompanyContext.csproj">
+      <Project>{16c83465-731c-4384-a61b-4bba6f8c86c3}</Project>
+      <Name>CompanyContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMContext\CRMContext.csproj">
+      <Project>{cf2e02c5-c751-4645-86e5-15d3d83ff3f3}</Project>
+      <Name>CRMContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMLocalContext\CRMLocalContext.csproj">
+      <Project>{030a76f5-561b-4b33-9931-a5dc798042fe}</Project>
+      <Name>CRMLocalContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityRepository\EntityRepository.csproj">
+      <Project>{a87259dd-f94f-4715-9f12-646d49a08049}</Project>
+      <Name>EntityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelper\EnumHelper.csproj">
+      <Project>{51baae80-caa9-4756-8787-8ffd4936bc12}</Project>
+      <Name>EnumHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionHelpers\ExtensionHelpers.csproj">
+      <Project>{240aee1e-c04f-4079-826c-9e022588ba10}</Project>
+      <Name>ExtensionHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{fe802d5c-69d5-4be1-ab14-718654b9c686}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatternTemplate\PatternTemplate.csproj">
+      <Project>{bd517582-efbb-443f-ad3c-49da785f780a}</Project>
+      <Name>PatternTemplate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{b7e78673-3d44-4503-9253-16fa013bd456}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskModel\TaskModel.csproj">
+      <Project>{9c3aa9fd-5b9a-47d4-b8e3-3e4552b84745}</Project>
+      <Name>TaskModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

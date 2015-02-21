@@ -1,0 +1,89 @@
+﻿@model CRMWrapViewModel
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- col-separator -->
+            <div class="col-separator bg-none col-separator-first col-unscrollable">
+
+                <!-- col-table -->
+                <div class="col-table">
+                    <!-- heading -->
+                    <h4 class="innerAll margin-none bg-white">Звонки&nbsp;<span class="btn btn-default dropdown-toggle dropdown-hover" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'Task/Call', '', initDateMask);" title="Создать контакт"><i class="fa fa-plus"></i> Новый звонок</span></h4>
+                    <div class="col-separator-h"></div>
+                    <!-- // END heading -->
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+                        <!-- col-app.col-unscrollable -->
+                        <div class="col-app col-unscrollable">
+                            <!-- col-app -->
+                            <div class="col-app">
+                                <!-- row -->
+                                <div class="row row-app">
+                                    <!-- col -->
+                                    <div class="col-md-12">
+                                        <!-- col-separator -->
+                                        <div class="col-separator bg-none">
+                                            <!-- Widget -->
+                                            <div class="widget">
+                                                <div class="widget-body innerAll inner-2x">
+                                                    <div id="taskTable">
+                                                        @Html.Partial("CallTasksTable", Model.CallTasks)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- // Widget END -->
+                                        </div>
+                                        <!-- // END col-separator -->
+                                    </div>
+                                    <!-- // END col -->
+                                </div>
+                                <!-- // END row -->
+                            </div>
+                            <!-- // END col-app -->
+                        </div>
+                        <!-- // END col-app.col-unscrollable -->
+                    </div>
+                    <!-- // END col-table-row -->
+                </div>
+                <!-- // END col-table -->
+            </div>
+            <!-- // END col-separator -->
+        </div>
+        <!-- // END col -->
+    </div>
+    <!-- // END row -->
+
+    <div class="modal fade in" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Загрузка формы</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+                <!-- // Modal body END -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

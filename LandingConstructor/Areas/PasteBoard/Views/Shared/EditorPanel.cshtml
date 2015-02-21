@@ -1,0 +1,48 @@
+﻿@model IPage
+@if (User.Identity.IsAuthenticated)
+{
+    <fieldset style="margin-left:10px">
+        <legend>Управление сайтом</legend>
+        <span style="width:80%;margin-bottom:3px;" class="pull-left btn btn-default" title="Редактировать информацию о сайте" onclick="loadModalContent('modal-edit', 'SiteInfo','PasteBoard/Editor', '?siteId=@(Model.SiteId)' )"><i class="fa fa-building-o"></i>&nbsp; Данные сайта</span>
+        <span style="width:80%;margin-bottom:3px;" class="btn btn-default" title="Редактировать страницу" onclick="loadModalContentWithCallback('modal-edit', 'SitePage','PasteBoard/Editor', '?siteId=@(Model.SiteId)&pageId=@(Model.PageId)', initCkEditor )"><i class="fa fa-edit"></i>Данные страницы</span>
+        @if (!(Model is ISliderPage) && !(Model is IGalleryPage) 
+            && !(Model is IContactPage) && !(Model is INoticesPage))
+        {
+            <span style="width:80%;margin-bottom:3px;" class="btn btn-default" title="Добавить слайдер" onclick="addGallery('@(Model.SiteId)',@(Model.PageId), true)"><i class="fa fa-arrows-h"></i>&nbsp;Добавить слайдер</span>
+    <span style="width:80%;margin-bottom:3px;" class="btn btn-default" title="Добавить галерею" onclick="addGallery('@(Model.SiteId)',@(Model.PageId), false)"><i class="fa fa-image"></i>&nbsp;Добавить галерею</span>
+        }
+
+        @if (Model is IGalleryPage)
+        {
+            <h4>Галерея</h4>
+            <span style="width:80%;margin-bottom:3px;" class="pull-left btn btn-default" title="Настройки галереи" onclick="loadModalContent('modal-gallery-edit', 'PageGallery','PasteBoard/Editor', '?siteId=@(Model.SiteId)&pageId=@(Model.PageId)' )"><i class="fa fa-image"></i>&nbsp;Настройки галереи</span>
+    <span style="width:80%;margin-bottom:3px;" class="pull-left btn btn-warning" title="Удалить галерею" onclick="removeGallery(@(Model.PageId))"><i class="fa fa-trash"></i>&nbsp;Удалить</span>
+        }
+        @if (Model is ISliderPage)
+        {
+            <h4>Слайдер</h4>
+            <span style="width:80%;margin-bottom:3px;" class="pull-left btn btn-default" title="Настройки слайдера" onclick="loadModalContent('modal-photo-edit', 'PageSlider','PasteBoard/Editor', '?siteId=@(Model.SiteId)&pageId=@(Model.PageId)' )"><i class="fa fa-arrows-h"></i>&nbsp;Настройки слайдера</span>
+    <span style="width:80%;margin-bottom:3px;" class="pull-left btn btn-warning" title="Удалить слайдер" onclick="removeGallery(@(Model.PageId))"><i class="fa fa-trash"></i>&nbsp;Удалить</span>
+        }
+        @if (Model is INoticesPage)
+        {
+            <h4>Анонсы</h4>
+            <span style="width:80%;margin-bottom:3px;"  class="btn btn-default" title="Добавить страницу" onclick="loadModalContentWithCallback('modal-edit', 'SitePage','PasteBoard/Editor', '?siteId=@(Model.SiteId)&parentId=@(Model.PageId)', initCkEditor )"><i class="fa fa-plus"></i>&nbsp;Добавить страницу</span>
+        }
+        @if (Model is IContactPage)
+        {
+            <h4>Контакты</h4>
+            <span style="width:80%;margin-bottom:3px;"  class="btn btn-default" title="Обновить координаты" onclick="updateGeo();"><i class="fa fa-refresh"></i>&nbsp;Обновить координаты</span>
+        }
+        @if (ViewBag.CssCategories != null)
+        {
+            var items = ViewBag.CssCategories as List<SelectListItem>;
+            <h4>Настройка стиля</h4>
+            <div style="opacity: 0.7;">
+                @Html.DropDownList("css-category", items)
+                <div id="availableCss">
+                </div>
+            </div>
+        }
+    </fieldset>
+}

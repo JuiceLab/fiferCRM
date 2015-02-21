@@ -1,0 +1,673 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LogModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CRMAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrlID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Controller" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RequestUrl" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ActionData" Type="nvarchar(max)" />
+          <Property Name="TimeExecute" Type="datetime" Nullable="false" />
+          <Property Name="DurationExecuting" Type="bigint" Nullable="false" />
+          <Property Name="TimeResult" Type="datetime" />
+          <Property Name="DurationResultExecuting" Type="bigint" />
+          <Property Name="ClientTimestamp" Type="datetime" />
+          <Property Name="ClientIP" Type="nvarchar" MaxLength="56" />
+          <Property Name="ActionDescription" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="ResponseCode" Type="int" />
+          <Property Name="ErrorMessage" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Object" Type="nvarchar" MaxLength="128" />
+          <Property Name="Level" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="EventData" Type="nvarchar(max)" />
+          <Property Name="EventType" Type="int" />
+          <Property Name="CustomEventType" Type="nvarchar" MaxLength="128" />
+          <Property Name="JournalID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventsListener">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventType" Type="int" />
+          <Property Name="ListenerId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="NotifyType" Type="int" Nullable="false" />
+          <Property Name="CustomEventType" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="JournalEvents">
+          <Key>
+            <PropertyRef Name="JournalId" />
+          </Key>
+          <Property Name="JournalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastModified" Type="datetime" Nullable="false" />
+          <Property Name="LevelRegistration" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="JournalsListener">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ListenerId" Type="int" Nullable="false" />
+          <Property Name="JournalId" Type="int" Nullable="false" />
+          <Property Name="IsAccess" Type="bit" Nullable="false" />
+          <Property Name="IsNotify" Type="bit" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Listener">
+          <Key>
+            <PropertyRef Name="ListenerId" />
+          </Key>
+          <Property Name="ListenerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PhoneContact" Type="nvarchar" MaxLength="100" />
+          <Property Name="MailContact" Type="nvarchar" MaxLength="100" />
+          <Property Name="NameContact" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="MailRegistration">
+          <Key>
+            <PropertyRef Name="MailRegistrationId" />
+          </Key>
+          <Property Name="MailRegistrationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsSuccess" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RegisterCode" Type="nvarchar" MaxLength="128" />
+          <Property Name="ResponseCode" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Notify">
+          <Key>
+            <PropertyRef Name="NotifyId" />
+          </Key>
+          <Property Name="NotifyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="NotifyObjectCategory" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notify4Listener">
+          <Key>
+            <PropertyRef Name="Notify4ListenerId" />
+          </Key>
+          <Property Name="Notify4ListenerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_NotifyId" Type="int" Nullable="false" />
+          <Property Name="_ListenerId" Type="int" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="FromMe" Type="bit" Nullable="false" />
+          <Property Name="ToMe" Type="bit" Nullable="false" />
+          <Property Name="UnderMe" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotifyHistory">
+          <Key>
+            <PropertyRef Name="HistoryItemId" />
+          </Key>
+          <Property Name="HistoryItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="_Notify4ListenerId" Type="int" Nullable="false" />
+          <Property Name="IsViewed" Type="bit" Nullable="false" />
+          <Property Name="InitByUserId" Type="uniqueidentifier" />
+          <Property Name="ObjectId" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <Association Name="FK_EventItemToEventJournal">
+          <End Role="JournalEvents" Type="Self.JournalEvents" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JournalEvents">
+              <PropertyRef Name="JournalId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="JournalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsListener_ToListener">
+          <End Role="Listener" Type="Self.Listener" Multiplicity="1" />
+          <End Role="EventsListener" Type="Self.EventsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="EventsListener">
+              <PropertyRef Name="ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JournalsListener_ToJournal">
+          <End Role="JournalEvents" Type="Self.JournalEvents" Multiplicity="1" />
+          <End Role="JournalsListener" Type="Self.JournalsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JournalEvents">
+              <PropertyRef Name="JournalId" />
+            </Principal>
+            <Dependent Role="JournalsListener">
+              <PropertyRef Name="JournalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JournalsListener_ToListener">
+          <End Role="Listener" Type="Self.Listener" Multiplicity="1" />
+          <End Role="JournalsListener" Type="Self.JournalsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="JournalsListener">
+              <PropertyRef Name="ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notify4Listener_Listener">
+          <End Role="Listener" Type="Self.Listener" Multiplicity="1" />
+          <End Role="Notify4Listener" Type="Self.Notify4Listener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="Notify4Listener">
+              <PropertyRef Name="_ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notify4Listener_Notify">
+          <End Role="Notify" Type="Self.Notify" Multiplicity="1" />
+          <End Role="Notify4Listener" Type="Self.Notify4Listener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notify">
+              <PropertyRef Name="NotifyId" />
+            </Principal>
+            <Dependent Role="Notify4Listener">
+              <PropertyRef Name="_NotifyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotifyHistory_Notify4Listener">
+          <End Role="Notify4Listener" Type="Self.Notify4Listener" Multiplicity="1" />
+          <End Role="NotifyHistory" Type="Self.NotifyHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notify4Listener">
+              <PropertyRef Name="Notify4ListenerId" />
+            </Principal>
+            <Dependent Role="NotifyHistory">
+              <PropertyRef Name="_Notify4ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogModelStoreContainer">
+          <EntitySet Name="CRMAction" EntityType="Self.CRMAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventsListener" EntityType="Self.EventsListener" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JournalEvents" EntityType="Self.JournalEvents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JournalsListener" EntityType="Self.JournalsListener" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Listener" EntityType="Self.Listener" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MailRegistration" EntityType="Self.MailRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notify" EntityType="Self.Notify" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notify4Listener" EntityType="Self.Notify4Listener" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotifyHistory" EntityType="Self.NotifyHistory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EventItemToEventJournal" Association="Self.FK_EventItemToEventJournal">
+            <End Role="JournalEvents" EntitySet="JournalEvents" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsListener_ToListener" Association="Self.FK_EventsListener_ToListener">
+            <End Role="Listener" EntitySet="Listener" />
+            <End Role="EventsListener" EntitySet="EventsListener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JournalsListener_ToJournal" Association="Self.FK_JournalsListener_ToJournal">
+            <End Role="JournalEvents" EntitySet="JournalEvents" />
+            <End Role="JournalsListener" EntitySet="JournalsListener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JournalsListener_ToListener" Association="Self.FK_JournalsListener_ToListener">
+            <End Role="Listener" EntitySet="Listener" />
+            <End Role="JournalsListener" EntitySet="JournalsListener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notify4Listener_Listener" Association="Self.FK_Notify4Listener_Listener">
+            <End Role="Listener" EntitySet="Listener" />
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notify4Listener_Notify" Association="Self.FK_Notify4Listener_Notify">
+            <End Role="Notify" EntitySet="Notify" />
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotifyHistory_Notify4Listener" Association="Self.FK_NotifyHistory_Notify4Listener">
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+            <End Role="NotifyHistory" EntitySet="NotifyHistory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CRMAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrlID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Controller" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Action" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RequestUrl" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="ActionData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeExecute" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DurationExecuting" Type="Int64" Nullable="false" />
+          <Property Name="TimeResult" Type="DateTime" Precision="3" />
+          <Property Name="DurationResultExecuting" Type="Int64" />
+          <Property Name="ClientTimestamp" Type="DateTime" Precision="3" />
+          <Property Name="ClientIP" Type="String" MaxLength="56" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDescription" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResponseCode" Type="Int32" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="LogEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CRMActions" EntityType="Self.CRMAction" />
+          <EntitySet Name="Events" EntityType="LogModel.Event" />
+          <EntitySet Name="EventsListeners" EntityType="LogModel.EventsListener" />
+          <EntitySet Name="JournalEvents" EntityType="LogModel.JournalEvent" />
+          <EntitySet Name="JournalsListeners" EntityType="LogModel.JournalsListener" />
+          <EntitySet Name="Listeners" EntityType="LogModel.Listener" />
+          <EntitySet Name="MailRegistrations" EntityType="LogModel.MailRegistration" />
+          <EntitySet Name="Notifies" EntityType="LogModel.Notify" />
+          <EntitySet Name="Notify4Listener" EntityType="LogModel.Notify4Listener" />
+          <EntitySet Name="NotifyHistories" EntityType="LogModel.NotifyHistory" />
+          <AssociationSet Name="FK_EventItemToEventJournal" Association="LogModel.FK_EventItemToEventJournal">
+            <End Role="JournalEvent" EntitySet="JournalEvents" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventsListener_ToListener" Association="LogModel.FK_EventsListener_ToListener">
+            <End Role="Listener" EntitySet="Listeners" />
+            <End Role="EventsListener" EntitySet="EventsListeners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JournalsListener_ToJournal" Association="LogModel.FK_JournalsListener_ToJournal">
+            <End Role="JournalEvent" EntitySet="JournalEvents" />
+            <End Role="JournalsListener" EntitySet="JournalsListeners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JournalsListener_ToListener" Association="LogModel.FK_JournalsListener_ToListener">
+            <End Role="Listener" EntitySet="Listeners" />
+            <End Role="JournalsListener" EntitySet="JournalsListeners" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notify4Listener_Listener" Association="LogModel.FK_Notify4Listener_Listener">
+            <End Role="Listener" EntitySet="Listeners" />
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Notify4Listener_Notify" Association="LogModel.FK_Notify4Listener_Notify">
+            <End Role="Notify" EntitySet="Notifies" />
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotifyHistory_Notify4Listener" Association="LogModel.FK_NotifyHistory_Notify4Listener">
+            <End Role="Notify4Listener" EntitySet="Notify4Listener" />
+            <End Role="NotifyHistory" EntitySet="NotifyHistories" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Object" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EventType" Type="Int32" />
+          <Property Name="CustomEventType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="JournalID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JournalEvent" Relationship="LogModel.FK_EventItemToEventJournal" FromRole="Event" ToRole="JournalEvent" />
+        </EntityType>
+        <EntityType Name="EventsListener">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventType" Type="Int32" />
+          <Property Name="ListenerId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="NotifyType" Type="Int32" Nullable="false" />
+          <Property Name="CustomEventType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Listener" Relationship="LogModel.FK_EventsListener_ToListener" FromRole="EventsListener" ToRole="Listener" />
+        </EntityType>
+        <EntityType Name="JournalEvent">
+          <Key>
+            <PropertyRef Name="JournalId" />
+          </Key>
+          <Property Name="JournalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LevelRegistration" Type="Byte" />
+          <NavigationProperty Name="Events" Relationship="LogModel.FK_EventItemToEventJournal" FromRole="JournalEvent" ToRole="Event" />
+          <NavigationProperty Name="JournalsListeners" Relationship="LogModel.FK_JournalsListener_ToJournal" FromRole="JournalEvent" ToRole="JournalsListener" />
+        </EntityType>
+        <EntityType Name="JournalsListener">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListenerId" Type="Int32" Nullable="false" />
+          <Property Name="JournalId" Type="Int32" Nullable="false" />
+          <Property Name="IsAccess" Type="Boolean" Nullable="false" />
+          <Property Name="IsNotify" Type="Boolean" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="JournalEvent" Relationship="LogModel.FK_JournalsListener_ToJournal" FromRole="JournalsListener" ToRole="JournalEvent" />
+          <NavigationProperty Name="Listener" Relationship="LogModel.FK_JournalsListener_ToListener" FromRole="JournalsListener" ToRole="Listener" />
+        </EntityType>
+        <EntityType Name="Listener">
+          <Key>
+            <PropertyRef Name="ListenerId" />
+          </Key>
+          <Property Name="ListenerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Guid" Nullable="false" />
+          <Property Name="PhoneContact" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MailContact" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NameContact" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventsListeners" Relationship="LogModel.FK_EventsListener_ToListener" FromRole="Listener" ToRole="EventsListener" />
+          <NavigationProperty Name="JournalsListeners" Relationship="LogModel.FK_JournalsListener_ToListener" FromRole="Listener" ToRole="JournalsListener" />
+          <NavigationProperty Name="Notify4Listener" Relationship="LogModel.FK_Notify4Listener_Listener" FromRole="Listener" ToRole="Notify4Listener" />
+        </EntityType>
+        <EntityType Name="MailRegistration">
+          <Key>
+            <PropertyRef Name="MailRegistrationId" />
+          </Key>
+          <Property Name="MailRegistrationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsSuccess" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="RegisterCode" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ResponseCode" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Notify">
+          <Key>
+            <PropertyRef Name="NotifyId" />
+          </Key>
+          <Property Name="NotifyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Notify4Listener" Relationship="LogModel.FK_Notify4Listener_Notify" FromRole="Notify" ToRole="Notify4Listener" />
+          <Property Name="NotifyObjectCategory" Type="Byte" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notify4Listener">
+          <Key>
+            <PropertyRef Name="Notify4ListenerId" />
+          </Key>
+          <Property Name="Notify4ListenerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_NotifyId" Type="Int32" Nullable="false" />
+          <Property Name="C_ListenerId" Type="Int32" Nullable="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Listener" Relationship="LogModel.FK_Notify4Listener_Listener" FromRole="Notify4Listener" ToRole="Listener" />
+          <NavigationProperty Name="Notify" Relationship="LogModel.FK_Notify4Listener_Notify" FromRole="Notify4Listener" ToRole="Notify" />
+          <NavigationProperty Name="NotifyHistories" Relationship="LogModel.FK_NotifyHistory_Notify4Listener" FromRole="Notify4Listener" ToRole="NotifyHistory" />
+          <Property Name="FromMe" Type="Boolean" Nullable="false" />
+          <Property Name="ToMe" Type="Boolean" Nullable="false" />
+          <Property Name="UnderMe" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotifyHistory">
+          <Key>
+            <PropertyRef Name="HistoryItemId" />
+          </Key>
+          <Property Name="HistoryItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="C_Notify4ListenerId" Type="Int32" Nullable="false" />
+          <Property Name="IsViewed" Type="Boolean" Nullable="false" />
+          <Property Name="InitByUserId" Type="Guid" />
+          <NavigationProperty Name="Notify4Listener" Relationship="LogModel.FK_NotifyHistory_Notify4Listener" FromRole="NotifyHistory" ToRole="Notify4Listener" />
+          <Property Name="ObjectId" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_EventItemToEventJournal">
+          <End Type="LogModel.JournalEvent" Role="JournalEvent" Multiplicity="1" />
+          <End Type="LogModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JournalEvent">
+              <PropertyRef Name="JournalId" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="JournalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventsListener_ToListener">
+          <End Type="LogModel.Listener" Role="Listener" Multiplicity="1" />
+          <End Type="LogModel.EventsListener" Role="EventsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="EventsListener">
+              <PropertyRef Name="ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JournalsListener_ToJournal">
+          <End Type="LogModel.JournalEvent" Role="JournalEvent" Multiplicity="1" />
+          <End Type="LogModel.JournalsListener" Role="JournalsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JournalEvent">
+              <PropertyRef Name="JournalId" />
+            </Principal>
+            <Dependent Role="JournalsListener">
+              <PropertyRef Name="JournalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JournalsListener_ToListener">
+          <End Type="LogModel.Listener" Role="Listener" Multiplicity="1" />
+          <End Type="LogModel.JournalsListener" Role="JournalsListener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="JournalsListener">
+              <PropertyRef Name="ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notify4Listener_Listener">
+          <End Type="LogModel.Listener" Role="Listener" Multiplicity="1" />
+          <End Type="LogModel.Notify4Listener" Role="Notify4Listener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Listener">
+              <PropertyRef Name="ListenerId" />
+            </Principal>
+            <Dependent Role="Notify4Listener">
+              <PropertyRef Name="C_ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Notify4Listener_Notify">
+          <End Type="LogModel.Notify" Role="Notify" Multiplicity="1" />
+          <End Type="LogModel.Notify4Listener" Role="Notify4Listener" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notify">
+              <PropertyRef Name="NotifyId" />
+            </Principal>
+            <Dependent Role="Notify4Listener">
+              <PropertyRef Name="C_NotifyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotifyHistory_Notify4Listener">
+          <End Type="LogModel.Notify4Listener" Role="Notify4Listener" Multiplicity="1" />
+          <End Type="LogModel.NotifyHistory" Role="NotifyHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Notify4Listener">
+              <PropertyRef Name="Notify4ListenerId" />
+            </Principal>
+            <Dependent Role="NotifyHistory">
+              <PropertyRef Name="C_Notify4ListenerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LogModelStoreContainer" CdmEntityContainer="LogEntities">
+          <EntitySetMapping Name="CRMActions">
+            <EntityTypeMapping TypeName="LogModel.CRMAction">
+              <MappingFragment StoreEntitySet="CRMAction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UrlID" ColumnName="UrlID" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ActionData" ColumnName="ActionData" />
+                <ScalarProperty Name="TimeExecute" ColumnName="TimeExecute" />
+                <ScalarProperty Name="DurationExecuting" ColumnName="DurationExecuting" />
+                <ScalarProperty Name="TimeResult" ColumnName="TimeResult" />
+                <ScalarProperty Name="DurationResultExecuting" ColumnName="DurationResultExecuting" />
+                <ScalarProperty Name="ClientTimestamp" ColumnName="ClientTimestamp" />
+                <ScalarProperty Name="ClientIP" ColumnName="ClientIP" />
+                <ScalarProperty Name="ActionDescription" ColumnName="ActionDescription" />
+                <ScalarProperty Name="ResponseCode" ColumnName="ResponseCode" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="LogModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="JournalID" ColumnName="JournalID" />
+                <ScalarProperty Name="CustomEventType" ColumnName="CustomEventType" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="EventData" ColumnName="EventData" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="Object" ColumnName="Object" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventsListeners">
+            <EntityTypeMapping TypeName="LogModel.EventsListener">
+              <MappingFragment StoreEntitySet="EventsListener">
+                <ScalarProperty Name="CustomEventType" ColumnName="CustomEventType" />
+                <ScalarProperty Name="NotifyType" ColumnName="NotifyType" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ListenerId" ColumnName="ListenerId" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JournalEvents">
+            <EntityTypeMapping TypeName="LogModel.JournalEvent">
+              <MappingFragment StoreEntitySet="JournalEvents">
+                <ScalarProperty Name="LevelRegistration" ColumnName="LevelRegistration" />
+                <ScalarProperty Name="LastModified" ColumnName="LastModified" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="JournalId" ColumnName="JournalId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JournalsListeners">
+            <EntityTypeMapping TypeName="LogModel.JournalsListener">
+              <MappingFragment StoreEntitySet="JournalsListener">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="IsNotify" ColumnName="IsNotify" />
+                <ScalarProperty Name="IsAccess" ColumnName="IsAccess" />
+                <ScalarProperty Name="JournalId" ColumnName="JournalId" />
+                <ScalarProperty Name="ListenerId" ColumnName="ListenerId" />
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Listeners">
+            <EntityTypeMapping TypeName="LogModel.Listener">
+              <MappingFragment StoreEntitySet="Listener">
+                <ScalarProperty Name="NameContact" ColumnName="NameContact" />
+                <ScalarProperty Name="MailContact" ColumnName="MailContact" />
+                <ScalarProperty Name="PhoneContact" ColumnName="PhoneContact" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ListenerId" ColumnName="ListenerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MailRegistrations">
+            <EntityTypeMapping TypeName="LogModel.MailRegistration">
+              <MappingFragment StoreEntitySet="MailRegistration">
+                <ScalarProperty Name="ResponseCode" ColumnName="ResponseCode" />
+                <ScalarProperty Name="RegisterCode" ColumnName="RegisterCode" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="IsSuccess" ColumnName="IsSuccess" />
+                <ScalarProperty Name="MailRegistrationId" ColumnName="MailRegistrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifies">
+            <EntityTypeMapping TypeName="LogModel.Notify">
+              <MappingFragment StoreEntitySet="Notify">
+                <ScalarProperty Name="NotifyObjectCategory" ColumnName="NotifyObjectCategory" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NotifyId" ColumnName="NotifyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notify4Listener">
+            <EntityTypeMapping TypeName="LogModel.Notify4Listener">
+              <MappingFragment StoreEntitySet="Notify4Listener">
+                <ScalarProperty Name="UnderMe" ColumnName="UnderMe" />
+                <ScalarProperty Name="ToMe" ColumnName="ToMe" />
+                <ScalarProperty Name="FromMe" ColumnName="FromMe" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="C_ListenerId" ColumnName="_ListenerId" />
+                <ScalarProperty Name="C_NotifyId" ColumnName="_NotifyId" />
+                <ScalarProperty Name="Notify4ListenerId" ColumnName="Notify4ListenerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotifyHistories">
+            <EntityTypeMapping TypeName="LogModel.NotifyHistory">
+              <MappingFragment StoreEntitySet="NotifyHistory">
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="InitByUserId" ColumnName="InitByUserId" />
+                <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+                <ScalarProperty Name="C_Notify4ListenerId" ColumnName="_Notify4ListenerId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="HistoryItemId" ColumnName="HistoryItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PasteboardModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="GalleryId" />
+          </Key>
+          <Property Name="GalleryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ItemsPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsSlider" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Alt" Type="nvarchar" MaxLength="128" />
+          <Property Name="Title" Type="nvarchar" MaxLength="128" />
+          <Property Name="_GalleryId" Type="int" Nullable="false" />
+          <Property Name="_SlideSettingId" Type="int" />
+        </EntityType>
+        <EntityType Name="PasteBoardPage">
+          <Key>
+            <PropertyRef Name="PasteBoardPageId" />
+          </Key>
+          <Property Name="PasteBoardPageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PageContent" Type="text" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="IsMenuItem" Type="bit" Nullable="false" />
+          <Property Name="IsHtml" Type="bit" Nullable="false" />
+          <Property Name="IsSocialRepost" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Notice" Type="nvarchar" MaxLength="256" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="512" />
+          <Property Name="PositionId" Type="int" />
+          <Property Name="_GalleryId" Type="int" />
+          <Property Name="_SeoItemId" Type="int" Nullable="false" />
+          <Property Name="_SettingsId" Type="int" Nullable="false" />
+          <Property Name="_ParentPageId" Type="int" />
+        </EntityType>
+        <EntityType Name="PasteBoardSettings">
+          <Key>
+            <PropertyRef Name="SiteSettingsId" />
+          </Key>
+          <Property Name="SiteSettingsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TemplateGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IconPath" Type="nvarchar" MaxLength="256" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="HomePageUrl" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="CompanyTesis" Type="nvarchar" MaxLength="256" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="64" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="256" />
+          <Property Name="Address" Type="nvarchar" MaxLength="512" />
+          <Property Name="CssCustom" Type="nvarchar" MaxLength="256" />
+          <Property Name="BackgroundImage" Type="nvarchar" MaxLength="256" />
+          <Property Name="HeaderImagePath" Type="nvarchar" MaxLength="256" />
+          <Property Name="TemplateName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Latitiude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="CityName" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="SeoItem">
+          <Key>
+            <PropertyRef Name="SeoItemId" />
+          </Key>
+          <Property Name="SeoItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Anchor" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Keywords" Type="nvarchar" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="SlideSettings">
+          <Key>
+            <PropertyRef Name="SlideSettingsId" />
+          </Key>
+          <Property Name="SlideSettingsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HtmlContent" Type="text" />
+          <Property Name="UrlRedirect" Type="nvarchar" MaxLength="256" />
+          <Property Name="IsBlank" Type="bit" Nullable="false" />
+          <Property Name="Position" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Image_Gallery">
+          <End Role="Gallery" Type="Self.Gallery" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gallery">
+              <PropertyRef Name="GalleryId" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="_GalleryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_SlideSettings">
+          <End Role="SlideSettings" Type="Self.SlideSettings" Multiplicity="0..1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SlideSettings">
+              <PropertyRef Name="SlideSettingsId" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="_SlideSettingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_Gallery">
+          <End Role="Gallery" Type="Self.Gallery" Multiplicity="0..1" />
+          <End Role="PasteBoardPage" Type="Self.PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gallery">
+              <PropertyRef Name="GalleryId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="_GalleryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_PasteBoardPage">
+          <End Role="PasteBoardPage" Type="Self.PasteBoardPage" Multiplicity="0..1" />
+          <End Role="PasteBoardPage1" Type="Self.PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PasteBoardPage">
+              <PropertyRef Name="PasteBoardPageId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage1">
+              <PropertyRef Name="_ParentPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_PasteBoardSettings">
+          <End Role="PasteBoardSettings" Type="Self.PasteBoardSettings" Multiplicity="1" />
+          <End Role="PasteBoardPage" Type="Self.PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PasteBoardSettings">
+              <PropertyRef Name="SiteSettingsId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="_SettingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_SeoItem">
+          <End Role="SeoItem" Type="Self.SeoItem" Multiplicity="1" />
+          <End Role="PasteBoardPage" Type="Self.PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeoItem">
+              <PropertyRef Name="SeoItemId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="_SeoItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PasteboardModelStoreContainer">
+          <EntitySet Name="Gallery" EntityType="Self.Gallery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasteBoardPage" EntityType="Self.PasteBoardPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PasteBoardSettings" EntityType="Self.PasteBoardSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeoItem" EntityType="Self.SeoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SlideSettings" EntityType="Self.SlideSettings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Image_Gallery" Association="Self.FK_Image_Gallery">
+            <End Role="Gallery" EntitySet="Gallery" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_SlideSettings" Association="Self.FK_Image_SlideSettings">
+            <End Role="SlideSettings" EntitySet="SlideSettings" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_Gallery" Association="Self.FK_PasteBoardPage_Gallery">
+            <End Role="Gallery" EntitySet="Gallery" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_PasteBoardPage" Association="Self.FK_PasteBoardPage_PasteBoardPage">
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPage" />
+            <End Role="PasteBoardPage1" EntitySet="PasteBoardPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_PasteBoardSettings" Association="Self.FK_PasteBoardPage_PasteBoardSettings">
+            <End Role="PasteBoardSettings" EntitySet="PasteBoardSettings" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_SeoItem" Association="Self.FK_PasteBoardPage_SeoItem">
+            <End Role="SeoItem" EntitySet="SeoItem" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PasteboardModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PasteboardEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PasteBoardSettings" EntityType="PasteboardModel.PasteBoardSetting" />
+          <EntitySet Name="Galleries" EntityType="PasteboardModel.Gallery" />
+          <EntitySet Name="SeoItems" EntityType="PasteboardModel.SeoItem" />
+          <EntitySet Name="PasteBoardPages" EntityType="PasteboardModel.PasteBoardPage" />
+          <AssociationSet Name="FK_PasteBoardPage_Gallery" Association="PasteboardModel.FK_PasteBoardPage_Gallery">
+            <End Role="Gallery" EntitySet="Galleries" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_PasteBoardPage" Association="PasteboardModel.FK_PasteBoardPage_PasteBoardPage">
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPages" />
+            <End Role="PasteBoardPage1" EntitySet="PasteBoardPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_PasteBoardSettings" Association="PasteboardModel.FK_PasteBoardPage_PasteBoardSettings">
+            <End Role="PasteBoardSetting" EntitySet="PasteBoardSettings" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PasteBoardPage_SeoItem" Association="PasteboardModel.FK_PasteBoardPage_SeoItem">
+            <End Role="SeoItem" EntitySet="SeoItems" />
+            <End Role="PasteBoardPage" EntitySet="PasteBoardPages" />
+          </AssociationSet>
+          <EntitySet Name="SlideSettings" EntityType="PasteboardModel.SlideSetting" />
+          <EntitySet Name="Images" EntityType="PasteboardModel.Image" />
+          <AssociationSet Name="FK_Image_Gallery" Association="PasteboardModel.FK_Image_Gallery">
+            <End Role="Gallery" EntitySet="Galleries" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Image_SlideSettings" Association="PasteboardModel.FK_Image_SlideSettings">
+            <End Role="SlideSetting" EntitySet="SlideSettings" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="PasteBoardSetting">
+          <Key>
+            <PropertyRef Name="SiteSettingsId" />
+          </Key>
+          <Property Name="SiteSettingsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteGuid" Type="Guid" Nullable="false" />
+          <Property Name="TemplateGuid" Type="Guid" Nullable="false" />
+          <Property Name="IconPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HomePageUrl" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyTesis" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="CssCustom" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="BackgroundImage" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="HeaderImagePath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PasteBoardPages" Relationship="PasteboardModel.FK_PasteBoardPage_PasteBoardSettings" FromRole="PasteBoardSetting" ToRole="PasteBoardPage" />
+          <Property Name="Mail" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Latitiude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="CityName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Gallery">
+          <Key>
+            <PropertyRef Name="GalleryId" />
+          </Key>
+          <Property Name="GalleryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ItemsPath" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PasteBoardPages" Relationship="PasteboardModel.FK_PasteBoardPage_Gallery" FromRole="Gallery" ToRole="PasteBoardPage" />
+          <Property Name="IsSlider" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="PasteboardModel.FK_Image_Gallery" FromRole="Gallery" ToRole="Image" />
+        </EntityType>
+        <EntityType Name="SeoItem">
+          <Key>
+            <PropertyRef Name="SeoItemId" />
+          </Key>
+          <Property Name="SeoItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Anchor" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Keywords" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PasteBoardPages" Relationship="PasteboardModel.FK_PasteBoardPage_SeoItem" FromRole="SeoItem" ToRole="PasteBoardPage" />
+        </EntityType>
+        <EntityType Name="PasteBoardPage">
+          <Key>
+            <PropertyRef Name="PasteBoardPageId" />
+          </Key>
+          <Property Name="PasteBoardPageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="IsMenuItem" Type="Boolean" Nullable="false" />
+          <Property Name="IsHtml" Type="Boolean" Nullable="false" />
+          <Property Name="IsSocialRepost" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="C_GalleryId" Type="Int32" />
+          <Property Name="C_SeoItemId" Type="Int32" Nullable="false" />
+          <Property Name="C_SettingsId" Type="Int32" Nullable="false" />
+          <Property Name="C_ParentPageId" Type="Int32" />
+          <NavigationProperty Name="Gallery" Relationship="PasteboardModel.FK_PasteBoardPage_Gallery" FromRole="PasteBoardPage" ToRole="Gallery" />
+          <NavigationProperty Name="PasteBoardPage1" Relationship="PasteboardModel.FK_PasteBoardPage_PasteBoardPage" FromRole="PasteBoardPage" ToRole="PasteBoardPage1" />
+          <NavigationProperty Name="PasteBoardPage2" Relationship="PasteboardModel.FK_PasteBoardPage_PasteBoardPage" FromRole="PasteBoardPage1" ToRole="PasteBoardPage" />
+          <NavigationProperty Name="PasteBoardSetting" Relationship="PasteboardModel.FK_PasteBoardPage_PasteBoardSettings" FromRole="PasteBoardPage" ToRole="PasteBoardSetting" />
+          <NavigationProperty Name="SeoItem" Relationship="PasteboardModel.FK_PasteBoardPage_SeoItem" FromRole="PasteBoardPage" ToRole="SeoItem" />
+          <Property Name="Notice" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PositionId" Type="Int32" />
+          <Property Name="PhotoPath" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_PasteBoardPage_Gallery">
+          <End Type="PasteboardModel.Gallery" Role="Gallery" Multiplicity="0..1" />
+          <End Type="PasteboardModel.PasteBoardPage" Role="PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gallery">
+              <PropertyRef Name="GalleryId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="C_GalleryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_PasteBoardPage">
+          <End Type="PasteboardModel.PasteBoardPage" Role="PasteBoardPage" Multiplicity="0..1" />
+          <End Type="PasteboardModel.PasteBoardPage" Role="PasteBoardPage1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PasteBoardPage">
+              <PropertyRef Name="PasteBoardPageId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage1">
+              <PropertyRef Name="C_ParentPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_PasteBoardSettings">
+          <End Type="PasteboardModel.PasteBoardSetting" Role="PasteBoardSetting" Multiplicity="1" />
+          <End Type="PasteboardModel.PasteBoardPage" Role="PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PasteBoardSetting">
+              <PropertyRef Name="SiteSettingsId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="C_SettingsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PasteBoardPage_SeoItem">
+          <End Type="PasteboardModel.SeoItem" Role="SeoItem" Multiplicity="1" />
+          <End Type="PasteboardModel.PasteBoardPage" Role="PasteBoardPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeoItem">
+              <PropertyRef Name="SeoItemId" />
+            </Principal>
+            <Dependent Role="PasteBoardPage">
+              <PropertyRef Name="C_SeoItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SlideSetting">
+          <Key>
+            <PropertyRef Name="SlideSettingsId" />
+          </Key>
+          <Property Name="SlideSettingsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HtmlContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UrlRedirect" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsBlank" Type="Boolean" Nullable="false" />
+          <Property Name="Position" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="PasteboardModel.FK_Image_SlideSettings" FromRole="SlideSetting" ToRole="Image" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Path" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Alt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="C_GalleryId" Type="Int32" Nullable="false" />
+          <Property Name="C_SlideSettingId" Type="Int32" />
+          <NavigationProperty Name="Gallery" Relationship="PasteboardModel.FK_Image_Gallery" FromRole="Image" ToRole="Gallery" />
+          <NavigationProperty Name="SlideSetting" Relationship="PasteboardModel.FK_Image_SlideSettings" FromRole="Image" ToRole="SlideSetting" />
+        </EntityType>
+        <Association Name="FK_Image_Gallery">
+          <End Type="PasteboardModel.Gallery" Role="Gallery" Multiplicity="1" />
+          <End Type="PasteboardModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gallery">
+              <PropertyRef Name="GalleryId" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="C_GalleryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Image_SlideSettings">
+          <End Type="PasteboardModel.SlideSetting" Role="SlideSetting" Multiplicity="0..1" />
+          <End Type="PasteboardModel.Image" Role="Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SlideSetting">
+              <PropertyRef Name="SlideSettingsId" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="C_SlideSettingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PasteboardModelStoreContainer" CdmEntityContainer="PasteboardEntities">
+          <EntitySetMapping Name="PasteBoardSettings">
+            <EntityTypeMapping TypeName="PasteboardModel.PasteBoardSetting">
+              <MappingFragment StoreEntitySet="PasteBoardSettings">
+                <ScalarProperty Name="CityName" ColumnName="CityName" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitiude" ColumnName="Latitiude" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="HeaderImagePath" ColumnName="HeaderImagePath" />
+                <ScalarProperty Name="BackgroundImage" ColumnName="BackgroundImage" />
+                <ScalarProperty Name="CssCustom" ColumnName="CssCustom" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CompanyTesis" ColumnName="CompanyTesis" />
+                <ScalarProperty Name="HomePageUrl" ColumnName="HomePageUrl" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="IconPath" ColumnName="IconPath" />
+                <ScalarProperty Name="TemplateGuid" ColumnName="TemplateGuid" />
+                <ScalarProperty Name="SiteGuid" ColumnName="SiteGuid" />
+                <ScalarProperty Name="SiteSettingsId" ColumnName="SiteSettingsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Galleries">
+            <EntityTypeMapping TypeName="PasteboardModel.Gallery">
+              <MappingFragment StoreEntitySet="Gallery">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsSlider" ColumnName="IsSlider" />
+                <ScalarProperty Name="ItemsPath" ColumnName="ItemsPath" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GalleryId" ColumnName="GalleryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeoItems">
+            <EntityTypeMapping TypeName="PasteboardModel.SeoItem">
+              <MappingFragment StoreEntitySet="SeoItem">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Keywords" ColumnName="Keywords" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Anchor" ColumnName="Anchor" />
+                <ScalarProperty Name="SeoItemId" ColumnName="SeoItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PasteBoardPages">
+            <EntityTypeMapping TypeName="PasteboardModel.PasteBoardPage">
+              <MappingFragment StoreEntitySet="PasteBoardPage">
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="Notice" ColumnName="Notice" />
+                <ScalarProperty Name="C_ParentPageId" ColumnName="_ParentPageId" />
+                <ScalarProperty Name="C_SettingsId" ColumnName="_SettingsId" />
+                <ScalarProperty Name="C_SeoItemId" ColumnName="_SeoItemId" />
+                <ScalarProperty Name="C_GalleryId" ColumnName="_GalleryId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="IsSocialRepost" ColumnName="IsSocialRepost" />
+                <ScalarProperty Name="IsHtml" ColumnName="IsHtml" />
+                <ScalarProperty Name="IsMenuItem" ColumnName="IsMenuItem" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="PageContent" ColumnName="PageContent" />
+                <ScalarProperty Name="PasteBoardPageId" ColumnName="PasteBoardPageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SlideSettings">
+            <EntityTypeMapping TypeName="PasteboardModel.SlideSetting">
+              <MappingFragment StoreEntitySet="SlideSettings">
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="IsBlank" ColumnName="IsBlank" />
+                <ScalarProperty Name="UrlRedirect" ColumnName="UrlRedirect" />
+                <ScalarProperty Name="HtmlContent" ColumnName="HtmlContent" />
+                <ScalarProperty Name="SlideSettingsId" ColumnName="SlideSettingsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="PasteboardModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="C_SlideSettingId" ColumnName="_SlideSettingId" />
+                <ScalarProperty Name="C_GalleryId" ColumnName="_GalleryId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Alt" ColumnName="Alt" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

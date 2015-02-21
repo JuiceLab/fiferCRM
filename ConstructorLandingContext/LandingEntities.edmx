@@ -1,0 +1,563 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LandingModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LandingBlock">
+          <Key>
+            <PropertyRef Name="LandingBlockId" />
+          </Key>
+          <Property Name="LandingBlockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlockName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="_TemplateId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LandingPage">
+          <Key>
+            <PropertyRef Name="LandingPageId" />
+          </Key>
+          <Property Name="LandingPageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="_TemplateId" Type="int" Nullable="false" />
+          <Property Name="_ProjectClientId" Type="int" Nullable="false" />
+          <Property Name="Allias" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <EntityType Name="LandingTemplate">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PageBlock">
+          <Key>
+            <PropertyRef Name="PageBlockId" />
+          </Key>
+          <Property Name="PageBlockId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlobUrl" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="AvailableTo" Type="datetime" />
+          <Property Name="_LandingBlockId" Type="int" Nullable="false" />
+          <Property Name="_LandingPageId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PageSettings">
+          <Key>
+            <PropertyRef Name="PageSettingsId" />
+          </Key>
+          <Property Name="PageSettingsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BlockOrder" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="DisabledBlocks" Type="nvarchar" MaxLength="1024" />
+          <Property Name="CustomCssRoute" Type="nvarchar" MaxLength="256" />
+          <Property Name="AvailableTo" Type="datetime" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="_LandingPageId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProjectClient">
+          <Key>
+            <PropertyRef Name="ProjectClientId" />
+          </Key>
+          <Property Name="ProjectClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Phone" Type="bigint" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fifer_landing.dbo.LandingPageView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LandingPageView">
+          <Key>
+            <PropertyRef Name="Allias" />
+            <PropertyRef Name="LandingPageId" />
+            <PropertyRef Name="TemplateName" />
+            <PropertyRef Name="TypeId" />
+            <PropertyRef Name="_TemplateId" />
+            <PropertyRef Name="_ProjectClientId" />
+            <PropertyRef Name="Created" />
+            <PropertyRef Name="BlockOrder" />
+            <PropertyRef Name="AvailableTo" />
+            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Phone" />
+            <PropertyRef Name="ProjectCreated" />
+          </Key>
+          <Property Name="Allias" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LandingPageId" Type="int" Nullable="false" />
+          <Property Name="TemplateName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="_TemplateId" Type="int" Nullable="false" />
+          <Property Name="_ProjectClientId" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="BlockOrder" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="DisabledBlocks" Type="nvarchar" MaxLength="1024" />
+          <Property Name="CustomCssRoute" Type="nvarchar" MaxLength="256" />
+          <Property Name="AvailableTo" Type="datetime" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Phone" Type="bigint" Nullable="false" />
+          <Property Name="ProjectCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LandingBlock_LandingTemplate">
+          <End Role="LandingTemplate" Type="Self.LandingTemplate" Multiplicity="1" />
+          <End Role="LandingBlock" Type="Self.LandingBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingTemplate">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="LandingBlock">
+              <PropertyRef Name="_TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandingPage_LandingTemplate">
+          <End Role="LandingTemplate" Type="Self.LandingTemplate" Multiplicity="1" />
+          <End Role="LandingPage" Type="Self.LandingPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingTemplate">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="LandingPage">
+              <PropertyRef Name="_TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageBlock_LandingBlock">
+          <End Role="LandingBlock" Type="Self.LandingBlock" Multiplicity="1" />
+          <End Role="PageBlock" Type="Self.PageBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingBlock">
+              <PropertyRef Name="LandingBlockId" />
+            </Principal>
+            <Dependent Role="PageBlock">
+              <PropertyRef Name="_LandingBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageBlock_LandingPage">
+          <End Role="LandingPage" Type="Self.LandingPage" Multiplicity="1" />
+          <End Role="PageBlock" Type="Self.PageBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingPage">
+              <PropertyRef Name="LandingPageId" />
+            </Principal>
+            <Dependent Role="PageBlock">
+              <PropertyRef Name="_LandingPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageSettings_LandingPage">
+          <End Role="LandingPage" Type="Self.LandingPage" Multiplicity="1" />
+          <End Role="PageSettings" Type="Self.PageSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingPage">
+              <PropertyRef Name="LandingPageId" />
+            </Principal>
+            <Dependent Role="PageSettings">
+              <PropertyRef Name="_LandingPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_ProjectClient">
+          <End Role="ProjectClient" Type="Self.ProjectClient" Multiplicity="1" />
+          <End Role="LandingPage" Type="Self.LandingPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectClient">
+              <PropertyRef Name="ProjectClientId" />
+            </Principal>
+            <Dependent Role="LandingPage">
+              <PropertyRef Name="_ProjectClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LandingModelStoreContainer">
+          <EntitySet Name="LandingBlock" EntityType="Self.LandingBlock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandingPage" EntityType="Self.LandingPage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandingTemplate" EntityType="Self.LandingTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageBlock" EntityType="Self.PageBlock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PageSettings" EntityType="Self.PageSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectClient" EntityType="Self.ProjectClient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandingPageView" EntityType="Self.LandingPageView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LandingPageView].[Allias] AS [Allias], 
+    [LandingPageView].[LandingPageId] AS [LandingPageId], 
+    [LandingPageView].[TemplateName] AS [TemplateName], 
+    [LandingPageView].[TypeId] AS [TypeId], 
+    [LandingPageView].[_TemplateId] AS [_TemplateId], 
+    [LandingPageView].[_ProjectClientId] AS [_ProjectClientId], 
+    [LandingPageView].[Created] AS [Created], 
+    [LandingPageView].[BlockOrder] AS [BlockOrder], 
+    [LandingPageView].[DisabledBlocks] AS [DisabledBlocks], 
+    [LandingPageView].[CustomCssRoute] AS [CustomCssRoute], 
+    [LandingPageView].[AvailableTo] AS [AvailableTo], 
+    [LandingPageView].[IsAvailable] AS [IsAvailable], 
+    [LandingPageView].[FirstName] AS [FirstName], 
+    [LandingPageView].[LastName] AS [LastName], 
+    [LandingPageView].[Phone] AS [Phone], 
+    [LandingPageView].[ProjectCreated] AS [ProjectCreated]
+    FROM [dbo].[LandingPageView] AS [LandingPageView]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_LandingBlock_LandingTemplate" Association="Self.FK_LandingBlock_LandingTemplate">
+            <End Role="LandingTemplate" EntitySet="LandingTemplate" />
+            <End Role="LandingBlock" EntitySet="LandingBlock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandingPage_LandingTemplate" Association="Self.FK_LandingPage_LandingTemplate">
+            <End Role="LandingTemplate" EntitySet="LandingTemplate" />
+            <End Role="LandingPage" EntitySet="LandingPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageBlock_LandingBlock" Association="Self.FK_PageBlock_LandingBlock">
+            <End Role="LandingBlock" EntitySet="LandingBlock" />
+            <End Role="PageBlock" EntitySet="PageBlock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageBlock_LandingPage" Association="Self.FK_PageBlock_LandingPage">
+            <End Role="LandingPage" EntitySet="LandingPage" />
+            <End Role="PageBlock" EntitySet="PageBlock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageSettings_LandingPage" Association="Self.FK_PageSettings_LandingPage">
+            <End Role="LandingPage" EntitySet="LandingPage" />
+            <End Role="PageSettings" EntitySet="PageSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_ProjectClient" Association="Self.FK_Table_1_ProjectClient">
+            <End Role="ProjectClient" EntitySet="ProjectClient" />
+            <End Role="LandingPage" EntitySet="LandingPage" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LandingModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LandingEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LandingBlocks" EntityType="LandingModel.LandingBlock" />
+          <EntitySet Name="LandingPages" EntityType="LandingModel.LandingPage" />
+          <EntitySet Name="LandingTemplates" EntityType="LandingModel.LandingTemplate" />
+          <EntitySet Name="PageBlocks" EntityType="LandingModel.PageBlock" />
+          <EntitySet Name="PageSettings" EntityType="LandingModel.PageSetting" />
+          <EntitySet Name="ProjectClients" EntityType="LandingModel.ProjectClient" />
+          <EntitySet Name="LandingPageViews" EntityType="LandingModel.LandingPageView" />
+          <AssociationSet Name="FK_LandingBlock_LandingTemplate" Association="LandingModel.FK_LandingBlock_LandingTemplate">
+            <End Role="LandingTemplate" EntitySet="LandingTemplates" />
+            <End Role="LandingBlock" EntitySet="LandingBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageBlock_LandingBlock" Association="LandingModel.FK_PageBlock_LandingBlock">
+            <End Role="LandingBlock" EntitySet="LandingBlocks" />
+            <End Role="PageBlock" EntitySet="PageBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandingPage_LandingTemplate" Association="LandingModel.FK_LandingPage_LandingTemplate">
+            <End Role="LandingTemplate" EntitySet="LandingTemplates" />
+            <End Role="LandingPage" EntitySet="LandingPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageBlock_LandingPage" Association="LandingModel.FK_PageBlock_LandingPage">
+            <End Role="LandingPage" EntitySet="LandingPages" />
+            <End Role="PageBlock" EntitySet="PageBlocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PageSettings_LandingPage" Association="LandingModel.FK_PageSettings_LandingPage">
+            <End Role="LandingPage" EntitySet="LandingPages" />
+            <End Role="PageSetting" EntitySet="PageSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Table_1_ProjectClient" Association="LandingModel.FK_Table_1_ProjectClient">
+            <End Role="ProjectClient" EntitySet="ProjectClients" />
+            <End Role="LandingPage" EntitySet="LandingPages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LandingBlock">
+          <Key>
+            <PropertyRef Name="LandingBlockId" />
+          </Key>
+          <Property Name="LandingBlockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlockName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="C_TemplateId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandingTemplate" Relationship="LandingModel.FK_LandingBlock_LandingTemplate" FromRole="LandingBlock" ToRole="LandingTemplate" />
+          <NavigationProperty Name="PageBlocks" Relationship="LandingModel.FK_PageBlock_LandingBlock" FromRole="LandingBlock" ToRole="PageBlock" />
+        </EntityType>
+        <EntityType Name="LandingPage">
+          <Key>
+            <PropertyRef Name="LandingPageId" />
+          </Key>
+          <Property Name="LandingPageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="C_TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="C_ProjectClientId" Type="Int32" Nullable="false" />
+          <Property Name="Allias" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Domain" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LandingTemplate" Relationship="LandingModel.FK_LandingPage_LandingTemplate" FromRole="LandingPage" ToRole="LandingTemplate" />
+          <NavigationProperty Name="PageBlocks" Relationship="LandingModel.FK_PageBlock_LandingPage" FromRole="LandingPage" ToRole="PageBlock" />
+          <NavigationProperty Name="PageSettings" Relationship="LandingModel.FK_PageSettings_LandingPage" FromRole="LandingPage" ToRole="PageSetting" />
+          <NavigationProperty Name="ProjectClient" Relationship="LandingModel.FK_Table_1_ProjectClient" FromRole="LandingPage" ToRole="ProjectClient" />
+        </EntityType>
+        <EntityType Name="LandingTemplate">
+          <Key>
+            <PropertyRef Name="TemplateId" />
+          </Key>
+          <Property Name="TemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandingBlocks" Relationship="LandingModel.FK_LandingBlock_LandingTemplate" FromRole="LandingTemplate" ToRole="LandingBlock" />
+          <NavigationProperty Name="LandingPages" Relationship="LandingModel.FK_LandingPage_LandingTemplate" FromRole="LandingTemplate" ToRole="LandingPage" />
+        </EntityType>
+        <EntityType Name="PageBlock">
+          <Key>
+            <PropertyRef Name="PageBlockId" />
+          </Key>
+          <Property Name="PageBlockId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlobUrl" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="AvailableTo" Type="DateTime" Precision="3" />
+          <Property Name="C_LandingBlockId" Type="Int32" Nullable="false" />
+          <Property Name="C_LandingPageId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandingBlock" Relationship="LandingModel.FK_PageBlock_LandingBlock" FromRole="PageBlock" ToRole="LandingBlock" />
+          <NavigationProperty Name="LandingPage" Relationship="LandingModel.FK_PageBlock_LandingPage" FromRole="PageBlock" ToRole="LandingPage" />
+        </EntityType>
+        <EntityType Name="PageSetting">
+          <Key>
+            <PropertyRef Name="PageSettingsId" />
+          </Key>
+          <Property Name="PageSettingsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BlockOrder" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="DisabledBlocks" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="CustomCssRoute" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AvailableTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="C_LandingPageId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandingPage" Relationship="LandingModel.FK_PageSettings_LandingPage" FromRole="PageSetting" ToRole="LandingPage" />
+        </EntityType>
+        <EntityType Name="ProjectClient">
+          <Key>
+            <PropertyRef Name="ProjectClientId" />
+          </Key>
+          <Property Name="ProjectClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int64" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="LandingPages" Relationship="LandingModel.FK_Table_1_ProjectClient" FromRole="ProjectClient" ToRole="LandingPage" />
+        </EntityType>
+        <EntityType Name="LandingPageView">
+          <Key>
+            <PropertyRef Name="Allias" />
+            <PropertyRef Name="LandingPageId" />
+            <PropertyRef Name="TemplateName" />
+            <PropertyRef Name="TypeId" />
+            <PropertyRef Name="C_TemplateId" />
+            <PropertyRef Name="C_ProjectClientId" />
+            <PropertyRef Name="Created" />
+            <PropertyRef Name="BlockOrder" />
+            <PropertyRef Name="AvailableTo" />
+            <PropertyRef Name="IsAvailable" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="Phone" />
+            <PropertyRef Name="ProjectCreated" />
+          </Key>
+          <Property Name="Allias" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LandingPageId" Type="Int32" Nullable="false" />
+          <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="C_TemplateId" Type="Int32" Nullable="false" />
+          <Property Name="C_ProjectClientId" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BlockOrder" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="DisabledBlocks" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="CustomCssRoute" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AvailableTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int64" Nullable="false" />
+          <Property Name="ProjectCreated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_LandingBlock_LandingTemplate">
+          <End Type="LandingModel.LandingTemplate" Role="LandingTemplate" Multiplicity="1" />
+          <End Type="LandingModel.LandingBlock" Role="LandingBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingTemplate">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="LandingBlock">
+              <PropertyRef Name="C_TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageBlock_LandingBlock">
+          <End Type="LandingModel.LandingBlock" Role="LandingBlock" Multiplicity="1" />
+          <End Type="LandingModel.PageBlock" Role="PageBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingBlock">
+              <PropertyRef Name="LandingBlockId" />
+            </Principal>
+            <Dependent Role="PageBlock">
+              <PropertyRef Name="C_LandingBlockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandingPage_LandingTemplate">
+          <End Type="LandingModel.LandingTemplate" Role="LandingTemplate" Multiplicity="1" />
+          <End Type="LandingModel.LandingPage" Role="LandingPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingTemplate">
+              <PropertyRef Name="TemplateId" />
+            </Principal>
+            <Dependent Role="LandingPage">
+              <PropertyRef Name="C_TemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageBlock_LandingPage">
+          <End Type="LandingModel.LandingPage" Role="LandingPage" Multiplicity="1" />
+          <End Type="LandingModel.PageBlock" Role="PageBlock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingPage">
+              <PropertyRef Name="LandingPageId" />
+            </Principal>
+            <Dependent Role="PageBlock">
+              <PropertyRef Name="C_LandingPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PageSettings_LandingPage">
+          <End Type="LandingModel.LandingPage" Role="LandingPage" Multiplicity="1" />
+          <End Type="LandingModel.PageSetting" Role="PageSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandingPage">
+              <PropertyRef Name="LandingPageId" />
+            </Principal>
+            <Dependent Role="PageSetting">
+              <PropertyRef Name="C_LandingPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Table_1_ProjectClient">
+          <End Type="LandingModel.ProjectClient" Role="ProjectClient" Multiplicity="1" />
+          <End Type="LandingModel.LandingPage" Role="LandingPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectClient">
+              <PropertyRef Name="ProjectClientId" />
+            </Principal>
+            <Dependent Role="LandingPage">
+              <PropertyRef Name="C_ProjectClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LandingModelStoreContainer" CdmEntityContainer="LandingEntities">
+          <EntitySetMapping Name="LandingBlocks">
+            <EntityTypeMapping TypeName="LandingModel.LandingBlock">
+              <MappingFragment StoreEntitySet="LandingBlock">
+                <ScalarProperty Name="C_TemplateId" ColumnName="_TemplateId" />
+                <ScalarProperty Name="BlockName" ColumnName="BlockName" />
+                <ScalarProperty Name="LandingBlockId" ColumnName="LandingBlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandingPages">
+            <EntityTypeMapping TypeName="LandingModel.LandingPage">
+              <MappingFragment StoreEntitySet="LandingPage">
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="Allias" ColumnName="Allias" />
+                <ScalarProperty Name="C_ProjectClientId" ColumnName="_ProjectClientId" />
+                <ScalarProperty Name="C_TemplateId" ColumnName="_TemplateId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="LandingPageId" ColumnName="LandingPageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandingTemplates">
+            <EntityTypeMapping TypeName="LandingModel.LandingTemplate">
+              <MappingFragment StoreEntitySet="LandingTemplate">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageBlocks">
+            <EntityTypeMapping TypeName="LandingModel.PageBlock">
+              <MappingFragment StoreEntitySet="PageBlock">
+                <ScalarProperty Name="C_LandingPageId" ColumnName="_LandingPageId" />
+                <ScalarProperty Name="C_LandingBlockId" ColumnName="_LandingBlockId" />
+                <ScalarProperty Name="AvailableTo" ColumnName="AvailableTo" />
+                <ScalarProperty Name="BlobUrl" ColumnName="BlobUrl" />
+                <ScalarProperty Name="PageBlockId" ColumnName="PageBlockId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PageSettings">
+            <EntityTypeMapping TypeName="LandingModel.PageSetting">
+              <MappingFragment StoreEntitySet="PageSettings">
+                <ScalarProperty Name="C_LandingPageId" ColumnName="_LandingPageId" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="AvailableTo" ColumnName="AvailableTo" />
+                <ScalarProperty Name="CustomCssRoute" ColumnName="CustomCssRoute" />
+                <ScalarProperty Name="DisabledBlocks" ColumnName="DisabledBlocks" />
+                <ScalarProperty Name="BlockOrder" ColumnName="BlockOrder" />
+                <ScalarProperty Name="PageSettingsId" ColumnName="PageSettingsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectClients">
+            <EntityTypeMapping TypeName="LandingModel.ProjectClient">
+              <MappingFragment StoreEntitySet="ProjectClient">
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="ProjectClientId" ColumnName="ProjectClientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandingPageViews">
+            <EntityTypeMapping TypeName="LandingModel.LandingPageView">
+              <MappingFragment StoreEntitySet="LandingPageView">
+                <ScalarProperty Name="ProjectCreated" ColumnName="ProjectCreated" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="AvailableTo" ColumnName="AvailableTo" />
+                <ScalarProperty Name="CustomCssRoute" ColumnName="CustomCssRoute" />
+                <ScalarProperty Name="DisabledBlocks" ColumnName="DisabledBlocks" />
+                <ScalarProperty Name="BlockOrder" ColumnName="BlockOrder" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_ProjectClientId" ColumnName="_ProjectClientId" />
+                <ScalarProperty Name="C_TemplateId" ColumnName="_TemplateId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="LandingPageId" ColumnName="LandingPageId" />
+                <ScalarProperty Name="Allias" ColumnName="Allias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

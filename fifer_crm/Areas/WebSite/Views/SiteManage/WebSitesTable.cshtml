@@ -1,0 +1,30 @@
+﻿@model IEnumerable<SiteProjectModel>
+<table class="dynamicTable scrollVertical table table-primary">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Сайт</th>
+            <th>Домен</th>
+            <th>Кол-во страниц</th>
+            <th>Тип</th>
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+    <tbody>
+        <!-- Table row -->
+        @foreach (var item in Model.OrderBy(m => m.Name))
+        {
+            <tr>
+                <td>@item.SiteId</td>
+                <td>@item.Name</td>
+                <td><a href="http://site.bizinvit.ru/@(item.SiteUrl)/index.html">@item.SiteUrl</a></td>
+                <td>@item.CountPages</td>
+                <td>@(((SiteType)item.Type).GetStringValue())</td>
+            </tr>
+        }
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<!-- // Table END -->

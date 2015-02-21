@@ -1,0 +1,38 @@
+﻿@model IList<ISiteMenuItem>
+
+@{
+    var contactMenuItem = Model.FirstOrDefault(m => m.Url.EndsWith("info"));
+}
+
+    @if (!contactMenuItem.ParentMenuItemId.HasValue)
+    {
+        <div class="zagauto">@contactMenuItem.Name</div>
+    }
+    @if(Model.Any(m => m.ParentMenuItemId == contactMenuItem.MenuItemId) || contactMenuItem.ParentMenuItemId.HasValue)
+    {
+        var items = Model.Where(m => m.ParentMenuItemId == contactMenuItem.MenuItemId).ToList();
+        if (contactMenuItem.ParentMenuItemId.HasValue) { 
+           <div class="zagauto">@Model.FirstOrDefault(m => m.MenuItemId == contactMenuItem.ParentMenuItemId).Name</div>
+            items = Model.Where(m => m.ParentMenuItemId == contactMenuItem.ParentMenuItemId).ToList();
+        }
+        <table>
+            <tbody>
+                @for (int i = 0; i < items.Count; i++)
+                {
+                    if(items[i].IsCurrent)
+                    { 
+                        <tr><td style="cursor:pointer;" id="m_" class="on"><a href="/@(items[i].Url).html">@(items[i].Name)</a></td></tr>
+                    }
+                    else
+                    {
+                        <tr><td onmouseout="this.className='';" onmouseover="this.className='on';" style="cursor:pointer;" id="m_" ><a href="/@(items[i].Url).html">@(items[i].Name)</a></td></tr>
+                    }
+                    <tr><td class="zero"><div class="zero_img"></div></td></tr>
+                }
+                <tr>
+                    <td style="padding:0px;" class="last_zero_img"></td>
+                </tr>
+            </tbody>
+        </table>
+    }
+

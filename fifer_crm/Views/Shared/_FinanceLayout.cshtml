@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if !IE]><!-->
+<html class="paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky">
+<!-- <![endif]-->
+<head>
+    <title>@ViewBag.Title</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <!--
+    **********************************************************
+    In development, use the LESS files and the less.js compiler
+    instead of the minified CSS loaded by default.
+    **********************************************************
+    <link rel="stylesheet/less" href="~/assets/less/admin/module.admin.stylesheet-complete.less" />
+    -->
+    <!--[if lt IE 9]><link rel="stylesheet" href="~/assets/components/library/bootstrap/css/bootstrap.min.css" /><![endif]-->
+    <link rel="stylesheet" href="~/assets/css/admin/module.admin.stylesheet-complete.min.css" />
+    <link rel="stylesheet" href="/Content/Site.css" />
+    <link rel="stylesheet" href="~/Content/jquery.tagsinput.css" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <script src="/assets/plugins/core_ajaxify_loadscript/script.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2"></script>
+    <script>var App = {};</script>
+    <script data-id="App.Scripts">
+        App.Scripts = {
+
+            /* CORE scripts always load first; */
+            core: [
+                '/assets/library/jquery/jquery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/library/modernizr/modernizr.js?v=v2.0.0-rc1&sv=v0.0.1.2'
+            ],
+
+            /* PLUGINS_DEPENDENCY always load after CORE but before PLUGINS; */
+            plugins_dependency: [
+                '/assets/library/bootstrap/js/bootstrap.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/library/jquery/jquery-migrate.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/calendar_fullcalendar/js/moment.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+
+            ],
+
+            /* PLUGINS always load after CORE and PLUGINS_DEPENDENCY, but before the BUNDLE / initialization scripts; */
+            plugins: [
+                '/assets/plugins/core_preload/pace.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/core_nicescroll/jquery.nicescroll.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/core_breakpoints/breakpoints.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_bootstrap-switch/js/bootstrap-switch.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/ui_modals/bootbox.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/core_less-js/less.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/core_browser/ie/ie.prototype.polyfill.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/core_jquery-ui-touch-punch/jquery.ui.touch-punch.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/library/jquery-ui/js/jquery-ui.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/media_blueimp/js/blueimp-gallery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/charts_easy_pie/js/jquery.easy-pie-chart.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/charts_flot/excanvas.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/calendar_fullcalendar/js/fullcalendar.min.js?v=v2.0.2-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/notifications_notyfy/js/jquery.notyfy.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/media_image-preview/image-preview.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/tables_datatables/js/jquery.dataTables.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/other_infinite-scroll/jquery.jscroll.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_bootstrap-select/js/bootstrap-select.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_select2/js/select2.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_bootstrap-timepicker/js/bootstrap-timepicker.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_wizards/jquery.bootstrap.wizard.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_multiselect/js/jquery.multi-select.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/plugins/forms_elements_inputmask/jquery.inputmask.bundle.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/Scripts/jquery.validate.js'
+            ],
+
+            /* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
+            bundle: [
+                '/assets/plugins/forms_elements_select2/js/select2_locale_ru.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/components/core_preload/preload.pace.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/components/core/core.init.js?v=v2.0.0-rc1',
+                '/assets/components/admin_menus/sidebar.main.init.js?v=v2.0.0-rc1',
+                '/assets/components/admin_menus/sidebar.collapse.init.js?v=v2.0.0-rc1',
+                '/assets/components/admin_menus/sidebar.kis.init.js?v=v2.0.0-rc1',
+                '/assets/components/charts_easy_pie/easy-pie.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/components/calendar/calendar.init.js?v=v2.0.1-rc1&amp;sv=v0.0.1.2',
+                '/assets/components/other_infinite-scroll/infinite-scroll.init.js?v=v2.0.0-rc1',
+                '/assets/components/tables_datatables/js/DT_bootstrap.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/components/tables_datatables/js/datatables.init.js?v=v2.0.3-rc1&amp;sv=v0.0.1.2',
+                '/assets/components/tables/tables-classic.init.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/components/forms_elements_fuelux-checkbox/fuelux-checkbox.init.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/components/forms_elements_bootstrap-select/bootstrap-select.init.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/forms_wizards/jquery.bootstrap.wizard.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '/assets/components/forms_wizards/form-wizards.init.js?v=v2.0.4-rc1&sv=v0.0.1.2',
+                '/assets/plugins/calendar_fullcalendar/js/lang-all.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/tables_datatables/extras/ColVis/media/js/ColVis.min.js?v=v2.0.0-rc1',
+                '/assets/plugins/tables_datatables/extras/ColReorder/media/js/ColReorder.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/tables_datatables/extras/FixedHeader/FixedHeader.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
+                '/assets/plugins/tables_datatables/extras/TableTools/media/js/TableTools.min.js?v=v2.0.0-rc1',
+                '/scripts/custom/helper.geolocation.js?v=v2.5.1-rc1&sv=v0.0.1.2',
+                '/scripts/jquery.tagsinput.min.js',
+                '/Scripts/jquery.validate.unobtrusive.js',
+                '/Scripts/jquery.cropit.min.js',
+                '/Scripts/jquery.signalR-2.1.2.min.js',
+                '/signalr/hubs'
+            ], /* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
+            custom: [
+              '/scripts/custom/helper.table.js?v=v2.3.4-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.init.mask.js?v=v2.3.8-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.init.js?v=v2.3.8-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.modal.js?v=v2.3.4-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.ticket.js?v=v2.3.0-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.signalr.js?v=v2.4.0-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.image.js?v=v2.3.4-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.form.js?v=v2.5.8-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.task.js?v=v2.4.1-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.filter.js?v=v2.3.4-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.autocomplete.js?v=v2.3.0-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.site.js?v=v2.3.2-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.excel.js?v=v2.3.2-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.notify.js?v=v2.3.2-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.signup.js',
+            'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps'
+            ]
+        };
+    </script>
+    <script>
+        $script(App.Scripts.core, 'core');
+
+        $script.ready(['core'], function () {
+            $script(App.Scripts.plugins_dependency, 'plugins_dependency');
+        });
+        $script.ready(['core', 'plugins_dependency'], function () {
+            $script(App.Scripts.plugins, 'plugins');
+        });
+        $script.ready(['core', 'plugins_dependency', 'plugins'], function () {
+            $script(App.Scripts.bundle, 'bundle');
+        });
+        $script.ready(['core', 'plugins_dependency', 'plugins', 'bundle'], function () {
+            $script(App.Scripts.custom, 'custom');
+        });
+    </script>
+    <script>
+    if (/*@@cc_on!@@*/false && document.documentMode === 10) { document.documentElement.className+=' ie ie10'; }</script>
+
+</head>
+<body class="scripts-async menu-right-hidden">
+    <div class="container-fluid menu-hidden">
+        <!-- Main Sidebar Menu -->
+        <div id="menu" class="hidden-print hidden-xs sidebar-blue sidebar-brand-primary">
+            <div id="sidebar-fusion-wrapper">
+                @RenderSection("LeftMenu", required: false)
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div id="content">
+            @RenderSection("TopMenu", required: false)
+            @RenderBody()
+        </div>
+        <!-- // Content END -->
+        <div class="clearfix"></div>
+        <!-- Footer -->
+        <div id="footer" class="hidden-print">
+
+            <!--  Copyright Line -->
+            <div class="copy">&copy; 2012 - 2014 - <a href="http://www.mosaicpro.biz">MosaicPro</a> - All Rights Reserved. <a href="http://themeforest.net/?ref=mosaicpro" target="_blank">Purchase CORAL on ThemeForest</a> - Current version: v2.0.0-rc1 / <a target="_blank" href="/assets///CHANGELOG.txt?v=v2.0.0-rc1">changelog</a></div>
+            <!--  End Copyright Line -->
+
+        </div>
+        <!-- // Footer END -->
+    </div>
+	<!-- // Main Container Fluid END -->
+    <div class="modal fade in" id="modal-fullscreen">
+        <div class="modal-dialog">
+            <div class="modal-content" style="min-width:800px">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Загрузка формы</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                </div>
+                <!-- // Modal body END -->
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade in" id="modal-map">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Координаты на карте</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="google-map-add" class="map_canvas" style="height: 300px"></div>
+                </div>
+                <!-- // Modal body END -->
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade in" id="modal-help">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Загрузка формы</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                </div>
+                <!-- // Modal body END -->
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Global -->
+    <script data-id="App.Config">
+                var basePath = '',
+            commonPath = '/assets/',
+            rootPath = '../',
+            DEV = false,
+            componentsPath = '/assets/components/';
+
+        var primaryColor = '#eb6a5a',
+            dangerColor = '#b55151',
+            successColor = '#609450',
+            infoColor = '#4a8bc2',
+            warningColor = '#ab7a4b',
+            inverseColor = '#45484d';
+
+        var themerPrimaryColor = primaryColor;
+
+                App.Config = {
+                ajaxify_menu_selectors: ['#menu','#menu_kis'],
+                ajaxify_layout_app: true        };
+            </script>
+</body>
+</html>

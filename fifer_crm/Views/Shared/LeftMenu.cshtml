@@ -1,0 +1,76 @@
+﻿@model ICompanyInfo
+@{
+    string activeKey = Model.Menu.FirstOrDefault(m => m.Value.Any(n => n.IsActive)).Key;
+    Dictionary<string, string> idNameMenu = new Dictionary<string, string>(){
+        {"company_data", "Компания"},
+        {"company_task", "Задачи"},
+        {"company_crm", "Клиенты"},
+        {"crm_data", "CRM"},
+        {"head_data", "Отдел"},
+        {"finance_data", "Финансы"},
+    };
+}
+
+<input id="company_id" type="hidden" value="@Model.CompanyId" />
+<div id="brandWrapper">
+    <a href="/home/indexcompany" class="display-block-inline pull-left logo"><img style="max-width:40px" src="@(!string.IsNullOrEmpty(Model.Logo) ? Model.Logo : "/content/images/profile.jpg")" alt=""></a>
+    <a href="/home/indexcompany">&nbsp;<span class="text">@Model.Name</span></a>
+</div>
+<div id="logoWrapper">
+    <div id="logo">
+        <div id="toggleNavbarColor" data-toggle="navbar-color">
+            <a href="" class="not-animated color color-blue active"></a>
+            <a href="" class="not-animated color color-white"></a>
+            <a href="" class="not-animated color bg-primary"></a>
+            <a href="" class="not-animated color color-inverse"></a>
+        </div>
+
+        <div class="innerTB">
+            <select name="" id="menu_switch" data-style="btn-inverse" class="selectpicker margin-none dropdown-menu-light" data-container="body">
+                @foreach (var item in idNameMenu)
+                {
+                    if(item.Key == activeKey)
+                    { 
+                        <option value="@item.Key" selected="selected">@item.Value</option>
+                    }
+                    else
+                    {
+                        <option value="@item.Key">@item.Value</option>
+
+                    }
+                }
+                    @*<option value="navigation_modules">Admin Modules</option>
+                    <option value="navigation_modules_front">Website Modules</option>*@
+            </select>
+        </div>
+    </div>
+</div>
+@{
+    <ul class="menu list-unstyled" id="@activeKey">
+        @foreach (var item in Model.Menu[activeKey])
+        {
+            <li class="@(item.IsActive? "active" : "")">
+                <a href="@item.Url" >
+                    <i class="fa @item.Icon"></i>
+                    <span>@item.Name</span>
+                </a>
+            </li>
+        }
+    </ul>
+    foreach (var item in Model.Menu.Where(m => m.Key != activeKey))
+    {
+        <ul class="menu list-unstyled hide" id="@item.Key">
+            @foreach (var value in Model.Menu[item.Key])
+            {
+                <li >
+                    <a href="@value.Url" >
+                        <i class="fa @value.Icon"></i>
+                        <span>@value.Name</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+}
+
+

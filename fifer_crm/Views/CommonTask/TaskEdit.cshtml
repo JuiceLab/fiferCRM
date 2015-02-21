@@ -1,0 +1,64 @@
+﻿@model TaskTicket
+@{
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem>;
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    byte cmd = (byte)ViewBag.Command;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Новая задача</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @Html.Hidden("task-cmd", cmd.ToString())
+            <form id="taskTicket" class="form-horizontal" role="form">
+                @Html.HiddenFor(m => m.CreatedBy)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CategoryId, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.CategoryId, categories, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Assigned, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Дата выполнения задачи</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Msg, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(m => m.Msg, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Приоритетная задача</label>
+                    <div class="col-sm-9">
+                        @Html.CheckBoxFor(m => m.IsHighPriority, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="button" onclick="createTaskTicket()" class="btn btn-primary" value="Создать задачу" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

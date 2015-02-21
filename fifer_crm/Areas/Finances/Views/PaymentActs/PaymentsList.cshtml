@@ -1,0 +1,35 @@
+﻿@model CompanyPaymentsWrapModel
+
+@foreach (var item in Model.CompletionActs.SelectMany(m=>m.Value))
+{
+    <div class="media contact">
+        <a class="pull-left" href="#"><img class="thumb" src="../assets/images/people/100/13.jpg" width="50" alt="people"></a>
+        <div class="media-body">
+            <ul class="list-unstyled">
+                <li>
+                    <h4 class="media-heading strong">@(Model.PaymentCompanies.FirstOrDefault(m=>m.CompanyGuid == item.CompanyId).LegalName)</h4>
+                </li>
+                <li><i class="fa fa-building"></i>Акт @item.ActId включает счета: @string.Join(", ", Model.Payments.Where(m=> item.Payments.Contains(m.PaymentId)).Select(m=>m.Number))</li>
+                <li>@item.Comment</li>
+                <li>@item.Total.ToString("C")</li>
+            </ul>
+        </div>
+    </div>
+}
+
+@foreach (var item in Model.Payments.OrderByDescending(m => m.PayBefore))
+{
+    <div class="media contact">
+        <a class="pull-left" href="#"><img class="thumb" src="../assets/images/people/100/13.jpg" width="50" alt="people"></a>
+        <div class="media-body">
+            <ul class="list-unstyled">
+                <li>
+                    <h4 class="media-heading strong">@(Model.PaymentCompanies.FirstOrDefault(m => m.CompanyGuid == item.CompanyGuid).LegalName)</h4>
+                </li>
+                <li><i class="fa fa-building"></i> Счет @item.Number на @item.PayBefore.ToShortDateString()</li>
+                <li>@item.Status</li>
+                <li>@item.Total.ToString("C")</li>
+            </ul>
+        </div>
+    </div>
+}

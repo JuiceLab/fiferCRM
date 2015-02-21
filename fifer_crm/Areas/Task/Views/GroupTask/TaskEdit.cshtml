@@ -1,0 +1,214 @@
+﻿@model FiferTaskTicket
+@{
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem>;
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    var assignGroup = ViewBag.AssignGroup as IEnumerable<SelectListItem>;
+    var assignDepartments = ViewBag.AssignDepartments as IEnumerable<SelectListItem>;
+    
+    byte cmd = (byte)ViewBag.Command;
+
+    var periods = new List<SelectListItem>();
+    foreach (TaskPeriodType item in Enum.GetValues(typeof(TaskPeriodType)))
+    {
+        periods.Add(new SelectListItem() { Text = item.GetStringValue(), Value = item.ToString("d") });
+    }
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Новая задача</h3>
+</div>
+<!-- // Modal heading END -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @Html.Hidden("task-cmd", cmd.ToString())
+            <form id="taskTicket" class="form-horizontal" role="form">
+                @Html.HiddenFor(m => m.CreatedBy)
+
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- Widget heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons user" href="#person-data" data-toggle="tab"><i></i>Задача</a></li>
+                            <li><a class="glyphicons group" href="#position-data" data-toggle="tab"><i></i>Групповое назначение</a></li>
+                            <li><a class="glyphicons clock" href="#additional-data" data-toggle="tab"><i></i>Периодичность</a></li>
+                        </ul>
+                    </div>
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div class="tab-pane active" id="person-data">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.CategoryId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.CategoryId, categories, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Msg, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(m => m.Msg, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">Дата выполнения</label>
+                                    <div class="col-sm-3">
+                                        @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                                    </div>
+                                    <label class="col-sm-2 control-label" style="margin-bottom:10px">Приоритетная</label>
+                                    <div class=" col-sm-2">
+                                        @Html.CheckBoxFor(m => m.IsHighPriority, new { @class = "form-control" })
+                                    </div>
+                                    <label class="col-sm-4 control-label">Время выполнения (00:00 - на весь день)</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group bootstrap-timepicker">
+                                            @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control", style="margin-top:10px" })
+                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Напомнить за</label>
+                                    <div class="col-sm-3">
+                                        <div class="input-group bootstrap-timepicker">
+                                            @Html.TextBoxFor(m => m.NotifyBeforeStr, new { @class = "form-control", style = "margin-top:10px" })
+                                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Assigned, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div class="tab-pane" id="position-data">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Групповое назначение</label>
+                                    <div class="col-sm-8">
+                                        @Html.CheckBoxFor(m => m.HasGroup, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <fieldset>
+                                    <legend>Группы</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Сотрудники</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedUsers" name="Group.AssignedUsers" class="multiselect" multiple>
+                                                @foreach (var item in assign)
+                                            {
+                                                if (item.Selected)
+                                                        {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                <option value="@item.Value">@item.Text</option>
+                                                        }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Рабочие группы</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedGroups" name="Group.AssignedGroups" class="multiselect" multiple>
+                                                @foreach (var item in assignGroup)
+                                            {
+                                                if (item.Selected)
+                                                {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Отделы</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedDepartments" name="Group.AssignedDepartments" class="multiselect" multiple>
+                                                @foreach (var item in assignDepartments)
+                                                {
+                                                    if (item.Selected)
+                                                    {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <!-- // Tab content END -->
+                            <div class="tab-pane" id="additional-data">
+                                <div class="form-group">
+                                    <label class="col-md-5 control-label">Периодическая задача</label>
+                                    <div class="col-sm-7">
+                                        @Html.CheckBoxFor(m => m.HasPeriods, new { @class = "form-control" })
+                                    </div>
+                                   
+                                </div>
+                                    <fieldset>
+                                        <legend>Период задач</legend>
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => m.Periods[0].PeriodType, new { @class = "col-sm-3 control-label" })
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(m => m.Periods[0].PeriodType, periods, new { @class = "form-control" })
+                                            </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">C какой даты</label>
+                                                <div class="col-sm-3">
+                                                    @Html.TextBoxFor(m => m.Periods[0].DateStartedStr, new { @class = "form-control" })
+                                                </div>
+
+                                                <label class="col-sm-6 control-label" style="margin-bottom:10px">Время выполнения задач</label>
+
+                                                <label class="col-sm-3 control-label">До какой даты</label>
+                                                <div class="col-sm-3">
+                                                    @Html.TextBoxFor(m => m.Periods[0].DateBeforeStr, new { @class = "form-control" })
+                                                </div>
+                                                <div class="col-md-offset-2  col-sm-3">
+                                                    <div class="input-group bootstrap-timepicker">
+                                                        @Html.TextBoxFor(m => m.Periods[0].TimeStartedStr, new { @class = "form-control" })
+                                                        <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+</fieldset>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="button" onclick="createTaskTicket()" class="btn btn-primary" value="Создать задачу" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CompanyViewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fifer_company.dbo.PositionInDepartmentView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PositionInDepartmentView">
+          <Key>
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="_CompanyId" />
+            <PropertyRef Name="_DepartmentId" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="NameGenetive" Type="nvarchar" MaxLength="256" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+          <Property Name="_DepartmentId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="_ParentPosId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fifer_company.dbo.UserInCompanyView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserInCompanyView">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="IsKeyEmployee" />
+            <PropertyRef Name="IsDismissed" />
+          </Key>
+          <Property Name="FirstName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="64" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsKeyEmployee" Type="bit" Nullable="false" />
+          <Property Name="IsDismissed" Type="bit" Nullable="false" />
+          <Property Name="CRMGuid" Type="uniqueidentifier" />
+          <Property Name="LocalDB" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fifer_company.dbo.UserInDepartmentView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="UserInDepartmentView">
+          <Key>
+            <PropertyRef Name="_CompanyId" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="PhotoPath" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LastLogin" />
+            <PropertyRef Name="IsDismissed" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="IsKeyEmployee" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="64" />
+          <Property Name="FullNameGenitive" Type="nvarchar" MaxLength="256" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" Nullable="false" />
+          <Property Name="IsDismissed" Type="bit" Nullable="false" />
+          <Property Name="SocialLinks" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsKeyEmployee" Type="bit" Nullable="false" />
+          <Property Name="_PosId" Type="int" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="NameGenetive" Type="nvarchar" MaxLength="256" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="PositiveMention" Type="text" />
+          <Property Name="NegativeMention" Type="text" />
+          <Property Name="_PassportId" Type="int" />
+          <Property Name="WorkGroups" Type="nvarchar" MaxLength="512" />
+          <Property Name="DepartmentWorkGroup" Type="nvarchar" MaxLength="512" />
+          <Property Name="_GroupHeaderId" Type="int" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TransactionPercent" Type="float" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="256" />
+          <Property Name="ICQ" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityContainer Name="CompanyViewModelStoreContainer">
+          <EntitySet Name="PositionInDepartmentView" EntityType="Self.PositionInDepartmentView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PositionInDepartmentView].[PositionId] AS [PositionId], 
+    [PositionInDepartmentView].[Name] AS [Name], 
+    [PositionInDepartmentView].[NameGenetive] AS [NameGenetive], 
+    [PositionInDepartmentView].[Title] AS [Title], 
+    [PositionInDepartmentView].[CompanyName] AS [CompanyName], 
+    [PositionInDepartmentView].[_CompanyId] AS [_CompanyId], 
+    [PositionInDepartmentView].[_DepartmentId] AS [_DepartmentId], 
+    [PositionInDepartmentView].[IsActive] AS [IsActive], 
+    [PositionInDepartmentView].[_ParentPosId] AS [_ParentPosId]
+    FROM [dbo].[PositionInDepartmentView] AS [PositionInDepartmentView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UserInCompanyView" EntityType="Self.UserInCompanyView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserInCompanyView].[FirstName] AS [FirstName], 
+    [UserInCompanyView].[LastName] AS [LastName], 
+    [UserInCompanyView].[Patronymic] AS [Patronymic], 
+    [UserInCompanyView].[UserId] AS [UserId], 
+    [UserInCompanyView].[CompanyName] AS [CompanyName], 
+    [UserInCompanyView].[EmployeeId] AS [EmployeeId], 
+    [UserInCompanyView].[CompanyId] AS [CompanyId], 
+    [UserInCompanyView].[IsKeyEmployee] AS [IsKeyEmployee], 
+    [UserInCompanyView].[IsDismissed] AS [IsDismissed], 
+    [UserInCompanyView].[CRMGuid] AS [CRMGuid], 
+    [UserInCompanyView].[LocalDB] AS [LocalDB]
+    FROM [dbo].[UserInCompanyView] AS [UserInCompanyView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="UserInDepartmentView" EntityType="Self.UserInDepartmentView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserInDepartmentView].[_CompanyId] AS [_CompanyId], 
+    [UserInDepartmentView].[Title] AS [Title], 
+    [UserInDepartmentView].[FirstName] AS [FirstName], 
+    [UserInDepartmentView].[LastName] AS [LastName], 
+    [UserInDepartmentView].[Patronymic] AS [Patronymic], 
+    [UserInDepartmentView].[FullNameGenitive] AS [FullNameGenitive], 
+    [UserInDepartmentView].[BirthDate] AS [BirthDate], 
+    [UserInDepartmentView].[PhotoPath] AS [PhotoPath], 
+    [UserInDepartmentView].[UserId] AS [UserId], 
+    [UserInDepartmentView].[LastLogin] AS [LastLogin], 
+    [UserInDepartmentView].[IsDismissed] AS [IsDismissed], 
+    [UserInDepartmentView].[SocialLinks] AS [SocialLinks], 
+    [UserInDepartmentView].[IsActive] AS [IsActive], 
+    [UserInDepartmentView].[CompanyName] AS [CompanyName], 
+    [UserInDepartmentView].[IsKeyEmployee] AS [IsKeyEmployee], 
+    [UserInDepartmentView].[_PosId] AS [_PosId], 
+    [UserInDepartmentView].[EmployeeId] AS [EmployeeId], 
+    [UserInDepartmentView].[DepartmentId] AS [DepartmentId], 
+    [UserInDepartmentView].[NameGenetive] AS [NameGenetive], 
+    [UserInDepartmentView].[Name] AS [Name], 
+    [UserInDepartmentView].[PositiveMention] AS [PositiveMention], 
+    [UserInDepartmentView].[NegativeMention] AS [NegativeMention], 
+    [UserInDepartmentView].[_PassportId] AS [_PassportId], 
+    [UserInDepartmentView].[WorkGroups] AS [WorkGroups], 
+    [UserInDepartmentView].[DepartmentWorkGroup] AS [DepartmentWorkGroup], 
+    [UserInDepartmentView].[_GroupHeaderId] AS [_GroupHeaderId], 
+    [UserInDepartmentView].[Salary] AS [Salary], 
+    [UserInDepartmentView].[TransactionPercent] AS [TransactionPercent], 
+    [UserInDepartmentView].[Skype] AS [Skype], 
+    [UserInDepartmentView].[ICQ] AS [ICQ]
+    FROM [dbo].[UserInDepartmentView] AS [UserInDepartmentView]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyViewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CompanyViewEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PositionInDepartmentView" EntityType="CompanyViewModel.PositionInDepartmentView" />
+          <EntitySet Name="UserInCompanyView" EntityType="CompanyViewModel.UserInCompanyView" />
+          <EntitySet Name="UserInDepartmentView" EntityType="CompanyViewModel.UserInDepartmentView" />
+        </EntityContainer>
+        <EntityType Name="PositionInDepartmentView">
+          <Key>
+            <PropertyRef Name="PositionId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="C_CompanyId" />
+            <PropertyRef Name="C_DepartmentId" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NameGenetive" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="C_DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="C_ParentPosId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="UserInCompanyView">
+          <Key>
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="IsKeyEmployee" />
+            <PropertyRef Name="IsDismissed" />
+          </Key>
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="IsKeyEmployee" Type="Boolean" Nullable="false" />
+          <Property Name="IsDismissed" Type="Boolean" Nullable="false" />
+          <Property Name="CRMGuid" Type="Guid" />
+          <Property Name="LocalDB" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserInDepartmentView">
+          <Key>
+            <PropertyRef Name="C_CompanyId" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="PhotoPath" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LastLogin" />
+            <PropertyRef Name="IsDismissed" />
+            <PropertyRef Name="IsActive" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="IsKeyEmployee" />
+            <PropertyRef Name="EmployeeId" />
+            <PropertyRef Name="DepartmentId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameGenitive" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="LastLogin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDismissed" Type="Boolean" Nullable="false" />
+          <Property Name="SocialLinks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsKeyEmployee" Type="Boolean" Nullable="false" />
+          <Property Name="C_PosId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="NameGenetive" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PositiveMention" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NegativeMention" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="C_PassportId" Type="Int32" />
+          <Property Name="WorkGroups" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentWorkGroup" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_GroupHeaderId" Type="Int32" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TransactionPercent" Type="Double" />
+          <Property Name="Skype" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ICQ" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyViewModelStoreContainer" CdmEntityContainer="CompanyViewEntities">
+          <EntitySetMapping Name="PositionInDepartmentView">
+            <EntityTypeMapping TypeName="CompanyViewModel.PositionInDepartmentView">
+              <MappingFragment StoreEntitySet="PositionInDepartmentView">
+                <ScalarProperty Name="C_ParentPosId" ColumnName="_ParentPosId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="C_DepartmentId" ColumnName="_DepartmentId" />
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="NameGenetive" ColumnName="NameGenetive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInCompanyView">
+            <EntityTypeMapping TypeName="CompanyViewModel.UserInCompanyView">
+              <MappingFragment StoreEntitySet="UserInCompanyView">
+                <ScalarProperty Name="LocalDB" ColumnName="LocalDB" />
+                <ScalarProperty Name="CRMGuid" ColumnName="CRMGuid" />
+                <ScalarProperty Name="IsDismissed" ColumnName="IsDismissed" />
+                <ScalarProperty Name="IsKeyEmployee" ColumnName="IsKeyEmployee" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInDepartmentView">
+            <EntityTypeMapping TypeName="CompanyViewModel.UserInDepartmentView">
+              <MappingFragment StoreEntitySet="UserInDepartmentView">
+                <ScalarProperty Name="ICQ" ColumnName="ICQ" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="TransactionPercent" ColumnName="TransactionPercent" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="C_GroupHeaderId" ColumnName="_GroupHeaderId" />
+                <ScalarProperty Name="DepartmentWorkGroup" ColumnName="DepartmentWorkGroup" />
+                <ScalarProperty Name="WorkGroups" ColumnName="WorkGroups" />
+                <ScalarProperty Name="C_PassportId" ColumnName="_PassportId" />
+                <ScalarProperty Name="NegativeMention" ColumnName="NegativeMention" />
+                <ScalarProperty Name="PositiveMention" ColumnName="PositiveMention" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NameGenetive" ColumnName="NameGenetive" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="C_PosId" ColumnName="_PosId" />
+                <ScalarProperty Name="IsKeyEmployee" ColumnName="IsKeyEmployee" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="SocialLinks" ColumnName="SocialLinks" />
+                <ScalarProperty Name="IsDismissed" ColumnName="IsDismissed" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="FullNameGenitive" ColumnName="FullNameGenitive" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

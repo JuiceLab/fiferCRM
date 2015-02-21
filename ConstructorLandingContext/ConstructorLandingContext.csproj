@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{57F3BAEC-4741-400C-BC24-479A6CE0A3F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConstructorLandingContext</RootNamespace>
+    <AssemblyName>ConstructorLandingContext</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CssCategory.cs">
+      <DependentUpon>TemplateEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\TemplateEntities.cs" />
+    <Compile Include="Extension\PasteboardEntities.cs" />
+    <Compile Include="Extension\LandingEntities.cs" />
+    <Compile Include="Gallery.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Image.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingBlock.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandingEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandingEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="LandingPage.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingPageView.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LandingTemplate.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageBlock.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PageSetting.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PasteboardEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PasteboardEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PasteboardEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PasteboardEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PasteboardEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="PasteBoardPage.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PasteBoardSetting.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectClient.cs">
+      <DependentUpon>LandingEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeoItem.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SlideSetting.cs">
+      <DependentUpon>PasteboardEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Template.cs">
+      <DependentUpon>TemplateEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateEntities.edmx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="LandingEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LandingEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="LandingEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LandingEntities.edmx</DependentUpon>
+      <LastGenOutput>LandingEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="LandingEntities.edmx.diagram">
+      <DependentUpon>LandingEntities.edmx</DependentUpon>
+    </None>
+    <None Include="LandingEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LandingEntities.edmx</DependentUpon>
+      <LastGenOutput>LandingEntities.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <EntityDeploy Include="PasteboardEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PasteboardEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="PasteboardEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PasteboardEntities.edmx</DependentUpon>
+      <LastGenOutput>PasteboardEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="PasteboardEntities.edmx.diagram">
+      <DependentUpon>PasteboardEntities.edmx</DependentUpon>
+    </None>
+    <None Include="PasteboardEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PasteboardEntities.edmx</DependentUpon>
+      <LastGenOutput>PasteboardEntities.cs</LastGenOutput>
+    </None>
+    <EntityDeploy Include="TemplateEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TemplateEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="TemplateEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TemplateEntities.edmx</DependentUpon>
+      <LastGenOutput>TemplateEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="TemplateEntities.edmx.diagram">
+      <DependentUpon>TemplateEntities.edmx</DependentUpon>
+    </None>
+    <None Include="TemplateEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TemplateEntities.edmx</DependentUpon>
+      <LastGenOutput>TemplateEntities.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EntityRepository\EntityRepository.csproj">
+      <Project>{a87259dd-f94f-4715-9f12-646d49a08049}</Project>
+      <Name>EntityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelper\EnumHelper.csproj">
+      <Project>{51baae80-caa9-4756-8787-8ffd4936bc12}</Project>
+      <Name>EnumHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionHelpers\ExtensionHelpers.csproj">
+      <Project>{240aee1e-c04f-4079-826c-9e022588ba10}</Project>
+      <Name>ExtensionHelpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

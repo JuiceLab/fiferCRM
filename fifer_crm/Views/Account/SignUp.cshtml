@@ -1,0 +1,149 @@
+﻿@model CompanyRegisterModel
+    @{
+        Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+    }
+
+<div class="layout-app">
+    <!-- row-app -->
+    <div class="row row-app">
+            <!-- col -->
+            <!-- col-separator.box -->
+            <div class="col-separator col-unscrollable box">
+
+                <!-- col-table -->
+                <div class="col-table">
+
+                    <h4 class="innerAll margin-none border-bottom text-center"><i class="fa fa-lock"></i> Регистрация новой компании в Fifer-CRM</h4>
+
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+
+                        <!-- col-app -->
+                        <div class="col-app col-unscrollable">
+
+                            <!-- col-app -->
+                            <div class="col-app">
+                                <div id="rootwizard" class="wizard">
+                                    @using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { role = "form", id="signup_form" }))
+                                    {
+                                    <!-- Wizard heading -->
+                                    <div class="wizard-head">
+                                        <ul>
+                                            <li><a href="#tab1" data-toggle="tab">Управляющий</a></li>
+                                            <li><a href="#tab2" data-toggle="tab">Компания</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- // Wizard heading END -->
+
+                                    <div class="widget">
+
+                                        <!-- Wizard Progress bar -->
+                                        <div class="widget-head progress progress-primary" id="bar">
+                                            <div class="progress-bar">Шаг <strong class="step-current">1</strong> из <strong class="steps-total">3</strong> - <strong class="steps-percent">100%</strong></div>
+                                        </div>
+                                        <!-- // Wizard Progress bar END -->
+
+                                        <div class="widget-body">
+                                            <div class="tab-content">
+                                                <!-- Step 1 -->
+                                                <div class="tab-pane active" id="tab1">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <strong>Управляющий</strong>
+                                                            <p class="muted">Заполните, пожалуйста, контактную информацию об управляющем компании или ее руководителе. Укажите EMail, на который будет отправлено письмо со справочной информацией о работе в системе.</p>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.LabelFor(m => m.LastName)
+                                                            @Html.TextBoxFor(m => m.LastName, new { @class = "col-md-6 form-control", placeholder = "Имя" })
+                                                            @Html.ValidationMessageFor(m => m.LastName)
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.FirstName)
+                                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "col-md-6 form-control", placeholder = "Фамилия" })
+                                                            @Html.ValidationMessageFor(m => m.FirstName)
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.Email)
+                                                            @Html.TextBoxFor(m => m.Email, new { @class = "col-md-6 form-control", placeholder = "Email" })
+                                                            @Html.ValidationMessageFor(m => m.Email)
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.Phone)
+                                                            @Html.TextBoxFor(m => m.Phone, new { @class = "col-md-6 form-control", placeholder = "Телефон для связи" })
+                                                            @Html.ValidationMessageFor(m => m.Phone)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tab2">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <strong>Компания</strong>
+                                                            <p class="muted">Заполните, пожалуйста, данные о вашей компании и укажите услуги, которые вы предоставляете своим клиентам.</p>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.LabelFor(m => m.CompanyName)
+                                                            @Html.TextBoxFor(m => m.CompanyName, new { @class = "col-md-6 form-control", placeholder = "Полное название компании" })
+                                                            @Html.ValidationMessageFor(m => m.CompanyName)
+
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <strong>Адрес</strong>
+                                                            <p class="muted">Заполните, адресную информацию о компании</p>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            @Html.LabelFor(m => m.DistrictId)
+                                                            @Html.DropDownListFor(m => m.DistrictId, ViewBag.Districts as IEnumerable<SelectListItem>, new { @class = "col-md-6 form-control", placeholder = "Город" })
+                                                            @Html.ValidationMessageFor(m => m.DistrictId)
+                                                            <div class="separator"></div>
+                                                            <div id="city-Drop">
+                                                                @Html.LabelFor(m => m.City)
+                                                                @Html.DropDownListFor(m => m.City, new List<SelectListItem>(), new { @class = "col-md-6 form-control", placeholder = "Город" })
+                                                                @Html.ValidationMessageFor(m => m.City)
+                                                            </div>
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.Street)
+                                                            @Html.TextBoxFor(m => m.Street, new { @class = "col-md-6 form-control", placeholder = "Улица" })
+                                                            @Html.ValidationMessageFor(m => m.Street)
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.Number)
+                                                            @Html.TextBoxFor(m => m.Number, new { @class = "col-md-6 form-control", placeholder = "Номер дома" })
+                                                            @Html.ValidationMessageFor(m => m.Number)
+                                                            <div class="separator"></div>
+                                                            @Html.LabelFor(m => m.AddNumber)
+                                                            @Html.TextBoxFor(m => m.AddNumber, new { @class = "col-md-6 form-control", placeholder = "строение, корпус и т.п." })
+                                                            @Html.ValidationMessageFor(m => m.AddNumber)
+                                                            <div class="separator"></div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.ZipCode)
+                                                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "col-md-6 form-control", placeholder = "Индекс" })
+                                                            @Html.ValidationMessageFor(m => m.ZipCode)
+                                                            <div class="separator"></div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @Html.LabelFor(m => m.IsLegalAddress)
+                                                            @Html.CheckBoxFor(m => m.IsLegalAddress, new { @class = "col-md-6 form-control"})
+                                                            @Html.ValidationMessageFor(m => m.ZipCode)
+                                                            <div class="separator"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Wizard pagination controls -->
+                                            <ul class="pagination margin-bottom-none">
+                                                <li class="primary previous first"><a href="#" class="no-ajaxify">Первый</a></li>
+                                                <li class="primary previous"><a href="#" class="no-ajaxify">Предыдущий</a></li>
+                                                <li class="last primary"><a href="#" class="no-ajaxify">Последний</a></li>
+                                                <li class="next primary"><a href="#" class="no-ajaxify">Следующий</a></li>
+                                                <li class="next finish primary" style="display:none;"><a href="#" onclick="$('#signup_form').submit()" class="no-ajaxify">Закончить</a></li>
+                                            </ul>
+                                            <!-- // Wizard pagination controls END -->
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>

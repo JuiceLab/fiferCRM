@@ -1,0 +1,66 @@
+﻿@model ActivityServiceItem
+@{
+    var services = ViewBag.Services as IEnumerable<SelectListItem>;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Услуга @(Model.ActivityId != 0 ? Model.Name : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("ActivityServiceEdit", "ActivityService", new { Area = "Finances" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(m => m.ActivityId)
+                if (services != null)
+                {
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ActivityName, new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(m => m.ParentId, services, new { @class = "form-control", placeholder = "Наименование должности" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                }
+                else
+                {
+                        @Html.HiddenFor(m => m.Name)
+                        @Html.HiddenFor(m => m.ParentId)
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ActivityName, new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.ActivityName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                }
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Tax, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Tax, new { @class = "form-control", type = "number", onlydigits = "onlydigits" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Cost, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Cost, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">@(Model.ActivityId != 0 ? "Обновить" : "Добавить")</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

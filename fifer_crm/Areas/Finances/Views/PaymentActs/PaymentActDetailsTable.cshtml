@@ -1,0 +1,45 @@
+﻿
+@model CompletionActEditModel
+@{
+    var availablePayments = ViewBag.Payments as IEnumerable<PaymentViewModel>;
+    //string.Format("{0} от {1} на {2} {3}", m.number, m.created.ToShortDateString(), (PaymentStatus)m.status, m.total.ToString("C"), m.comment)
+}
+@Html.HiddenFor(m=>m.StrPayments)
+<table id="paymentDetails-table" class="table table-bordered table-primary table-striped table-vertical-center">
+    <thead>
+        <tr>
+            <th style="width: 50px;">Номер</th>
+            <th>Компания</th>
+            <th style="width: 80px;">Статус</th>
+            <th style="width: 80px;">Итого</th>
+            <th style="width: 80px;">Дата оплаты</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Cart item -->
+        @for (int i = 0; i < Model.Payments.Count; i++ )
+        {
+            var item = availablePayments.FirstOrDefault(m=>m.PaymentId == Model.Payments[i]);
+            <tr>
+                <td class="center">@item.Number</td>
+                <td>
+                    @item.Title
+                </td>
+                <td class="center">@item.Status</td>
+                <td>
+                    @item.TotalSubmitted.ToString("C")
+                </td><td class="center">@item.PayBefore.ToShortDateString()</td>
+            </tr>
+        }
+        @if (availablePayments != null)
+        {
+            <tr>
+                <td colspan="6">@Html.DropDownList("payment4Act", new SelectList(availablePayments.Where(m => !Model.Payments.Contains(m.PaymentId)), "PaymentId", "Number")) &nbsp; <span class="btn btn-info" onclick="addPaymentTableItem();"><i class="fa fa-plus"></i>&nbsp;Добавить счет</span></td>
+            </tr>
+        <!-- // Cart item END -->
+        }
+    </tbody>
+</table>
+
+<div class="separator bottom hidden-print"></div>
+

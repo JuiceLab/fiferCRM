@@ -1,0 +1,39 @@
+﻿@model PaymentEditModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Расход @(Model.PaymentId != 0 ? Model.Number : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="row row-app">
+        <div class="col-md-12">
+            <div class="col-separator box col-separator-first col-unscrollable">
+                <div class="col-table">
+                    <h4 class="innerAll margin-none border-bottom">Данные по расходу</h4>
+                    <div class="col-table-row">
+                        <div class="col-app col-unscrollable">
+                            <div class="col-app">
+                                <div id="pdfTarget">
+                                    <div class="innerAll shop-client-products cart invoice">
+                                        @using (Html.BeginForm("ExpenseEdit", "Payment", new { Area = "Finances" }, FormMethod.Post, new { role = "form", id = "paymentForm" }))
+                                        {
+                                            @Html.HiddenFor(m => m.PaymentId)
+                                            @Html.HiddenFor(m => m.OwnerId)
+                                            <div id="payment-details-div">
+                                                @Html.Partial("PaymentDetailsTable", Model)
+                                            </div>
+                                      
+                                        }
+                                        <!-- // Row END -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model IContactPage
+@{
+    Layout = "~/Areas/PasteBoard/Views/Shared/" + Model.LayoutName;
+}
+
+@section MetaTags
+{
+   @Html.Partial("Metatags", Model)
+}
+
+<div class="wrap">
+    @Html.Partial("SiteHeader", Model)
+</div>
+<div id="container">
+    <table class="main" cellspacing="0" cellpadding="0" border="0">
+        <tr><td class="topfoto"></td></tr>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                        <td class="l_column" valign="top">
+                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
+
+                                <tr >
+                                    <td class="l_column" valign="top">
+                                        @Html.Partial("ContactForm", new SiteModel.FeedbackModel())
+                                    </td>
+                                </tr>
+                                <tr><td class="zero"><div class="zero_img"></div></td></tr>
+                               
+                            </table>
+                            @Html.Partial("EditorPanel", Model)
+
+
+                        </td>
+                        <!-- Девая панель Конец-->
+                        <!-- Контент страницы -->
+                        <td valign="top">
+                            <h1>@Model.H1</h1>
+                            <div style="padding: 10px 30px 30px 0px;">
+                                @Html.HiddenFor(m => m.Latitude)
+                                @Html.HiddenFor(m => m.Longitude)
+                                @Html.Hidden("Address")
+                                <div class="main_text">
+                                    Адрес: @Model.Footer.Address.<br>
+                                    Телефон: @Model.Header.Phone<br>
+                                    <div id="google-map" class="map_canvas" style="height: 350px; "></div>
+                                </div>
+                            </div>
+                            @if (Model.IsSocialRepostItems)
+                            {
+                                <div class="yashare-auto-init" style="text-align:right;margin-top:15px;" data-yasharel10n="ru"
+                                     data-yasharetype="none" data-yasharequickservices="vkontakte,facebook,twitter,odnoklassniki,gplus"></div>
+                            }
+                        </td>
+                        <!-- Контент страницы конец-->
+                        <td valign="top">
+                            <img src="~/assets/pasteboard/css/spacer00.gif" width="1px" height="350px">
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+   
+    @Html.Partial("SiteFooter", Model)
+    </table>
+</div>

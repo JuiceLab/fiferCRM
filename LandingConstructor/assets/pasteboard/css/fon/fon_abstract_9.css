@@ -1,0 +1,15 @@
+/* Общий стиль фона */
+body
+{
+	font-size: 80%;
+	background:#F7F7F7 url(fon_abstract_9.jpg) fixed no-repeat top center; /* Фоновое изображение stroy_8.jpg*/
+	text-align: center; /*Для выравнивания по центру блоков в IE*/
+	padding:0px;margin:0px;
+}
+
+.main td
+{
+	background-color: #ffffff;
+	opacity:0.95; /* ЗАДАЕМ УРОВЕНЬ ПРОЗРАЧНОСТИ ФОНА КОНТЕНТА */
+}
+

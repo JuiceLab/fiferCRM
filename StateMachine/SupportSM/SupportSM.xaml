@@ -1,0 +1,1261 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="StateMachine.SupportSM.SupportSM"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:e="clr-namespace:EnumHelper;assembly=EnumHelper"
+ xmlns:ic="clr-namespace:Interfaces.CRM;assembly=Interfaces"
+ xmlns:is="clr-namespace:Interfaces.Support;assembly=Interfaces"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:wc="clr-namespace:WFActivities.Common;assembly=WFAcivities"
+ xmlns:wt="clr-namespace:WFActivities.Ticket;assembly=WFAcivities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="Ticket" Type="InArgument(is:ITicket)" />
+    <x:Property Name="Result" Type="OutArgument(x:Object)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>StateMachine.SupportSM.SupportSM_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>Interfaces.Support</x:String>
+      <x:String>ExtensionHelpers</x:String>
+      <x:String>EnumHelper</x:String>
+      <x:String>Interfaces.CRM</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>EntityFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Activities.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>EntityRepository</AssemblyReference>
+      <AssemblyReference>EnumHelper</AssemblyReference>
+      <AssemblyReference>ExtensionHelpers</AssemblyReference>
+      <AssemblyReference>Interfaces</AssemblyReference>
+      <AssemblyReference>Settings</AssemblyReference>
+      <AssemblyReference>SupportContext</AssemblyReference>
+      <AssemblyReference>TicketModel</AssemblyReference>
+      <AssemblyReference>WFAcivities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>StateMachine</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <StateMachine DisplayName="Тикеты" sap2010:WorkflowViewState.IdRef="StateMachine_1">
+    <StateMachine.InitialState>
+      <State x:Name="__ReferenceID0" DisplayName="Новый запрос" sap2010:WorkflowViewState.IdRef="State_4">
+        <State.Entry>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+            <If sap2010:WorkflowViewState.IdRef="If_1">
+              <If.Condition>
+                <InArgument x:TypeArguments="x:Boolean">
+                  <mca:CSharpValue x:TypeArguments="x:Boolean">!IsAssign</mca:CSharpValue>
+                </InArgument>
+              </If.Condition>
+              <If.Then>
+                <wt:CreateTicket sap2010:WorkflowViewState.IdRef="CreateTicket_1">
+                  <wt:CreateTicket.NoveltyTicket>
+                    <InArgument x:TypeArguments="is:ITicket">
+                      <mca:CSharpValue x:TypeArguments="is:ITicket">Ticket</mca:CSharpValue>
+                    </InArgument>
+                  </wt:CreateTicket.NoveltyTicket>
+                </wt:CreateTicket>
+              </If.Then>
+            </If>
+          </Sequence>
+        </State.Entry>
+        <State.Transitions>
+          <Transition DisplayName="назначить другого исполнителя" sap2010:WorkflowViewState.IdRef="Transition_9">
+            <Transition.Trigger>
+              <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_3">
+                <wc:WaitForCommand.Command>
+                  <InArgument x:TypeArguments="e:WFCommand">
+                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Assigned</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForCommand.Command>
+                <wc:WaitForCommand.Result>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                  </OutArgument>
+                </wc:WaitForCommand.Result>
+              </wc:WaitForCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID0</x:Reference>
+            </Transition.To>
+            <Transition.Action>
+              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">
+                      <mca:CSharpReference x:TypeArguments="x:Boolean">IsAssign</mca:CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_3">
+                  <wt:UpdateTicket.AcctualTicketState>
+                    <InArgument x:TypeArguments="is:ITicket">
+                      <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                    </InArgument>
+                  </wt:UpdateTicket.AcctualTicketState>
+                </wt:UpdateTicket>
+                <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_3">
+                  <wc:ChangeStatus.QueryItem>
+                    <InArgument x:TypeArguments="ic:IStatus">
+                      <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                    </InArgument>
+                  </wc:ChangeStatus.QueryItem>
+                  <wc:ChangeStatus.Status>
+                    <InArgument x:TypeArguments="e:WFStatus">
+                      <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Assigned</mca:CSharpValue>
+                    </InArgument>
+                  </wc:ChangeStatus.Status>
+                </wc:ChangeStatus>
+              </Sequence>
+            </Transition.Action>
+          </Transition>
+          <Transition DisplayName="запрос принят в работу" sap2010:WorkflowViewState.IdRef="Transition_3">
+            <Transition.Trigger>
+              <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_4">
+                <wc:WaitForCommand.Command>
+                  <InArgument x:TypeArguments="e:WFCommand">
+                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Views</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForCommand.Command>
+                <wc:WaitForCommand.Result>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                  </OutArgument>
+                </wc:WaitForCommand.Result>
+              </wc:WaitForCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <State x:Name="__ReferenceID1" DisplayName="Обработка" sap2010:WorkflowViewState.IdRef="State_3">
+                <State.Entry>
+                  <wc:SetPreview sap2010:WorkflowViewState.IdRef="SetPreview_1" PreviewVal="True">
+                    <wc:SetPreview.QueryItem>
+                      <InArgument x:TypeArguments="ic:IStatus">
+                        <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                      </InArgument>
+                    </wc:SetPreview.QueryItem>
+                  </wc:SetPreview>
+                </State.Entry>
+                <State.Transitions>
+                  <Transition DisplayName="выполнен" sap2010:WorkflowViewState.IdRef="Transition_7">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_1">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Submit</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID3" DisplayName="Выполнен" sap2010:WorkflowViewState.IdRef="State_5" IsFinal="True">
+                        <State.Entry>
+                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+                            <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_1">
+                              <wt:UpdateTicket.AcctualTicketState>
+                                <InArgument x:TypeArguments="is:ITicket">
+                                  <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                                </InArgument>
+                              </wt:UpdateTicket.AcctualTicketState>
+                            </wt:UpdateTicket>
+                            <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_1">
+                              <wc:ChangeStatus.QueryItem>
+                                <InArgument x:TypeArguments="ic:IStatus">
+                                  <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                </InArgument>
+                              </wc:ChangeStatus.QueryItem>
+                              <wc:ChangeStatus.Status>
+                                <InArgument x:TypeArguments="e:WFStatus">
+                                  <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Completed</mca:CSharpValue>
+                                </InArgument>
+                              </wc:ChangeStatus.Status>
+                            </wc:ChangeStatus>
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">
+                                  <mca:CSharpReference x:TypeArguments="x:Object">Result</mca:CSharpReference>
+                                </OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">
+                                  <mca:CSharpValue x:TypeArguments="x:Object">((ITicket)AcctualTicket).MasterId</mca:CSharpValue>
+                                </InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </State.Entry>
+                      </State>
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="обработан" sap2010:WorkflowViewState.IdRef="Transition_15">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_5">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Complete</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID4" DisplayName="Ожидает просмотра" sap2010:WorkflowViewState.IdRef="State_8">
+                        <State.Entry>
+                          <wc:SetPreview sap2010:WorkflowViewState.IdRef="SetPreview_2" PreviewVal="False">
+                            <wc:SetPreview.QueryItem>
+                              <InArgument x:TypeArguments="ic:IStatus">
+                                <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                              </InArgument>
+                            </wc:SetPreview.QueryItem>
+                          </wc:SetPreview>
+                        </State.Entry>
+                        <State.Transitions>
+                          <Transition DisplayName="просмотрено" sap2010:WorkflowViewState.IdRef="Transition_10">
+                            <Transition.Trigger>
+                              <wc:WaitForCommand TicketId="{x:Null}" x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="WaitForCommand_6">
+                                <wc:WaitForCommand.Command>
+                                  <InArgument x:TypeArguments="e:WFCommand">
+                                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Views</mca:CSharpValue>
+                                  </InArgument>
+                                </wc:WaitForCommand.Command>
+                                <wc:WaitForCommand.Result>
+                                  <OutArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                  </OutArgument>
+                                </wc:WaitForCommand.Result>
+                              </wc:WaitForCommand>
+                            </Transition.Trigger>
+                            <Transition.To>
+                              <x:Reference>__ReferenceID1</x:Reference>
+                            </Transition.To>
+                            <Transition.Condition>
+                              <mca:CSharpValue x:TypeArguments="x:Boolean">StatePreviewRedirect == 1</mca:CSharpValue>
+                            </Transition.Condition>
+                          </Transition>
+                          <Transition Trigger="{x:Reference __ReferenceID2}" DisplayName="просмотрено" sap2010:WorkflowViewState.IdRef="Transition_14">
+                            <Transition.Condition>
+                              <mca:CSharpValue x:TypeArguments="x:Boolean">StatePreviewRedirect == 0</mca:CSharpValue>
+                            </Transition.Condition>
+                            <Transition.To>
+                              <State x:Name="__ReferenceID5" DisplayName="Подтверждение выполнения" sap2010:WorkflowViewState.IdRef="State_6">
+                                <State.Entry>
+                                  <wc:SetPreview sap2010:WorkflowViewState.IdRef="SetPreview_3" PreviewVal="True">
+                                    <wc:SetPreview.QueryItem>
+                                      <InArgument x:TypeArguments="ic:IStatus">
+                                        <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                      </InArgument>
+                                    </wc:SetPreview.QueryItem>
+                                  </wc:SetPreview>
+                                </State.Entry>
+                                <State.Transitions>
+                                  <Transition DisplayName="выполнен" sap2010:WorkflowViewState.IdRef="Transition_4">
+                                    <Transition.Trigger>
+                                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_7">
+                                        <wc:WaitForCommand.Command>
+                                          <InArgument x:TypeArguments="e:WFCommand">
+                                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Submit</mca:CSharpValue>
+                                          </InArgument>
+                                        </wc:WaitForCommand.Command>
+                                        <wc:WaitForCommand.Result>
+                                          <OutArgument x:TypeArguments="x:Object">
+                                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                          </OutArgument>
+                                        </wc:WaitForCommand.Result>
+                                      </wc:WaitForCommand>
+                                    </Transition.Trigger>
+                                    <Transition.To>
+                                      <x:Reference>__ReferenceID3</x:Reference>
+                                    </Transition.To>
+                                  </Transition>
+                                  <Transition DisplayName="назначен исполнитель" sap2010:WorkflowViewState.IdRef="Transition_11">
+                                    <Transition.Trigger>
+                                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_8">
+                                        <wc:WaitForCommand.Command>
+                                          <InArgument x:TypeArguments="e:WFCommand">
+                                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Assigned</mca:CSharpValue>
+                                          </InArgument>
+                                        </wc:WaitForCommand.Command>
+                                        <wc:WaitForCommand.Result>
+                                          <OutArgument x:TypeArguments="x:Object">
+                                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                          </OutArgument>
+                                        </wc:WaitForCommand.Result>
+                                      </wc:WaitForCommand>
+                                    </Transition.Trigger>
+                                    <Transition.To>
+                                      <x:Reference>__ReferenceID4</x:Reference>
+                                    </Transition.To>
+                                    <Transition.Action>
+                                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Int32">
+                                              <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                                            </OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_5">
+                                          <wt:UpdateTicket.AcctualTicketState>
+                                            <InArgument x:TypeArguments="is:ITicket">
+                                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wt:UpdateTicket.AcctualTicketState>
+                                        </wt:UpdateTicket>
+                                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_4">
+                                          <wc:ChangeStatus.QueryItem>
+                                            <InArgument x:TypeArguments="ic:IStatus">
+                                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.QueryItem>
+                                          <wc:ChangeStatus.Status>
+                                            <InArgument x:TypeArguments="e:WFStatus">
+                                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Assigned</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.Status>
+                                        </wc:ChangeStatus>
+                                      </Sequence>
+                                    </Transition.Action>
+                                  </Transition>
+                                  <Transition DisplayName="комментарий" sap2010:WorkflowViewState.IdRef="Transition_12">
+                                    <Transition.Trigger>
+                                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_9">
+                                        <wc:WaitForCommand.Command>
+                                          <InArgument x:TypeArguments="e:WFCommand">
+                                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Comment</mca:CSharpValue>
+                                          </InArgument>
+                                        </wc:WaitForCommand.Command>
+                                        <wc:WaitForCommand.Result>
+                                          <OutArgument x:TypeArguments="x:Object">
+                                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                          </OutArgument>
+                                        </wc:WaitForCommand.Result>
+                                      </wc:WaitForCommand>
+                                    </Transition.Trigger>
+                                    <Transition.To>
+                                      <x:Reference>__ReferenceID5</x:Reference>
+                                    </Transition.To>
+                                    <Transition.Action>
+                                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_6">
+                                          <wt:UpdateTicket.AcctualTicketState>
+                                            <InArgument x:TypeArguments="is:ITicket">
+                                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wt:UpdateTicket.AcctualTicketState>
+                                        </wt:UpdateTicket>
+                                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_5">
+                                          <wc:ChangeStatus.QueryItem>
+                                            <InArgument x:TypeArguments="ic:IStatus">
+                                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.QueryItem>
+                                          <wc:ChangeStatus.Status>
+                                            <InArgument x:TypeArguments="e:WFStatus">
+                                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Commented</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.Status>
+                                        </wc:ChangeStatus>
+                                      </Sequence>
+                                    </Transition.Action>
+                                  </Transition>
+                                  <Transition DisplayName="не выполнен" sap2010:WorkflowViewState.IdRef="Transition_13">
+                                    <Transition.Trigger>
+                                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_10">
+                                        <wc:WaitForCommand.Command>
+                                          <InArgument x:TypeArguments="e:WFCommand">
+                                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Reject</mca:CSharpValue>
+                                          </InArgument>
+                                        </wc:WaitForCommand.Command>
+                                        <wc:WaitForCommand.Result>
+                                          <OutArgument x:TypeArguments="x:Object">
+                                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                          </OutArgument>
+                                        </wc:WaitForCommand.Result>
+                                      </wc:WaitForCommand>
+                                    </Transition.Trigger>
+                                    <Transition.To>
+                                      <x:Reference>__ReferenceID4</x:Reference>
+                                    </Transition.To>
+                                    <Transition.Action>
+                                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                                        <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Int32">
+                                              <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                                            </OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Int32">1</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_7">
+                                          <wt:UpdateTicket.AcctualTicketState>
+                                            <InArgument x:TypeArguments="is:ITicket">
+                                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wt:UpdateTicket.AcctualTicketState>
+                                        </wt:UpdateTicket>
+                                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_6">
+                                          <wc:ChangeStatus.QueryItem>
+                                            <InArgument x:TypeArguments="ic:IStatus">
+                                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.QueryItem>
+                                          <wc:ChangeStatus.Status>
+                                            <InArgument x:TypeArguments="e:WFStatus">
+                                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.NonConfirm</mca:CSharpValue>
+                                            </InArgument>
+                                          </wc:ChangeStatus.Status>
+                                        </wc:ChangeStatus>
+                                      </Sequence>
+                                    </Transition.Action>
+                                  </Transition>
+                                  <Transition DisplayName="просмотрен">
+                                    <Transition.Trigger>
+                                      <wc:WaitForCommand TicketId="{x:Null}">
+                                        <wc:WaitForCommand.Command>
+                                          <InArgument x:TypeArguments="e:WFCommand">
+                                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Views</mca:CSharpValue>
+                                          </InArgument>
+                                        </wc:WaitForCommand.Command>
+                                        <wc:WaitForCommand.Result>
+                                          <OutArgument x:TypeArguments="x:Object">
+                                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                          </OutArgument>
+                                        </wc:WaitForCommand.Result>
+                                        <sap2010:WorkflowViewState.IdRef>WaitForCommand_16</sap2010:WorkflowViewState.IdRef>
+                                      </wc:WaitForCommand>
+                                    </Transition.Trigger>
+                                    <Transition.To>
+                                      <x:Reference>__ReferenceID5</x:Reference>
+                                    </Transition.To>
+                                    <sap2010:WorkflowViewState.IdRef>Transition_20</sap2010:WorkflowViewState.IdRef>
+                                  </Transition>
+                                </State.Transitions>
+                              </State>
+                            </Transition.To>
+                          </Transition>
+                        </State.Transitions>
+                      </State>
+                    </Transition.To>
+                    <Transition.Action>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">
+                              <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                            </OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_8">
+                          <wt:UpdateTicket.AcctualTicketState>
+                            <InArgument x:TypeArguments="is:ITicket">
+                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wt:UpdateTicket.AcctualTicketState>
+                        </wt:UpdateTicket>
+                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_7">
+                          <wc:ChangeStatus.QueryItem>
+                            <InArgument x:TypeArguments="ic:IStatus">
+                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.QueryItem>
+                          <wc:ChangeStatus.Status>
+                            <InArgument x:TypeArguments="e:WFStatus">
+                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.WaitConfirm</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.Status>
+                        </wc:ChangeStatus>
+                      </Sequence>
+                    </Transition.Action>
+                  </Transition>
+                  <Transition DisplayName="запланирована задача" sap2010:WorkflowViewState.IdRef="Transition_2">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_11">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Transfer</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID6" DisplayName="Длительная обработка" sap2010:WorkflowViewState.IdRef="State_2">
+                        <State.Transitions>
+                          <Transition DisplayName="выполнено" sap2010:WorkflowViewState.IdRef="Transition_16">
+                            <Transition.Trigger>
+                              <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_12">
+                                <wc:WaitForCommand.Command>
+                                  <InArgument x:TypeArguments="e:WFCommand">
+                                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Submit</mca:CSharpValue>
+                                  </InArgument>
+                                </wc:WaitForCommand.Command>
+                                <wc:WaitForCommand.Result>
+                                  <OutArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                  </OutArgument>
+                                </wc:WaitForCommand.Result>
+                              </wc:WaitForCommand>
+                            </Transition.Trigger>
+                            <Transition.To>
+                              <x:Reference>__ReferenceID4</x:Reference>
+                            </Transition.To>
+                            <Transition.Action>
+                              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_9">
+                                <Assign sap2010:WorkflowViewState.IdRef="Assign_6">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Int32">
+                                      <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                                    </OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                                <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_9">
+                                  <wt:UpdateTicket.AcctualTicketState>
+                                    <InArgument x:TypeArguments="is:ITicket">
+                                      <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                                    </InArgument>
+                                  </wt:UpdateTicket.AcctualTicketState>
+                                </wt:UpdateTicket>
+                                <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_8">
+                                  <wc:ChangeStatus.QueryItem>
+                                    <InArgument x:TypeArguments="ic:IStatus">
+                                      <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                                    </InArgument>
+                                  </wc:ChangeStatus.QueryItem>
+                                  <wc:ChangeStatus.Status>
+                                    <InArgument x:TypeArguments="e:WFStatus">
+                                      <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.WaitConfirm</mca:CSharpValue>
+                                    </InArgument>
+                                  </wc:ChangeStatus.Status>
+                                </wc:ChangeStatus>
+                              </Sequence>
+                            </Transition.Action>
+                          </Transition>
+                          <Transition DisplayName="просмотрен">
+                            <Transition.Trigger>
+                              <wc:WaitForCommand TicketId="{x:Null}">
+                                <wc:WaitForCommand.Command>
+                                  <InArgument x:TypeArguments="e:WFCommand">
+                                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Views</mca:CSharpValue>
+                                  </InArgument>
+                                </wc:WaitForCommand.Command>
+                                <wc:WaitForCommand.Result>
+                                  <OutArgument x:TypeArguments="x:Object">
+                                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                                  </OutArgument>
+                                </wc:WaitForCommand.Result>
+                                <sap2010:WorkflowViewState.IdRef>WaitForCommand_17</sap2010:WorkflowViewState.IdRef>
+                              </wc:WaitForCommand>
+                            </Transition.Trigger>
+                            <Transition.To>
+                              <x:Reference>__ReferenceID6</x:Reference>
+                            </Transition.To>
+                            <sap2010:WorkflowViewState.IdRef>Transition_21</sap2010:WorkflowViewState.IdRef>
+                          </Transition>
+                        </State.Transitions>
+                      </State>
+                    </Transition.To>
+                    <Transition.Action>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_10">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_7">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">
+                              <mca:CSharpReference x:TypeArguments="x:Boolean">IsLongProcessing</mca:CSharpReference>
+                            </OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_10">
+                          <wt:UpdateTicket.AcctualTicketState>
+                            <InArgument x:TypeArguments="is:ITicket">
+                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wt:UpdateTicket.AcctualTicketState>
+                        </wt:UpdateTicket>
+                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_9">
+                          <wc:ChangeStatus.QueryItem>
+                            <InArgument x:TypeArguments="ic:IStatus">
+                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.QueryItem>
+                          <wc:ChangeStatus.Status>
+                            <InArgument x:TypeArguments="e:WFStatus">
+                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Scheduling</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.Status>
+                        </wc:ChangeStatus>
+                      </Sequence>
+                    </Transition.Action>
+                  </Transition>
+                  <Transition DisplayName="комментарий" sap2010:WorkflowViewState.IdRef="Transition_8">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_2">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Comment</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID1</x:Reference>
+                    </Transition.To>
+                    <Transition.Action>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_2">
+                          <wt:UpdateTicket.AcctualTicketState>
+                            <InArgument x:TypeArguments="is:ITicket">
+                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wt:UpdateTicket.AcctualTicketState>
+                        </wt:UpdateTicket>
+                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_2">
+                          <wc:ChangeStatus.QueryItem>
+                            <InArgument x:TypeArguments="ic:IStatus">
+                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.QueryItem>
+                          <wc:ChangeStatus.Status>
+                            <InArgument x:TypeArguments="e:WFStatus">
+                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Commented</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.Status>
+                        </wc:ChangeStatus>
+                      </Sequence>
+                    </Transition.Action>
+                  </Transition>
+                  <Transition DisplayName="запрос доп.информации" sap2010:WorkflowViewState.IdRef="Transition_17">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_13">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Cancel</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID4</x:Reference>
+                    </Transition.To>
+                    <Transition.Action>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_11">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_8">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">
+                              <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                            </OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_11">
+                          <wt:UpdateTicket.AcctualTicketState>
+                            <InArgument x:TypeArguments="is:ITicket">
+                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wt:UpdateTicket.AcctualTicketState>
+                        </wt:UpdateTicket>
+                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_10">
+                          <wc:ChangeStatus.QueryItem>
+                            <InArgument x:TypeArguments="ic:IStatus">
+                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.QueryItem>
+                          <wc:ChangeStatus.Status>
+                            <InArgument x:TypeArguments="e:WFStatus">
+                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Cancellation</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.Status>
+                        </wc:ChangeStatus>
+                      </Sequence>
+                    </Transition.Action>
+                  </Transition>
+                  <Transition DisplayName="назначен исполнитель" sap2010:WorkflowViewState.IdRef="Transition_18">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_14">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Assigned</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID4</x:Reference>
+                    </Transition.To>
+                    <Transition.Action>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_12">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_9">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">
+                              <mca:CSharpReference x:TypeArguments="x:Int32">StatePreviewRedirect</mca:CSharpReference>
+                            </OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_12">
+                          <wt:UpdateTicket.AcctualTicketState>
+                            <InArgument x:TypeArguments="is:ITicket">
+                              <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wt:UpdateTicket.AcctualTicketState>
+                        </wt:UpdateTicket>
+                        <wc:ChangeStatus CustomStatus="{x:Null}" sap2010:WorkflowViewState.IdRef="ChangeStatus_11">
+                          <wc:ChangeStatus.QueryItem>
+                            <InArgument x:TypeArguments="ic:IStatus">
+                              <mca:CSharpValue x:TypeArguments="ic:IStatus">(IStatus)AcctualTicket</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.QueryItem>
+                          <wc:ChangeStatus.Status>
+                            <InArgument x:TypeArguments="e:WFStatus">
+                              <mca:CSharpValue x:TypeArguments="e:WFStatus">WFStatus.Assigned</mca:CSharpValue>
+                            </InArgument>
+                          </wc:ChangeStatus.Status>
+                        </wc:ChangeStatus>
+                      </Sequence>
+                    </Transition.Action>
+                  </Transition>
+                  <Transition DisplayName="просмотрен">
+                    <Transition.Trigger>
+                      <wc:WaitForCommand TicketId="{x:Null}">
+                        <wc:WaitForCommand.Command>
+                          <InArgument x:TypeArguments="e:WFCommand">
+                            <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Views</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForCommand.Command>
+                        <wc:WaitForCommand.Result>
+                          <OutArgument x:TypeArguments="x:Object">
+                            <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                          </OutArgument>
+                        </wc:WaitForCommand.Result>
+                        <sap2010:WorkflowViewState.IdRef>WaitForCommand_18</sap2010:WorkflowViewState.IdRef>
+                      </wc:WaitForCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID1</x:Reference>
+                    </Transition.To>
+                    <sap2010:WorkflowViewState.IdRef>Transition_22</sap2010:WorkflowViewState.IdRef>
+                  </Transition>
+                </State.Transitions>
+              </State>
+            </Transition.To>
+            <Transition.Action>
+              <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_4">
+                <wt:UpdateTicket.AcctualTicketState>
+                  <InArgument x:TypeArguments="is:ITicket">
+                    <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                  </InArgument>
+                </wt:UpdateTicket.AcctualTicketState>
+              </wt:UpdateTicket>
+            </Transition.Action>
+          </Transition>
+          <Transition DisplayName="комментарий" sap2010:WorkflowViewState.IdRef="Transition_19">
+            <Transition.Trigger>
+              <wc:WaitForCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForCommand_15">
+                <wc:WaitForCommand.Command>
+                  <InArgument x:TypeArguments="e:WFCommand">
+                    <mca:CSharpValue x:TypeArguments="e:WFCommand">WFCommand.Comment</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForCommand.Command>
+                <wc:WaitForCommand.Result>
+                  <OutArgument x:TypeArguments="x:Object">
+                    <mca:CSharpReference x:TypeArguments="x:Object">AcctualTicket</mca:CSharpReference>
+                  </OutArgument>
+                </wc:WaitForCommand.Result>
+              </wc:WaitForCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID0</x:Reference>
+            </Transition.To>
+            <Transition.Action>
+              <wt:UpdateTicket sap2010:WorkflowViewState.IdRef="UpdateTicket_13">
+                <wt:UpdateTicket.AcctualTicketState>
+                  <InArgument x:TypeArguments="is:ITicket">
+                    <mca:CSharpValue x:TypeArguments="is:ITicket">(ITicket)AcctualTicket</mca:CSharpValue>
+                  </InArgument>
+                </wt:UpdateTicket.AcctualTicketState>
+              </wt:UpdateTicket>
+            </Transition.Action>
+          </Transition>
+        </State.Transitions>
+        <State.Variables>
+          <Variable x:TypeArguments="x:Boolean" Default="False" Name="IsAssign" />
+        </State.Variables>
+      </State>
+    </StateMachine.InitialState>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <StateMachine.Variables>
+      <Variable x:TypeArguments="x:Object" Name="AcctualTicket" />
+      <Variable x:TypeArguments="x:Int32" Name="StatePreviewRedirect" />
+      <Variable x:TypeArguments="x:Boolean" Name="IsLongProcessing" />
+    </StateMachine.Variables>
+    <sads:DebugSymbol.Symbol>d0JEOlxmaWZlcl9jcm1cZmlmZXJfZ3JvdXBfY3JtXFN0YXRlTWFjaGluZVxTdXBwb3J0U01cU3VwcG9ydFNNLnhhbWyvAUED5QYSAgEBnQEPqwYXAwGOA0MH1wYPAwGcApMEF98EHwMB4wHvARffAx8DAcABlQIf2wMnAgEmuAEX3AEfAgECnwETpQEjAwH0BKoBF7UBKwMB5wThARfsASsDAdoE4gMXgAQiAwG9BIUEF5AEKwMBsATiBBeABSIDAZMEhQUXkAUrAwGGBJYFF6oFIgMB8QOvBRe6BSsDAeQDwAUX3gUiAwHHA+MFF+4FKwMBugP0BReSBiIDAZ0DlwYXowYrAwGQA9UGOdUGQAMBnQJFC1YWAwH9AlsPZiMDAe4CbA+KARoDAc0CjwEPmgEjAwG+Aq4GD7QGIQMBtgK5Bg/EBiMDAacCygYP0AYhAwGfApcEH6IEMwMBjwKoBB/GBCoDAfIBywQf1wQzAwHlAfEBG/cBKwMB2wH8AR+HAjMDAc4BjQIfjQJ3AwHIAZICH5ICdwMBwgGXAiOdAjMDAbgBogInrQI7AwGrAbUCJ8ACOwMBngHGAifkAjIDAYEB6QIn9AI7AgF0+gInjgMyAgFfkwMnngM7AgFSpAMnwgMyAgE1xwMn0wM7AgEougEb2gEmAgEEogEZogFvAwH2BJ8BXJ8BYgMB9QSyAR2yAXADAe4ErQEdrQFuAwHoBOkBHekBcAMB4QTkAR3kAXADAdsE4wMZ7AMiAwHSBO0DGfMDKwMBywT0Axn/AysDAb4EjQQdjQRwAwG3BIgEHYgEcAMBsQTjBBnsBCIDAagE7QQZ8wQrAwGhBPQEGf8EKwMBlASNBR2NBXADAY0EiAUdiAVvAwGHBJcFGZ0FKwMB/wOeBRmpBSsDAfIDtwUdtwVwAwHrA7IFHbIFbgMB5QPBBRnKBSIDAdwDywUZ0QUrAwHVA9IFGd0FKwMByAPrBR3rBXADAcED5gUd5gVwAwG7A/UFGf4FIgMBsgP/BRmFBisDAasDhgYZkQYrAwGeA58GHZ8GcAMBlwOaBh2aBm0DAZEDRg1VEgMB/gJjFWNoAwH2Al4VXmgDAe8CbRF2GgMB5QJ3EX0jAwHdAn4RiQEjAwHOApcBFZcBaAMBxgKSARWSAWUDAb8CsQYVsQZrAwG3AsEGFcEGaAMBrwK8BhW8BmcDAagCzQYVzQZrAwGgAp8EJZ8EeAMBlgKaBCWaBHYDAZACqQQhsgQqAwGHArMEIbkEMwMBgAK6BCHFBDMDAfMB0wQl0wR4AwHsAc4EJc4EdQMB5gH0ASH0AXcDAd0B8QFk8QFrAwHcAYQCJYQCeAMB1QH/ASX/AXUDAc8BmgIpmgJ/AwG6AZcCbJcCcgMBuQGqAi2qAoABAwGyAaUCLaUCfgMBrAG9Ai29AoABAwGlAbgCLbgCgAEDAZ8BxwIp0AIyAwGWAdECKdcCOwMBjwHYAinjAjsDAYIB8QIt8QKAAQIBe+wCLewCfwIBdfsCKYEDOwIBbYIDKY0DOwIBYJsDLZsDgAECAVmWAy2WA34CAVOlAymuAzICAUqvAym1AzsCAUO2AynBAzsCATbPAy3PA4ABAgEvygMtygN9AgEpuwEdwQEvAgEfwgEdzQEvAgESzgEd2QEmAgEF6gND6gNEAwHZBOYDH+YDeAMB0wTwAx/wA3UDAcwE9wMf9wN1AwHFBPwDH/wDcwMBvwTqBEXqBEkDAa8E5gQf5gR2AwGpBPAEH/AEdQMBogT3BB/3BHUDAZsE/AQf/ARyAwGVBJoFH5oFdQMBgAShBR+hBXUDAfkDpgUfpgVxAwHzA8gFQ8gFRAMB4wPEBR/EBXgDAd0DzgUfzgV1AwHWA9UFH9UFdQMBzwPaBR/aBXQDAckD/AVD/AVEAwG5A/gFH/gFeAMBswOCBh+CBnUDAawDiQYfiQZ1AwGlA44GH44GcAMBnwNJE0lbAwH/Ak0RUyMDAYYDdD10QQMB7QJwF3BmAwHmAnoXem0DAd4CgQEXgQFtAwHWAoYBF4YBaAMBzwKwBEuwBEwDAY4CrAQnrASAAQMBiAK2BCe2BH0DAYECvQQnvQR9AwH6AcIEJ8IEewMB9AHOAlPOAlQDAZ0BygIvygKIAQMBlwHUAi/UAoUBAwGQAdsCL9sChQEDAYkB4AIv4AKAAQMBgwH+Ai/+AoUBAgFuhQMvhQOFAQIBZ4oDL4oDgQECAWGsA1OsA1QCAVGoAy+oA4gBAgFLsgMvsgOFAQIBRLkDL7kDhQECAT2+Ay++A4IBAgE3vgEjvgF5AgEgxQEjxQF5AgEZygEjygF1AgET1gEj1gGCAQIBDNEBI9EBbwIBBlAXUF0DAYcD</sads:DebugSymbol.Symbol>
+  </StateMachine>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="CreateTicket_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="464,210" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="486,334">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_3" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_3" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_9" sap:VirtualizedContainerService.HintSize="430,714">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">157,156.1 169.9,156.1 169.9,89.5 139.9,89.5 139.9,119.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">44</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">66</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_4" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="SetPreview_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForCommand_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="UpdateTicket_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_5" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">413,49.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_7" sap:VirtualizedContainerService.HintSize="430,514">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">329,149.5 329,67.8 413,67.8</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">30</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">21</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="SetPreview_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForCommand_6" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_10" sap:VirtualizedContainerService.HintSize="430,811">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">459.7,340 459.7,184.7 428,184.7</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">30</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">28</x:Int32>
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="SetPreview_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForCommand_7" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_4" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">660,145 660,80 527,80</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">38</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">36</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_8" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_5" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_4" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_11" sap:VirtualizedContainerService.HintSize="430,714">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">650,235 650,417 581.5,417</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">35</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">40</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_9" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="UpdateTicket_6" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="222,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_12" sap:VirtualizedContainerService.HintSize="430,605">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">720,145 720,116.5 790,116.5 790,176.5 760,176.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">62</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">24</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_10" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_7" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_6" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_13" sap:VirtualizedContainerService.HintSize="430,707">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">690,235 690,445 581.5,445</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">51</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">56</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_16" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_20" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">610,145 610,121 530,121 530,181 560,181</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">18</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">29</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_6" sap:VirtualizedContainerService.HintSize="200,90">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">560,145</av:Point>
+            <av:Size x:Key="ShapeSize">200,90</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">186</x:Double>
+            <x:Double x:Key="StateContainerHeight">54.408094152261867</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_14" sap:VirtualizedContainerService.HintSize="430,800">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:PointCollection x:Key="ConnectorLocation">459.7,340 459.7,230.5 560,230.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">30</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">73</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_8" sap:VirtualizedContainerService.HintSize="203,140">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">378.5,340</av:Point>
+            <av:Size x:Key="ShapeSize">203,140</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">189</x:Double>
+            <x:Double x:Key="StateContainerHeight">103.67999999999094</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_8" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_7" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_15" sap:VirtualizedContainerService.HintSize="430,714">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">320.75,238.5 320.75,445 378.5,445</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">27</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">57</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_11" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForCommand_12" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_9" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_8" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_9" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_16" sap:VirtualizedContainerService.HintSize="430,707">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">127,459.5 127,489.5 459.7,489.5 459.7,480</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">31</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_17" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_21" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">201,394.5 216.6,394.5 216.6,329.5 156.6,329.5 156.6,359.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">24</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">54</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_2" sap:VirtualizedContainerService.HintSize="148,100">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">53,359.5</av:Point>
+            <av:Size x:Key="ShapeSize">148,100</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">133.70431244900391</x:Double>
+            <x:Double x:Key="StateContainerHeight">64.043031446786756</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_10" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_9" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_10" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_2" sap:VirtualizedContainerService.HintSize="430,714">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">263,230.5 127,230.5 127,359.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">69</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="UpdateTicket_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="222,208">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_8" sap:VirtualizedContainerService.HintSize="430,605">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">419.75,149.5 419.75,119.5 370.25,119.5 370.25,149.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">74</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">50</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_13" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_8" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_11" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_10" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_17" sap:VirtualizedContainerService.HintSize="430,707">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">296,239.5 296,466 378.5,466</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">15</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">69</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_14" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Assign_9" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="UpdateTicket_12" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="ChangeStatus_11" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Sequence_12" sap:VirtualizedContainerService.HintSize="264,310">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_18" sap:VirtualizedContainerService.HintSize="430,714">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">353.75,239.5 353.75,410 378.5,410</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">43</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">37</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_18" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_22" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">312.5,149.5 312.5,119.5 233,119.5 233,172 263,172</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">22</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">17</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_3" sap:VirtualizedContainerService.HintSize="165,90">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">263,149.5</av:Point>
+            <av:Size x:Key="ShapeSize">165,90</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">151.44700204790473</x:Double>
+            <x:Double x:Key="StateContainerHeight">54.162672147058856</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="UpdateTicket_4" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_3" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">64</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">41</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">157,171.35 187,171.35 187,198.45 263,198.45</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForCommand_15" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="UpdateTicket_13" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_19" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">94.3,180.5 94.3,210 13,210 13,150 43,150</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">35</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">37</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_4" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">43,119.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_1" sap:VirtualizedContainerService.HintSize="830,693">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">60,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">816</x:Double>
+            <x:Double x:Key="StateContainerHeight">657.408094152262</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">100,77.5 100,119.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine.SupportSM.SupportSM_1" sap:VirtualizedContainerService.HintSize="870,773" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

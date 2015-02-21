@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="76f160a8b9f94142aae777c96b56f323" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="LogModel.CRMAction" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogModel.Event" Width="1.5" PointX="7.625" PointY="14.125" />
+        <EntityTypeShape EntityType="LogModel.EventsListener" Width="1.5" PointX="7.625" PointY="10.875" />
+        <EntityTypeShape EntityType="LogModel.JournalEvent" Width="1.5" PointX="5.375" PointY="8.625" />
+        <EntityTypeShape EntityType="LogModel.JournalsListener" Width="1.5" PointX="7.625" PointY="4.375" />
+        <EntityTypeShape EntityType="LogModel.Listener" Width="1.5" PointX="5.375" PointY="4.375" />
+        <EntityTypeShape EntityType="LogModel.MailRegistration" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LogModel.Notify" Width="1.5" PointX="8.375" PointY="1.875" />
+        <EntityTypeShape EntityType="LogModel.Notify4Listener" Width="1.5" PointX="10.625" PointY="4.5" />
+        <EntityTypeShape EntityType="LogModel.NotifyHistory" Width="1.5" PointX="12.875" PointY="4.5" />
+        <AssociationConnector Association="LogModel.FK_EventItemToEventJournal" />
+        <AssociationConnector Association="LogModel.FK_EventsListener_ToListener" />
+        <AssociationConnector Association="LogModel.FK_JournalsListener_ToJournal" />
+        <AssociationConnector Association="LogModel.FK_JournalsListener_ToListener" />
+        <AssociationConnector Association="LogModel.FK_Notify4Listener_Listener" />
+        <AssociationConnector Association="LogModel.FK_Notify4Listener_Notify" />
+        <AssociationConnector Association="LogModel.FK_NotifyHistory_Notify4Listener" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

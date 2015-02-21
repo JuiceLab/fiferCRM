@@ -1,0 +1,30 @@
+﻿@model List<SiteModel.GalleryItem>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Редактор галереи</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body" style="display:table">
+    <div class="col-md-12">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-2">
+                <label><span class="btn btn-success" onclick="showImageDetails(@item.ItemId)"><i style="color:white" class="fa fa-edit"></i></span>&nbsp;<span class="btn btn-danger" onclick="deleteImage(@item.ItemId)"><i class="fa fa-trash" style="color:white"></i></span>&nbsp;@item.Title</label><img style="max-width:100px" src="@item.Path" /></div>
+        }
+        @if (Model.Count < 9)
+        {
+            <div class="col-md-2"><span class="btn btn-info" onclick="showImageDetails(0);"><i class="fa fa-plus"></i>&nbsp; Добавить изображение</span></div>
+        }
+    </div>
+    <div class="col-md-12" style="margin-top:50px">
+        @using (Html.BeginForm("ImageEdit", "Editor", new { Area = "PasteBoard" }, FormMethod.Post, new { id = "info-form", @class = "form-vertical", role = "form" }))
+        {
+            <div id="image4Edit">
+
+            </div>
+        }
+    </div>
+</div>
+

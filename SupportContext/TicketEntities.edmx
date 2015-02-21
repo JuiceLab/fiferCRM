@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TicketModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CallTicket">
+          <Key>
+            <PropertyRef Name="CallTicketId" />
+          </Key>
+          <Property Name="CallTicketId" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="24" Nullable="false" />
+          <Property Name="Assigned" Type="uniqueidentifier" />
+          <Property Name="CallTicketNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CallStatus" Type="tinyint" Nullable="false" />
+          <Property Name="DateStarted" Type="datetime" Nullable="false" />
+          <Property Name="ExpiredDate" Type="datetime" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="CallTicketsQuery">
+          <Key>
+            <PropertyRef Name="CallTicketQueryId" />
+          </Key>
+          <Property Name="CallTicketQueryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CallTicketId" Type="uniqueidentifier" />
+          <Property Name="WorkflowId" Type="uniqueidentifier" />
+          <Property Name="UserIdLock" Type="uniqueidentifier" />
+          <Property Name="IsNonePreview" Type="bit" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="TypeId" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommentBody">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GuidItem" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CommentEnclosure">
+          <Key>
+            <PropertyRef Name="EnclosureId" />
+          </Key>
+          <Property Name="EnclosureId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Url" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="C_CommentId" Type="uniqueidentifier" />
+          <Property Name="C_PossibleCommentId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QueryStatus">
+          <Key>
+            <PropertyRef Name="QueryStatusId" />
+          </Key>
+          <Property Name="QueryStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QueryItemId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="CustomStatus" Type="nvarchar" MaxLength="250" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="OwnerId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="512" />
+          <Property Name="Message" Type="nvarchar" MaxLength="1024" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Assigned" Type="uniqueidentifier" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="ExpiredDate" Type="datetime" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+          <Property Name="DateAssigned" Type="datetime" />
+          <Property Name="CategoryId" Type="int" />
+          <Property Name="MasterIdFK" Type="uniqueidentifier" />
+          <Property Name="TicketStatus" Type="tinyint" />
+          <Property Name="Priory" Type="tinyint" />
+          <Property Name="DateStarted" Type="datetime" />
+          <Property Name="TicketNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CustomCategoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="TicketFollower">
+          <Key>
+            <PropertyRef Name="FollowerId" />
+          </Key>
+          <Property Name="FollowerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserIds" Type="text" />
+        </EntityType>
+        <EntityType Name="TicketGroup">
+          <Key>
+            <PropertyRef Name="GroupTaskId" />
+          </Key>
+          <Property Name="GroupTaskId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AssignedUsers" Type="text" Nullable="false" />
+          <Property Name="AssignedGroups" Type="text" />
+          <Property Name="AssignedDepartments" Type="text" />
+          <Property Name="UserStatuses" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketMaster">
+          <Key>
+            <PropertyRef Name="MasterId" />
+          </Key>
+          <Property Name="MasterId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MasterType" Type="nvarchar" MaxLength="50" />
+          <Property Name="InstanceWfId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="TicketsQuery">
+          <Key>
+            <PropertyRef Name="TicketQueryId" />
+          </Key>
+          <Property Name="TicketQueryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TicketId" Type="uniqueidentifier" />
+          <Property Name="WorkflowId" Type="uniqueidentifier" />
+          <Property Name="UserIdLock" Type="uniqueidentifier" />
+          <Property Name="IsNonePreview" Type="bit" />
+        </EntityType>
+        <Association Name="FK_Ticket_TicketCategory">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketFollower_ToTicket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketFollower" Type="Self.TicketFollower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketFollower">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketGroup_Ticket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketGroup" Type="Self.TicketGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketGroup">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TicketModelStoreContainer">
+          <EntitySet Name="CallTicket" EntityType="Self.CallTicket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CallTicketsQuery" EntityType="Self.CallTicketsQuery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommentBody" EntityType="Self.CommentBody" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommentEnclosure" EntityType="Self.CommentEnclosure" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QueryStatus" EntityType="Self.QueryStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketFollower" EntityType="Self.TicketFollower" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketGroup" EntityType="Self.TicketGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketMaster" EntityType="Self.TicketMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketsQuery" EntityType="Self.TicketsQuery" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ticket_TicketCategory" Association="Self.FK_Ticket_TicketCategory">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketFollower_ToTicket" Association="Self.FK_TicketFollower_ToTicket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketFollower" EntitySet="TicketFollower" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketGroup_Ticket" Association="Self.FK_TicketGroup_Ticket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketGroup" EntitySet="TicketGroup" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TicketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TicketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CommentBodies" EntityType="TicketModel.CommentBody" />
+          <EntitySet Name="CommentEnclosures" EntityType="TicketModel.CommentEnclosure" />
+          <EntitySet Name="QueryStatus" EntityType="TicketModel.QueryStatu" />
+          <EntitySet Name="TicketFollowers" EntityType="TicketModel.TicketFollower" />
+          <EntitySet Name="TicketMasters" EntityType="TicketModel.TicketMaster" />
+          <EntitySet Name="TicketsQueries" EntityType="TicketModel.TicketsQuery" />
+          <EntitySet Name="Tickets" EntityType="TicketModel.Ticket" />
+          <AssociationSet Name="FK_TicketFollower_ToTicket" Association="TicketModel.FK_TicketFollower_ToTicket">
+            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="TicketFollower" EntitySet="TicketFollowers" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="TicketModel.Category" />
+          <AssociationSet Name="FK_Ticket_TicketCategory" Association="TicketModel.FK_Ticket_TicketCategory">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="CallTickets" EntityType="TicketModel.CallTicket" />
+          <EntitySet Name="CallTicketsQueries" EntityType="TicketModel.CallTicketsQuery" />
+          <EntitySet Name="TicketGroups" EntityType="TicketModel.TicketGroup" />
+          <AssociationSet Name="FK_TicketGroup_Ticket" Association="TicketModel.FK_TicketGroup_Ticket">
+            <End Role="Ticket" EntitySet="Tickets" />
+            <End Role="TicketGroup" EntitySet="TicketGroups" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CommentBody">
+          <Key>
+            <PropertyRef Name="CommentId" />
+          </Key>
+          <Property Name="CommentId" Type="Guid" Nullable="false" />
+          <Property Name="GuidItem" Type="Guid" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CommentEnclosure">
+          <Key>
+            <PropertyRef Name="EnclosureId" />
+          </Key>
+          <Property Name="EnclosureId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="C_CommentId" Type="Guid" />
+          <Property Name="C_PossibleCommentId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QueryStatu">
+          <Key>
+            <PropertyRef Name="QueryStatusId" />
+          </Key>
+          <Property Name="QueryStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QueryItemId" Type="Guid" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CustomStatus" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="OwnerId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="TicketFollower">
+          <Key>
+            <PropertyRef Name="FollowerId" />
+          </Key>
+          <Property Name="FollowerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Guid" Nullable="false" />
+          <Property Name="UserIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ticket" Relationship="TicketModel.FK_TicketFollower_ToTicket" FromRole="TicketFollower" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="TicketMaster">
+          <Key>
+            <PropertyRef Name="MasterId" />
+          </Key>
+          <Property Name="MasterId" Type="Guid" Nullable="false" />
+          <Property Name="MasterType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InstanceWfId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="TicketsQuery">
+          <Key>
+            <PropertyRef Name="TicketQueryId" />
+          </Key>
+          <Property Name="TicketQueryId" Type="Guid" Nullable="false" />
+          <Property Name="TicketId" Type="Guid" />
+          <Property Name="WorkflowId" Type="Guid" />
+          <Property Name="UserIdLock" Type="Guid" />
+          <Property Name="IsNonePreview" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="Guid" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="Assigned" Type="Guid" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="ExpiredDate" Type="DateTime" Precision="3" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateAssigned" Type="DateTime" Precision="3" />
+          <Property Name="CategoryId" Type="Int32" />
+          <Property Name="MasterIdFK" Type="Guid" />
+          <Property Name="TicketStatus" Type="Byte" />
+          <Property Name="Priory" Type="Byte" />
+          <Property Name="DateStarted" Type="DateTime" Precision="3" />
+          <Property Name="TicketNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketFollowers" Relationship="TicketModel.FK_TicketFollower_ToTicket" FromRole="Ticket" ToRole="TicketFollower" />
+          <NavigationProperty Name="Category" Relationship="TicketModel.FK_Ticket_TicketCategory" FromRole="Ticket" ToRole="Category" />
+          <NavigationProperty Name="TicketGroups" Relationship="TicketModel.FK_TicketGroup_Ticket" FromRole="Ticket" ToRole="TicketGroup" />
+          <Property Name="CustomCategoryId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_TicketFollower_ToTicket">
+          <End Type="TicketModel.Ticket" Role="Ticket" Multiplicity="1" />
+          <End Type="TicketModel.TicketFollower" Role="TicketFollower" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketFollower">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Tickets" Relationship="TicketModel.FK_Ticket_TicketCategory" FromRole="Category" ToRole="Ticket" />
+        </EntityType>
+        <Association Name="FK_Ticket_TicketCategory">
+          <End Type="TicketModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="TicketModel.Ticket" Role="Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CallTicket">
+          <Key>
+            <PropertyRef Name="CallTicketId" />
+          </Key>
+          <Property Name="CallTicketId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="Assigned" Type="Guid" />
+          <Property Name="CallTicketNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CallStatus" Type="Byte" Nullable="false" />
+          <Property Name="DateStarted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiredDate" Type="DateTime" Precision="3" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="CustomerGuid" Type="Guid" />
+        </EntityType>
+        <EntityType Name="CallTicketsQuery">
+          <Key>
+            <PropertyRef Name="CallTicketQueryId" />
+          </Key>
+          <Property Name="CallTicketQueryId" Type="Guid" Nullable="false" />
+          <Property Name="CallTicketId" Type="Guid" />
+          <Property Name="WorkflowId" Type="Guid" />
+          <Property Name="UserIdLock" Type="Guid" />
+          <Property Name="IsNonePreview" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="TicketGroup">
+          <Key>
+            <PropertyRef Name="GroupTaskId" />
+          </Key>
+          <Property Name="GroupTaskId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Guid" Nullable="false" />
+          <Property Name="AssignedUsers" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedGroups" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedDepartments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserStatuses" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ticket" Relationship="TicketModel.FK_TicketGroup_Ticket" FromRole="TicketGroup" ToRole="Ticket" />
+        </EntityType>
+        <Association Name="FK_TicketGroup_Ticket">
+          <End Type="TicketModel.Ticket" Role="Ticket" Multiplicity="1" />
+          <End Type="TicketModel.TicketGroup" Role="TicketGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="TicketId" />
+            </Principal>
+            <Dependent Role="TicketGroup">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TicketModelStoreContainer" CdmEntityContainer="TicketEntities">
+          <EntitySetMapping Name="CommentBodies">
+            <EntityTypeMapping TypeName="TicketModel.CommentBody">
+              <MappingFragment StoreEntitySet="CommentBody">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="GuidItem" ColumnName="GuidItem" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommentEnclosures">
+            <EntityTypeMapping TypeName="TicketModel.CommentEnclosure">
+              <MappingFragment StoreEntitySet="CommentEnclosure">
+                <ScalarProperty Name="C_PossibleCommentId" ColumnName="C_PossibleCommentId" />
+                <ScalarProperty Name="C_CommentId" ColumnName="C_CommentId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnclosureId" ColumnName="EnclosureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QueryStatus">
+            <EntityTypeMapping TypeName="TicketModel.QueryStatu">
+              <MappingFragment StoreEntitySet="QueryStatus">
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="CustomStatus" ColumnName="CustomStatus" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="QueryItemId" ColumnName="QueryItemId" />
+                <ScalarProperty Name="QueryStatusId" ColumnName="QueryStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketFollowers">
+            <EntityTypeMapping TypeName="TicketModel.TicketFollower">
+              <MappingFragment StoreEntitySet="TicketFollower">
+                <ScalarProperty Name="UserIds" ColumnName="UserIds" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="FollowerId" ColumnName="FollowerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketMasters">
+            <EntityTypeMapping TypeName="TicketModel.TicketMaster">
+              <MappingFragment StoreEntitySet="TicketMaster">
+                <ScalarProperty Name="InstanceWfId" ColumnName="InstanceWfId" />
+                <ScalarProperty Name="MasterType" ColumnName="MasterType" />
+                <ScalarProperty Name="MasterId" ColumnName="MasterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketsQueries">
+            <EntityTypeMapping TypeName="TicketModel.TicketsQuery">
+              <MappingFragment StoreEntitySet="TicketsQuery">
+                <ScalarProperty Name="IsNonePreview" ColumnName="IsNonePreview" />
+                <ScalarProperty Name="UserIdLock" ColumnName="UserIdLock" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketQueryId" ColumnName="TicketQueryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="TicketModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="CustomCategoryId" ColumnName="CustomCategoryId" />
+                <ScalarProperty Name="TicketNumber" ColumnName="TicketNumber" />
+                <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
+                <ScalarProperty Name="Priory" ColumnName="Priory" />
+                <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
+                <ScalarProperty Name="MasterIdFK" ColumnName="MasterIdFK" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="DateAssigned" ColumnName="DateAssigned" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="ExpiredDate" ColumnName="ExpiredDate" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="TicketModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CallTickets">
+            <EntityTypeMapping TypeName="TicketModel.CallTicket">
+              <MappingFragment StoreEntitySet="CallTicket">
+                <ScalarProperty Name="CustomerGuid" ColumnName="CustomerGuid" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="ExpiredDate" ColumnName="ExpiredDate" />
+                <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
+                <ScalarProperty Name="CallStatus" ColumnName="CallStatus" />
+                <ScalarProperty Name="CallTicketNumber" ColumnName="CallTicketNumber" />
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CallTicketId" ColumnName="CallTicketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CallTicketsQueries">
+            <EntityTypeMapping TypeName="TicketModel.CallTicketsQuery">
+              <MappingFragment StoreEntitySet="CallTicketsQuery">
+                <ScalarProperty Name="IsNonePreview" ColumnName="IsNonePreview" />
+                <ScalarProperty Name="UserIdLock" ColumnName="UserIdLock" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+                <ScalarProperty Name="CallTicketId" ColumnName="CallTicketId" />
+                <ScalarProperty Name="CallTicketQueryId" ColumnName="CallTicketQueryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketGroups">
+            <EntityTypeMapping TypeName="TicketModel.TicketGroup">
+              <MappingFragment StoreEntitySet="TicketGroup">
+                <ScalarProperty Name="UserStatuses" ColumnName="UserStatuses" />
+                <ScalarProperty Name="AssignedDepartments" ColumnName="AssignedDepartments" />
+                <ScalarProperty Name="AssignedGroups" ColumnName="AssignedGroups" />
+                <ScalarProperty Name="AssignedUsers" ColumnName="AssignedUsers" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="GroupTaskId" ColumnName="GroupTaskId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

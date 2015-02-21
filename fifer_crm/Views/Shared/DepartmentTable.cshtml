@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DepartmentViewModel>
+<div class="widget-body innerAll inner-2x">
+    <!-- Table -->
+    <table class="dynamicTable scrollVertical table table-bordered table-primary">
+
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th class="center">Название</th>
+                <th>Описание</th>
+                <th>Активен</th>
+                <th>Доступные действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+
+            <!-- Table row -->
+            @foreach (var item in Model.OrderByDescending(m => m.IsActive))
+            {
+                <tr>
+                    <td class="center">@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.IsActive</td>
+                    <td>
+                        <div class="btn-group">
+                            <span class="btn btn-default" onclick="loadModalContentWithCallback('modal-add', 'DepartmentEdit', 'Department', '?departmentId='+@item.DepartmentId, initMultiSelect)"><i class="fa fa-edit"></i>&nbsp;Редактировать</span>                            
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        <!-- // Table body END -->
+
+    </table>
+
+    <!-- // Table END -->
+
+</div>

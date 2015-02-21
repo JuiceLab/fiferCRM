@@ -1,0 +1,27 @@
+﻿@model IEnumerable<MessageViewModel>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">История сообщений тикета #@ViewBag.Number</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            <ul class="chat media-list">
+                @foreach (var item in Model.OrderByDescending(m => m.Created))
+                {
+                    <li class="media">
+                        <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "http://localhost:41252/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                        <div class="media-body">
+                            <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
+                            <h5 class="media-heading">@item.Title</h5>
+                            <p class="margin-none">@item.Msg</p>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

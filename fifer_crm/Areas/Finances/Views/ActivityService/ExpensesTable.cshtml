@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SelectListItem>
+<div class="widget-body innerAll inner-2x">
+    <!-- col-separator -->
+    <div class="col-separator col-separator-first box">
+        <h4 class="margin-none innerAll border-bottom margin-none">Статьи расходов</h4>
+        <div class="innerAll">
+            <div class="widget widget-heading-simple widget-body-simple text-right margin-none">
+                <form class="input-group">
+                    <input type="text" class="form-control" placeholder="Фильтр по названию" />
+                    <span class="input-group-btn"><button type="submit" class="btn btn-inverse">Search</button></span>
+                </form>
+            </div>
+        </div>
+        <div class="col-separator-h box"></div>
+
+        @foreach (var item in Model)
+        {
+            <div class="innerAll pull-left">
+                <div class="media innerAll margin-none box">
+                    <div class="media-body">
+                        <a href="#" onclick="loadModalContent('modal-add', 'ExpenseEdit', 'Finances/ActivityService',  '?expenseId=@(item.Value)')" class="strong">@item.Text</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

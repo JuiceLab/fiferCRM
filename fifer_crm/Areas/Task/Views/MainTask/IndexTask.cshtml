@@ -1,0 +1,44 @@
+﻿@model TaskWrapViewModel
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- col-separator -->
+            <div class="col-separator bg-none col-separator-first col-unscrollable">
+
+                    <!-- heading -->
+                    <h4 class="innerAll margin-none bg-white">Задачи&nbsp;<span class="btn btn-default dropdown-toggle dropdown-hover" onclick="loadModalContentWithCallback('modal-help', 'TaskEdit', 'Task/GroupTask', '', initGroupTask);" title="Создать задачу"><i class="fa fa-plus"></i> Новая задача</span> <span class="btn-group pull-right" data-toggle="buttons">
+                            <label class="btn btn-default active">
+                                <input type="radio" name="options" id="option1" checked="checked" onclick="changeTable(true);">Календарь
+                            </label>
+                            <label class="btn btn-default ">
+                                <input type="radio" name="options" id="option2" onclick="changeTable(false);">Таблица
+                            </label>
+                        </span>
+                    </h4>
+                    <div id="task-search-div" class="col-table">
+                        @Html.Partial("SearchResult", Model.SearchFilter)
+                    </div>
+                    <!-- // END col-table-row -->
+                <!-- // END col-table -->
+            </div>
+            <!-- // END col-separator -->
+        </div>
+        <!-- // END col -->
+    </div>
+    <!-- // END row -->
+
+
+</div>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TaskPreview>
+
+    <table class="dynamicTable scrollVertical table table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Задача</th>
+                <th>Состояние</th>
+                <th>Создана кем</th>
+                <th>Когда</th>
+                <th>Исполнитель</th>
+                <th>Выполнить до</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.Created))
+            {
+                <tr>
+                    <td>@item.TaskNumber</td>
+                    <td><span class="btn btn-info pull-left" onclick="loadModalContent('modal-help','Task/TaskGroup','CommonTask', '?taskId=@(item.TaskId)&taskNumber=@item.TaskNumber')"><i class="icon icon-comment-1" title="История задачи"></i></span>&nbsp; @item.Title</td>
+                    <td>@item.Status.GetStringValue()</td>
+                    <td>@item.CreatedBy</td>
+                    <td>@(item.Created.Date == DateTime.Now ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</td>
+                    <td>@item.AssignedBy</td>
+                    <td>@(!item.DateStarted.HasValue ? "" : item.DateStarted.Value.Date == DateTime.Now ? item.DateStarted.Value.ToShortTimeString() : item.DateStarted.Value.ToShortDateString())</td>
+                    <td>
+                    @if ((item.HasPeriod || item.HasGroup))
+                    {
+                        if (item.HasGroup)
+                        {
+                            <span class="btn btn-info" onclick="loadModalContentWithCallback('modal-help','TaskGroup','Task/GroupTask', '?taskId=@(item.TaskId)', initGroupTask); return false;">Группа</span>
+                        }
+                        if (item.HasPeriod)
+                        {
+                            <span class="btn btn-success" onclick="loadModalContentWithCallback('modal-help','TaskPeriods','Task/GroupTask', '?taskId=@(item.TaskId)', initScroll); return false;">Период</span>
+                        }
+                    }
+                    else if (item.Status != TaskStatus.Completed)
+                    {
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                Действия
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a onclick="loadModalContentWithCallback('modal-help','TaskProcess','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;">Рассмотреть</a></li>
+                                <li><a onclick="loadModalContentWithCallback('modal-help','TaskAssign','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;">Назначить исполнителя</a></li>
+                                <li><a onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;">Перенести на другое время</a></li>
+                            </ul>
+                        </div>
+                        }
+                        else
+                        { 
+                            <label class="label label-success">Задача выполнена</label>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+    <!-- // Table END -->
+
+
+

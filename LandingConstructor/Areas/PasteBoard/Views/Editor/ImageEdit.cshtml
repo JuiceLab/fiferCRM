@@ -1,0 +1,34 @@
+﻿@model SiteModel.GalleryItem
+
+@Html.HiddenFor(m => m.ItemId)
+@Html.HiddenFor(m => m.Path)
+<div class="clearfix"></div>
+<div class="form-group" style="margin-top:5px;">
+    @Html.LabelFor(m => m.Title, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+    </div>
+</div>
+@Html.ValidationSummary()
+<span id="update-form" onclick="updateImageInfo();" style="width:100%" class="@((Model.ItemId ==0)? "hide" : "") col-md-12 btn btn-primary">@((Model.ItemId == 0) ? "Сохранить" : "Обновить")</span>
+<div class="row" style="margin-top:10px;">
+    <span class="btn btn-default" onclick="$(this).hide(); $('#image-edit-div').removeClass('hide');">Редактировать изображение</span>
+</div>
+<div id="image-edit-div" class="form-group hide">
+    <fieldset>
+        <legend>Редактирование слайда</legend>
+        <div class="col-sm-12" style="margin-top:10px; margin-bottom:10px">
+            <div id="imageUpload">
+                <div id="image-cropper">
+                    <div class="cropit-image-preview" style="width:800px;height:560px"></div>
+                    <div class="btns">
+                        <input style="display:none" class="cropit-image-input custom" type='file' id='crop-uploader' />
+                        <div style="float:left; margin-top: 19px; margin-right:10px;" class="select-image-btn btn btn-info"><span class="icon icon-image"></span>Выбрать изображение</div>
+                    </div>
+                    <br />
+                    <span class="pull-right btn btn-success" id="crop-save">Задать изображение(для сохранения нажмите Обновить/Сохранить)&nbsp;<i class="fa fa-arrow-up"></i></span>
+                </div>
+            </div>
+        </div>   
+    </fieldset>
+</div>

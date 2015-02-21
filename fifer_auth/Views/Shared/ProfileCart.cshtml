@@ -1,0 +1,54 @@
+﻿@model UserContext.User
+
+@using (Html.BeginForm("ProfileCart", "User", FormMethod.Post))
+{
+    <div class="span3">
+        @Html.HiddenFor(m => m.UserId)
+        <label>Последний вход @(((string)ViewBag.LastLog))</label>
+        <fieldset>
+            <legend>Данные пользователя</legend>
+            <div class="control-group">
+                <label class="control-label">Логин</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Login)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Имя</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.LastName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Фамилия</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.FirstName)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Почтовый ящик</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Mail)
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Телефон</label>
+                <div class="controls">
+                    @Html.TextBoxFor(m => m.Phone)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-success" value="Обновить" />
+                </div>
+            </div>
+        </fieldset>
+        <input type="button" class="@(Model.IsBlocked? "btn btn-success": "btn btn-warning")" onclick="changeBlock('@(Model.UserId.ToString())', @(!Model.IsBlocked? "true":"false"));" value="@(Model.IsBlocked? "разблокировать": "заблокировать")" />
+        <input style="margin-top:3px;" type="button" class="btn btn-success" value="отключить от системы" onclick="kickUser('@(Model.UserId.ToString())', false);" />
+    </div>
+}
+<div class="span3">
+    <input class="span6" id="novelty-pass" type="text" />
+    <input type="button" class="span6 btn btn-success" value="обновить пароль" onclick="resetPass('@(Model.UserId.ToString())', false);" />
+    <input type="button" class="span12 btn btn-success" value="сгенерировать новый пароль" onclick="resetPass('@(Model.UserId.ToString())',true);" />
+</div>

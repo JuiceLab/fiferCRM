@@ -1,0 +1,23 @@
+﻿@model string
+
+@Html.Hidden("NoticePath")
+@Html.Hidden("CurPageId", (int)ViewBag.PageId)
+
+<div class="form-group">
+    <fieldset>
+        <legend>Редактирование фотографии анонса</legend>
+        <div class="col-sm-12" style="margin-top:10px; margin-bottom:10px">
+            <div id="imageUpload">
+                <div id="image-cropper">
+                    <div class="cropit-image-preview" style="width:405px;height:405px"></div>
+                    <div class="btns">
+                        <input style="display:none" class="cropit-image-input custom" type='file' id='crop-uploader' />
+                        <div style="float:left; margin-top: 19px; margin-right:10px;" class="select-image-btn btn btn-info"><span class="icon icon-image"></span>Выбрать изображение</div>
+                    </div>
+                    <br />
+                    <span class="pull-right btn btn-success" id="crop-save-submit">Задать изображение анонса</span>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>

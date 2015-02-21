@@ -1,0 +1,46 @@
+﻿@model TaskTicket
+@{
+    Model.CurrentComment = "";
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Назначение исполнителя</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            <form id="taskTicketProcess" class="form-horizontal" role="form">
+                @Html.HiddenFor(m => m.OwnerId)
+                @Html.HiddenFor(m => m.Priority)
+                @Html.HiddenFor(m => m.CreatedBy)
+                @Html.HiddenFor(m => m.Assigned)
+                @Html.HiddenFor(m => m.ObjId)
+                @Html.HiddenFor(m => m.MasterId)
+                @Html.HiddenFor(m => m.TicketId)
+                @Html.HiddenFor(m => m.CurrentCommentId)
+                @Html.HiddenFor(m => m.CategoryId)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Model.Title
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Assigned, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="taskAssignActions" class="col-sm-offset-2 col-sm-10">
+                        <input type="button" onclick="updateTaskTicket(@WFTaskCommand.Assign.ToString("d"))" class="col-sm-6 btn btn-primary btn-action" value="@WFTaskCommand.Assign.GetStringValue()" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

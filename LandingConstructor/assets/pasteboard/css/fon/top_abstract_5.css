@@ -1,0 +1,4 @@
+/* Фото под шапкой 
+.topfoto {width:960px; height:0px;} Если без фото
+*/
+.topfoto {width:960px; height:130px;background:url(top_abstract_5.jpg) no-repeat top center; /* Это фото под менюшкой */}

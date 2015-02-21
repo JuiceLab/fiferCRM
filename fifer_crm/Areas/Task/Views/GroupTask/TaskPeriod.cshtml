@@ -1,0 +1,69 @@
+﻿@model TaskPeriod
+@{
+               var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+               
+               var statuses = new List<SelectListItem>();
+               foreach (WFTaskStatus item in Enum.GetValues(typeof(WFTaskStatus)))
+               {
+                   statuses.Add(new SelectListItem() { Text = item.GetStringValue(), Value = item.ToString("d"), Selected = Model.StatusId == item });
+               }       
+}
+@if (Model.Assigned.HasValue)
+{
+    assign.FirstOrDefault(m => m.Value == Model.Assigned.Value.ToString()).Selected = true;
+}
+<form id="taskPeriodEdit" class="form-horizontal" role="form">
+    @Html.HiddenFor(m => m.TaskPeriodId)
+    @Html.HiddenFor(m => m.AddNumber)
+    <div class="widget widget-tabs border-bottom-none">
+        <!-- // Widget heading END -->
+        <div class="widget-body">
+            <div class="tab-content">
+                <!-- Tab content -->
+                <!-- // Tab content END -->
+                <!-- Tab content -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Исполнитель</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Статус задачи</label>
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(m => m.StatusId, statuses, new { @class = "form-control" })
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Комментарий</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                    </div>
+                </div>
+                    <div class="form-group">
+                            <label class="col-sm-6 control-label">Дата выполнения</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                            </div>
+
+                            <label class="col-sm-6 control-label" style="margin-bottom:10px">Время выполнения</label>
+                            <div class="col-sm-6">
+                                <div class="input-group bootstrap-timepicker">
+                                    @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control" })
+                                    <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                                </div>
+                            </div>
+                    </div>
+                 
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary()
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="button" onclick="updatePeriodTaskTicket()" class="btn btn-primary" value="Обновить данные" />
+            </div>
+        </div>
+    </div>
+</form>

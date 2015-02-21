@@ -1,0 +1,102 @@
+﻿@model FiferTaskTicket
+@{
+    var categories = ViewBag.Categories as IEnumerable<SelectListItem>;
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    var assignGroup = ViewBag.AssignGroup as IEnumerable<SelectListItem>;
+    var assignDepartments = ViewBag.AssignDepartments as IEnumerable<SelectListItem>;
+
+    
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Тикет для группы</h3>
+</div>
+<!-- // Modal heading END -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            <form id="taskGroupEdit" class="form-horizontal" role="form">
+                @Html.HiddenFor(m=>m.TicketId)
+                @Html.HiddenFor(m => m.Group.GroupTaskId)
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                                <fieldset>
+                                    <legend>Группы</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Сотрудники</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedUsers" name="Group.AssignedUsers" class="multiselect" multiple>
+                                                @foreach (var item in assign)
+                                                {
+                                                    if (Model.Group.AssignedUsers.Contains(item.Value))
+                                                    {
+                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Рабочие группы</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedGroups" name="Group.AssignedGroups" class="multiselect" multiple>
+                                                @foreach (var item in assignGroup)
+                                                {
+                                                    if (Model.Group.AssignedGroups.Contains(item.Value))
+                                                    {
+                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Отделы</label>
+                                        <div class="col-sm-9">
+                                            <select id="Group_AssignedDepartments" name="Group.AssignedDepartments" class="multiselect" multiple>
+                                                @foreach (var item in assignDepartments)
+                                                {
+                                                    if (Model.Group.AssignedDepartments.Contains(item.Value))
+
+                                                    {
+                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="button" onclick="updateGroupTaskTicket()" class="btn btn-primary" value="Обновить групповую задачу" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+

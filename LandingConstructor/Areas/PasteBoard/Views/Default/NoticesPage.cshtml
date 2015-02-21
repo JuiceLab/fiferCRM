@@ -1,0 +1,106 @@
+﻿@model INoticesPage
+@{
+    Layout = "~/Areas/PasteBoard/Views/Shared/" + Model.LayoutName;               
+}
+
+@section MetaTags
+{
+   @Html.Partial("Metatags", Model)
+}
+
+<div class="wrap">
+       @Html.Partial("SiteHeader", Model)
+</div>
+<div id="container">
+    <table class="main" cellspacing="0" cellpadding="0" border="0">
+        <tr><td class="topfoto"></td></tr>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                        <td class="l_column" valign="top">
+                            @Html.Partial("InlineMenu", Model.Menu)
+                            @Html.Partial("EditorPanel", Model)
+                        </td>
+
+
+                        <!-- Девая панель Конец-->
+                        <!-- Контент страницы -->
+                        <td valign="top">
+                            <h1>
+                           @Model.H1
+                            </h1>
+                            <div style="padding: 10px 30px 30px 0px;">
+                               @{
+                                   var itemPerIteration = Model.Notices.Take(2);
+                                   int indexer = 0;
+                                   while (itemPerIteration.Count() > 0)
+                                   {
+                                       
+                                    <!-- Анонс 1 фото справа -->
+                                <table border="0" width="100%" cellspacing="0" cellpadding="0" style="margin:5px 0;">
+                                    <tbody>
+                                        <tr>
+                                            <td id="td_news">
+                                                <p class="tov_prv_r"><a href="@(itemPerIteration.ElementAt(0).UrlRedirect).html"><img src="@itemPerIteration.ElementAt(0).NoticeImagePath" alt=""></a></p>
+                                                <h3 style="text-align:left;">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        <span class="pull-left btn btn-default" title="Фото анонса" onclick="loadModalContentWithCallback('modal-gallery-edit', 'NoticeImage','PasteBoard/Editor', '?siteId=@(Model.SiteId)&pageId=@(itemPerIteration.ElementAt(0).PageId)', initNoticeImageCropper )"><i class="fa fa-image"></i></span>
+                                                        <span class="pull-left btn btn-warning" title="Удалить страницу" onclick="removePage(@(itemPerIteration.ElementAt(0).PageId))"><i class="fa fa-trash"></i></span>
+                                                    }
+                                                    @itemPerIteration.ElementAt(0).Title
+                                                </h3>
+                                                <p style="text-align:left;">
+                                                    @itemPerIteration.ElementAt(0).NoticeContent
+                                                    <br><br><a href="@(itemPerIteration.ElementAt(0).UrlRedirect).html" class="more">Читать полностью</a>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Анонс 1 конец -->
+                                <!-- Анонс 2 фото слева -->
+                                       if (itemPerIteration.Count() > 1)
+                                       { <table border="0" width="100%" cellspacing="0" cellpadding="0" style="margin:5px 0;">
+                                            <tbody>
+                                                <tr>
+                                                    <td id="td_news">
+                                                        <p class="tov_prv"><a href="@(itemPerIteration.ElementAt(1).UrlRedirect).html"><img src="@itemPerIteration.ElementAt(1).NoticeImagePath" alt=""></a></p>
+                                                        <h3 style="text-align:right;">@itemPerIteration.ElementAt(1).Title
+                                                            @if (User.Identity.IsAuthenticated)
+                                                            {
+                                                                <span class="pull-left btn btn-default" title="Фото анонса" onclick="loadModalContentWithCallback('modal-gallery-edit', 'NoticeImage','PasteBoard/Editor', '?siteId=@(Model.SiteId)&pageId=@(itemPerIteration.ElementAt(1).PageId)', initNoticeImageCropper )"><i class="fa fa-image"></i></span>
+                                                            }</h3>
+                                                        <p style="text-align:right;">
+                                                            @itemPerIteration.ElementAt(1).NoticeContent
+                                                            <br><br><a href="@(itemPerIteration.ElementAt(1).UrlRedirect).html" class="more">Читать полностью</a>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                       }
+                                       indexer++;
+                                       itemPerIteration = Model.Notices.Skip(2 * indexer).Take(2);
+                                   };
+                            }
+                            </div>
+                            @if (Model.IsSocialRepostItems)
+                            {
+                                <div class="yashare-auto-init" style="text-align:right;margin-top:15px;" data-yasharel10n="ru"
+                                     data-yasharetype="none" data-yasharequickservices="vkontakte,facebook,twitter,odnoklassniki,gplus"></div>
+                            }
+                        </td>
+                        <!-- Контент страницы конец-->
+                        <td valign="top">
+                            <img src="~/assets/pasteboard/css/spacer00.gif" width="1px" height="350px">
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        @Html.Partial("SiteFooter", Model)
+    </table>
+</div>

@@ -1,0 +1,48 @@
+﻿@model  List<UserContext.Rule4Role>
+@{
+    List<SelectListItem> items = ViewBag.Names as List<SelectListItem>;
+}
+<div>
+    <form action="/Role/RulesInRole?roleId=@ViewBag.RoleId" method="post">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Название</td>
+                    <td>Создание</td>
+                    <td>Чтение</td>
+                    <td>Обновление</td>
+                    <td>Удаление</td>
+                    <td>Активно</td>
+                </tr>
+            </thead>
+           
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(m => m[i].RelationId)
+                            @Html.HiddenFor(m => m[i].RuleId)
+                            @Html.HiddenFor(m => m[i].RoleId)
+                            <label>@items.FirstOrDefault(m => m.Value == Model[i].RuleId.ToString()).Text</label>
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m[i].Create)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m[i].Read)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m[i].Update)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m[i].Delete)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m[i].IsAvailable)
+                        </td>
+                    </tr>
+                }
+        </table>
+        <input type="submit" value="Обновить" />
+    </form>
+</div>

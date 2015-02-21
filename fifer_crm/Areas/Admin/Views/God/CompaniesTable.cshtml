@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CompanyPreview>
+
+<div class="widget-body innerAll inner-2x">
+    @if (ViewBag.OnlyCRM != null) { 
+        @Html.CheckBox("onlyCRM", (bool)ViewBag.OnlyCRM)
+        <label>Только данные CRM</label>
+    }
+    <table class="dynamicTable scrollVertical table table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>Компания</th>
+                <th>Руководитель</th>
+                <th>Создана</th>
+                <th>Сотрудники</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.CompanyName))
+            {
+                <tr>
+                    <td><img style="max-width:40px" src="@(!string.IsNullOrEmpty(item.CompanyLogo) ? item.CompanyLogo : "/content/images/profile.jpg")" alt="">
+                    @item.CompanyName</td>
+                    <td>@item.OwnerName</td>
+                    <td>@item.Created.ToShortDateString()</td>
+                    <td><span class="btn btn-info" title="Сотрудники компании" onclick="loadModalContent('modal-info', 'CRMCustomersList', 'CRM/Customer', '');"><i class="fa fa-user"></i></span></td>
+                </tr>
+            }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+    <!-- // Table END -->
+
+</div>
+
+

@@ -1,0 +1,1128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CompanyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddrId" />
+          </Key>
+          <Property Name="AddrId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZipCode" Type="int" />
+          <Property Name="City" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Street" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="AddNumber" Type="nvarchar" MaxLength="128" />
+          <Property Name="Phones" Type="nvarchar" MaxLength="256" />
+          <Property Name="Emails" Type="nvarchar" MaxLength="256" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Latitiude" Type="float" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ShortComanyName" Type="nvarchar" MaxLength="64" />
+          <Property Name="_CurrentAddrId" Type="int" />
+          <Property Name="_CurrentLegalEntityId" Type="int" />
+          <Property Name="PhototPath" Type="nvarchar" MaxLength="128" />
+          <Property Name="Fax" Type="nvarchar" MaxLength="128" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="ICQ" Type="nvarchar" MaxLength="128" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="128" />
+          <Property Name="SiteUrl" Type="nvarchar" MaxLength="128" />
+          <Property Name="Services" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Modified" Type="datetime" />
+          <Property Name="ModifiedBy" Type="uniqueidentifier" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsPublic" Type="bit" Nullable="false" />
+          <Property Name="LocalDB" Type="nvarchar" MaxLength="128" />
+          <Property Name="CRMGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="WorkGroups" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="64" />
+          <Property Name="FullNameGenitive" Type="nvarchar" MaxLength="256" />
+          <Property Name="BirthDate" Type="datetime" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="_PosId" Type="int" />
+          <Property Name="_PassportId" Type="int" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" Nullable="false" />
+          <Property Name="IsDismissed" Type="bit" Nullable="false" />
+          <Property Name="SocialLinks" Type="nvarchar(max)" />
+          <Property Name="PositiveMention" Type="text" />
+          <Property Name="NegativeMention" Type="text" />
+          <Property Name="IsKeyEmployee" Type="bit" Nullable="false" />
+          <Property Name="WorkGroups" Type="nvarchar" MaxLength="512" />
+          <Property Name="_GroupHeaderId" Type="int" />
+          <Property Name="Salary" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="TransactionPercent" Type="float" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="256" />
+          <Property Name="ICQ" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="EmployeeDepartment">
+          <Key>
+            <PropertyRef Name="_DepartmentId" />
+            <PropertyRef Name="_EmployeeId" />
+          </Key>
+          <Property Name="_DepartmentId" Type="int" Nullable="false" />
+          <Property Name="_EmployeeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeTimesheet">
+          <Key>
+            <PropertyRef Name="EmployeeTimesheetId" />
+          </Key>
+          <Property Name="EmployeeTimesheetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="_EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="BeginWork" Type="time" Precision="7" Nullable="false" />
+          <Property Name="IpLocationBegin" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="IpLocationEnd" Type="nvarchar" MaxLength="64" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="LegalCompany">
+          <Key>
+            <PropertyRef Name="_LegalEntityId" />
+            <PropertyRef Name="_CompanyId" />
+          </Key>
+          <Property Name="_LegalEntityId" Type="int" Nullable="false" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalEntity">
+          <Key>
+            <PropertyRef Name="LegalEntityId" />
+          </Key>
+          <Property Name="LegalEntityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="INN" Type="bigint" Nullable="false" />
+          <Property Name="KPP" Type="bigint" Nullable="false" />
+          <Property Name="OGRN" Type="bigint" Nullable="false" />
+          <Property Name="RS" Type="bigint" Nullable="false" />
+          <Property Name="KS" Type="bigint" />
+          <Property Name="BIK" Type="bigint" />
+          <Property Name="PayLocation" Type="nvarchar" MaxLength="1024" />
+          <Property Name="_LegalAddrId" Type="int" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Passport">
+          <Key>
+            <PropertyRef Name="PassportId" />
+          </Key>
+          <Property Name="PassportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Serial" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="WhoIssue" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateIssue" Type="datetime" Nullable="false" />
+          <Property Name="CodeIssue" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="BirthLocation" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="RegLocation" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="ScanPath" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="NameGenetive" Type="nvarchar" MaxLength="256" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="_DepartmentId" Type="int" Nullable="false" />
+          <Property Name="_ParentPosId" Type="int" />
+        </EntityType>
+        <EntityType Name="WebSite">
+          <Key>
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="SiteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Url" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SiteGuid" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="tinyint" Nullable="false" />
+          <Property Name="DbSource" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+          <Property Name="TemplateName" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkGroup">
+          <Key>
+            <PropertyRef Name="WorkGroupId" />
+          </Key>
+          <Property Name="WorkGroupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Descritption" Type="nvarchar" MaxLength="512" />
+          <Property Name="_CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Address_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddrId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="_CurrentAddrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Address1">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="0..1" />
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="_CurrentLegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Department_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Passport">
+          <End Role="Passport" Type="Self.Passport" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passport">
+              <PropertyRef Name="PassportId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="_PassportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="_PosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_WorkGroup">
+          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="0..1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkGroup">
+              <PropertyRef Name="WorkGroupId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="_GroupHeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDepartment_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="EmployeeDepartment" Type="Self.EmployeeDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="EmployeeDepartment">
+              <PropertyRef Name="_DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeDepartment_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeDepartment" Type="Self.EmployeeDepartment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeDepartment">
+              <PropertyRef Name="_EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTimesheet_Employee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeTimesheet" Type="Self.EmployeeTimesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeTimesheet">
+              <PropertyRef Name="_EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalCompany_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="LegalCompany" Type="Self.LegalCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="LegalCompany">
+              <PropertyRef Name="_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalCompany_LegalEntity">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
+          <End Role="LegalCompany" Type="Self.LegalCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalCompany">
+              <PropertyRef Name="_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntity_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="0..1" />
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddrId" />
+            </Principal>
+            <Dependent Role="LegalEntity">
+              <PropertyRef Name="_LegalAddrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Position" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="_DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Position1" Type="Self.Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Position1">
+              <PropertyRef Name="_ParentPosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WebSite_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="WebSite" Type="Self.WebSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="WebSite">
+              <PropertyRef Name="_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkGroup_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="WorkGroup" Type="Self.WorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="WorkGroup">
+              <PropertyRef Name="_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeDepartment" EntityType="Self.EmployeeDepartment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeTimesheet" EntityType="Self.EmployeeTimesheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WebSite" EntityType="Self.WebSite" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkGroup" EntityType="Self.WorkGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalCompany" EntityType="Self.LegalCompany" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [LegalCompany].[_LegalEntityId] AS [_LegalEntityId], 
+    [LegalCompany].[_CompanyId] AS [_CompanyId]
+    FROM [dbo].[LegalCompany] AS [LegalCompany]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Address_Company" Association="Self.FK_Address_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Address" Association="Self.FK_Company_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Address1" Association="Self.FK_Company_Address1">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="Company" EntitySet="Company" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Department_Company" Association="Self.FK_Department_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Passport" Association="Self.FK_Employee_Passport">
+            <End Role="Passport" EntitySet="Passport" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_WorkGroup" Association="Self.FK_Employee_WorkGroup">
+            <End Role="WorkGroup" EntitySet="WorkGroup" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDepartment_Department" Association="Self.FK_EmployeeDepartment_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="EmployeeDepartment" EntitySet="EmployeeDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeDepartment_Employee" Association="Self.FK_EmployeeDepartment_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeDepartment" EntitySet="EmployeeDepartment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTimesheet_Employee" Association="Self.FK_EmployeeTimesheet_Employee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeTimesheet" EntitySet="EmployeeTimesheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalCompany_Company" Association="Self.FK_LegalCompany_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="LegalCompany" EntitySet="LegalCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalCompany_LegalEntity" Association="Self.FK_LegalCompany_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="LegalCompany" EntitySet="LegalCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntity_Address" Association="Self.FK_LegalEntity_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Department" Association="Self.FK_Position_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Position" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Position" Association="Self.FK_Position_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Position1" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WebSite_Company" Association="Self.FK_WebSite_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="WebSite" EntitySet="WebSite" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkGroup_Company" Association="Self.FK_WorkGroup_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="WorkGroup" EntitySet="WorkGroup" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="CompanyModel.Address" />
+          <EntitySet Name="Companies" EntityType="CompanyModel.Company" />
+          <EntitySet Name="Departments" EntityType="CompanyModel.Department" />
+          <EntitySet Name="Employees" EntityType="CompanyModel.Employee" />
+          <EntitySet Name="EmployeeTimesheets" EntityType="CompanyModel.EmployeeTimesheet" />
+          <EntitySet Name="LegalEntities" EntityType="CompanyModel.LegalEntity" />
+          <EntitySet Name="Passports" EntityType="CompanyModel.Passport" />
+          <EntitySet Name="Positions" EntityType="CompanyModel.Position" />
+          <AssociationSet Name="FK_Address_Company" Association="CompanyModel.FK_Address_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Address" Association="CompanyModel.FK_Company_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntity_Address" Association="CompanyModel.FK_LegalEntity_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Company_Address1" Association="CompanyModel.FK_Company_Address1">
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+            <End Role="Company" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Department_Company" Association="CompanyModel.FK_Department_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Department" Association="CompanyModel.FK_Position_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Position" EntitySet="Positions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Passport" Association="CompanyModel.FK_Employee_Passport">
+            <End Role="Passport" EntitySet="Passports" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position" Association="CompanyModel.FK_Employee_Position">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeTimesheet_Employee" Association="CompanyModel.FK_EmployeeTimesheet_Employee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeTimesheet" EntitySet="EmployeeTimesheets" />
+          </AssociationSet>
+          <AssociationSet Name="LegalCompany" Association="CompanyModel.LegalCompany">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeDepartment" Association="CompanyModel.EmployeeDepartment">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Position_Position" Association="CompanyModel.FK_Position_Position">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Position1" EntitySet="Positions" />
+          </AssociationSet>
+          <EntitySet Name="WorkGroups" EntityType="CompanyModel.WorkGroup" />
+          <AssociationSet Name="FK_WorkGroup_Company" Association="CompanyModel.FK_WorkGroup_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="WorkGroup" EntitySet="WorkGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_WorkGroup" Association="CompanyModel.FK_Employee_WorkGroup">
+            <End Role="WorkGroup" EntitySet="WorkGroups" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <EntitySet Name="WebSites" EntityType="CompanyModel.WebSite" />
+          <AssociationSet Name="FK_WebSite_Company" Association="CompanyModel.FK_WebSite_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="WebSite" EntitySet="WebSites" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddrId" />
+          </Key>
+          <Property Name="AddrId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZipCode" Type="Int32" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Street" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="AddNumber" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phones" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Emails" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitiude" Type="Double" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="CompanyModel.FK_Address_Company" FromRole="Address" ToRole="Company" />
+          <NavigationProperty Name="Companies" Relationship="CompanyModel.FK_Company_Address" FromRole="Address" ToRole="Company" />
+          <NavigationProperty Name="LegalEntities" Relationship="CompanyModel.FK_LegalEntity_Address" FromRole="Address" ToRole="LegalEntity" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ShortComanyName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="C_CurrentAddrId" Type="Int32" />
+          <Property Name="C_CurrentLegalEntityId" Type="Int32" />
+          <Property Name="PhototPath" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ICQ" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Skype" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SiteUrl" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Services" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Guid" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Addresses" Relationship="CompanyModel.FK_Address_Company" FromRole="Company" ToRole="Address" />
+          <NavigationProperty Name="Address" Relationship="CompanyModel.FK_Company_Address" FromRole="Company" ToRole="Address" />
+          <NavigationProperty Name="LegalEntity" Relationship="CompanyModel.FK_Company_Address1" FromRole="Company" ToRole="LegalEntity" />
+          <NavigationProperty Name="Departments" Relationship="CompanyModel.FK_Department_Company" FromRole="Company" ToRole="Department" />
+          <NavigationProperty Name="LegalEntities" Relationship="CompanyModel.LegalCompany" FromRole="Company" ToRole="LegalEntity" />
+          <NavigationProperty Name="WorkGroups" Relationship="CompanyModel.FK_WorkGroup_Company" FromRole="Company" ToRole="WorkGroup" />
+          <Property Name="LocalDB" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CRMGuid" Type="Guid" />
+          <NavigationProperty Name="WebSites" Relationship="CompanyModel.FK_WebSite_Company" FromRole="Company" ToRole="WebSite" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="CompanyModel.FK_Department_Company" FromRole="Department" ToRole="Company" />
+          <NavigationProperty Name="Positions" Relationship="CompanyModel.FK_Position_Department" FromRole="Department" ToRole="Position" />
+          <NavigationProperty Name="Employees" Relationship="CompanyModel.EmployeeDepartment" FromRole="Department" ToRole="Employee" />
+          <Property Name="WorkGroups" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="FullNameGenitive" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="3" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="C_PosId" Type="Int32" />
+          <Property Name="C_PassportId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="LastLogin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsDismissed" Type="Boolean" Nullable="false" />
+          <Property Name="SocialLinks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PositiveMention" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="NegativeMention" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IsKeyEmployee" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Passport" Relationship="CompanyModel.FK_Employee_Passport" FromRole="Employee" ToRole="Passport" />
+          <NavigationProperty Name="Position" Relationship="CompanyModel.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="EmployeeTimesheets" Relationship="CompanyModel.FK_EmployeeTimesheet_Employee" FromRole="Employee" ToRole="EmployeeTimesheet" />
+          <NavigationProperty Name="Departments" Relationship="CompanyModel.EmployeeDepartment" FromRole="Employee" ToRole="Department" />
+          <Property Name="WorkGroups" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_GroupHeaderId" Type="Int32" />
+          <NavigationProperty Name="WorkGroup" Relationship="CompanyModel.FK_Employee_WorkGroup" FromRole="Employee" ToRole="WorkGroup" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="TransactionPercent" Type="Double" />
+          <Property Name="Skype" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ICQ" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EmployeeTimesheet">
+          <Key>
+            <PropertyRef Name="EmployeeTimesheetId" />
+          </Key>
+          <Property Name="EmployeeTimesheetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="BeginWork" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="IpLocationBegin" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="IpLocationEnd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="CompanyModel.FK_EmployeeTimesheet_Employee" FromRole="EmployeeTimesheet" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="LegalEntity">
+          <Key>
+            <PropertyRef Name="LegalEntityId" />
+          </Key>
+          <Property Name="LegalEntityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="INN" Type="Int64" Nullable="false" />
+          <Property Name="KPP" Type="Int64" Nullable="false" />
+          <Property Name="OGRN" Type="Int64" Nullable="false" />
+          <Property Name="RS" Type="Int64" Nullable="false" />
+          <Property Name="KS" Type="Int64" />
+          <Property Name="BIK" Type="Int64" />
+          <Property Name="PayLocation" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="C_LegalAddrId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Address" Relationship="CompanyModel.FK_LegalEntity_Address" FromRole="LegalEntity" ToRole="Address" />
+          <NavigationProperty Name="Companies" Relationship="CompanyModel.FK_Company_Address1" FromRole="LegalEntity" ToRole="Company" />
+          <NavigationProperty Name="LegalEnitity4Companies" Relationship="CompanyModel.LegalCompany" FromRole="LegalEntity" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Passport">
+          <Key>
+            <PropertyRef Name="PassportId" />
+          </Key>
+          <Property Name="PassportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Serial" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="WhoIssue" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssue" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodeIssue" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="BirthLocation" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="RegLocation" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ScanPath" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="CompanyModel.FK_Employee_Passport" FromRole="Passport" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="NameGenetive" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="C_DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="CompanyModel.FK_Position_Department" FromRole="Position" ToRole="Department" />
+          <NavigationProperty Name="Employees" Relationship="CompanyModel.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
+          <Property Name="C_ParentPosId" Type="Int32" />
+          <NavigationProperty Name="Position1" Relationship="CompanyModel.FK_Position_Position" FromRole="Position" ToRole="Position1" />
+          <NavigationProperty Name="Position2" Relationship="CompanyModel.FK_Position_Position" FromRole="Position1" ToRole="Position" />
+        </EntityType>
+        <Association Name="FK_Address_Company">
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyModel.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="C_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Address">
+          <End Type="CompanyModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddrId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="C_CurrentAddrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntity_Address">
+          <End Type="CompanyModel.Address" Role="Address" Multiplicity="0..1" />
+          <End Type="CompanyModel.LegalEntity" Role="LegalEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddrId" />
+            </Principal>
+            <Dependent Role="LegalEntity">
+              <PropertyRef Name="C_LegalAddrId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Company_Address1">
+          <End Type="CompanyModel.LegalEntity" Role="LegalEntity" Multiplicity="0..1" />
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="Company">
+              <PropertyRef Name="C_CurrentLegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Department_Company">
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyModel.Department" Role="Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="C_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Position_Department">
+          <End Type="CompanyModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="CompanyModel.Position" Role="Position" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Position">
+              <PropertyRef Name="C_DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Passport">
+          <End Type="CompanyModel.Passport" Role="Passport" Multiplicity="0..1" />
+          <End Type="CompanyModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passport">
+              <PropertyRef Name="PassportId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="C_PassportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position">
+          <End Type="CompanyModel.Position" Role="Position" Multiplicity="0..1" />
+          <End Type="CompanyModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="C_PosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeTimesheet_Employee">
+          <End Type="CompanyModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="CompanyModel.EmployeeTimesheet" Role="EmployeeTimesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeTimesheet">
+              <PropertyRef Name="C_EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LegalCompany">
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="*" />
+          <End Type="CompanyModel.LegalEntity" Role="LegalEntity" Multiplicity="*" />
+        </Association>
+        <Association Name="EmployeeDepartment">
+          <End Type="CompanyModel.Department" Role="Department" Multiplicity="*" />
+          <End Type="CompanyModel.Employee" Role="Employee" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Position_Position">
+          <End Type="CompanyModel.Position" Role="Position" Multiplicity="0..1" />
+          <End Type="CompanyModel.Position" Role="Position1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="Position1">
+              <PropertyRef Name="C_ParentPosId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkGroup">
+          <Key>
+            <PropertyRef Name="WorkGroupId" />
+          </Key>
+          <Property Name="WorkGroupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Descritption" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="CompanyModel.FK_WorkGroup_Company" FromRole="WorkGroup" ToRole="Company" />
+          <NavigationProperty Name="Employees" Relationship="CompanyModel.FK_Employee_WorkGroup" FromRole="WorkGroup" ToRole="Employee" />
+        </EntityType>
+        <Association Name="FK_WorkGroup_Company">
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyModel.WorkGroup" Role="WorkGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="WorkGroup">
+              <PropertyRef Name="C_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_WorkGroup">
+          <End Type="CompanyModel.WorkGroup" Role="WorkGroup" Multiplicity="0..1" />
+          <End Type="CompanyModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkGroup">
+              <PropertyRef Name="WorkGroupId" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="C_GroupHeaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WebSite">
+          <Key>
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="SiteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SiteGuid" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="Byte" Nullable="false" />
+          <Property Name="DbSource" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="CompanyModel.FK_WebSite_Company" FromRole="WebSite" ToRole="Company" />
+          <Property Name="TemplateName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_WebSite_Company">
+          <End Type="CompanyModel.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyModel.WebSite" Role="WebSite" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="WebSite">
+              <PropertyRef Name="C_CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyModelStoreContainer" CdmEntityContainer="CompanyEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="CompanyModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Latitiude" ColumnName="Latitiude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Emails" ColumnName="Emails" />
+                <ScalarProperty Name="Phones" ColumnName="Phones" />
+                <ScalarProperty Name="AddNumber" ColumnName="AddNumber" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="AddrId" ColumnName="AddrId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CompanyModel.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CRMGuid" ColumnName="CRMGuid" />
+                <ScalarProperty Name="LocalDB" ColumnName="LocalDB" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Services" ColumnName="Services" />
+                <ScalarProperty Name="SiteUrl" ColumnName="SiteUrl" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="ICQ" ColumnName="ICQ" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="PhototPath" ColumnName="PhototPath" />
+                <ScalarProperty Name="C_CurrentLegalEntityId" ColumnName="_CurrentLegalEntityId" />
+                <ScalarProperty Name="C_CurrentAddrId" ColumnName="_CurrentAddrId" />
+                <ScalarProperty Name="ShortComanyName" ColumnName="ShortComanyName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="CompanyModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="WorkGroups" ColumnName="WorkGroups" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="CompanyModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ICQ" ColumnName="ICQ" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="TransactionPercent" ColumnName="TransactionPercent" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="C_GroupHeaderId" ColumnName="_GroupHeaderId" />
+                <ScalarProperty Name="WorkGroups" ColumnName="WorkGroups" />
+                <ScalarProperty Name="IsKeyEmployee" ColumnName="IsKeyEmployee" />
+                <ScalarProperty Name="NegativeMention" ColumnName="NegativeMention" />
+                <ScalarProperty Name="PositiveMention" ColumnName="PositiveMention" />
+                <ScalarProperty Name="SocialLinks" ColumnName="SocialLinks" />
+                <ScalarProperty Name="IsDismissed" ColumnName="IsDismissed" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_PassportId" ColumnName="_PassportId" />
+                <ScalarProperty Name="C_PosId" ColumnName="_PosId" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="FullNameGenitive" ColumnName="FullNameGenitive" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeTimesheets">
+            <EntityTypeMapping TypeName="CompanyModel.EmployeeTimesheet">
+              <MappingFragment StoreEntitySet="EmployeeTimesheet">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="IpLocationEnd" ColumnName="IpLocationEnd" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="IpLocationBegin" ColumnName="IpLocationBegin" />
+                <ScalarProperty Name="BeginWork" ColumnName="BeginWork" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_EmployeeId" ColumnName="_EmployeeId" />
+                <ScalarProperty Name="EmployeeTimesheetId" ColumnName="EmployeeTimesheetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalEntities">
+            <EntityTypeMapping TypeName="CompanyModel.LegalEntity">
+              <MappingFragment StoreEntitySet="LegalEntity">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_LegalAddrId" ColumnName="_LegalAddrId" />
+                <ScalarProperty Name="PayLocation" ColumnName="PayLocation" />
+                <ScalarProperty Name="BIK" ColumnName="BIK" />
+                <ScalarProperty Name="KS" ColumnName="KS" />
+                <ScalarProperty Name="RS" ColumnName="RS" />
+                <ScalarProperty Name="OGRN" ColumnName="OGRN" />
+                <ScalarProperty Name="KPP" ColumnName="KPP" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LegalEntityId" ColumnName="LegalEntityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passports">
+            <EntityTypeMapping TypeName="CompanyModel.Passport">
+              <MappingFragment StoreEntitySet="Passport">
+                <ScalarProperty Name="ScanPath" ColumnName="ScanPath" />
+                <ScalarProperty Name="RegLocation" ColumnName="RegLocation" />
+                <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+                <ScalarProperty Name="CodeIssue" ColumnName="CodeIssue" />
+                <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
+                <ScalarProperty Name="WhoIssue" ColumnName="WhoIssue" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="PassportId" ColumnName="PassportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="CompanyModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="C_ParentPosId" ColumnName="_ParentPosId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="C_DepartmentId" ColumnName="_DepartmentId" />
+                <ScalarProperty Name="NameGenetive" ColumnName="NameGenetive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="LegalCompany" TypeName="CompanyModel.LegalCompany" StoreEntitySet="LegalCompany">
+            <EndProperty Name="LegalEntity">
+              <ScalarProperty Name="LegalEntityId" ColumnName="_LegalEntityId" />
+            </EndProperty>
+            <EndProperty Name="Company">
+              <ScalarProperty Name="CompanyId" ColumnName="_CompanyId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="EmployeeDepartment" TypeName="CompanyModel.EmployeeDepartment" StoreEntitySet="EmployeeDepartment">
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="EmployeeId" ColumnName="_EmployeeId" />
+            </EndProperty>
+            <EndProperty Name="Department">
+              <ScalarProperty Name="DepartmentId" ColumnName="_DepartmentId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="WorkGroups">
+            <EntityTypeMapping TypeName="CompanyModel.WorkGroup">
+              <MappingFragment StoreEntitySet="WorkGroup">
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+                <ScalarProperty Name="Descritption" ColumnName="Descritption" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorkGroupId" ColumnName="WorkGroupId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebSites">
+            <EntityTypeMapping TypeName="CompanyModel.WebSite">
+              <MappingFragment StoreEntitySet="WebSite">
+                <ScalarProperty Name="TemplateName" ColumnName="TemplateName" />
+                <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
+                <ScalarProperty Name="DbSource" ColumnName="DbSource" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="SiteGuid" ColumnName="SiteGuid" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

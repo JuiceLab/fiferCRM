@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6839F2A0-D3FC-4FC9-8A75-389709586B4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LogContext</RootNamespace>
+    <AssemblyName>LogContext</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CRMAction.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Event.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventsListener.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\LogEntities.cs" />
+    <Compile Include="JournalEvent.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="JournalsListener.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Listener.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LogEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MailRegistration.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Notify.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Notify4Listener.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NotifyHistory.cs">
+      <DependentUpon>LogEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="LogEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LogEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="LogEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LogEntities.edmx</DependentUpon>
+      <LastGenOutput>LogEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="LogEntities.edmx.diagram">
+      <DependentUpon>LogEntities.edmx</DependentUpon>
+    </None>
+    <None Include="LogEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LogEntities.edmx</DependentUpon>
+      <LastGenOutput>LogEntities.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

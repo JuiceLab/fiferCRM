@@ -1,0 +1,47 @@
+﻿@model IEnumerable<WorkGroupViewModel>
+<div class="widget-body innerAll inner-2x">
+    <!-- Table -->
+    <table class="dynamicTable scrollVertical table table-bordered table-primary">
+
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th class="center">Название</th>
+                <th>Отделы</th>
+                <th>Сотрудники</th>
+                <th>Доступные действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.Name))
+            {
+                <tr>
+                    <td class="center">@item.Name</td>
+                    <td>@item.Departments</td>
+                    <td>@item.Employees</td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                Действия
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#" onclick="loadModalContent('modal-add', 'GroupEdit', 'Department', '?groupId='+@item.GroupId)">Редактировать</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        <!-- // Table body END -->
+
+    </table>
+
+    <!-- // Table END -->
+
+</div>

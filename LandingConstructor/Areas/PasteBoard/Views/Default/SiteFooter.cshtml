@@ -1,0 +1,44 @@
+﻿@model IPage
+<tr>
+    <td style="background-color: White;"></td>
+</tr>
+
+
+<tr>
+    <td style="background-color: White;">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%" class="line_tab">
+            <tr>
+                <td class="line_1">@Model.Footer.Name ©&nbsp;@DateTime.Now.Year</td>
+                <td class="line_2"><img src="~/assets/pasteboard/css/leftmenu/line_tac.jpg" alt="" width="1px" height="73px" border="0"></td>
+                <td class="line_3">
+                    <div class="line_title">Адрес</div>
+                    <div class="line_desc">@Model.Footer.Address</div>
+                </td>
+                <td class="line_4">
+                    <div class="line_title">Телефон</div>
+                    <div class="line_desc">@Model.Footer.Phone</div>
+                </td>
+
+            </tr>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td style="background-color: White;">
+        <table cellspacing="0" cellpadding="0" border="0" class="bottom" width="100%">
+            <tr>
+                <td></td>
+                <td align="center" width="40%">
+                    <!--Счетчики-->
+                    <!--/Счетчики-->
+                </td>
+                <td align="right" valign="top">
+                    <div id="fifer">
+                        <a href="" target="_blank">Создание сайта</a>: Компания
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>

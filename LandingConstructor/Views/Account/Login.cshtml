@@ -1,0 +1,28 @@
+﻿@model LoginViewModel
+@{
+    Layout = "~/Views/Shared/_EmptyLayout.cshtml";
+}
+<div class="container">
+    <div class="modal-header">
+        <h3 class="modal-title">Управление сайтом. Вход</h3>
+    </div>
+    <!-- // Modal heading END -->
+    <!-- Modal body -->
+    <div class="modal-body">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { role = "form", id = "auth-from" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @for = "Email" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Введите email или логин" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @for = "Password" })
+                @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control", placeholder = "Введите пароль" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+
+            <button class="btn btn-primary btn-block">Войти</button>
+        }
+    </div>
+</div>

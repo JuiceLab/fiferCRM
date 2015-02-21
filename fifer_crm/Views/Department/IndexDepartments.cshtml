@@ -1,0 +1,97 @@
+﻿@model CompanyWrapViewModel
+@{
+    ViewBag.Title = @Model.CompanyName;
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app margin-none">
+
+        <!-- col -->
+        <div class="col-md-12">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box hasNiceScroll" tabindex="5000" style="overflow-y: hidden; outline: none;">
+
+                <!-- Tabs -->
+                <div class="widget widget-tabs widget-tabs-social-account widget-tabs-responsive">
+
+                    <!-- Tabs Heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons suitcase" href="#tabDepartment" data-toggle="tab"><i></i><span>Отделы</span></a></li>
+                            <li class=""><a class="glyphicons building" href="#tabPosition" data-toggle="tab"><i></i><span>Должности</span></a></li>
+                            <li class=""><a class="glyphicons building" href="#tabWorkGroup" data-toggle="tab"><i></i><span>Рабочие группы</span></a></li>
+                        </ul>
+                    </div>
+                    <!-- // Tabs Heading END -->
+                    <div class="col-separator-h box"></div>
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div id="tabDepartment" class="tab-pane active widget-body-regular padding-none border-none reset-components">
+                               <h4 class="innerTB">Отделы компании &nbsp;<span onclick="loadModalContentWithCallback('modal-add', 'DepartmentEdit', 'Department', '', initMultiSelect)" class="btn btn-primary"><i class="fa fa-fw fa-plus-square-o"></i> Добавить</span></h4>
+                                <div class="row">
+                                        @Html.Partial("DepartmentTable", Model.Departments)
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <div id="tabPosition" class="tab-pane widget-body-regular padding-none border-none reset-components">                                
+                                <h4 class="innerTB">Должности в компании &nbsp;<span onclick="loadModalContent('modal-add', 'PositionEdit', 'Department','')" class="btn btn-primary"><i class="fa fa-fw fa-plus-square-o"></i> Добавить</span></h4>
+                                <div class="row">
+                                    @Html.Partial("PositionTable", Model.Positions)
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <div id="tabWorkGroup" class="tab-pane widget-body-regular padding-none border-none reset-components">
+                                <h4 class="innerTB">Рабочие группы компании &nbsp;<span onclick="loadModalContent('modal-add', 'GroupEdit', 'Department','')" class="btn btn-primary"><i class="fa fa-fw fa-plus-square-o"></i> Добавить</span></h4>
+                                <div class="row">
+                                    @Html.Partial("GroupTable", Model.WorkGroups)
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <!-- // Tab content END -->
+                        </div>
+                    </div>
+                </div>
+                <!-- // Tabs END -->
+            </div>
+            <!-- // END col-separator -->
+
+        </div>
+        <!-- // END col -->
+
+        <div id="ascrail2000" class="nicescroll-rails" style="width: 5px; z-index: 2; cursor: default; position: absolute; top: 0px; left: 1097px; height: 399px; display: block; opacity: 0;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 364px; border: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(235, 106, 90); background-clip: padding-box;"></div></div>
+    </div>
+    <!-- // END row-app -->
+</div>
+
+<div class="modal fade in" id="modal-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title">Загрузка формы</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+
+            </div>
+            <!-- // Modal body END -->
+
+        </div>
+    </div>
+
+</div>

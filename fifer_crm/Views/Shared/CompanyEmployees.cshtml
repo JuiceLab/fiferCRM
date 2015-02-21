@@ -1,0 +1,6 @@
+﻿@model IEnumerable<EmployeeViewModel>
+@foreach (var item in Model)
+{
+    <a href="#" class="innerAll half pull-left border-none @(item.IsOnline? "" : "opacity30")" data-toggle="image-preview" data-title="@item.FirstName @item.LastName" data-image-preview="@(!string.IsNullOrEmpty(item.PhotoPath) ? item.PhotoPath : "/content/images/profile.jpg")" data-content="<small>@item.Department: @item.Position</small>">
+        <img src="@(!string.IsNullOrEmpty(item.PhotoPath) ? item.PhotoPath : "/content/images/profile.jpg")" alt=" photo" width="35"></a>
+}

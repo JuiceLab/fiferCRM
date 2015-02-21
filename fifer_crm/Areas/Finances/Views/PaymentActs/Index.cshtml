@@ -1,0 +1,135 @@
+﻿@model CompanyPaymentsWrapModel
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+
+<div class="layout-app">
+    <!-- row-app -->
+    <div class="row row-app">
+
+        <!-- col -->
+        <div class="col-sm-4">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box col-unscrollable">
+
+                <!-- col-table -->
+                <div class="col-table">
+
+                    <div class="heading-buttons innerLR border-bottom">
+                        <h4 class="margin-none innerAll border-bottom">Компании</h4>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <ul class="list-group list-group-1 borders-none">
+                        @foreach (var item in Model.PaymentCompanies)
+                        {
+                            <li class="list-group-item"><a href="#" onclick="filterPayment('@(item.CompanyGuid)'); $('.list-group-item').removeClass('active'); $(this).parents('li').addClass('active') "><span class="badge badge-primary pull-right">@(Model.CompletionActs.ContainsKey(item.CompanyGuid) ? Model.CompletionActs[item.CompanyGuid].Count() : 0)</span>&nbsp; <span class="badge badge-primary pull-right">@Model.Payments.Where(m=>m.CompanyGuid == item.CompanyGuid).Count()</span>@item.LegalName</a></li>
+                        }
+                    </ul>
+                    <div class="col-separator-h box"></div>
+                </div>
+                <!-- // END col-table -->
+
+            </div>
+            <!-- // END col-separator.box -->
+
+        </div>
+        <!-- // END col -->
+        <!-- col -->
+        <div class="col-sm-8">
+
+            <!-- col-separator.box -->
+            <div class="col-separator col-unscrollable box">
+
+                <!-- col-table -->
+                <div class="col-table">
+
+                    <h4 class="margin-none innerAll border-bottom">Платежи и акты выполенных работ 
+                        &nbsp;<span class="btn btn-default pull-right padding-none" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'Finances/PaymentActs', '', initDropDown);" title=" Новый">&nbsp;<i class="fa fa-plus"></i> Новый&nbsp;</span>
+                        <span class="btn btn-default pull-right padding-none" onclick="loadModalContentWithCallback('modal-add', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Payment)', initPaymentCallback);">Выставить счет</span>
+                    </h4>
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+
+                        <!-- col-app -->
+                        <div class="col-app col-unscrollable">
+
+                            <!-- col-app -->
+                            <div class="col-app">
+                                @*<div class="bg-gray border-bottom innerAll">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Name <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Name</a></li>
+                                                    <li><a href="#">Phone Number</a></li>
+                                                    <li><a href="#">Group</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="What are you searching for?">
+                                        </div>
+                                    </div>
+
+                                    <div class="heading-buttons innerLR border-bottom">
+                                        <h5 class="innerTB strong margin-none">Results</h5>
+                                        <div class="pull-right innerT half">
+
+                                            <span class="label label-primary"> A <i class="fa fa-times"></i></span>
+                                            <span class="label label-primary"> Demian <i class="fa fa-times"></i></span>
+                                            <span class="label label-primary"> a <i class="fa fa-times"></i></span>
+
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>*@
+                                <div id="paymentsList">
+                                    @Html.Partial("PaymentsList", Model)
+                                </div>
+                            </div>
+                            <!-- // END col-app -->
+
+                        </div>
+                        <!-- // END col-app.col-unscrollable -->
+
+                    </div>
+                    <!-- // END col-table-row -->
+
+                </div>
+                <!-- // END col-table -->
+
+            </div>
+            <!-- // END col-separator.box -->
+
+        </div>
+        <!-- // END col -->
+
+    </div>
+    <!-- // END row-app -->
+
+    <div class="modal fade in" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content" style="min-width:700px">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Загрузка формы</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+                <!-- // Modal body END -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

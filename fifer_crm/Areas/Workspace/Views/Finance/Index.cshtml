@@ -1,0 +1,58 @@
+﻿@model IFinanceStatInteractive
+@{
+    ViewBag.Title = "Финансовая активность";
+}
+ @section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+    <div class="layout-app">
+        <div class="row row-app">
+            <div class="col-md-12">
+                <div class="col-separator box col-separator-first col-unscrollable">
+                    <div class="col-table">
+                        <div class="heading-buttons innerLR border-bottom">
+                            <h4 class="margin-none innerTB pull-left">@ViewBag.Title</h4>
+                            <div class="btn-group btn-group-xs pull-right">
+                                <div class="btn-group">
+                                    <a href="" class="btn btn-primary" style="padding:0" data-toggle="dropdown">
+                                        <i class="fa fa-fw fa-plus"></i> Добавить платеж&nbsp;<span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Payment)', initPaymentCallback);" >Выставить счет</a></li>
+                                        <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Expense)', initPaymentCallback);" >Добавить расход</a></li>
+                                    </ul>
+                                </div>&nbsp;
+                                <a href="" class="btn btn-default"><i class="fa fa-fw fa-clock-o"></i>Акты выполненных работ</a>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-table-row">
+                            <div class="col-app col-unscrollable">
+                                <div class="col-app">
+                                    <div class="innerAll bg-gray">
+                                        <h5 class="strong innerB margin-none">Фильтр</h5>
+                                        <!-- Filters -->
+                                        <div class="filter-bar">
+                                          @Html.Partial("FinanceFilter", Model.FinanceFilter)
+                                        </div>
+                                        <!-- // Filters END -->
+                                    </div>
+                                    <div id="filtred-content">
+                                       @Html.Partial("FinanceFiltredContent", Model)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

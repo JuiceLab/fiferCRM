@@ -1,0 +1,10 @@
+﻿@model SiteModel.FeedbackModel
+<form action='' method="post" class="" style="margin:0; color:#fff;">
+    Ваше имя:  <br>@Html.TextBoxFor(m=>m.ClientName)<br>
+    Телефон: <br>@Html.TextBoxFor(m => m.Phone)<br>
+    E-mail: <br>@Html.TextBoxFor(m => m.Mail)<br>
+    Сообщение:<br>
+    @Html.TextAreaFor(m => m.Text, 3, 23, null)<br>
+    Обязательные поля<br>
+    <input type='button' value='Отправить' id='form-submit'>
+</form>

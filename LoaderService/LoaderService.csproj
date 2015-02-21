@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AC03ADB1-78BA-4B84-9E49-6ACEEEB13FE6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoaderService</RootNamespace>
+    <AssemblyName>LoaderService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.0.1.1\lib\net20\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Excel\DemoDataLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CompanyContext\CompanyContext.csproj">
+      <Project>{16c83465-731c-4384-a61b-4bba6f8c86c3}</Project>
+      <Name>CompanyContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompanyModel\CompanyModel.csproj">
+      <Project>{5248c243-b0d5-42b0-b796-0805a05154ef}</Project>
+      <Name>CompanyModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompanyRepositories\CompanyRepositories.csproj">
+      <Project>{3f7ff331-c6f0-4c1a-be15-165f509741ef}</Project>
+      <Name>CompanyRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMContext\CRMContext.csproj">
+      <Project>{cf2e02c5-c751-4645-86e5-15d3d83ff3f3}</Project>
+      <Name>CRMContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMExchangeService\CRMExchangeService.csproj">
+      <Project>{a5e51f65-a7ad-4386-b02c-c03070fda69d}</Project>
+      <Name>CRMExchangeService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMLocalContext\CRMLocalContext.csproj">
+      <Project>{030a76f5-561b-4b33-9931-a5dc798042fe}</Project>
+      <Name>CRMLocalContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMModel\CRMModel.csproj">
+      <Project>{770e0e2b-3c06-4df2-8eb8-54f0b1774090}</Project>
+      <Name>CRMModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMRepositories\CRMRepositories.csproj">
+      <Project>{2d57160a-f278-4e1b-af03-9644b02935e9}</Project>
+      <Name>CRMRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityRepository\EntityRepository.csproj">
+      <Project>{a87259dd-f94f-4715-9f12-646d49a08049}</Project>
+      <Name>EntityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelper\EnumHelper.csproj">
+      <Project>{51baae80-caa9-4756-8787-8ffd4936bc12}</Project>
+      <Name>EnumHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionHelpers\ExtensionHelpers.csproj">
+      <Project>{240aee1e-c04f-4079-826c-9e022588ba10}</Project>
+      <Name>ExtensionHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\fifer_crm\fifer_crm.csproj">
+      <Project>{8bfb4f83-0619-491f-a7c2-3e5ef14018f3}</Project>
+      <Name>fifer_crm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{fe802d5c-69d5-4be1-ab14-718654b9c686}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogContext\LogContext.csproj">
+      <Project>{6839f2a0-d3fc-4fc9-8a75-389709586b4c}</Project>
+      <Name>LogContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogRepositories\LogRepositories.csproj">
+      <Project>{c9dc80f0-1108-4bbb-947d-9ea7823f129a}</Project>
+      <Name>LogRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogService\LogService.csproj">
+      <Project>{56db5fe7-afdd-4564-b8ce-cec1d7203762}</Project>
+      <Name>LogService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModel\NotifyEventModel.csproj">
+      <Project>{63acd34e-4f73-458e-91d5-1079e101f45c}</Project>
+      <Name>NotifyEventModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyModel\NotifyModel.csproj">
+      <Project>{46a762d4-8631-4757-8121-d4d2a5b357bb}</Project>
+      <Name>NotifyModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyService\NotifyService.csproj">
+      <Project>{e0a79f32-d5ee-4ca2-8575-e89ba453762b}</Project>
+      <Name>NotifyService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{b7e78673-3d44-4503-9253-16fa013bd456}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalrService\SignalrService.csproj">
+      <Project>{dbdce9d5-c78a-4c35-b22d-fd21334c481d}</Project>
+      <Name>SignalrService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

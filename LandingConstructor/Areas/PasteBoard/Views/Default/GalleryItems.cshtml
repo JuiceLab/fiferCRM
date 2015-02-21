@@ -1,0 +1,10 @@
+﻿@model IGalleryPage
+@foreach (var item in Model.GalleryItems)
+{
+    <div class="demo">
+        <div>
+            <a href="@(Model.GalleryPath)/@item.FullSizePath" class="pirobox_gall" title="@item.Title">
+                <img src="@(Model.GalleryPath)/@item.Path" alt="@item.Alt" title="@item.Title" /></a>
+        </div>
+    </div>
+}

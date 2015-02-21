@@ -1,0 +1,36 @@
+﻿@model CityPreview
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Город @(Model.CityId != 0 ? Model.Name : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("EditCity", "God", new { Area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(m => m.CityId)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Code, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary">@(Model.CityId != 0 ? "Обновить" : "Добавить")</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

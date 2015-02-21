@@ -1,0 +1,1576 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LocalCRMModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CompanyService">
+          <Key>
+            <PropertyRef Name="CompanyServiceId" />
+          </Key>
+          <Property Name="CompanyServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="BaseServiceGuid" Type="uniqueidentifier" />
+          <Property Name="_ParentId" Type="int" />
+        </EntityType>
+        <EntityType Name="CompletionAct">
+          <Key>
+            <PropertyRef Name="CompletionActId" />
+          </Key>
+          <Property Name="CompletionActId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Payments" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DealNumber" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DealDate" Type="datetime" Nullable="false" />
+          <Property Name="CompanyGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TotalValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TaxPercent" Type="float" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="64" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="256" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="256" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="512" />
+          <Property Name="Position" Type="nvarchar" MaxLength="256" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsLPR" Type="bit" Nullable="false" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Assigned" Type="uniqueidentifier" />
+          <Property Name="CustomerGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SocialLinks" Type="nvarchar" MaxLength="512" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="128" />
+          <Property Name="CityGuid" Type="uniqueidentifier" />
+          <Property Name="C_LegalEntityId" Type="int" />
+          <Property Name="C_PassportId" Type="int" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="ExpenseId" />
+          </Key>
+          <Property Name="ExpenseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="C_CompanyServiceId" Type="int" />
+        </EntityType>
+        <EntityType Name="GeoLocation">
+          <Key>
+            <PropertyRef Name="GeoLocationId" />
+          </Key>
+          <Property Name="GeoLocationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Latitude" Type="float" />
+          <Property Name="Longitude" Type="float" />
+          <Property Name="Address" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+          <Property Name="CityGuid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalActivity">
+          <Key>
+            <PropertyRef Name="LegalActivityId" />
+          </Key>
+          <Property Name="LegalActivityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActivityFullName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="C_LegalEntityId" Type="int" Nullable="false" />
+          <Property Name="C_ServiceId" Type="int" Nullable="false" />
+          <Property Name="EmployeePercentBonus" Type="float" />
+          <Property Name="SelfCost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="HasNDS" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalEnityDetail">
+          <Key>
+            <PropertyRef Name="LegalEntityDetailId" />
+          </Key>
+          <Property Name="LegalEntityDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="INN" Type="bigint" Nullable="false" />
+          <Property Name="KPP" Type="bigint" Nullable="false" />
+          <Property Name="OGRN" Type="bigint" Nullable="false" />
+          <Property Name="RS" Type="bigint" Nullable="false" />
+          <Property Name="KS" Type="bigint" />
+          <Property Name="BIK" Type="bigint" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PayLocation" Type="nvarchar" MaxLength="1024" />
+          <Property Name="PayLocationRS" Type="bigint" />
+          <Property Name="C_GeoId" Type="int" />
+          <Property Name="C_LegalEntityId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalEntity">
+          <Key>
+            <PropertyRef Name="LegalEntityId" />
+          </Key>
+          <Property Name="LegalEntityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LegalName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="PublicName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Phones" Type="nvarchar" MaxLength="512" />
+          <Property Name="Mails" Type="nvarchar" MaxLength="512" />
+          <Property Name="Sites" Type="nvarchar" MaxLength="1024" />
+          <Property Name="C_MainGeoId" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Assigned" Type="uniqueidentifier" />
+          <Property Name="CompanyGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="128" />
+          <Property Name="LogoPath" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="LegalLocation">
+          <Key>
+            <PropertyRef Name="GeoLocations_GeoLocationId" />
+            <PropertyRef Name="LegalEntities1_LegalEntityId" />
+          </Key>
+          <Property Name="GeoLocations_GeoLocationId" Type="int" Nullable="false" />
+          <Property Name="LegalEntities1_LegalEntityId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="MeetingId" />
+          </Key>
+          <Property Name="MeetingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_CustomerId" Type="int" Nullable="false" />
+          <Property Name="Goals" Type="nvarchar(max)" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="Calls" Type="varchar(max)" />
+          <Property Name="ResultComment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="MeetingGuid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MeetingTransfer">
+          <Key>
+            <PropertyRef Name="MeetingTransferId" />
+          </Key>
+          <Property Name="MeetingTransferId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromDate" Type="datetime" Nullable="false" />
+          <Property Name="ToDate" Type="datetime" Nullable="false" />
+          <Property Name="ReasonComment" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="C_MeetingId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ModifyLog">
+          <Key>
+            <PropertyRef Name="ModifyLogItemId" />
+          </Key>
+          <Property Name="ModifyLogItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Msg" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ObjId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Passport">
+          <Key>
+            <PropertyRef Name="PassportId" />
+          </Key>
+          <Property Name="PassportId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Serial" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="WhoIssue" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DateIssue" Type="datetime" Nullable="false" />
+          <Property Name="CodeIssue" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="BirthLocation" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="RegLocation" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="ScanPath" Type="nvarchar" MaxLength="512" />
+          <Property Name="CityGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PaymentBefore" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+          <Property Name="TotalValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalPayed" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsCash" Type="bit" Nullable="false" />
+          <Property Name="Recipient" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SubmitedBy" Type="uniqueidentifier" />
+          <Property Name="SubmitedDate" Type="datetime" />
+          <Property Name="C_LegalEntityDetailId" Type="int" />
+        </EntityType>
+        <EntityType Name="PaymentDetail">
+          <Key>
+            <PropertyRef Name="PaymentInvoiceDetailId" />
+          </Key>
+          <Property Name="PaymentInvoiceDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemCost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Qty" Type="float" Nullable="false" />
+          <Property Name="ServiceFullName" Type="nvarchar" MaxLength="512" />
+          <Property Name="C_InvoiceId" Type="int" />
+          <Property Name="C_PaymentId" Type="int" />
+          <Property Name="ItemTaxPercent" Type="float" />
+        </EntityType>
+        <EntityType Name="PaymentInvoice">
+          <Key>
+            <PropertyRef Name="PaymentInvoiceId" />
+          </Key>
+          <Property Name="PaymentInvoiceId" Type="int" Nullable="false" />
+          <Property Name="PaymentNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PaymentBefore" Type="datetime" Nullable="false" />
+          <Property Name="PaymentDetails" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+          <Property Name="TotalValue" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalPayed" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IsCash" Type="bit" Nullable="false" />
+          <Property Name="FromCompany" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FromEmployee" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SubmitedBy" Type="uniqueidentifier" />
+          <Property Name="SubmitedDate" Type="datetime" />
+          <Property Name="C_FromLegalEntityDetailID" Type="int" />
+        </EntityType>
+        <EntityType Name="PaymentSchedule">
+          <Key>
+            <PropertyRef Name="PaymentScheduleId" />
+          </Key>
+          <Property Name="PaymentScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_PaymentTemplateId" Type="int" />
+          <Property Name="C_PaymentId" Type="int" Nullable="false" />
+          <Property Name="PayBefore" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentTemplate">
+          <Key>
+            <PropertyRef Name="PaymentTemplateId" />
+          </Key>
+          <Property Name="PaymentTemplateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Services" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskCategory">
+          <Key>
+            <PropertyRef Name="TaskCategoryId" />
+          </Key>
+          <Property Name="TaskCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskPeriod">
+          <Key>
+            <PropertyRef Name="TaskPeriodId" />
+          </Key>
+          <Property Name="TaskPeriodId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TaskTicketId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PeriodType" Type="tinyint" Nullable="false" />
+          <Property Name="DateStarted" Type="datetime" Nullable="false" />
+          <Property Name="StatusId" Type="tinyint" Nullable="false" />
+          <Property Name="NotifyBefore" Type="time" Precision="7" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Assigned" Type="uniqueidentifier" />
+          <Property Name="AddNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserNotify">
+          <Key>
+            <PropertyRef Name="HistoryItemId" />
+          </Key>
+          <Property Name="HistoryItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+          <Property Name="IsViewed" Type="bit" Nullable="false" />
+          <Property Name="User4Notify" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NotifyAfter" Type="datetime" Nullable="false" />
+          <Property Name="InitByUserId" Type="uniqueidentifier" />
+          <Property Name="ObjectId" Type="nvarchar" MaxLength="64" />
+        </EntityType>
+        <Association Name="FK_CompanyService_CompanyService">
+          <End Role="CompanyService" Type="Self.CompanyService" Multiplicity="0..1" />
+          <End Role="CompanyService1" Type="Self.CompanyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="CompanyService1">
+              <PropertyRef Name="_ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Customer">
+          <End Role="Passport" Type="Self.Passport" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passport">
+              <PropertyRef Name="PassportId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="C_PassportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_LegalEntity">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="0..1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expense_CompanyService">
+          <End Role="CompanyService" Type="Self.CompanyService" Multiplicity="0..1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="C_CompanyServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalActivity_CompanyService">
+          <End Role="CompanyService" Type="Self.CompanyService" Multiplicity="1" />
+          <End Role="LegalActivity" Type="Self.LegalActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="LegalActivity">
+              <PropertyRef Name="C_ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalActivity_LegalEnityDetail">
+          <End Role="LegalEnityDetail" Type="Self.LegalEnityDetail" Multiplicity="1" />
+          <End Role="LegalActivity" Type="Self.LegalActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="LegalActivity">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEnityDetail_GeoLocation">
+          <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="0..1" />
+          <End Role="LegalEnityDetail" Type="Self.LegalEnityDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalEnityDetail">
+              <PropertyRef Name="C_GeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEnityDetail_LegalEntity">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
+          <End Role="LegalEnityDetail" Type="Self.LegalEnityDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalEnityDetail">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntity_GeoLocation">
+          <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalEntity">
+              <PropertyRef Name="C_MainGeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalLocation_GeoLocation">
+          <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
+          <End Role="LegalLocation" Type="Self.LegalLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalLocation">
+              <PropertyRef Name="GeoLocations_GeoLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalLocation_LegalEntity">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
+          <End Role="LegalLocation" Type="Self.LegalLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalLocation">
+              <PropertyRef Name="LegalEntities1_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meeting_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="C_CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingTransfer_Meeting">
+          <End Role="Meeting" Type="Self.Meeting" Multiplicity="1" />
+          <End Role="MeetingTransfer" Type="Self.MeetingTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="MeetingId" />
+            </Principal>
+            <Dependent Role="MeetingTransfer">
+              <PropertyRef Name="C_MeetingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_LegalEnityDetail">
+          <End Role="LegalEnityDetail" Type="Self.LegalEnityDetail" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="C_LegalEntityDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetail_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="0..1" />
+          <End Role="PaymentDetail" Type="Self.PaymentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="PaymentDetail">
+              <PropertyRef Name="C_PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetail_PaymentInvoice">
+          <End Role="PaymentInvoice" Type="Self.PaymentInvoice" Multiplicity="0..1" />
+          <End Role="PaymentDetail" Type="Self.PaymentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentInvoice">
+              <PropertyRef Name="PaymentInvoiceId" />
+            </Principal>
+            <Dependent Role="PaymentDetail">
+              <PropertyRef Name="C_InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentInvoice_LegalEnityDetail">
+          <End Role="LegalEnityDetail" Type="Self.LegalEnityDetail" Multiplicity="0..1" />
+          <End Role="PaymentInvoice" Type="Self.PaymentInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="PaymentInvoice">
+              <PropertyRef Name="C_FromLegalEntityDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedule_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PaymentSchedule" Type="Self.PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="C_PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedule_PaymentTemplate">
+          <End Role="PaymentTemplate" Type="Self.PaymentTemplate" Multiplicity="0..1" />
+          <End Role="PaymentSchedule" Type="Self.PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTemplate">
+              <PropertyRef Name="PaymentTemplateId" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="C_PaymentTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LocalCRMModelStoreContainer">
+          <EntitySet Name="CompanyService" EntityType="Self.CompanyService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompletionAct" EntityType="Self.CompletionAct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GeoLocation" EntityType="Self.GeoLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalActivity" EntityType="Self.LegalActivity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalEnityDetail" EntityType="Self.LegalEnityDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalLocation" EntityType="Self.LegalLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeetingTransfer" EntityType="Self.MeetingTransfer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModifyLog" EntityType="Self.ModifyLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentDetail" EntityType="Self.PaymentDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentInvoice" EntityType="Self.PaymentInvoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentSchedule" EntityType="Self.PaymentSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentTemplate" EntityType="Self.PaymentTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskCategory" EntityType="Self.TaskCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskPeriod" EntityType="Self.TaskPeriod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserNotify" EntityType="Self.UserNotify" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CompanyService_CompanyService" Association="Self.FK_CompanyService_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyService" />
+            <End Role="CompanyService1" EntitySet="CompanyService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Customer" Association="Self.FK_Customer_Customer">
+            <End Role="Passport" EntitySet="Passport" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_LegalEntity" Association="Self.FK_Customer_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expense_CompanyService" Association="Self.FK_Expense_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyService" />
+            <End Role="Expense" EntitySet="Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalActivity_CompanyService" Association="Self.FK_LegalActivity_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyService" />
+            <End Role="LegalActivity" EntitySet="LegalActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalActivity_LegalEnityDetail" Association="Self.FK_LegalActivity_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
+            <End Role="LegalActivity" EntitySet="LegalActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEnityDetail_GeoLocation" Association="Self.FK_LegalEnityDetail_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocation" />
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEnityDetail_LegalEntity" Association="Self.FK_LegalEnityDetail_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntity_GeoLocation" Association="Self.FK_LegalEntity_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocation" />
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalLocation_GeoLocation" Association="Self.FK_LegalLocation_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocation" />
+            <End Role="LegalLocation" EntitySet="LegalLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalLocation_LegalEntity" Association="Self.FK_LegalLocation_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="LegalLocation" EntitySet="LegalLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meeting_Customer" Association="Self.FK_Meeting_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Meeting" EntitySet="Meeting" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingTransfer_Meeting" Association="Self.FK_MeetingTransfer_Meeting">
+            <End Role="Meeting" EntitySet="Meeting" />
+            <End Role="MeetingTransfer" EntitySet="MeetingTransfer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_LegalEnityDetail" Association="Self.FK_Payment_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetail_Payment" Association="Self.FK_PaymentDetail_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="PaymentDetail" EntitySet="PaymentDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetail_PaymentInvoice" Association="Self.FK_PaymentDetail_PaymentInvoice">
+            <End Role="PaymentInvoice" EntitySet="PaymentInvoice" />
+            <End Role="PaymentDetail" EntitySet="PaymentDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentInvoice_LegalEnityDetail" Association="Self.FK_PaymentInvoice_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
+            <End Role="PaymentInvoice" EntitySet="PaymentInvoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedule_Payment" Association="Self.FK_PaymentSchedule_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedule_PaymentTemplate" Association="Self.FK_PaymentSchedule_PaymentTemplate">
+            <End Role="PaymentTemplate" EntitySet="PaymentTemplate" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LocalCRMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LocalCRMEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CompletionActs" EntityType="LocalCRMModel.CompletionAct" />
+          <EntitySet Name="GeoLocations" EntityType="LocalCRMModel.GeoLocation" />
+          <EntitySet Name="LegalEnityDetails" EntityType="LocalCRMModel.LegalEnityDetail" />
+          <EntitySet Name="LegalEntities" EntityType="LocalCRMModel.LegalEntity" />
+          <EntitySet Name="Meetings" EntityType="LocalCRMModel.Meeting" />
+          <EntitySet Name="MeetingTransfers" EntityType="LocalCRMModel.MeetingTransfer" />
+          <EntitySet Name="PaymentDetails" EntityType="LocalCRMModel.PaymentDetail" />
+          <EntitySet Name="PaymentSchedules" EntityType="LocalCRMModel.PaymentSchedule" />
+          <EntitySet Name="PaymentTemplates" EntityType="LocalCRMModel.PaymentTemplate" />
+          <AssociationSet Name="FK_LegalEnityDetail_GeoLocation" Association="LocalCRMModel.FK_LegalEnityDetail_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocations" />
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntity_GeoLocation" Association="LocalCRMModel.FK_LegalEntity_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocations" />
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEnityDetail_LegalEntity" Association="LocalCRMModel.FK_LegalEnityDetail_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingTransfer_Meeting" Association="LocalCRMModel.FK_MeetingTransfer_Meeting">
+            <End Role="Meeting" EntitySet="Meetings" />
+            <End Role="MeetingTransfer" EntitySet="MeetingTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedule_PaymentTemplate" Association="LocalCRMModel.FK_PaymentSchedule_PaymentTemplate">
+            <End Role="PaymentTemplate" EntitySet="PaymentTemplates" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="LegalLocation" Association="LocalCRMModel.LegalLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocations" />
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+          </AssociationSet>
+          <EntitySet Name="PaymentInvoices" EntityType="LocalCRMModel.PaymentInvoice" />
+          <AssociationSet Name="FK_PaymentInvoice_LegalEnityDetail" Association="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
+            <End Role="PaymentInvoice" EntitySet="PaymentInvoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetail_PaymentInvoice" Association="LocalCRMModel.FK_PaymentDetail_PaymentInvoice">
+            <End Role="PaymentInvoice" EntitySet="PaymentInvoices" />
+            <End Role="PaymentDetail" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <EntitySet Name="Expenses" EntityType="LocalCRMModel.Expense" />
+          <EntitySet Name="LegalActivities" EntityType="LocalCRMModel.LegalActivity" />
+          <EntitySet Name="Payments" EntityType="LocalCRMModel.Payment" />
+          <AssociationSet Name="FK_LegalActivity_LegalEnityDetail" Association="LocalCRMModel.FK_LegalActivity_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
+            <End Role="LegalActivity" EntitySet="LegalActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_LegalEnityDetail" Association="LocalCRMModel.FK_Payment_LegalEnityDetail">
+            <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentDetail_Payment" Association="LocalCRMModel.FK_PaymentDetail_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PaymentDetail" EntitySet="PaymentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PaymentSchedule_Payment" Association="LocalCRMModel.FK_PaymentSchedule_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PaymentSchedule" EntitySet="PaymentSchedules" />
+          </AssociationSet>
+          <EntitySet Name="CompanyServices" EntityType="LocalCRMModel.CompanyService" />
+          <AssociationSet Name="FK_CompanyService_CompanyService" Association="LocalCRMModel.FK_CompanyService_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyServices" />
+            <End Role="CompanyService1" EntitySet="CompanyServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expense_CompanyService" Association="LocalCRMModel.FK_Expense_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyServices" />
+            <End Role="Expense" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalActivity_CompanyService" Association="LocalCRMModel.FK_LegalActivity_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyServices" />
+            <End Role="LegalActivity" EntitySet="LegalActivities" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="LocalCRMModel.Customer" />
+          <EntitySet Name="Passports" EntityType="LocalCRMModel.Passport" />
+          <AssociationSet Name="FK_Customer_LegalEntity" Association="LocalCRMModel.FK_Customer_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_Passport" Association="LocalCRMModel.FK_Customer_Passport">
+            <End Role="Passport" EntitySet="Passports" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meeting_Customer" Association="LocalCRMModel.FK_Meeting_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Meeting" EntitySet="Meetings" />
+          </AssociationSet>
+          <EntitySet Name="ModifyLogs" EntityType="LocalCRMModel.ModifyLog" />
+          <EntitySet Name="TaskPeriods" EntityType="LocalCRMModel.TaskPeriod" />
+          <EntitySet Name="TaskCategories" EntityType="LocalCRMModel.TaskCategory" />
+          <EntitySet Name="UserNotifies" EntityType="LocalCRMModel.UserNotify" />
+          </EntityContainer>
+        <EntityType Name="CompletionAct">
+          <Key>
+            <PropertyRef Name="CompletionActId" />
+          </Key>
+          <Property Name="CompletionActId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Payments" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="DealNumber" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DealDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CompanyGuid" Type="Guid" Nullable="false" />
+          <Property Name="CustomerGuid" Type="Guid" Nullable="false" />
+          <Property Name="TotalValue" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TaxPercent" Type="Double" />
+        </EntityType>
+        <EntityType Name="GeoLocation">
+          <Key>
+            <PropertyRef Name="GeoLocationId" />
+          </Key>
+          <Property Name="GeoLocationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="CityGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="LegalEnityDetails" Relationship="LocalCRMModel.FK_LegalEnityDetail_GeoLocation" FromRole="GeoLocation" ToRole="LegalEnityDetail" />
+          <NavigationProperty Name="LegalEntities" Relationship="LocalCRMModel.FK_LegalEntity_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
+          <NavigationProperty Name="LegalEntities1" Relationship="LocalCRMModel.LegalLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
+        </EntityType>
+        <EntityType Name="LegalEnityDetail">
+          <Key>
+            <PropertyRef Name="LegalEntityDetailId" />
+          </Key>
+          <Property Name="LegalEntityDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="INN" Type="Int64" Nullable="false" />
+          <Property Name="KPP" Type="Int64" Nullable="false" />
+          <Property Name="OGRN" Type="Int64" Nullable="false" />
+          <Property Name="RS" Type="Int64" Nullable="false" />
+          <Property Name="KS" Type="Int64" />
+          <Property Name="BIK" Type="Int64" />
+          <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
+          <Property Name="C_GeoId" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="GeoLocation" Relationship="LocalCRMModel.FK_LegalEnityDetail_GeoLocation" FromRole="LegalEnityDetail" ToRole="GeoLocation" />
+          <NavigationProperty Name="LegalEntity" Relationship="LocalCRMModel.FK_LegalEnityDetail_LegalEntity" FromRole="LegalEnityDetail" ToRole="LegalEntity" />
+          <NavigationProperty Name="PaymentInvoices" Relationship="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail" FromRole="LegalEnityDetail" ToRole="PaymentInvoice" />
+          <NavigationProperty Name="LegalActivities" Relationship="LocalCRMModel.FK_LegalActivity_LegalEnityDetail" FromRole="LegalEnityDetail" ToRole="LegalActivity" />
+          <NavigationProperty Name="Payments" Relationship="LocalCRMModel.FK_Payment_LegalEnityDetail" FromRole="LegalEnityDetail" ToRole="Payment" />
+          <Property Name="PayLocation" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="PayLocationRS" Type="Int64" />
+        </EntityType>
+        <EntityType Name="LegalEntity">
+          <Key>
+            <PropertyRef Name="LegalEntityId" />
+          </Key>
+          <Property Name="LegalEntityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LegalName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="PublicName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Phones" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Mails" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Sites" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="C_MainGeoId" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Assigned" Type="Guid" />
+          <Property Name="CompanyGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="GeoLocation" Relationship="LocalCRMModel.FK_LegalEntity_GeoLocation" FromRole="LegalEntity" ToRole="GeoLocation" />
+          <NavigationProperty Name="LegalEnityDetails" Relationship="LocalCRMModel.FK_LegalEnityDetail_LegalEntity" FromRole="LegalEntity" ToRole="LegalEnityDetail" />
+          <NavigationProperty Name="GeoLocations" Relationship="LocalCRMModel.LegalLocation" FromRole="LegalEntity" ToRole="GeoLocation" />
+          <Property Name="Skype" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customers" Relationship="LocalCRMModel.FK_Customer_LegalEntity" FromRole="LegalEntity" ToRole="Customer" />
+          <Property Name="LogoPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Meeting">
+          <Key>
+            <PropertyRef Name="MeetingId" />
+          </Key>
+          <Property Name="MeetingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="C_CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="Goals" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="Calls" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ResultComment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MeetingTransfers" Relationship="LocalCRMModel.FK_MeetingTransfer_Meeting" FromRole="Meeting" ToRole="MeetingTransfer" />
+          <Property Name="MeetingGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="LocalCRMModel.FK_Meeting_Customer" FromRole="Meeting" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="MeetingTransfer">
+          <Key>
+            <PropertyRef Name="MeetingTransferId" />
+          </Key>
+          <Property Name="MeetingTransferId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ToDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReasonComment" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_MeetingId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Meeting" Relationship="LocalCRMModel.FK_MeetingTransfer_Meeting" FromRole="MeetingTransfer" ToRole="Meeting" />
+        </EntityType>
+        <EntityType Name="PaymentDetail">
+          <Key>
+            <PropertyRef Name="PaymentInvoiceDetailId" />
+          </Key>
+          <Property Name="PaymentInvoiceDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemCost" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Qty" Type="Double" Nullable="false" />
+          <Property Name="ServiceFullName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_InvoiceId" Type="Int32" />
+          <Property Name="C_PaymentId" Type="Int32" />
+          <Property Name="ItemTaxPercent" Type="Double" />
+          <NavigationProperty Name="PaymentInvoice" Relationship="LocalCRMModel.FK_PaymentDetail_PaymentInvoice" FromRole="PaymentDetail" ToRole="PaymentInvoice" />
+          <NavigationProperty Name="Payment" Relationship="LocalCRMModel.FK_PaymentDetail_Payment" FromRole="PaymentDetail" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="PaymentSchedule">
+          <Key>
+            <PropertyRef Name="PaymentScheduleId" />
+          </Key>
+          <Property Name="PaymentScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_PaymentTemplateId" Type="Int32" />
+          <Property Name="C_PaymentId" Type="Int32" Nullable="false" />
+          <Property Name="PayBefore" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PaymentTemplate" Relationship="LocalCRMModel.FK_PaymentSchedule_PaymentTemplate" FromRole="PaymentSchedule" ToRole="PaymentTemplate" />
+          <NavigationProperty Name="Payment" Relationship="LocalCRMModel.FK_PaymentSchedule_Payment" FromRole="PaymentSchedule" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="PaymentTemplate">
+          <Key>
+            <PropertyRef Name="PaymentTemplateId" />
+          </Key>
+          <Property Name="PaymentTemplateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyGuid" Type="Guid" Nullable="false" />
+          <Property Name="Services" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="PaymentSchedules" Relationship="LocalCRMModel.FK_PaymentSchedule_PaymentTemplate" FromRole="PaymentTemplate" ToRole="PaymentSchedule" />
+        </EntityType>
+        <Association Name="FK_LegalEnityDetail_GeoLocation">
+          <End Type="LocalCRMModel.GeoLocation" Role="GeoLocation" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalEnityDetail">
+              <PropertyRef Name="C_GeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntity_GeoLocation">
+          <End Type="LocalCRMModel.GeoLocation" Role="GeoLocation" Multiplicity="1" />
+          <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalEntity">
+              <PropertyRef Name="C_MainGeoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEnityDetail_LegalEntity">
+          <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
+          <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalEnityDetail">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingTransfer_Meeting">
+          <End Type="LocalCRMModel.Meeting" Role="Meeting" Multiplicity="1" />
+          <End Type="LocalCRMModel.MeetingTransfer" Role="MeetingTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meeting">
+              <PropertyRef Name="MeetingId" />
+            </Principal>
+            <Dependent Role="MeetingTransfer">
+              <PropertyRef Name="C_MeetingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedule_PaymentTemplate">
+          <End Type="LocalCRMModel.PaymentTemplate" Role="PaymentTemplate" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.PaymentSchedule" Role="PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentTemplate">
+              <PropertyRef Name="PaymentTemplateId" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="C_PaymentTemplateId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LegalLocation">
+          <End Type="LocalCRMModel.GeoLocation" Role="GeoLocation" Multiplicity="*" />
+          <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="*" />
+        </Association>
+        <EntityType Name="PaymentInvoice">
+          <Key>
+            <PropertyRef Name="PaymentInvoiceId" />
+          </Key>
+          <Property Name="PaymentInvoiceId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentBefore" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PaymentDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="TotalValue" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TotalPayed" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsCash" Type="Boolean" Nullable="false" />
+          <Property Name="FromCompany" Type="Guid" Nullable="false" />
+          <Property Name="FromEmployee" Type="Guid" Nullable="false" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="SubmitedBy" Type="Guid" />
+          <Property Name="SubmitedDate" Type="DateTime" Precision="3" />
+          <Property Name="C_FromLegalEntityDetailID" Type="Int32" />
+          <NavigationProperty Name="LegalEnityDetail" Relationship="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail" FromRole="PaymentInvoice" ToRole="LegalEnityDetail" />
+          <NavigationProperty Name="PaymentDetails1" Relationship="LocalCRMModel.FK_PaymentDetail_PaymentInvoice" FromRole="PaymentInvoice" ToRole="PaymentDetail" />
+        </EntityType>
+        <Association Name="FK_PaymentInvoice_LegalEnityDetail">
+          <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.PaymentInvoice" Role="PaymentInvoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="PaymentInvoice">
+              <PropertyRef Name="C_FromLegalEntityDetailID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetail_PaymentInvoice">
+          <End Type="LocalCRMModel.PaymentInvoice" Role="PaymentInvoice" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.PaymentDetail" Role="PaymentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentInvoice">
+              <PropertyRef Name="PaymentInvoiceId" />
+            </Principal>
+            <Dependent Role="PaymentDetail">
+              <PropertyRef Name="C_InvoiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="ExpenseId" />
+          </Key>
+          <Property Name="ExpenseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="C_CompanyServiceId" Type="Int32" />
+          <NavigationProperty Name="CompanyService" Relationship="LocalCRMModel.FK_Expense_CompanyService" FromRole="Expense" ToRole="CompanyService" />
+        </EntityType>
+        <EntityType Name="LegalActivity">
+          <Key>
+            <PropertyRef Name="LegalActivityId" />
+          </Key>
+          <Property Name="LegalActivityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActivityFullName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
+          <Property Name="C_ServiceId" Type="Int32" Nullable="false" />
+          <Property Name="EmployeePercentBonus" Type="Double" />
+          <Property Name="SelfCost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="HasNDS" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="LegalEnityDetail" Relationship="LocalCRMModel.FK_LegalActivity_LegalEnityDetail" FromRole="LegalActivity" ToRole="LegalEnityDetail" />
+          <NavigationProperty Name="CompanyService" Relationship="LocalCRMModel.FK_LegalActivity_CompanyService" FromRole="LegalActivity" ToRole="CompanyService" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentId" />
+          </Key>
+          <Property Name="PaymentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentBefore" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="TotalValue" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TotalPayed" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IsCash" Type="Boolean" Nullable="false" />
+          <Property Name="Recipient" Type="Guid" Nullable="false" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="SubmitedBy" Type="Guid" />
+          <Property Name="SubmitedDate" Type="DateTime" Precision="3" />
+          <Property Name="C_LegalEntityDetailId" Type="Int32" />
+          <NavigationProperty Name="LegalEnityDetail" Relationship="LocalCRMModel.FK_Payment_LegalEnityDetail" FromRole="Payment" ToRole="LegalEnityDetail" />
+          <NavigationProperty Name="PaymentDetails" Relationship="LocalCRMModel.FK_PaymentDetail_Payment" FromRole="Payment" ToRole="PaymentDetail" />
+          <NavigationProperty Name="PaymentSchedules" Relationship="LocalCRMModel.FK_PaymentSchedule_Payment" FromRole="Payment" ToRole="PaymentSchedule" />
+        </EntityType>
+        <Association Name="FK_LegalActivity_LegalEnityDetail">
+          <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="1" />
+          <End Type="LocalCRMModel.LegalActivity" Role="LegalActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="LegalActivity">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_LegalEnityDetail">
+          <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEnityDetail">
+              <PropertyRef Name="LegalEntityDetailId" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="C_LegalEntityDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentDetail_Payment">
+          <End Type="LocalCRMModel.Payment" Role="Payment" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.PaymentDetail" Role="PaymentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="PaymentDetail">
+              <PropertyRef Name="C_PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PaymentSchedule_Payment">
+          <End Type="LocalCRMModel.Payment" Role="Payment" Multiplicity="1" />
+          <End Type="LocalCRMModel.PaymentSchedule" Role="PaymentSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentId" />
+            </Principal>
+            <Dependent Role="PaymentSchedule">
+              <PropertyRef Name="C_PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CompanyService">
+          <Key>
+            <PropertyRef Name="CompanyServiceId" />
+          </Key>
+          <Property Name="CompanyServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="BaseServiceGuid" Type="Guid" />
+          <Property Name="C_ParentId" Type="Int32" />
+          <NavigationProperty Name="CompanyService1" Relationship="LocalCRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService" ToRole="CompanyService1" />
+          <NavigationProperty Name="CompanyService2" Relationship="LocalCRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService1" ToRole="CompanyService" />
+          <NavigationProperty Name="Expenses" Relationship="LocalCRMModel.FK_Expense_CompanyService" FromRole="CompanyService" ToRole="Expense" />
+          <NavigationProperty Name="LegalActivities" Relationship="LocalCRMModel.FK_LegalActivity_CompanyService" FromRole="CompanyService" ToRole="LegalActivity" />
+        </EntityType>
+        <Association Name="FK_CompanyService_CompanyService">
+          <End Type="LocalCRMModel.CompanyService" Role="CompanyService" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.CompanyService" Role="CompanyService1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="CompanyService1">
+              <PropertyRef Name="C_ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expense_CompanyService">
+          <End Type="LocalCRMModel.CompanyService" Role="CompanyService" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.Expense" Role="Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="C_CompanyServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalActivity_CompanyService">
+          <End Type="LocalCRMModel.CompanyService" Role="CompanyService" Multiplicity="1" />
+          <End Type="LocalCRMModel.LegalActivity" Role="LegalActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="LegalActivity">
+              <PropertyRef Name="C_ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="IsLPR" Type="Boolean" Nullable="false" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Assigned" Type="Guid" />
+          <Property Name="CustomerGuid" Type="Guid" Nullable="false" />
+          <Property Name="SocialLinks" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Skype" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="C_LegalEntityId" Type="Int32" />
+          <Property Name="C_PassportId" Type="Int32" />
+          <NavigationProperty Name="LegalEntity" Relationship="LocalCRMModel.FK_Customer_LegalEntity" FromRole="Customer" ToRole="LegalEntity" />
+          <NavigationProperty Name="Passport" Relationship="LocalCRMModel.FK_Customer_Passport" FromRole="Customer" ToRole="Passport" />
+          <NavigationProperty Name="Meetings" Relationship="LocalCRMModel.FK_Meeting_Customer" FromRole="Customer" ToRole="Meeting" />
+          <Property Name="PhotoPath" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="CityGuid" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Passport">
+          <Key>
+            <PropertyRef Name="PassportId" />
+          </Key>
+          <Property Name="PassportId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Serial" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <Property Name="WhoIssue" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DateIssue" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CodeIssue" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="BirthLocation" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="RegLocation" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="ScanPath" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customers" Relationship="LocalCRMModel.FK_Customer_Passport" FromRole="Passport" ToRole="Customer" />
+          <Property Name="CityGuid" Type="Guid" />
+        </EntityType>
+        <Association Name="FK_Customer_LegalEntity">
+          <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_Passport">
+          <End Type="LocalCRMModel.Passport" Role="Passport" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Passport">
+              <PropertyRef Name="PassportId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="C_PassportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Meeting_Customer">
+          <End Type="LocalCRMModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="LocalCRMModel.Meeting" Role="Meeting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Meeting">
+              <PropertyRef Name="C_CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ModifyLog">
+          <Key>
+            <PropertyRef Name="ModifyLogItemId" />
+          </Key>
+          <Property Name="ModifyLogItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Msg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Guid" Nullable="false" />
+          <Property Name="ObjId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="TaskPeriod">
+          <Key>
+            <PropertyRef Name="TaskPeriodId" />
+          </Key>
+          <Property Name="TaskPeriodId" Type="Guid" Nullable="false" />
+          <Property Name="TaskTicketId" Type="Guid" Nullable="false" />
+          <Property Name="PeriodType" Type="Byte" Nullable="false" />
+          <Property Name="DateStarted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusId" Type="Byte" Nullable="false" />
+          <Property Name="NotifyBefore" Type="Time" Precision="7" />
+          <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Assigned" Type="Guid" />
+          <Property Name="AddNumber" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskCategory">
+          <Key>
+            <PropertyRef Name="TaskCategoryId" />
+          </Key>
+          <Property Name="TaskCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserNotify">
+          <Key>
+            <PropertyRef Name="HistoryItemId" />
+          </Key>
+          <Property Name="HistoryItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsViewed" Type="Boolean" Nullable="false" />
+          <Property Name="User4Notify" Type="Guid" Nullable="false" />
+          <Property Name="NotifyAfter" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="InitByUserId" Type="Guid" />
+          <Property Name="ObjectId" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LocalCRMModelStoreContainer" CdmEntityContainer="LocalCRMEntities">
+          <EntitySetMapping Name="CompletionActs">
+            <EntityTypeMapping TypeName="LocalCRMModel.CompletionAct">
+              <MappingFragment StoreEntitySet="CompletionAct">
+                <ScalarProperty Name="TaxPercent" ColumnName="TaxPercent" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="CustomerGuid" ColumnName="CustomerGuid" />
+                <ScalarProperty Name="CompanyGuid" ColumnName="CompanyGuid" />
+                <ScalarProperty Name="DealDate" ColumnName="DealDate" />
+                <ScalarProperty Name="DealNumber" ColumnName="DealNumber" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Payments" ColumnName="Payments" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CompletionActId" ColumnName="CompletionActId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GeoLocations">
+            <EntityTypeMapping TypeName="LocalCRMModel.GeoLocation">
+              <MappingFragment StoreEntitySet="GeoLocation">
+                <ScalarProperty Name="CityGuid" ColumnName="CityGuid" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="GeoLocationId" ColumnName="GeoLocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalEnityDetails">
+            <EntityTypeMapping TypeName="LocalCRMModel.LegalEnityDetail">
+              <MappingFragment StoreEntitySet="LegalEnityDetail">
+                <ScalarProperty Name="PayLocationRS" ColumnName="PayLocationRS" />
+                <ScalarProperty Name="PayLocation" ColumnName="PayLocation" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_GeoId" ColumnName="C_GeoId" />
+                <ScalarProperty Name="C_LegalEntityId" ColumnName="C_LegalEntityId" />
+                <ScalarProperty Name="BIK" ColumnName="BIK" />
+                <ScalarProperty Name="KS" ColumnName="KS" />
+                <ScalarProperty Name="RS" ColumnName="RS" />
+                <ScalarProperty Name="OGRN" ColumnName="OGRN" />
+                <ScalarProperty Name="KPP" ColumnName="KPP" />
+                <ScalarProperty Name="INN" ColumnName="INN" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="LegalEntityDetailId" ColumnName="LegalEntityDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalEntities">
+            <EntityTypeMapping TypeName="LocalCRMModel.LegalEntity">
+              <MappingFragment StoreEntitySet="LegalEntity">
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="CompanyGuid" ColumnName="CompanyGuid" />
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="C_MainGeoId" ColumnName="C_MainGeoId" />
+                <ScalarProperty Name="Sites" ColumnName="Sites" />
+                <ScalarProperty Name="Mails" ColumnName="Mails" />
+                <ScalarProperty Name="Phones" ColumnName="Phones" />
+                <ScalarProperty Name="PublicName" ColumnName="PublicName" />
+                <ScalarProperty Name="LegalName" ColumnName="LegalName" />
+                <ScalarProperty Name="LegalEntityId" ColumnName="LegalEntityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meetings">
+            <EntityTypeMapping TypeName="LocalCRMModel.Meeting">
+              <MappingFragment StoreEntitySet="Meeting">
+                <ScalarProperty Name="MeetingGuid" ColumnName="MeetingGuid" />
+                <ScalarProperty Name="ResultComment" ColumnName="ResultComment" />
+                <ScalarProperty Name="Calls" ColumnName="Calls" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Goals" ColumnName="Goals" />
+                <ScalarProperty Name="C_CustomerId" ColumnName="C_CustomerId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="MeetingId" ColumnName="MeetingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeetingTransfers">
+            <EntityTypeMapping TypeName="LocalCRMModel.MeetingTransfer">
+              <MappingFragment StoreEntitySet="MeetingTransfer">
+                <ScalarProperty Name="C_MeetingId" ColumnName="C_MeetingId" />
+                <ScalarProperty Name="ReasonComment" ColumnName="ReasonComment" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+                <ScalarProperty Name="MeetingTransferId" ColumnName="MeetingTransferId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentDetails">
+            <EntityTypeMapping TypeName="LocalCRMModel.PaymentDetail">
+              <MappingFragment StoreEntitySet="PaymentDetail">
+                <ScalarProperty Name="ItemTaxPercent" ColumnName="ItemTaxPercent" />
+                <ScalarProperty Name="C_PaymentId" ColumnName="C_PaymentId" />
+                <ScalarProperty Name="C_InvoiceId" ColumnName="C_InvoiceId" />
+                <ScalarProperty Name="ServiceFullName" ColumnName="ServiceFullName" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="ItemCost" ColumnName="ItemCost" />
+                <ScalarProperty Name="PaymentInvoiceDetailId" ColumnName="PaymentInvoiceDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentSchedules">
+            <EntityTypeMapping TypeName="LocalCRMModel.PaymentSchedule">
+              <MappingFragment StoreEntitySet="PaymentSchedule">
+                <ScalarProperty Name="PayBefore" ColumnName="PayBefore" />
+                <ScalarProperty Name="C_PaymentId" ColumnName="C_PaymentId" />
+                <ScalarProperty Name="C_PaymentTemplateId" ColumnName="C_PaymentTemplateId" />
+                <ScalarProperty Name="PaymentScheduleId" ColumnName="PaymentScheduleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentTemplates">
+            <EntityTypeMapping TypeName="LocalCRMModel.PaymentTemplate">
+              <MappingFragment StoreEntitySet="PaymentTemplate">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Services" ColumnName="Services" />
+                <ScalarProperty Name="CompanyGuid" ColumnName="CompanyGuid" />
+                <ScalarProperty Name="PaymentTemplateId" ColumnName="PaymentTemplateId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="LegalLocation" TypeName="LocalCRMModel.LegalLocation" StoreEntitySet="LegalLocation">
+            <EndProperty Name="LegalEntity">
+              <ScalarProperty Name="LegalEntityId" ColumnName="LegalEntities1_LegalEntityId" />
+            </EndProperty>
+            <EndProperty Name="GeoLocation">
+              <ScalarProperty Name="GeoLocationId" ColumnName="GeoLocations_GeoLocationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="PaymentInvoices">
+            <EntityTypeMapping TypeName="LocalCRMModel.PaymentInvoice">
+              <MappingFragment StoreEntitySet="PaymentInvoice">
+                <ScalarProperty Name="C_FromLegalEntityDetailID" ColumnName="C_FromLegalEntityDetailID" />
+                <ScalarProperty Name="SubmitedDate" ColumnName="SubmitedDate" />
+                <ScalarProperty Name="SubmitedBy" ColumnName="SubmitedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="FromEmployee" ColumnName="FromEmployee" />
+                <ScalarProperty Name="FromCompany" ColumnName="FromCompany" />
+                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
+                <ScalarProperty Name="TotalPayed" ColumnName="TotalPayed" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PaymentDetails" ColumnName="PaymentDetails" />
+                <ScalarProperty Name="PaymentBefore" ColumnName="PaymentBefore" />
+                <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
+                <ScalarProperty Name="PaymentInvoiceId" ColumnName="PaymentInvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="LocalCRMModel.Expense">
+              <MappingFragment StoreEntitySet="Expense">
+                <ScalarProperty Name="C_CompanyServiceId" ColumnName="C_CompanyServiceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExpenseId" ColumnName="ExpenseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalActivities">
+            <EntityTypeMapping TypeName="LocalCRMModel.LegalActivity">
+              <MappingFragment StoreEntitySet="LegalActivity">
+                <ScalarProperty Name="HasNDS" ColumnName="HasNDS" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="SelfCost" ColumnName="SelfCost" />
+                <ScalarProperty Name="EmployeePercentBonus" ColumnName="EmployeePercentBonus" />
+                <ScalarProperty Name="C_ServiceId" ColumnName="C_ServiceId" />
+                <ScalarProperty Name="C_LegalEntityId" ColumnName="C_LegalEntityId" />
+                <ScalarProperty Name="ActivityFullName" ColumnName="ActivityFullName" />
+                <ScalarProperty Name="LegalActivityId" ColumnName="LegalActivityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="LocalCRMModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="C_LegalEntityDetailId" ColumnName="C_LegalEntityDetailId" />
+                <ScalarProperty Name="SubmitedDate" ColumnName="SubmitedDate" />
+                <ScalarProperty Name="SubmitedBy" ColumnName="SubmitedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
+                <ScalarProperty Name="TotalPayed" ColumnName="TotalPayed" />
+                <ScalarProperty Name="TotalValue" ColumnName="TotalValue" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="PaymentBefore" ColumnName="PaymentBefore" />
+                <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyServices">
+            <EntityTypeMapping TypeName="LocalCRMModel.CompanyService">
+              <MappingFragment StoreEntitySet="CompanyService">
+                <ScalarProperty Name="C_ParentId" ColumnName="_ParentId" />
+                <ScalarProperty Name="BaseServiceGuid" ColumnName="BaseServiceGuid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyServiceId" ColumnName="CompanyServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="LocalCRMModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CityGuid" ColumnName="CityGuid" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="C_PassportId" ColumnName="C_PassportId" />
+                <ScalarProperty Name="C_LegalEntityId" ColumnName="C_LegalEntityId" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="SocialLinks" ColumnName="SocialLinks" />
+                <ScalarProperty Name="CustomerGuid" ColumnName="CustomerGuid" />
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="IsLPR" ColumnName="IsLPR" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Passports">
+            <EntityTypeMapping TypeName="LocalCRMModel.Passport">
+              <MappingFragment StoreEntitySet="Passport">
+                <ScalarProperty Name="CityGuid" ColumnName="CityGuid" />
+                <ScalarProperty Name="ScanPath" ColumnName="ScanPath" />
+                <ScalarProperty Name="RegLocation" ColumnName="RegLocation" />
+                <ScalarProperty Name="BirthLocation" ColumnName="BirthLocation" />
+                <ScalarProperty Name="CodeIssue" ColumnName="CodeIssue" />
+                <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
+                <ScalarProperty Name="WhoIssue" ColumnName="WhoIssue" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="PassportId" ColumnName="PassportId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModifyLogs">
+            <EntityTypeMapping TypeName="LocalCRMModel.ModifyLog">
+              <MappingFragment StoreEntitySet="ModifyLog">
+                <ScalarProperty Name="ObjId" ColumnName="ObjId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Msg" ColumnName="Msg" />
+                <ScalarProperty Name="ModifyLogItemId" ColumnName="ModifyLogItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskPeriods">
+            <EntityTypeMapping TypeName="LocalCRMModel.TaskPeriod">
+              <MappingFragment StoreEntitySet="TaskPeriod">
+                <ScalarProperty Name="AddNumber" ColumnName="AddNumber" />
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="NotifyBefore" ColumnName="NotifyBefore" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
+                <ScalarProperty Name="PeriodType" ColumnName="PeriodType" />
+                <ScalarProperty Name="TaskTicketId" ColumnName="TaskTicketId" />
+                <ScalarProperty Name="TaskPeriodId" ColumnName="TaskPeriodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskCategories">
+            <EntityTypeMapping TypeName="LocalCRMModel.TaskCategory">
+              <MappingFragment StoreEntitySet="TaskCategory">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TaskCategoryId" ColumnName="TaskCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserNotifies">
+            <EntityTypeMapping TypeName="LocalCRMModel.UserNotify">
+              <MappingFragment StoreEntitySet="UserNotify">
+                <ScalarProperty Name="ObjectId" ColumnName="ObjectId" />
+                <ScalarProperty Name="InitByUserId" ColumnName="InitByUserId" />
+                <ScalarProperty Name="NotifyAfter" ColumnName="NotifyAfter" />
+                <ScalarProperty Name="User4Notify" ColumnName="User4Notify" />
+                <ScalarProperty Name="IsViewed" ColumnName="IsViewed" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="HistoryItemId" ColumnName="HistoryItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

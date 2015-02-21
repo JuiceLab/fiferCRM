@@ -1,0 +1,47 @@
+﻿@model SiteProjectModel
+@{
+    var types = Enum.GetValues(typeof(SiteType)).Cast<SiteType>().Select(m => new SelectListItem() { 
+         Value = m.ToString("D"),
+          Text = m.GetStringValue()
+    });
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">@(Model.SiteId == 0 ? "Новый сайт" : "Редактирование сайта")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("Edit", "SiteManage", new { Area = "WebSite" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(m => m.SiteId)
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Тип сайта</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.Type, types, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Название</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Доменное имя</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.SiteUrl, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="pull-right">
+                        <input id="sbmt-btn" type="submit" disabled="disabled" class="btn btn-primary" value="@(Model.SiteId != 0 ? "Обновить" : "Создать") сайт" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

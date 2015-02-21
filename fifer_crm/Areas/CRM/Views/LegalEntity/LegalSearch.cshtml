@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FilterModel.LegalEntitySearch>
+
+<button type="button" onclick="addNoveltyCompany()" style="width:100%;margin-bottom:10px" class="btn btn-success">Добавить новую организацию</button>
+
+@if (Model.Count() > 0)
+{
+    <table class="scrollVertical table table-striped table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Контакты</th>
+                <th>Данные</th>
+                <th>Сохранить</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.CompanyName))
+            {
+                <tr>
+                    <td>
+                        @item.CompanyName
+                    </td>
+                    <td>@item.OGRN<br />@item.INN</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.EMail))
+                        {
+                            <i class="fa fa-envelope"></i> @item.EMail <br />
+                        }
+                        @if (!string.IsNullOrEmpty(item.Phone))
+                        {
+                            <i class="fa fa-phone"></i>
+                            foreach (var phone in item.Phone.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                @phone <br />
+                            }
+                        }
+                        @if (!string.IsNullOrEmpty(item.WebSite))
+                        {
+                            <i class="fa fa-globe"></i> <a href="@item.WebSite" target="_blank">@item.WebSite</a>
+                        }
+                    </td>
+                    <td>
+                        @if (item.IsExist)
+                        {
+                            <label class="label label-info">Организация уже есть в локальной базе</label>
+                        }
+                        else
+                        {
+                         <span class="btn btn-default dropdown-toggle dropdown-hover" onclick="copyCRMCompany('@(item.CompanyId)')" title="Скопировать себе"><i class="fa fa-plus"></i> Скопировать себе</span>
+                        }
+                   </td>
+                </tr>
+            }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+
+}
+else
+{
+    <label class="label label-warning">По Вашему запросу не найдено ни одной организации. Попробуйте задать другие условия или добавьте новую организацию</label> 
+}

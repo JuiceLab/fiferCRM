@@ -1,0 +1,140 @@
+﻿@model PaymentEditModel
+@{
+    IEnumerable<SelectListItem> customers = ViewBag.Customers as IEnumerable<SelectListItem>;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">@(Model.PaymentId != 0 ? Model.Number : "Новый платеж")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="row row-app">
+        <div class="col-md-12">
+            <div class="col-separator box col-separator-first col-unscrollable">
+                <div class="col-table">
+                    <h4 class="innerAll margin-none border-bottom">Данные платежа</h4>
+                    <div class="col-table-row">
+                        <div class="col-app col-unscrollable">
+                            <div class="col-app">
+                                <div id="pdfTarget">
+                                   @if (!Model.InvoicedInfo.LegalEnitityId.HasValue)
+                                   { 
+                                       <label class="label label-warning">Невозможно создать платеж, пока не заданы реквизиты организации. Пожалуйста, сперва задайте платежные данные организации</label>
+                                   }
+                                   else
+                                   {  <div class="innerAll shop-client-products cart invoice">
+                                       
+                                        @using (Html.BeginForm("PaymentEdit", "Payment", new { Area = "Finances" }, FormMethod.Post, new { role = "form", id = "paymentForm" }))
+                                        {
+                                            @Html.HiddenFor(m => m.PaymentId)
+                                            @Html.HiddenFor(m => m.OwnerId)
+                                            if (Model.PaymentId != 0)
+                                            {
+
+                                                @Html.HiddenFor(m => m.PayBeforeInvariant)
+                                                <table class="table table-invoice">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 58%;">
+                                                                <div class="media">
+                                                                    <img class="media-object pull-left thumb" src="http://1.s3.envato.com/files/50438174/tf-avatar.jpg" alt="Logo" />
+                                                                    <div class="media-body hidden-print">
+                                                                        <div class="alert alert-primary margin-none">
+                                                                            <strong>Заметка:</strong><br />
+                                                                            @Model.Comment
+                                                                        </div>
+                                                                        <div class="separator bottom"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="right">
+                                                                <div class="innerL">
+                                                                    <h4 class="separator bottom">@Model.Number/ @Model.PayBefore.ToShortDateString()</h4>
+                                                                    <button type="button" data-toggle="print" class="btn btn-default print hidden-print pull-left"><i class="fa fa-fw fa-print"></i> Печать</button>
+                                                                    <button type="button" onclick="saveExcel(@Model.PaymentId, @ViewBag.PaymentType)" class="btn btn-primary hidden-print pull-right"><i class="fa fa-fw fa-download"></i> Сохранить</button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="right">
+                                                                <div class="innerL">
+                                                                    @if (Model.StatusId == (byte)PaymentStatus.WaitPays)
+                                                                    {
+                                                                        <label>К оплате: @Model.TotalSubmitted</label>
+                                                                        <button type="button" class="btn btn-default" onclick="changePaymentStatus(@((byte)PaymentStatus.Payed));"><i class="fa fa-thumbs-up"></i> Оплачен</button>
+                                                                    }
+                                                                    else if (Model.StatusId != (byte)PaymentStatus.Payed)
+                                                                    {
+                                                                        @Html.TextBoxFor(m=>m.TotalSubmitted)
+                                                                        <button type="button" class="btn btn-default" onclick="changePaymentStatus(@((byte)PaymentStatus.WaitPays));" ><i class="fa fa-thumbs-up"></i> Разрешить оплату</button>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            if (Model.PaymentId != 0)
+                                            {
+                                                @Html.HiddenFor(m => m.InvoicedInfo.CustomerInfo.UserId)
+
+                                                        <div class="box-generic">
+                                                            <table class="table table-invoice">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="width: 50%;">
+                                                                            <p class="lead">Компания</p>
+                                                                            <h2>@Model.InvoicedInfo.CompanyLegalInfo.LegalName</h2>
+                                                                            <address class="margin-none">
+                                                                                @Model.InvoicedInfo.CompanyLegalInfo.Address
+                                                                                <abbr title="Work email">e-mail:</abbr> <a href="mailto:#">@Model.InvoicedInfo.CompanyLegalInfo.Mails</a><br />
+                                                                                <abbr title="Work Phone">phone:</abbr> @Model.InvoicedInfo.CompanyLegalInfo.Phones<br />
+                                                                            </address>
+                                                                        </td>
+                                                                        <td class="right">
+                                                                            <p class="lead">Клиент</p>
+                                                                            <h2>@Model.InvoicedInfo.CustomerInfo.FirstName @Model.InvoicedInfo.CustomerInfo.LastName </h2>
+                                                                            <address class="margin-none">
+                                                                                @Model.InvoicedInfo.CustomerInfo.PositionName
+                                                                                <br>
+                                                                                <abbr title="Work email">e-mail:</abbr> <a href="mailto:#">@Model.InvoicedInfo.CustomerInfo.Mail</a><br />
+                                                                                <abbr title="Work Phone">phone:</abbr>@Model.InvoicedInfo.CustomerInfo.Phone<br />
+                                                                                <div class="separator line"></div>
+                                                                                <p class="margin-none"><strong>Заметка:</strong>@Model.InvoicedInfo.CustomerInfo.Comment</p>
+                                                                            </address>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Компания: Клиент</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.InvoicedInfo.CustomerInfo.UserId, customers)
+                                                            </div>
+                                                        </div>
+                                                        }
+                                            <div id="payment-details-div">
+                                                @Html.Partial("PaymentDetailsTable", Model)
+
+
+                                            </div>
+                                      
+                                        }
+                                        <!-- // Row END -->
+                                    </div>
+                                   }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

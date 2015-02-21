@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{030A76F5-561B-4B33-9931-A5DC798042FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CRMLocalContext</RootNamespace>
+    <AssemblyName>CRMLocalContext</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CompanyService.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CompletionAct.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expense.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\LocalCRMEntities.cs" />
+    <Compile Include="GeoLocation.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegalActivity.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegalEnityDetail.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegalEntity.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocalCRMEntities.Context.cs">
+      <DependentUpon>LocalCRMEntities.Context.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="LocalCRMEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LocalCRMEntities.Designer.cs">
+      <DependentUpon>LocalCRMEntities.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Meeting.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MeetingTransfer.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ModifyLog.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Passport.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentDetail.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentInvoice.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentSchedule.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentTemplate.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskCategory.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskPeriod.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserNotify.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="LocalCRMEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LocalCRMEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="LocalCRMEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalCRMEntities.edmx</DependentUpon>
+      <LastGenOutput>LocalCRMEntities.Context.cs</LastGenOutput>
+    </None>
+    <None Include="LocalCRMEntities.edmx.diagram">
+      <DependentUpon>LocalCRMEntities.edmx</DependentUpon>
+    </None>
+    <None Include="LocalCRMEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LocalCRMEntities.edmx</DependentUpon>
+      <LastGenOutput>LocalCRMEntities.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

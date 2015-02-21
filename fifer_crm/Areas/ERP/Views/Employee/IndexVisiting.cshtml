@@ -1,0 +1,65 @@
+﻿@model CompanyWrapViewModel
+@{
+    ViewBag.Title = @Model.Name;
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app margin-none">
+
+        <!-- col -->
+        <div class="col-md-12">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box hasNiceScroll" tabindex="5000" style="overflow-y: hidden; outline: none;">
+
+                <!-- Tabs -->
+                <div class="widget widget-tabs widget-tabs-social-account widget-tabs-responsive">
+                    <!-- // Tabs Heading END -->
+                    <div class="col-separator-h box"></div>
+                    <div class="widget-body">
+                        <h4 class="innerTB">История посещений</h4>
+                        <div class="row">
+                            @Html.Partial("EmployeesVisitLog", Model.TimeSheetEmployees)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // Tabs END -->
+        </div>
+        <!-- // END col-separator -->
+    </div>
+    <!-- // END col -->
+</div>
+<!-- // END row-app -->
+</div>
+
+<div class="modal fade in" id="modal-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title">Отдел</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+
+            </div>
+            <!-- // Modal body END -->
+
+        </div>
+    </div>
+
+</div>

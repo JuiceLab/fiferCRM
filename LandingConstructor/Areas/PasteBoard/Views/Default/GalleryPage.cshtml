@@ -1,0 +1,59 @@
+﻿@model IGalleryPage
+@{
+    Layout = "~/Areas/PasteBoard/Views/Shared/" + Model.LayoutName;
+}
+
+@section MetaTags
+{
+    @Html.Partial("Metatags", Model)
+}
+
+<div class="wrap">
+    @Html.Partial("SiteHeader", Model)
+</div>
+
+<div id="container">
+    <table class="main" cellspacing="0" cellpadding="0" border="0">
+        <tr><td class="topfoto"></td></tr>
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                        <td class="l_column" valign="top">
+                            @Html.Partial("InlineMenu", Model.Menu)
+                            @Html.Partial("EditorPanel", Model)
+                        </td>
+
+                        <!-- Девая панель Конец-->
+                        <!-- Контент страницы -->
+                        <td valign="top">
+                            <h1>
+                                @Model.H1
+                            </h1>
+                            <div style="padding: 10px 30px 30px 0px;">
+                                <div class="main_text">
+                                    @Html.Raw(Model.Content)
+                                </div>
+                                @if (Model.IsSocialRepostItems)
+                                {
+                                    <div class="yashare-auto-init" style="text-align:right;margin-top:15px;" data-yasharel10n="ru"
+                                         data-yasharetype="none" data-yasharequickservices="vkontakte,facebook,twitter,odnoklassniki,gplus"></div>
+                                }
+                                <div style="float:left; width:100%; display:block;margin-top:30px;">
+                                    @Html.Partial("GalleryItems", Model)
+                                    
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Контент страницы конец-->
+                        <td valign="top">
+                            <img src="~/assets/pasteboard/css/spacer00.gif" width="1px" height="350px">
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        @Html.Partial("SiteFooter", Model)
+    </table>
+</div>

@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+        Charisma v1.0.0
+
+        Copyright 2012 Muhammad Usman
+        Licensed under the Apache License v2.0
+        http://www.apache.org/licenses/LICENSE-2.0
+
+        http://usman.it
+        http://twitter.com/halalit_usman
+    -->
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fifer-CRM. Контроль вашего бизнеса в любой точке мира">
+    <meta name="author" content="Alex Jui">
+
+    <!-- The styles -->
+    <link id="bs-css" href="@Url.Content("~/Content/css/bootstrap-cerulean.css")" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    <link href="@Url.Content("~/Content/css/bootstrap-responsive.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/charisma-app.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/jquery-ui-1.8.21.custom.css")" rel="stylesheet">
+    <link href="@Url.Content("~/Content/css/fullcalendar.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/fullcalendar.print.css")" rel='stylesheet' media='print'>
+    <link href="@Url.Content("~/Content/css/chosen.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/uniform.default.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/colorbox.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/jquery.cleditor.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/jquery.noty.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/noty_theme_default.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/elfinder.min.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/elfinder.theme.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/jquery.iphone.toggle.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/opa-icons.css")" rel='stylesheet'>
+    <link href="@Url.Content("~/Content/css/uploadify.css")" rel='stylesheet'>
+    <link href='@Url.Content("~/Content/web/kendo.common.min.css")' rel="stylesheet" />
+    <link id="kendo-css" href='@Url.Content("~/Content/web/kendo.metro.min.css")' rel="stylesheet" />
+    <link href="@Url.Content("~/content/multi-select.css")" rel="stylesheet">
+    <!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- The fav icon -->
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <!-- jQuery -->
+    <script src='@Url.Content("~/scripts/jquery-1.10.2.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/scripts/jquery-ui-1.8.24.min.js")' type="text/javascript"></script>
+    <script src='http://code.jquery.com/jquery-migrate-1.1.0.min.js' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/kendo/kendo.all.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/kendo/kendo.aspnetmvc.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/kendo/cultures/kendo.culture.ru.min.js")' type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="ch-container">
+        @RenderBody()
+    </div><!--/.fluid-container-->
+    <!-- external javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="~/Scripts/content.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.multi-select.js"></script>
+    <script type="text/javascript" src="~/Scripts/helpers.modal.js"> </script>
+    <script type="text/javascript" src="~/Scripts/helpers.seo.js"> </script>
+    <script type="text/javascript" src="~/Scripts/authorize.js"> </script>
+
+    <!-- jQuery UI -->
+    <script src="/Scripts/css/jquery-ui-1.8.21.custom.min.js"></script>
+    <!-- transition / effect library -->
+    <script src="/Scripts/css/bootstrap-transition.js"></script>
+    <!-- alert enhancer library -->
+    <script src="/Scripts/css/bootstrap-alert.js"></script>
+    <!-- mo/dal / dialog library -->
+    <script src="/Scripts/css/bootstrap-modal.js"></script>
+    <!-- custom dropdown library -->
+    <script src="/Scripts/css/bootstrap-dropdown.js"></script>
+    <!-- scrolspy library -->
+    <script src="/Scripts/css/bootstrap-scrollspy.js"></script>
+    <!-- library for creating tabs -->
+    <script src="/Scripts/css/bootstrap-tab.js"></script>
+    <!-- library for advanced tooltip -->
+    <script src="/Scripts/css/bootstrap-tooltip.js"></script>
+    <!-- popover effect library -->
+    <script src="/Scripts/css/bootstrap-popover.js"></script>
+    <!-- button enhancer library -->
+    <script src="/Scripts/css/bootstrap-button.js"></script>
+    <!-- accordion library (optional, not used in demo) -->
+    <script src="/Scripts/css/bootstrap-collapse.js"></script>
+    <!-- carousel slideshow library (optional, not used in demo) -->
+    <script src="/Scripts/css/bootstrap-carousel.js"></script>
+    <!-- autocomplete library -->
+    <script src="/Scripts/css/bootstrap-typeahead.js"></script>
+    <!-- tour library -->
+    <script src="/Scripts/css/bootstrap-tour.js"></script>
+    <!-- library for cookie management -->
+    <script src="/Scripts/css/jquery.cookie.js"></script>
+    <!-- calander plugin -->
+    <script src='/Scripts/css/fullcalendar.min.js'></script>
+    <!-- /data table plugin -->
+    <script src='/Scripts/css/jquery.dataTables.min.js'></script>
+
+    <!-- chart libraries start -->
+    <script src="/Scripts/css/excanvas.js"></script>
+    <script src="/Scripts/css/jquery.flot.min.js"></script>
+    <script src="/Scripts/css/jquery.flot.pie.min.js"></script>
+    <script src="/Scripts/css/jquery.flot.stack.js"></script>
+    <script src="/Scripts/css/jquery.flot.resize.min.js"></script>
+    <!-- chart libraries end -->
+    <!-- select or dropdown enhancer -->
+    <script src="/Scripts/css/jquery.chosen.min.js"></script>
+    <!-- checkbox, radio, and file input styler -->
+    <script src="/Scripts/css/jquery.uniform.min.js"></script>
+    <!-- plugin for gallery image view -->
+    <script src="/Scripts/css/jquery.colorbox.min.js"></script>
+    <!-- rich text editor library -->
+    <script src="/Scripts/css/jquery.cleditor.min.js"></script>
+    <!-- notification plugin -->
+    <script src="/Scripts/css/jquery.noty.js"></script>
+    <!-- file manager library -->
+    <script src="~/Scripts/css/jquery.elfinder.min.js"></script>
+    <script src="/Scripts/css/elfinder.ru.js"></script>
+    <!-- star rating plugin -->
+    <script src="/Scripts/css/jquery.raty.min.js"></script>
+    <!-- for iOS style toggle switch -->
+    <script src="/Scripts/css/jquery.iphone.toggle.js"></script>
+    <!-- autogrowing textarea plugin -->
+    <script src="/Scripts/css/jquery.autogrow-textarea.js"></script>
+    <!-- multiple file upload plugin -->
+    <script src="/Scripts/css/jquery.uploadify-3.1.min.js"></script>
+    <!-- history.js for cross-browser state change on ajax -->
+    <script src="/Scripts/css/jquery.history.js"></script>
+    <script src="~/Scripts/css/elfinder.extensions.js"></script>
+    <!-- application script for Charisma demo -->
+    <script src="/Scripts/css/charisma.js"></script>
+    <script src="~/Scripts/content.js"></script>
+    <script src="~/Scripts/page.js"></script>
+    <script src="~/Scripts/image.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

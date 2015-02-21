@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fec3c6803329444ca8a0da6243a83f59" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="CompanyModel.Address" Width="1.5" PointX="0.75" PointY="4.25" />
+        <EntityTypeShape EntityType="CompanyModel.Company" Width="1.5" PointX="3" PointY="3.5" />
+        <EntityTypeShape EntityType="CompanyModel.Department" Width="1.5" PointX="5.25" PointY="9.375" />
+        <EntityTypeShape EntityType="CompanyModel.Employee" Width="1.5" PointX="9.75" PointY="8.25" />
+        <EntityTypeShape EntityType="CompanyModel.EmployeeTimesheet" Width="1.5" PointX="12" PointY="9.5" />
+        <EntityTypeShape EntityType="CompanyModel.LegalEntity" Width="1.5" PointX="5.25" PointY="4.25" />
+        <EntityTypeShape EntityType="CompanyModel.Passport" Width="1.5" PointX="7.5" PointY="5.375" />
+        <EntityTypeShape EntityType="CompanyModel.Position" Width="1.5" PointX="7.5" PointY="9.625" />
+        <AssociationConnector Association="CompanyModel.FK_Address_Company" />
+        <AssociationConnector Association="CompanyModel.FK_Company_Address" />
+        <AssociationConnector Association="CompanyModel.FK_LegalEntity_Address" />
+        <AssociationConnector Association="CompanyModel.FK_Company_Address1" />
+        <AssociationConnector Association="CompanyModel.FK_Department_Company" />
+        <AssociationConnector Association="CompanyModel.FK_Position_Department" />
+        <AssociationConnector Association="CompanyModel.FK_Employee_Passport" />
+        <AssociationConnector Association="CompanyModel.FK_Employee_Position" />
+        <AssociationConnector Association="CompanyModel.FK_EmployeeTimesheet_Employee" />
+        <AssociationConnector Association="CompanyModel.LegalCompany" />
+        <AssociationConnector Association="CompanyModel.EmployeeDepartment" />
+        <AssociationConnector Association="CompanyModel.FK_Position_Position" />
+        <EntityTypeShape EntityType="CompanyModel.WorkGroup" Width="1.5" PointX="5.25" PointY="1.375" />
+        <AssociationConnector Association="CompanyModel.FK_WorkGroup_Company" />
+        <AssociationConnector Association="CompanyModel.FK_Employee_WorkGroup" />
+        <EntityTypeShape EntityType="CompanyModel.WebSite" Width="1.5" PointX="5.25" PointY="14.125" />
+        <AssociationConnector Association="CompanyModel.FK_WebSite_Company" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

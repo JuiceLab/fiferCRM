@@ -1,0 +1,152 @@
+﻿@model EmployeeWrapViewModel
+@{
+    ViewBag.Title = "IndexCompany";
+    Layout = "~/Views/Shared/_CoralLayout.cshtml";
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+
+
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app">
+        <!-- col -->
+        <div class="col-md-12">
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first col-unscrollable bg-none">
+                <!-- col-table -->
+                <div class="col-table">
+
+                    <!-- heading -->
+                    <div class="innerTB">
+                        <h3 class="margin-none pull-left">Рабочее место сотрудника</h3>
+                        <div class="btn-group pull-right">
+                            <a href="/Task/MainTask/IndexTask" class="btn btn-default"><i class="fa fa-fw fa-tasks"></i>Все задачи</a>
+                            <a href="/Home/IndexTickets" class="btn btn-default"><i class="fa fa-fw fa-question"></i> Поддержка</a>
+                            @*<a href="dashboard_overview.html" class="btn btn-primary"><i class="fa fa-fw fa-dashboard"></i> Overview</a>*@
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- // END heading -->
+                    <div class="col-separator-h"></div>
+
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+                        <!-- col-app.col-unscrollable -->
+                        <div class="col-app col-unscrollable">
+                            <!-- col-app -->
+                            <div class="col-app">
+                                <!-- content -->
+                                <div class="row row-app">
+                                    <div class="col-md-8">
+                                        <div class="col-separator">
+                                            <div class="col-separator-h"></div>
+                                            <div class="col-separator col-separator-last">
+                                                    <div class="innerLR heading-buttons border-bottom">
+                                                        <h4 class="innerTB margin-none pull-left">Звонки</h4>
+                                                        <span class="btn-group display-block btn-group-xs pull-right">
+                                                            <span class="btn btn-xs btn-default pull-right" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '', initDateMask);" title="Создать звонок"><i class="fa fa-plus"></i> Новый </span>
+                                                        </span>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    @Html.Partial("EmployeeCallTasks", Model.CallTasks)
+                                                    <div class="col-separator-h"></div>
+                                                    <div class="innerLR heading-buttons border-bottom">
+                                                        <h4 class="innerTB margin-none pull-left">Активность</h4>
+                                                        <div class="btn-group btn-group-xs pull-right">
+                                                            <span class="btn btn-default filled" onclick="loadModalContentWithCallback('modal-help', 'TaskEdit', 'Task/GroupTask', '', initGroupTask);" title="Создать задачу"><i class="fa fa-plus"></i> Новая задача</span>
+                                                            <span class="btn btn-default btn-xs ">Выделить все</span>
+                                                            @*<span class="btn btn-default btn-xs ">Mark as Read</span>*@
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    @Html.Partial("EmployeeTasks", Model.TaskTickets)
+                                                    <div class="col-separator-h"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="col-md-4">
+                                                <div class="col-separator col-separator-last">
+                                                    <a href="" class="widget widget-icon inverse innerAll inner-2x text-center text-regular">
+                                                        <span class="lead">Подать заявку на тендер</span>
+                                                    </a>
+                                                    <div class="col-separator-h"></div>
+                                                    <!-- Demographics Widget -->
+                                                    <div class="widget widget-inverse">
+                                                        <div class="innerLR heading-buttons border-bottom">
+                                                            <h4 class="innerTB margin-none pull-left">Коллеги</h4>
+                                                            <div class="btn-group btn-group-xs pull-right">
+                                                                <button class="btn btn-default filled"><i class="fa fa-refresh "></i></button>
+                                                                <button class="btn btn-default "><i class="fa fa-cog "></i></button>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                        <div class="innerAll inner-2x">
+                                                            @Html.Partial("CompanyEmployees", Model.CompanyEmployees)
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-separator-h"></div>
+                                                        <div class="col-table">
+                                                            <input type="hidden" id="event-dates" value="@string.Join(",", Model.SheduledEvents.Where(m=>m.Value.Count() > 0).Select(m=>m.Key.ToString("dd.MM.yyyy")))" />
+                                                            <div class="innerAll bg-primary" style="margin-top:10px">
+                                                                <div class="pull-left">
+                                                                    <button class="btn btn-default filled padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initDateMask);" title="Создать встречу">&nbsp;<i class="fa fa-plus"></i>&nbsp;Встреча&nbsp;</button>
+                                                                </div>
+                                                                <div class="pull-right">
+                                                                    <a href="#" onclick="showCurDateShift(-1); return false;" class="text-white strong"><i class="fa fa-arrow-left"></i></a>
+                                                                    <span id="datepicker-events" class="strong innerLR">@(Model.SheduledEvents != null && Model.SheduledEvents.Count() > 0 ? Model.SheduledEvents.FirstOrDefault().Key.ToShortDateString() : DateTime.Now.ToShortDateString())</span>
+                                                                    <a href="#" class="text-white strong" onclick="showCurDateShift(1); return false;"><i class="fa fa-arrow-right"></i></a>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                            </div>
+
+                                                            @if(Model.SheduledEvents.ContainsKey(DateTime.Now.Date)){
+                                                                @Html.Partial("EventsTimeline", Model.SheduledEvents[DateTime.Now.Date])
+                                                            }
+                                                            else if (Model.SheduledEvents.Any(m => m.Key < DateTime.Now.Date))
+                                                            {
+                                                                <h4 class="innerTB margin-none pull-left">Просрочено</h4>
+                                                                <div class="clearfix"></div>
+                                                                @Html.Partial("EventsTimeline", Model.SheduledEvents.FirstOrDefault(m=>m.Key < DateTime.Now.Date))
+                                                            }
+                                                            else
+                                                            {
+                                                                <h4 class="innerTB margin-none pull-left">Ближайшее событие @Model.SheduledEvents.FirstOrDefault().Key.ToShortDateString()</h4>
+                                                                <div class="clearfix"></div>
+                                                                @Html.Partial("EventsTimeline", Model.SheduledEvents.FirstOrDefault())
+                                                            }
+                                                        </div>
+                                                        <div class="col-separator-h"></div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                <!-- // END content -->
+                            </div>
+                            <!-- // END col-app -->
+                        </div>
+                        <!-- // END col-app.col-unscrollable -->
+                    </div>
+                    <!-- // END col-table-row -->
+                </div>
+                <!-- // END col-table -->
+            </div>
+            <!-- // END col-separator -->
+        </div>
+        <!-- // END col -->
+    </div>
+    <!-- // END row -->
+
+
+
+
+</div>

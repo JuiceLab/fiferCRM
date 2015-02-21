@@ -1,0 +1,763 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="fifer_userModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppCookie">
+          <Key>
+            <PropertyRef Name="CookieId" />
+          </Key>
+          <Property Name="CookieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Expired" Type="datetime" Nullable="false" />
+          <Property Name="IpAddress" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="AppId" />
+          </Key>
+          <Property Name="AppId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="AppUrl" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="AppGuid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="AuthStat">
+          <Key>
+            <PropertyRef Name="AuthId" />
+          </Key>
+          <Property Name="AuthId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="StatusAuth" Type="bit" Nullable="false" />
+          <Property Name="LoginDate" Type="datetime" Nullable="false" />
+          <Property Name="LogoutDate" Type="datetime" />
+          <Property Name="IpLocation" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FunctionalRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="IncludeRoles" Type="nvarchar(max)" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="IsCRM" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="RuleId" />
+          </Key>
+          <Property Name="RuleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RuleType" Type="tinyint" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="Rule4Role">
+          <Key>
+            <PropertyRef Name="RelationId" />
+          </Key>
+          <Property Name="RelationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RuleId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+          <Property Name="Create" Type="bit" Nullable="false" />
+          <Property Name="Read" Type="bit" Nullable="false" />
+          <Property Name="Update" Type="bit" Nullable="false" />
+          <Property Name="Delete" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pass" Type="nvarchar" MaxLength="250" />
+          <Property Name="IsOnline" Type="bit" Nullable="false" />
+          <Property Name="Expired" Type="datetime" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsBlocked" Type="bit" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="128" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WorkPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="OpenId" Type="nvarchar" MaxLength="256" />
+          <Property Name="AuthKey" Type="nvarchar" MaxLength="250" />
+          <Property Name="PhoneKey" Type="nchar" MaxLength="64" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="IsTemporaryAbsent" Type="bit" />
+          <Property Name="AbsentReason" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="UserFunctionalRole">
+          <Key>
+            <PropertyRef Name="UserFunctionId" />
+          </Key>
+          <Property Name="UserFunctionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_FunctionalRoleId" Type="int" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_RoleId" Type="int" Nullable="false" />
+          <Property Name="IsAvailable" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AppCookie_ToApp">
+          <End Role="Application" Type="Self.Application" Multiplicity="1" />
+          <End Role="AppCookie" Type="Self.AppCookie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="AppCookie">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppCookie_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="AppCookie" Type="Self.AppCookie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AppCookie">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuthStat_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="AuthStat" Type="Self.AuthStat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuthStat">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FunctionalRole_FunctionalRole">
+          <End Role="FunctionalRole" Type="Self.FunctionalRole" Multiplicity="0..1" />
+          <End Role="FunctionalRole1" Type="Self.FunctionalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="FunctionalRole1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule4Role_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Rule4Role" Type="Self.Rule4Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Rule4Role">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule4Role_ToRule">
+          <End Role="Rule" Type="Self.Rule" Multiplicity="1" />
+          <End Role="Rule4Role" Type="Self.Rule4Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="RuleId" />
+            </Principal>
+            <Dependent Role="Rule4Role">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFunctionalRole_ToFunctionalRole">
+          <End Role="FunctionalRole" Type="Self.FunctionalRole" Multiplicity="1" />
+          <End Role="UserFunctionalRole" Type="Self.UserFunctionalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserFunctionalRole">
+              <PropertyRef Name="C_FunctionalRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFunctionalRole_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserFunctionalRole" Type="Self.UserFunctionalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserFunctionalRole">
+              <PropertyRef Name="C_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="C_RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_ToUser">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="C_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fifer_userModelStoreContainer">
+          <EntitySet Name="AppCookie" EntityType="Self.AppCookie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuthStat" EntityType="Self.AuthStat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FunctionalRole" EntityType="Self.FunctionalRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rule" EntityType="Self.Rule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rule4Role" EntityType="Self.Rule4Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserFunctionalRole" EntityType="Self.UserFunctionalRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AppCookie_ToApp" Association="Self.FK_AppCookie_ToApp">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="AppCookie" EntitySet="AppCookie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppCookie_ToUser" Association="Self.FK_AppCookie_ToUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="AppCookie" EntitySet="AppCookie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuthStat_ToUser" Association="Self.FK_AuthStat_ToUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="AuthStat" EntitySet="AuthStat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FunctionalRole_FunctionalRole" Association="Self.FK_FunctionalRole_FunctionalRole">
+            <End Role="FunctionalRole" EntitySet="FunctionalRole" />
+            <End Role="FunctionalRole1" EntitySet="FunctionalRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule4Role_ToRole" Association="Self.FK_Rule4Role_ToRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Rule4Role" EntitySet="Rule4Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule4Role_ToRule" Association="Self.FK_Rule4Role_ToRule">
+            <End Role="Rule" EntitySet="Rule" />
+            <End Role="Rule4Role" EntitySet="Rule4Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFunctionalRole_ToFunctionalRole" Association="Self.FK_UserFunctionalRole_ToFunctionalRole">
+            <End Role="FunctionalRole" EntitySet="FunctionalRole" />
+            <End Role="UserFunctionalRole" EntitySet="UserFunctionalRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFunctionalRole_ToUser" Association="Self.FK_UserFunctionalRole_ToUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserFunctionalRole" EntitySet="UserFunctionalRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_ToRole" Association="Self.FK_UserProfile_ToRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_ToUser" Association="Self.FK_UserProfile_ToUser">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FiferUserModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="UserEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AppCookies" EntityType="FiferUserModel.AppCookie" />
+          <EntitySet Name="Applications" EntityType="FiferUserModel.Application" />
+          <EntitySet Name="AuthStats" EntityType="FiferUserModel.AuthStat" />
+          <EntitySet Name="FunctionalRoles" EntityType="FiferUserModel.FunctionalRole" />
+          <EntitySet Name="Roles" EntityType="FiferUserModel.Role" />
+          <EntitySet Name="Rule4Role" EntityType="FiferUserModel.Rule4Role" />
+          <EntitySet Name="Users" EntityType="FiferUserModel.User" />
+          <EntitySet Name="UserFunctionalRoles" EntityType="FiferUserModel.UserFunctionalRole" />
+          <EntitySet Name="UserRoles" EntityType="FiferUserModel.UserRole" />
+          <AssociationSet Name="FK_AppCookie_ToApp" Association="FiferUserModel.FK_AppCookie_ToApp">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="AppCookie" EntitySet="AppCookies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AppCookie_ToUser" Association="FiferUserModel.FK_AppCookie_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AppCookie" EntitySet="AppCookies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AuthStat_ToUser" Association="FiferUserModel.FK_AuthStat_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AuthStat" EntitySet="AuthStats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FunctionalRole_FunctionalRole" Association="FiferUserModel.FK_FunctionalRole_FunctionalRole">
+            <End Role="FunctionalRole" EntitySet="FunctionalRoles" />
+            <End Role="FunctionalRole1" EntitySet="FunctionalRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFunctionalRole_ToFunctionalRole" Association="FiferUserModel.FK_UserFunctionalRole_ToFunctionalRole">
+            <End Role="FunctionalRole" EntitySet="FunctionalRoles" />
+            <End Role="UserFunctionalRole" EntitySet="UserFunctionalRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rule4Role_ToRole" Association="FiferUserModel.FK_Rule4Role_ToRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="Rule4Role" EntitySet="Rule4Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_ToRole" Association="FiferUserModel.FK_UserProfile_ToRole">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserFunctionalRole_ToUser" Association="FiferUserModel.FK_UserFunctionalRole_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserFunctionalRole" EntitySet="UserFunctionalRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_ToUser" Association="FiferUserModel.FK_UserProfile_ToUser">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserRole" EntitySet="UserRoles" />
+          </AssociationSet>
+          <EntitySet Name="Rules" EntityType="FiferUserModel.Rule" />
+          <AssociationSet Name="FK_Rule4Role_ToRule" Association="FiferUserModel.FK_Rule4Role_ToRule">
+            <End Role="Rule" EntitySet="Rules" />
+            <End Role="Rule4Role" EntitySet="Rule4Role" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AppCookie">
+          <Key>
+            <PropertyRef Name="CookieId" />
+          </Key>
+          <Property Name="CookieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Expired" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IpAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Application" Relationship="FiferUserModel.FK_AppCookie_ToApp" FromRole="AppCookie" ToRole="Application" />
+          <NavigationProperty Name="User" Relationship="FiferUserModel.FK_AppCookie_ToUser" FromRole="AppCookie" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="AppId" />
+          </Key>
+          <Property Name="AppId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AppUrl" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="AppGuid" Type="Guid" />
+          <NavigationProperty Name="AppCookies" Relationship="FiferUserModel.FK_AppCookie_ToApp" FromRole="Application" ToRole="AppCookie" />
+        </EntityType>
+        <EntityType Name="AuthStat">
+          <Key>
+            <PropertyRef Name="AuthId" />
+          </Key>
+          <Property Name="AuthId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Domain" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="StatusAuth" Type="Boolean" Nullable="false" />
+          <Property Name="LoginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogoutDate" Type="DateTime" Precision="3" />
+          <Property Name="IpLocation" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="FiferUserModel.FK_AuthStat_ToUser" FromRole="AuthStat" ToRole="User" />
+        </EntityType>
+        <EntityType Name="FunctionalRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <Property Name="IncludeRoles" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="FunctionalRole1" Relationship="FiferUserModel.FK_FunctionalRole_FunctionalRole" FromRole="FunctionalRole" ToRole="FunctionalRole1" />
+          <NavigationProperty Name="FunctionalRole2" Relationship="FiferUserModel.FK_FunctionalRole_FunctionalRole" FromRole="FunctionalRole1" ToRole="FunctionalRole" />
+          <NavigationProperty Name="UserFunctionalRoles" Relationship="FiferUserModel.FK_UserFunctionalRole_ToFunctionalRole" FromRole="FunctionalRole" ToRole="UserFunctionalRole" />
+          <Property Name="IsCRM" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rule4Role" Relationship="FiferUserModel.FK_Rule4Role_ToRole" FromRole="Role" ToRole="Rule4Role" />
+          <NavigationProperty Name="UserRoles" Relationship="FiferUserModel.FK_UserProfile_ToRole" FromRole="Role" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="Rule4Role">
+          <Key>
+            <PropertyRef Name="RelationId" />
+          </Key>
+          <Property Name="RelationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RuleId" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="FiferUserModel.FK_Rule4Role_ToRole" FromRole="Rule4Role" ToRole="Role" />
+          <Property Name="Create" Type="Boolean" Nullable="false" />
+          <Property Name="Read" Type="Boolean" Nullable="false" />
+          <Property Name="Update" Type="Boolean" Nullable="false" />
+          <Property Name="Delete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Rule" Relationship="FiferUserModel.FK_Rule4Role_ToRule" FromRole="Rule4Role" ToRole="Rule" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pass" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IsOnline" Type="Boolean" Nullable="false" />
+          <Property Name="Expired" Type="DateTime" Precision="3" />
+          <Property Name="Salt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsBlocked" Type="Boolean" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OpenId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="AuthKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneKey" Type="String" MaxLength="64" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="AppCookies" Relationship="FiferUserModel.FK_AppCookie_ToUser" FromRole="User" ToRole="AppCookie" />
+          <NavigationProperty Name="AuthStats" Relationship="FiferUserModel.FK_AuthStat_ToUser" FromRole="User" ToRole="AuthStat" />
+          <NavigationProperty Name="UserFunctionalRoles" Relationship="FiferUserModel.FK_UserFunctionalRole_ToUser" FromRole="User" ToRole="UserFunctionalRole" />
+          <NavigationProperty Name="UserRoles" Relationship="FiferUserModel.FK_UserProfile_ToUser" FromRole="User" ToRole="UserRole" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="IsTemporaryAbsent" Type="Boolean" />
+          <Property Name="AbsentReason" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserFunctionalRole">
+          <Key>
+            <PropertyRef Name="UserFunctionId" />
+          </Key>
+          <Property Name="UserFunctionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_UserId" Type="Guid" Nullable="false" />
+          <Property Name="C_FunctionalRoleId" Type="Int32" Nullable="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FunctionalRole" Relationship="FiferUserModel.FK_UserFunctionalRole_ToFunctionalRole" FromRole="UserFunctionalRole" ToRole="FunctionalRole" />
+          <NavigationProperty Name="User" Relationship="FiferUserModel.FK_UserFunctionalRole_ToUser" FromRole="UserFunctionalRole" ToRole="User" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_UserId" Type="Guid" Nullable="false" />
+          <Property Name="C_RoleId" Type="Int32" Nullable="false" />
+          <Property Name="IsAvailable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="FiferUserModel.FK_UserProfile_ToRole" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="FiferUserModel.FK_UserProfile_ToUser" FromRole="UserRole" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_AppCookie_ToApp">
+          <End Type="FiferUserModel.Application" Role="Application" Multiplicity="1" />
+          <End Type="FiferUserModel.AppCookie" Role="AppCookie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="AppCookie">
+              <PropertyRef Name="AppId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AppCookie_ToUser">
+          <End Type="FiferUserModel.User" Role="User" Multiplicity="1" />
+          <End Type="FiferUserModel.AppCookie" Role="AppCookie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AppCookie">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AuthStat_ToUser">
+          <End Type="FiferUserModel.User" Role="User" Multiplicity="1" />
+          <End Type="FiferUserModel.AuthStat" Role="AuthStat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="AuthStat">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FunctionalRole_FunctionalRole">
+          <End Type="FiferUserModel.FunctionalRole" Role="FunctionalRole" Multiplicity="0..1" />
+          <End Type="FiferUserModel.FunctionalRole" Role="FunctionalRole1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="FunctionalRole1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFunctionalRole_ToFunctionalRole">
+          <End Type="FiferUserModel.FunctionalRole" Role="FunctionalRole" Multiplicity="1" />
+          <End Type="FiferUserModel.UserFunctionalRole" Role="UserFunctionalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FunctionalRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserFunctionalRole">
+              <PropertyRef Name="C_FunctionalRoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rule4Role_ToRole">
+          <End Type="FiferUserModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="FiferUserModel.Rule4Role" Role="Rule4Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="Rule4Role">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_ToRole">
+          <End Type="FiferUserModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="FiferUserModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="C_RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserFunctionalRole_ToUser">
+          <End Type="FiferUserModel.User" Role="User" Multiplicity="1" />
+          <End Type="FiferUserModel.UserFunctionalRole" Role="UserFunctionalRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserFunctionalRole">
+              <PropertyRef Name="C_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfile_ToUser">
+          <End Type="FiferUserModel.User" Role="User" Multiplicity="1" />
+          <End Type="FiferUserModel.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="C_UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="RuleId" />
+          </Key>
+          <Property Name="RuleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RuleType" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Rule4Role" Relationship="FiferUserModel.FK_Rule4Role_ToRule" FromRole="Rule" ToRole="Rule4Role" />
+          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Rule4Role_ToRule">
+          <End Type="FiferUserModel.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="FiferUserModel.Rule4Role" Role="Rule4Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rule">
+              <PropertyRef Name="RuleId" />
+            </Principal>
+            <Dependent Role="Rule4Role">
+              <PropertyRef Name="RuleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="fifer_userModelStoreContainer" CdmEntityContainer="UserEntities">
+          <EntitySetMapping Name="AppCookies">
+            <EntityTypeMapping TypeName="FiferUserModel.AppCookie">
+              <MappingFragment StoreEntitySet="AppCookie">
+                <ScalarProperty Name="IpAddress" ColumnName="IpAddress" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+                <ScalarProperty Name="CookieId" ColumnName="CookieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="FiferUserModel.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="AppGuid" ColumnName="AppGuid" />
+                <ScalarProperty Name="AppUrl" ColumnName="AppUrl" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AppId" ColumnName="AppId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuthStats">
+            <EntityTypeMapping TypeName="FiferUserModel.AuthStat">
+              <MappingFragment StoreEntitySet="AuthStat">
+                <ScalarProperty Name="IpLocation" ColumnName="IpLocation" />
+                <ScalarProperty Name="LogoutDate" ColumnName="LogoutDate" />
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+                <ScalarProperty Name="StatusAuth" ColumnName="StatusAuth" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AuthId" ColumnName="AuthId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FunctionalRoles">
+            <EntityTypeMapping TypeName="FiferUserModel.FunctionalRole">
+              <MappingFragment StoreEntitySet="FunctionalRole">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsCRM" ColumnName="IsCRM" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="IncludeRoles" ColumnName="IncludeRoles" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="FiferUserModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rule4Role">
+            <EntityTypeMapping TypeName="FiferUserModel.Rule4Role">
+              <MappingFragment StoreEntitySet="Rule4Role">
+                <ScalarProperty Name="Delete" ColumnName="Delete" />
+                <ScalarProperty Name="Update" ColumnName="Update" />
+                <ScalarProperty Name="Read" ColumnName="Read" />
+                <ScalarProperty Name="Create" ColumnName="Create" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+                <ScalarProperty Name="RelationId" ColumnName="RelationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FiferUserModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="AbsentReason" ColumnName="AbsentReason" />
+                <ScalarProperty Name="IsTemporaryAbsent" ColumnName="IsTemporaryAbsent" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="PhoneKey" ColumnName="PhoneKey" />
+                <ScalarProperty Name="AuthKey" ColumnName="AuthKey" />
+                <ScalarProperty Name="OpenId" ColumnName="OpenId" />
+                <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="IsBlocked" ColumnName="IsBlocked" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
+                <ScalarProperty Name="IsOnline" ColumnName="IsOnline" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserFunctionalRoles">
+            <EntityTypeMapping TypeName="FiferUserModel.UserFunctionalRole">
+              <MappingFragment StoreEntitySet="UserFunctionalRole">
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="C_FunctionalRoleId" ColumnName="C_FunctionalRoleId" />
+                <ScalarProperty Name="C_UserId" ColumnName="C_UserId" />
+                <ScalarProperty Name="UserFunctionId" ColumnName="UserFunctionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="FiferUserModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="C_RoleId" ColumnName="C_RoleId" />
+                <ScalarProperty Name="C_UserId" ColumnName="C_UserId" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rules">
+            <EntityTypeMapping TypeName="FiferUserModel.Rule">
+              <MappingFragment StoreEntitySet="Rule">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RuleType" ColumnName="RuleType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RuleId" ColumnName="RuleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

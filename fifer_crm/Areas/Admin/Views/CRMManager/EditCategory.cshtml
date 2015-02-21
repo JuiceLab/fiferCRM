@@ -1,0 +1,32 @@
+﻿@model SelectListItem
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Категория @(!string.IsNullOrEmpty(Model.Value)? Model.Text : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("EditCategory", "CRMManager", new { Area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(m => m.Value)
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Название</label>
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Text, new { @class = "form-control" })
+                    </div>
+                </div>
+             
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary">@(!string.IsNullOrEmpty(Model.Value) ? "Обновить" : "Добавить")</button>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

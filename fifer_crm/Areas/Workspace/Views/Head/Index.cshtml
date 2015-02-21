@@ -1,0 +1,167 @@
+﻿@model CRMWrapViewModel
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+
+<div class="layout-app">
+    <!-- row-app -->
+    <div class="row row-app">
+
+        <!-- col -->
+        <div class="col-sm-4">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box col-unscrollable">
+
+                <!-- col-table -->
+                <div class="col-table">
+                    <div class="heading-buttons innerLR border-bottom">
+                        <h4 class="margin-none innerAll border-bottom">Физ. и юр. лица</h4>
+                        <div class="input-group">
+                            <div class="input-group-btn btn-group dropup">
+                                <span class="btn btn-default rounded-none" tabindex="-1"  style="margin:10px;width:90%" href=" #" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'CRM/LegalEntity', '', initLegalEnitityForm);" title="Поиск">&nbsp;<i class="fa fa-search"></i>&nbsp;Поиск по общей базе</span>
+                            </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                                    <span><i class="fa fa-plus"></i>&nbsp;Добавить</span>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a  style="width:90%" href="#" onclick="openAndAddNoveltyCompany()" title="Добавить партнера">&nbsp;Добавить новую организацию&nbsp;</a></li>
+                                    <li><a   style="width:90%" href="#" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'CRM/Customer', '?isLegal=false', initCustomerNonLegalForm);" title="Добавить физ. лицо">&nbsp;Добавить новое физ.лицо&nbsp;</a></li>
+                                    <li class="divider"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <h5 class="innerAll border-bottom margin-none">Ваши последние клиенты</h5>
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+
+                        <!-- col-app -->
+                        <div class="col-app col-unscrollable">
+
+                            <!-- col-app -->
+                            <div class="col-app">
+
+                            </div>
+                            <!-- // END col-app -->
+
+                        </div>
+                        <!-- // END col-app -->
+
+                    </div>
+                    <!-- // END col-table-row -->
+
+                </div>
+                <!-- // END col-table -->
+
+            </div>
+            <!-- // END col-separator.box -->
+
+        </div>
+        <!-- // END col -->
+        <!-- col -->
+        <div class="col-sm-8">
+
+            <!-- col-separator.box -->
+            <div class="col-separator col-unscrollable box">
+
+                <!-- col-table -->
+                <div class="col-table">
+
+                    <h4 class="margin-none innerAll border-bottom" >Клиенты
+                        <span class="pull-right btn-group list-group-item" data-toggle="buttons">
+                            <label class="btn btn-primary">
+                                <input type="radio" name="options" id="option1" checked="checked" onclick="filterCustomers(false); $('.list-group-item label').removeClass('active'); $(this).parents('label').addClass('active')">Физ. лица
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" name="options" id="option2" onclick="filterCustomers(true); $('.list-group-item label').removeClass('active'); $(this).parents('label').addClass('active')">Юр. лица
+                            </label>
+                        </span>
+                    </h4>
+                    
+                    <!-- col-table-row -->
+                    <div class="col-table-row">
+
+                        <!-- col-app -->
+                        <div class="col-app col-unscrollable">
+
+                            <!-- col-app -->
+                            <div class="col-app">
+                                @*<div class="bg-gray border-bottom innerAll">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Name <span class="caret"></span></button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Name</a></li>
+                                                    <li><a href="#">Phone Number</a></li>
+                                                    <li><a href="#">Group</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="What are you searching for?">
+                                        </div>
+                                    </div>
+
+                                    <div class="heading-buttons innerLR border-bottom">
+                                        <h5 class="innerTB strong margin-none">Results</h5>
+                                        <div class="pull-right innerT half">
+
+                                            <span class="label label-primary"> A <i class="fa fa-times"></i></span>
+                                            <span class="label label-primary"> Demian <i class="fa fa-times"></i></span>
+                                            <span class="label label-primary"> a <i class="fa fa-times"></i></span>
+
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>*@
+                                <div id="customerList">
+                                    @Html.Partial("CustomersList", (FilterModel.CustomerSearchFilter)ViewBag.Search)
+                                </div>
+                            </div>
+                            <!-- // END col-app -->
+
+                        </div>
+                        <!-- // END col-app.col-unscrollable -->
+
+                    </div>
+                    <!-- // END col-table-row -->
+
+                </div>
+                <!-- // END col-table -->
+
+            </div>
+            <!-- // END col-separator.box -->
+
+        </div>
+        <!-- // END col -->
+
+    </div>
+    <!-- // END row-app -->
+
+    <div class="modal fade in" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content" style="min-width:760px">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title">Загрузка формы</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+                <!-- // Modal body END -->
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

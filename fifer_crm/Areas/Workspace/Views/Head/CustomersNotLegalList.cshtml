@@ -1,0 +1,246 @@
+﻿@model FilterModel.CustomerSearchFilter
+@{
+    var items = Model.SearchResult as IEnumerable<CustomerViewModel>;
+}
+<div class="media widget" data-toggle="collapse-widget" data-collapse-closed="true">
+    <div class="widget-head">
+        <h4 class="heading">Поиск по внутренней базе физ. лиц</h4>
+    </div>
+    <div class="widget-body">
+        <form id="customer-search">
+            @Html.HiddenFor(m => m.IsLegal)
+            @Html.HiddenFor(m => m.DistrictId)
+            <div class="relativeWrap">
+                <div class="widget widget-tabs widget-tabs-double-2 widget-tabs-responsive">
+                    <!-- Tabs Heading -->
+                    <div class="tabsbar">
+                        <ul>
+                            <li class=""><a class="glyphicons user" href="#tabAll" data-toggle="tab"><i></i><span>Данные физ. лиц</span></a></li>
+                            <li class="active"><a class="glyphicons list" href="#tabCrm" data-toggle="tab"><i></i><span>Работа с физ. лицами</span></a></li>
+                        </ul>
+                    </div>
+                    <!-- // Tabs Heading END -->
+
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div id="tabAll" class="tab-pane ">
+                                <div class="col-md-4 center">
+                                    <label class="strong">Телефон</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 center">
+                                    <label class="strong">Email</label>
+                                    <div class="input-group">
+                                        @Html.TextBoxFor(m => m.Mail, new { @class = "form-control" })
+                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 center">
+                                    <label class="pull-left">Свободные:</label>
+                                    @Html.CheckBoxFor(m => m.HasUnssigned, new { @class = "form-control" })
+                                </div>
+                                    <div class="col-md-6 center">
+                                        <label class="strong">Город</label>
+                                        <select id="Cities" style="width: 100%;" name="Cities" class="multiselect" multiple>
+                                            @foreach (var group in Model.AvailableCities)
+                                        {
+                                        <optgroup label="@group.Key">
+                                            @foreach (var item in group.Value)
+                                                {
+                                                    if (item.Selected)
+                                                    {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                        </optgroup>
+                                        }
+                                        </select>
+                                        <label class="strong">Имя</label>
+                                        <select id="Name" style="width: 100%;" name="Name" class="multiselect" multiple>
+                                            @foreach (var item in Model.AvailableNames)
+                                            {
+                                                if (item.Selected)
+                                                {
+                                                    <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 center">
+                                        <label class="strong" style="text-align:center">Закреплен за:</label>
+                                        <select id="AssignedBy" style="width: 100%;" name="AssignedBy" class="multiselect" multiple>
+                                            @foreach (var item in Model.AssignedAvailable)
+                                            {
+                                                if (item.Selected)
+                                                {
+                                                    <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="center">
+                                            <label class="strong">Статус</label>
+                                            <select id="StatusId" style="width: 100%;" name="StatusId" class="multiselect" multiple>
+                                                @foreach (var item in Model.AvailableStatuses)
+                                                {
+                                                    if (item.Selected)
+                                                    {
+                                                        <option value="@item.Value" selected>@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span class="btn btn-primary btn-lg" style="margin-top:15px; width:100%" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
+                                    </div>
+                                </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div id="tabCrm" class="tab-pane  active">
+                                <div class="col-md-2 ">
+                                    <label class="strong">Звонки</label>
+                                    @Html.CheckBoxFor(m => m.HasCallTask, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-2 ">
+                                    <label class="strong">Встречи</label>
+                                    @Html.CheckBoxFor(m => m.HasMeeting, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-2 ">
+                                    <label class="strong">Платежи</label>
+                                    @Html.CheckBoxFor(m => m.HasPayment, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-12 center">
+                                    <div class="innerLR">
+                                        <label class=" col-md-4 strong" style="text-align:center">Диапазон дат:</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 center">
+                                    <div class="innerLR">
+                                        <label class="strong">C</label>
+                                        <div class="input-group date">
+                                            @Html.TextBoxFor(m => m.DateRangeInvariant[0], new { @class = "form-control" })
+                                            <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                        </div>
+                                        <div class="separator top"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 center">
+                                    <div class="innerLR">
+                                        <label class="strong">По</label>
+                                        <div class="input-group date">
+                                            @Html.TextBoxFor(m => m.DateRangeInvariant[1], new { @class = "form-control" })
+                                            <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 center">
+                                    <span style="margin-top:15px; width:100%" class="btn btn-primary btn-lg" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
+                                </div>
+                            </div>
+                            <!-- // Tab content END -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<h4 style="margin:10px">Физ. лица</h4>
+@foreach (var item in items.OrderBy(m => m.StatusId))
+{
+    <div class="media contact">
+        <a class="pull-left" href="#"><img class="thumb" src="@(string.IsNullOrEmpty(item.PhotoPath)? "/assets/images/front/tab1-ties.jpg": item.PhotoPath)" width="50" alt="people"></a>
+        <div class="media-body">
+            <ul class="list-unstyled col-md-7">
+                <li>
+                    <h4 class="media-heading strong"><i class="fa fa-star"></i>&nbsp;@item.FirstName </h4>
+                    <small>@item.LastName @item.Patronymic</small>&nbsp;
+                    <span class="btn btn-info padding-none" onclick="loadModalContent('modal-help', 'ChangeStatus', 'CRM/Customer', '?customerId=@(item.CustomerId)')">&nbsp;<i class="fa fa-info"></i> @(((CompanyStatus)item.StatusId).GetStringValue())&nbsp;</span>
+                <li>
+                    <div class="col-md-5">
+                        <div><i class="fa fa-phone-square"></i>&nbsp;@item.Phone</div>
+                        <div><i class="fa fa-mail-forward"></i>&nbsp;@item.Mail</div>
+                        <div><a href="skype:@(item.Skype)?call"><i class="fa fa-skype"></i>@item.Skype</a> </div> 
+                    </div>
+                    <div class="col-md-7">
+                <div><span class="btn btn-default padding-none" onclick="loadModalContent('modal-help', 'EditComment', 'CRM/Customer', '?customerId=@(item.CustomerId)')"><i class="fa fa-comment-o"></i>&nbsp;Заметка:&nbsp;</span></div>
+                    <p class="well">@item.Comment</p>
+                </div>
+                </li>
+            </ul>
+            <div class="col-md-5">
+                <ul class="list-unstyled col-md-5">
+                    <li>
+                        <small>Ближайшие:</small>
+
+                    </li>
+                    @if (item.PaymentDate.HasValue)
+                    {
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/CustomerPayment', '?customerId=@(item.CustomerId)&type=@((byte)PaymentType.Payment)', initPaymentCallback); return false;"><i class="fa fa-ruble"></i> @item.PaymentDate.Value.ToShortDateString()</a></li>
+                    }
+                    @if (item.CallDate.HasValue)
+                    {
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.CallId)&customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()</a></li>
+
+                    }@if (item.MeetDate.HasValue)
+                    {
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit', 'Task/Meeting', '?taskId=@(item.MeetingId)&customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()</a></li>
+                    }
+                </ul>
+                <ul class="list-unstyled col-md-7">
+                    <li>
+                        <div class="btn-group" style="width:100%;margin-bottom:10px">
+                            <button type="button" style="width:100%;" class=" btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                Добавить...
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-phone"></i>&nbsp;Звонок</a></li>
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-group"></i>&nbsp;Встреча</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li><a href="#" class="btn btn-success" style="width:100%;margin-bottom:10px" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'CRM/Customer', '?isLegal=false&customerId=@(item.CustomerId)', initCustomerNonLegalForm);" title=" Редактировать"><i class="fa fa-edit"></i> Редактировать</a></li>
+                </ul>
+                <ul class="list-unstyled col-md-12">
+                    <li><i class="fa fa-flag"></i>&nbsp;Закреплен за:</li>
+                    <li>
+                        <a href="#" class="btn btn-default padding-none" style="width:100%" onclick="loadModalContent('modal-help', 'Assign', 'CRM/Customer', '?customerId=@(item.CustomerId)')">
+                            <img style="max-width:50px;float:left;" src="@(item.AssignedBy.HasValue && !string.IsNullOrEmpty(Model.EmployeesPhoto[item.AssignedBy.Value]) ? Model.EmployeesPhoto[item.AssignedBy.Value] : "/assets/images/avatar-large-girl.jpg")" />@(item.AssignedBy.HasValue ? item.AssignedName : string.Empty)
+                        </a>
+                    </li>
+                </ul>
+                </div>
+               
+                    <ul class="list-unstyled col-md-12" style="border-top:1px solid; padding-top:5px">
+                        <li>
+                            <span class=" pull-right btn btn-default padding-none" onclick="loadModalContent('modal-help', 'GetHistory', 'CRM/Customer', '?customerId=@(item.Guid)');">&nbsp;<i class="fa fa-history"></i>&nbsp;История изменений&nbsp;</span>
+                            <span class=" btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'EditPassportCustomer', 'CRM/Customer', '?customerId=@(item.Guid)', intiCropAndPhone); return false;">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Паспортные данные&nbsp;</span>&nbsp;
+                        </li>
+</ul>
+        </div>
+    </div>
+}

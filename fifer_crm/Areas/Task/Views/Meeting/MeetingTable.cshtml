@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MeetingTaskPreview>
+<table class="dynamicTable scrollVertical table table-primary">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Контакт</th>
+            <th>Статус</th>
+            <th>Исполнитель</th>
+            <th>Выполнить до</th>
+            <th>Действия/Результат</th>
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+    <tbody>
+        <!-- Table row -->
+        @foreach (var item in Model.OrderBy(m => m.Date))
+        {
+            <tr>
+                <td>@item.MeetingId</td>
+                <td><span class="btn btn-info pull-left" onclick="loadModalContent('modal-help','TaskHistory','Task/Meeting', '?taskId=@(item.MeetingId)')"><i class="icon icon-comment-1" title="История задачи"></i></span>&nbsp; @item.CustomerName</td>
+                <td>@(((TaskStatus)item.StatusId).GetStringValue())</td>
+                <td>@item.OwnerName</td>
+                <td>@(item.Date.Date != DateTime.Now.Date ? item.Date.ToShortDateString() : item.Date.ToShortTimeString())</td>
+                <td>
+                    @if (item.StatusId != (byte)TaskStatus.Completed)
+                    {
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                Действия
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a onclick="loadModalContentWithCallback('modal-help','Edit','Task/Meeting', '?taskId=@(item.MeetingId)', getTaskActions); return false;">Рассмотреть</a></li>
+                                @*<li><a onclick="loadModalContentWithCallback('modal-help','TaskAssign','CommonTask', '?taskId=@(item.TaskId)', getTaskActions); return false;">Назначить исполнителя</a></li>
+                                    <li><a onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','CommonTask', '?taskId=@(item.TaskId)', getTaskActions); return false;">Перенести на другое время</a></li>*@
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <label class="label label-success">@item.Result</label>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<!-- // Table END -->
+

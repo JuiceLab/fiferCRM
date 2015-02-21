@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="46f4e573dd0b44cdb4c932915e98e384" Name="Diagram1" ZoomLevel="66">
+        <EntityTypeShape EntityType="LocalCRMModel.CompletionAct" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.GeoLocation" Width="1.5" PointX="0.75" PointY="7.25" />
+        <EntityTypeShape EntityType="LocalCRMModel.LegalEnityDetail" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.LegalEntity" Width="1.5" PointX="3" PointY="11.625" />
+        <EntityTypeShape EntityType="LocalCRMModel.Meeting" Width="1.5" PointX="7.5" PointY="15.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.MeetingTransfer" Width="1.5" PointX="9.75" PointY="16.25" />
+        <EntityTypeShape EntityType="LocalCRMModel.PaymentDetail" Width="1.5" PointX="12.75" PointY="6.375" />
+        <EntityTypeShape EntityType="LocalCRMModel.PaymentSchedule" Width="1.5" PointX="9.75" PointY="6.625" />
+        <EntityTypeShape EntityType="LocalCRMModel.PaymentTemplate" Width="1.5" PointX="7.5" PointY="1.625" />
+        <AssociationConnector Association="LocalCRMModel.FK_LegalEnityDetail_GeoLocation" />
+        <AssociationConnector Association="LocalCRMModel.FK_LegalEntity_GeoLocation" />
+        <AssociationConnector Association="LocalCRMModel.FK_LegalEnityDetail_LegalEntity" />
+        <AssociationConnector Association="LocalCRMModel.FK_MeetingTransfer_Meeting" />
+        <AssociationConnector Association="LocalCRMModel.FK_PaymentSchedule_PaymentTemplate" />
+        <AssociationConnector Association="LocalCRMModel.LegalLocation" />
+        <EntityTypeShape EntityType="LocalCRMModel.PaymentInvoice" Width="1.5" PointX="7.5" PointY="20.625" />
+        <AssociationConnector Association="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail" />
+        <AssociationConnector Association="LocalCRMModel.FK_PaymentDetail_PaymentInvoice" />
+        <EntityTypeShape EntityType="LocalCRMModel.Expense" Width="1.5" PointX="5.625" PointY="26.375" />
+        <EntityTypeShape EntityType="LocalCRMModel.LegalActivity" Width="1.5" PointX="7.5" PointY="6.125" />
+        <EntityTypeShape EntityType="LocalCRMModel.Payment" Width="1.5" PointX="7.5" PointY="10.75" />
+        <AssociationConnector Association="LocalCRMModel.FK_LegalActivity_LegalEnityDetail" />
+        <AssociationConnector Association="LocalCRMModel.FK_Payment_LegalEnityDetail" />
+        <AssociationConnector Association="LocalCRMModel.FK_PaymentDetail_Payment" />
+        <AssociationConnector Association="LocalCRMModel.FK_PaymentSchedule_Payment" />
+        <EntityTypeShape EntityType="LocalCRMModel.CompanyService" Width="1.5" PointX="2.375" PointY="16.875" />
+        <AssociationConnector Association="LocalCRMModel.FK_CompanyService_CompanyService" />
+        <AssociationConnector Association="LocalCRMModel.FK_Expense_CompanyService" />
+        <AssociationConnector Association="LocalCRMModel.FK_LegalActivity_CompanyService" />
+        <EntityTypeShape EntityType="LocalCRMModel.Customer" Width="1.5" PointX="5.25" PointY="15.375" />
+        <EntityTypeShape EntityType="LocalCRMModel.Passport" Width="1.5" PointX="3" PointY="20.375" />
+        <AssociationConnector Association="LocalCRMModel.FK_Customer_LegalEntity" />
+        <AssociationConnector Association="LocalCRMModel.FK_Customer_Passport" />
+        <AssociationConnector Association="LocalCRMModel.FK_Meeting_Customer" />
+        <EntityTypeShape EntityType="LocalCRMModel.ModifyLog" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.TaskPeriod" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.TaskCategory" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LocalCRMModel.UserNotify" Width="1.5" PointX="10.375" PointY="10.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

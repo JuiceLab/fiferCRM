@@ -1,0 +1,289 @@
+﻿@model CompanyViewModel
+@{
+    var items = Model.AvailableServices.Select(m=>new { id = m.Value, serviceGroup = m.Text.Split(new string[]{"||"}, StringSplitOptions.RemoveEmptyEntries).ToList()});
+    var serviceGroups = items
+        .GroupBy(m => m.serviceGroup[0])
+        .ToDictionary(m => m.Key, 
+            m => m.Select(n => new SelectListItem() { Value = n.id, Text = n.serviceGroup[1], Selected = Model.Services.Any(k=>k.ToString() == n.id) })
+            .ToArray());
+}
+@using (Html.BeginForm("Edit", "Company", new { Area = "ERP" }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <input id="photoType" type="hidden" value="company" />
+    @Html.HiddenFor(m => m.CompanyId)
+    @Html.HiddenFor(m => m.CurAddrId)
+    @Html.HiddenFor(m => m.CurLegalAddrId)
+    @Html.HiddenFor(m => m.LegalEntity.IsActive)
+    @Html.HiddenFor(m => m.LegalEntity.LegalEntityId)
+    @Html.HiddenFor(m => m.Logo, new { @class = "photo_hidden" })
+    <div class="tab-content">
+        <!-- Tab content -->
+        <div class="tab-pane active" id="company-details">
+            <!-- Row -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-md-12">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.CompanyName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <!-- Group -->
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.PublicCompanyName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.PublicCompanyName, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Название компании"><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // Group END -->
+                    <!-- Group -->
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.Services, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <select id="Services" style="width: 100%;" name="Services" class="multiselect" multiple>
+                                @foreach (var group in serviceGroups)
+                                {
+                                    <optgroup label="@group.Key">
+                                        @foreach (var item in group.Value)
+                                        {
+                                            if (item.Selected)
+                                            {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <!-- // Group END -->
+                </div>
+                <!-- // Column END -->
+                <!-- Column -->
+                <div class="col-md-3">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.IsPublic, new { @class = " control-label" })
+                    </div>
+                    <div class="form-group margin-none innerB">
+                            @Html.CheckBoxFor(m => m.IsPublic, new { @class = "form-control" })
+                            @*   <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Название компании"><i class="fa fa-question-circle"></i></span>*@
+                    </div>
+                    <!-- Group -->
+                
+                    <!-- // Group END -->
+                </div>
+                <!-- // Column END -->
+            </div>
+            <!-- // Row END -->
+
+            <div class="separator line bottom"></div>
+            <!-- Form actions -->
+            <div class="separator top">
+                <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+            </div>
+            <!-- // Form actions END -->
+
+        </div>
+        <!-- // Tab content END -->
+        <!-- Tab content -->
+        <div class="tab-pane" id="payment-details">
+            <!-- Row -->
+            @if (Model.CurLegalAddrId.HasValue)
+            { 
+            <div class="row">
+                <!-- Column -->
+                <div class="col-md-6">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.INN, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.INN, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Group -->
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.BIK, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.BIK, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.KPP, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.KPP, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Column END -->
+                <!-- Column -->
+                <div class="col-md-6">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.KS, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.KS, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Group -->
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.OGRN, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.OGRN, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.RS, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.RS, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.LegalEntity.PaymentLocation, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                @Html.TextBoxFor(m => m.LegalEntity.PaymentLocation, new { @class = "form-control" })
+                                <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            }
+            else
+            { 
+                <label class="label label-warning">Для указания реквизитов уточните, пожалуйста, юридический адрес компании</label>
+            }
+            <!-- // Row END -->
+
+            <div class="separator line bottom"></div>
+            <!-- // Row END -->
+            <!-- Form actions -->
+            <div class="separator top">
+                <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+            </div>
+            <!-- // Form actions END -->
+
+        </div>
+        <div class="tab-pane" id="contact-details">
+            <div class="form-group margin-none innerB">
+                <label class="col-sm-4 control-label">
+                    Адреса электронной почты&nbsp;<span class="btn btn-default" onclick="addTagsInputItem($(this))"><i class="fa fa-plus"></i></span>
+                </label>
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Mail, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group margin-none innerB">
+                <label class="col-sm-4 control-label">
+                    Сайты компании&nbsp;<span class="btn btn-default" onclick="addTagsInputItem($(this))"><i class="fa fa-plus"></i></span>
+                </label>
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.SiteUrl, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <fieldset>
+                <legend>Доп. контактная информация</legend>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(m => m.Fax, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "form-control" })
+                        @*   <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Название компании"><i class="fa fa-question-circle"></i></span>*@
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(m => m.ICQ, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.ICQ, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    @Html.LabelFor(m => m.Skype, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.Skype, new { @class = "form-control" })
+                    </div>
+                </div>
+            </fieldset>
+            <div class="separator line bottom"></div>
+            <!-- // Row END -->
+            <!-- Form actions -->
+            <div class="separator top">
+                <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+            </div>
+            <!-- // Form actions END -->
+
+        </div>
+
+        <div class="tab-pane" id="photo-details">
+            <!-- Row -->
+            <div class="row">
+                <!-- Column -->
+                <div class="col-md-6">
+                    <div class="form-group margin-none innerB">
+                        @Html.LabelFor(m => m.Logo, new { @class = "col-md-6 control-label" })
+                        <div class="col-md-6">
+                            <h4 class="separator bottom">Логотип компании</h4>
+                            <img class="col-sm-3" style="max-width:150px" id="employee_img" src="@(!string.IsNullOrEmpty(Model.Logo) ? Model.Logo : "/content/images/profile.jpg")" />
+                            <div class="col-sm-9">
+                                <div id="imageUpload">
+                                    <div id="image-cropper">
+                                        <div class="cropit-image-preview" style="width:100px;height:100px"></div>
+                                        <div class="btns">
+                                            <input style="display:none" class="cropit-image-input custom" type='file' id='crop-uploader' />
+                                            <div style="float:left; margin-top: 19px; margin-right:10px; margin-bottom:3px;" class="select-image-btn btn btn-info"><span class="icon icon-image"></span>Выбрать изображение</div>
+                                        </div>
+                                        <br />
+                                        <input style="width: 180px" type="button" class="btn btn-success" id="crop-save" value="Сохранить" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Group -->
+                </div>
+                <div class="separator line bottom"></div>
+                <!-- Form actions -->
+                <div class="separator top">
+                    <label class="label label-info">Нажмите изменить для загрузки изображения</label>
+                    <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+                </div>
+            </div>
+            <!-- // Tab content END -->
+        </div>
+    </div>
+}

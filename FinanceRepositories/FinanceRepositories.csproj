@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C93209C-0113-432C-9D1F-DF223AF9C2D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FinanceRepositories</RootNamespace>
+    <AssemblyName>FinanceRepositories</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FinanceBaseRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccessModel\AccessModel.csproj">
+      <Project>{5696042a-6cb0-4726-b4a7-f338e69b3865}</Project>
+      <Name>AccessModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccessRepositories\AccessRepositories.csproj">
+      <Project>{29aea7e6-09f5-45c3-a692-b06ed76c6790}</Project>
+      <Name>AccessRepositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompanyContext\CompanyContext.csproj">
+      <Project>{16c83465-731c-4384-a61b-4bba6f8c86c3}</Project>
+      <Name>CompanyContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompanyModel\CompanyModel.csproj">
+      <Project>{5248c243-b0d5-42b0-b796-0805a05154ef}</Project>
+      <Name>CompanyModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMContext\CRMContext.csproj">
+      <Project>{cf2e02c5-c751-4645-86e5-15d3d83ff3f3}</Project>
+      <Name>CRMContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMLocalContext\CRMLocalContext.csproj">
+      <Project>{030a76f5-561b-4b33-9931-a5dc798042fe}</Project>
+      <Name>CRMLocalContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMModel\CRMModel.csproj">
+      <Project>{770e0e2b-3c06-4df2-8eb8-54f0b1774090}</Project>
+      <Name>CRMModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityRepository\EntityRepository.csproj">
+      <Project>{a87259dd-f94f-4715-9f12-646d49a08049}</Project>
+      <Name>EntityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelper\EnumHelper.csproj">
+      <Project>{51baae80-caa9-4756-8787-8ffd4936bc12}</Project>
+      <Name>EnumHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionHelpers\ExtensionHelpers.csproj">
+      <Project>{240aee1e-c04f-4079-826c-9e022588ba10}</Project>
+      <Name>ExtensionHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FilterModel\FilterModel.csproj">
+      <Project>{8a3919ba-172a-4746-be55-c41820f5df8c}</Project>
+      <Name>FilterModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FinanceModel\FinanceModel.csproj">
+      <Project>{db61b3f5-6659-4047-a5d3-5a3d4636614b}</Project>
+      <Name>FinanceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{fe802d5c-69d5-4be1-ab14-718654b9c686}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Settings\Settings.csproj">
+      <Project>{b7e78673-3d44-4503-9253-16fa013bd456}</Project>
+      <Name>Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

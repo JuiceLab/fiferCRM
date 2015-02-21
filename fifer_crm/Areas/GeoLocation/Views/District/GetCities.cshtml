@@ -1,0 +1,4 @@
+﻿@model IEnumerable<SelectListItem>
+@Html.Label("Город")
+@Html.DropDownList("City", Model, new { @class = "col-md-6 form-control", placeholder = "Город" })
+@Html.ValidationMessage("City")

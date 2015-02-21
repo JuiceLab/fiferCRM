@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TicketPreview>
+
+<div class="widget-body innerAll inner-2x">
+    <table class="dynamicTable scrollVertical table table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Тикет</th>
+                <th>Состояние</th>
+                <th>Создан кем</th>
+                <th>Когда</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            @foreach (var item in Model.OrderByDescending(m => m.Created))
+            {
+                <tr>
+                    <td>@item.TicketNumber</td>
+                    <td><span class="btn btn-default" onclick="loadModalContent('modal-help','TicketHistory','Support', '?ticketId=@(item.TicketId)&ticketNumber=@item.TicketNumber')"><i class="icon icon-comment-1" title="История сообщений"></i>&nbsp;@item.MsgCount</span> @item.Title</td>
+                    <td>@item.Status.GetStringValue()</td>
+                    <td>@item.CreatedBy</td>
+                    <td>@item.Created.ToShortDateString() @item.Created.ToShortTimeString()</td>
+                    <td><input type="button" class="btn btn-primary" onclick="loadModalContentWithCallback('modal-help','TicketProcess','Support', '?ticketId=@(item.TicketId)', getTicketActions)" value="Рассмотреть" /></td>
+                </tr>
+            }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+    <!-- // Table END -->
+
+</div>
+
+

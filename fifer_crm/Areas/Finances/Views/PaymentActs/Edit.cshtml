@@ -1,0 +1,124 @@
+﻿@model CompletionActEditModel
+@{
+    var companies = ViewBag.Companies as IList<SelectListItem>;       
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Акт @(Model.ActId != 0 ? Model.Title : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="row row-app">
+        <div class="col-md-12">
+            <div class="col-separator box col-separator-first col-unscrollable">
+                <div class="col-table">
+                    <h4 class="innerAll margin-none border-bottom">Данные платежа</h4>
+                    <div class="col-table-row">
+                        <div class="col-app col-unscrollable">
+                            <div class="col-app">
+                                <div id="pdfTarget">
+                                    <div class="innerAll shop-client-products cart invoice">
+                                        @using (Html.BeginForm("Edit", "PaymentActs", new { Area = "Finances" }, FormMethod.Post, new { role = "form", id = "paymentActForm" }))
+                                        {
+                                            @Html.HiddenFor(m => m.ActId)
+                                            if (Model.ActId != 0)
+                                            {
+
+                                                <table class="table table-invoice">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width: 58%;">
+                                                                <div class="media">
+                                                                    <img class="media-object pull-left thumb" src="http://1.s3.envato.com/files/50438174/tf-avatar.jpg" alt="Logo" />
+                                                                    <div class="media-body hidden-print">
+                                                                        <div class="alert alert-primary margin-none">
+                                                                            <strong>Договор</strong><br />
+                                                                            @Model.DealNumber от @Model.DealDate /
+                                                                        </div>
+                                                                        <div class="separator bottom"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="right">
+                                                                <div class="innerL">
+                                                                    <h4 class="separator bottom">@Model.Title / @Model.Created.ToShortDateString() </h4>
+                                                                    <button type="button" data-toggle="print" class="btn btn-default print hidden-print pull-left"><i class="fa fa-fw fa-print"></i> Печать</button>
+                                                                    <button type="button" onclick="saveActExcel(@Model.ActId)" class="btn btn-primary hidden-print pull-right"><i class="fa fa-fw fa-download"></i> Сохранить</button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            if (Model.ActId != 0)
+                                            {
+                                                <div class="box-generic">
+                                                    <table class="table table-invoice">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width: 50%;">
+                                                                    <p class="lead">Компания</p>
+                                                                    <h2>@companies.FirstOrDefault(m=>m.Value == Model.CompanyId.ToString()).Text</h2>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Компания</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.DropDownListFor(m => m.CompanyId, companies)
+                                                            </div>
+                                                        </div>
+                                                <div class="form-group">
+                                                            <label class="col-sm-4 control-label">Подпись</label>
+                                                            <div class="col-sm-8">
+                                                                @Html.HiddenFor(m => m.CustomerGuid)
+                                                            </div>
+                                                        </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Договор</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(m => m.DealNumber)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Дата договора</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(m => m.DealDate)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Название</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(m => m.Title)
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">Описание</label>
+                                                    <div class="col-sm-8">
+                                                        @Html.TextBoxFor(m => m.Comment)
+                                                    </div>
+                                                </div>
+                                                <div id="payment-details-div">
+                                                            @Html.Partial("PaymentActDetailsTable", Model)
+                                                </div>
+                                            }
+                                            @Html.ValidationSummary()
+                                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-fw fa-arrow-right"></i> @(Model.ActId != 0 ? "Обновить" : "Создать")</button>
+                                        }
+                                        <!-- // Row END -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1549 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="ie lt-ie9 lt-ie8 lt-ie7 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if IE 7]>
+<html class="ie lt-ie9 lt-ie8 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if IE 8]>
+<html class="ie lt-ie9 paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if gt IE 8]>
+<html class="ie paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"> <![endif]-->
+<!--[if !IE]><!-->
+<html class="paceSimple app sidebar sidebar-fusion sidebar-kis footer-sticky navbar-sticky"><!-- <![endif]-->
+<head>
+    <title>CORAL (v2.0.0-rc1)</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!--
+	**********************************************************
+	In development, use the LESS files and the less.js compiler
+	instead of the minified CSS loaded by default.
+	**********************************************************
+	<link rel="stylesheet/less" href="../assets/less/admin/module.admin.stylesheet-complete.less" />
+	-->
+
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="http://localhost/shared/assets/components/library/bootstrap/css/bootstrap.min.css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="../assets/less/pages/serveStyles.css?module=admin&url_rewrite=&v=v2.0.0-rc1"/>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="http://localhost/shared/assets/plugins/core_ajaxify_loadscript/script.min.js?v=v2.0.0-rc1&sv=v0.0.1.2"></script>
+
+    <script>var App = {};</script>
+
+    <script data-id="App.Scripts">
+        App.Scripts = {
+
+            /* CORE scripts always load first; */
+            core: [
+                'http://localhost/shared/assets/library/jquery/jquery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/library/modernizr/modernizr.js?v=v2.0.0-rc1&sv=v0.0.1.2'
+            ],
+
+            /* PLUGINS_DEPENDENCY always load after CORE but before PLUGINS; */
+            plugins_dependency: [
+                'http://localhost/shared/assets/library/bootstrap/js/bootstrap.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/library/jquery/jquery-migrate.min.js?v=v2.0.0-rc1&sv=v0.0.1.2'
+            ],
+
+            /* PLUGINS always load after CORE and PLUGINS_DEPENDENCY, but before the BUNDLE / initialization scripts; */
+            plugins: [
+                'http://localhost/shared/assets/plugins/core_ajaxify_davis/davis.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_ajaxify_lazyjaxdavis/jquery.lazyjaxdavis.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_preload/pace.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_nicescroll/jquery.nicescroll.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_breakpoints/breakpoints.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/media_blueimp/js/blueimp-gallery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/forms_elements_bootstrap-select/js/bootstrap-select.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/charts_easy_pie/js/jquery.easy-pie-chart.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_less-js/less.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/charts_flot/excanvas.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/plugins/core_browser/ie/ie.prototype.polyfill.js?v=v2.0.0-rc1&sv=v0.0.1.2'
+            ],
+
+            /* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
+            bundle: [
+                'http://localhost/shared/assets/components/core_ajaxify/ajaxify.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                'http://localhost/shared/assets/components/core_preload/preload.pace.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '../assets/components/admin_menus/sidebar.main.init.js?v=v2.0.0-rc1',
+                '../assets/components/admin_menus/sidebar.collapse.init.js?v=v2.0.0-rc1',
+                'http://localhost/shared/assets/components/forms_elements_bootstrap-select/bootstrap-select.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '../assets/components/admin_menus/sidebar.kis.init.js?v=v2.0.0-rc1',
+                'http://localhost/shared/assets/components/charts_easy_pie/easy-pie.init.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+                '../assets/components/core/core.init.js?v=v2.0.0-rc1',
+                'http://localhost/shared/assets/plugins/media_image-preview/image-preview.js?v=v2.0.0-rc1&sv=v0.0.1.2'
+            ]
+
+        };
+    </script>
+
+    <script>
+        $script(App.Scripts.core, 'core');
+
+        $script.ready(['core'], function () {
+            $script(App.Scripts.plugins_dependency, 'plugins_dependency');
+        });
+        $script.ready(['core', 'plugins_dependency'], function () {
+            $script(App.Scripts.plugins, 'plugins');
+        });
+        $script.ready(['core', 'plugins_dependency', 'plugins'], function () {
+            $script(App.Scripts.bundle, 'bundle');
+        });
+    </script>
+    <script>if (/*@cc_on!@*/false && document.documentMode === 10) {
+        document.documentElement.className += ' ie ie10';
+    }</script>
+
+</head>
+<body class="scripts-async menu-right-hidden">
+
+<!-- Main Container Fluid -->
+<div class="container-fluid menu-hidden">
+
+<!-- Main Sidebar Menu -->
+<div id="menu" class="hidden-print hidden-xs">
+
+
+<div id="sidebar-fusion-wrapper">
+<div id="brandWrapper">
+    <a href="index.html?v=v2.0.0-rc1" class="display-block-inline pull-left logo"><img
+            src="../assets/images/logo/app-logo-style-default.png" alt=""></a>
+    <a href="index.html?v=v2.0.0-rc1"><span class="text">Coral</span></a>
+</div>
+<div id="logoWrapper">
+    <div id="logo">
+
+        <a href="index.html?v=v2.0.0-rc1" class="btn btn-sm btn-inverse"><i class="fa fa-fw icon-home-fill-1"></i></a>
+        <a href="email.html?v=v2.0.0-rc1" class="btn btn-sm btn-inverse"><i class="fa fa-fw fa-envelope"></i><span
+                class="badge pull-right badge-primary">2</span></a>
+
+        <div id="toggleNavbarColor" data-toggle="navbar-color">
+            <a href="" class="not-animated color color-blue active"></a>
+            <a href="" class="not-animated color color-white"></a>
+            <a href="" class="not-animated color bg-primary"></a>
+            <a href="" class="not-animated color color-inverse"></a>
+        </div>
+
+        <div class="innerTB">
+            <select name="" id="menu_switch" data-style="btn-inverse" id=""
+                    class="selectpicker margin-none dropdown-menu-light" data-container="body">
+                <option value="navigation_current_page">Social App</option>
+                <option value="navigation_components">Components</option>
+                <option value="navigation_modules">Admin Modules</option>
+                <option value="navigation_modules_front">Website Modules</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<ul class="menu list-unstyled hide" id="navigation_components">
+    <li class=""><a href="ui.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> UI Elements</a></li>
+    <li class=""><a href="icons.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Icons</a></li>
+    <li class=""><a href="typography.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Typography</a></li>
+    <li class=""><a href="widgets.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Widgets</a></li>
+    <li class=""><a href="calendar.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Calendar</a></li>
+    <li class=""><a href="tabs.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Tabs</a></li>
+    <li class="hasSubmenu">
+        <a href="#menu_tables" data-toggle="collapse"><span class="badge badge-primary pull-right">3</span><i
+                class="fa fa-circle-o"></i> Tables</a>
+        <ul class="collapse" id="menu_tables">
+            <li class=""><a href="tables.html?v=v2.0.0-rc1">Tables</a></li>
+            <li class=""><a href="tables_responsive.html?v=v2.0.0-rc1">Responsive Tables</a></li>
+            <li class=""><a href="pricing_tables.html?v=v2.0.0-rc1">Pricing Tables</a></li>
+        </ul>
+    </li>
+    <li class="hasSubmenu">
+        <a href="#menu_forms" data-toggle="collapse"><span class="badge badge-primary pull-right">4</span><i
+                class="fa fa-circle-o"></i> Forms</a>
+        <ul class="collapse" id="menu_forms">
+            <li class=""><a href="form_wizards.html?v=v2.0.0-rc1">Form Wizards</a></li>
+            <li class=""><a href="form_elements.html?v=v2.0.0-rc1">Form Elements</a></li>
+            <li class=""><a href="form_validator.html?v=v2.0.0-rc1">Form Validator</a></li>
+            <li class=""><a href="file_managers.html?v=v2.0.0-rc1">File Managers</a></li>
+        </ul>
+    </li>
+    <li class=""><a href="sliders.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Sliders</a></li>
+    <li class=""><a href="charts.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Charts</a></li>
+    <li class=""><a href="grid.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Grid</a></li>
+    <li class=""><a href="notifications.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Notifications</a></li>
+    <li class=""><a href="modals.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Modals</a></li>
+    <li class=""><a href="thumbnails.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Thumbnails</a></li>
+    <li class=""><a href="carousels.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Carousels</a></li>
+    <li class=""><a href="image_crop.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Image Cropping</a></li>
+    <li class=""><a href="twitter.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Twitter API</a></li>
+    <li class=""><a href="infinite_scroll.html?v=v2.0.0-rc1"><i class="fa fa-circle-o"></i> Infinite Scroll</a></li>
+</ul>
+
+<ul class="menu list-unstyled hide" id="navigation_modules">
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-dashboard" data-toggle="collapse"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+        <ul id="sidebar-fusion-dashboard" class="collapse">
+            <li><a href="dashboard_analytics.html?v=v2.0.0-rc1"><i class="fa fa-bar-chart-o"></i> Analytics</a></li>
+            <li><a href="dashboard_users.html?v=v2.0.0-rc1"><i class="fa fa-user"></i> Users</a></li>
+            <li><a href="dashboard_overview.html?v=v2.0.0-rc1"><i class="fa fa-dashboard"></i> Overview</a></li>
+        </ul>
+    </li>
+    <li class="hasSubmenu active">
+        <a href="#sidebar-fusion-social" class="glyphicons globe_af" data-toggle="collapse"><span
+                class="badge pull-right badge-primary">7</span><i></i><span>Social App</span></a>
+
+        <ul id="sidebar-fusion-social" class="animated fadeIn collapse in">
+            <li class="active"><a href="index.html?v=v2.0.0-rc1"><i class="fa fa-flash"></i> Activity</a></li>
+            <li><a href="social_account.html?v=v2.0.0-rc1"><i class="fa fa-male"></i> Account</a></li>
+            <li><a href="social_messages.html?v=v2.0.0-rc1"><i class="fa fa-comments-o"></i> Messages</a></li>
+            <li><a href="social.html?v=v2.0.0-rc1"><i class="fa fa-folder"></i> Widgets</a></li>
+            <li><a href="timeline.html?v=v2.0.0-rc1"><i class="fa fa-clock-o"></i> Timelines</a></li>
+            <li><a href="contacts.html?v=v2.0.0-rc1"><i class="fa fa-phone"></i> Contacts</a></li>
+            <li><a href="ratings.html?v=v2.0.0-rc1" class="glyphicons star"><i></i><span>Ratings</span></a></li>
+        </ul>
+    </li>
+
+    <li><a href="email.html?v=v2.0.0-rc1"><span class="badge pull-right badge-inverse">30</span><i
+            class="fa fa-envelope"></i><span>Email App</span></a></li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-realestate" data-toggle="collapse"><i
+                class="fa fa-home"></i><span>Real Estate</span></a>
+        <ul id="sidebar-fusion-realestate" class="collapse">
+            <li><a href="realestate_listing_map.html?v=v2.0.0-rc1"><i
+                    class="fa fa-map-marker"></i><span>Property map</span> &nbsp; <span
+                    class="label label-primary">new</span></a></li>
+            <li><a href="realestate_listing_grid.html?v=v2.0.0-rc1"><i
+                    class="fa fa-th"></i><span>Property grid</span></a></li>
+            <li><a href="realestate_listing_list.html?v=v2.0.0-rc1"><i class="fa fa-list"></i><span>Property list</span></a>
+            </li>
+            <li><a href="realestate_property.html?v=v2.0.0-rc1"><i class="fa fa-info"></i><span>Property details</span></a>
+            </li>
+            <li><a href="realestate_compare.html?v=v2.0.0-rc1"><i
+                    class="fa icon-scale-2"></i><span>Property compare</span></a></li>
+            <li><a href="realestate_property_edit.html?v=v2.0.0-rc1"><i
+                    class="fa fa-edit"></i><span>Property edit</span></a></li>
+        </ul>
+    </li>
+
+    <li><a href="events.html?v=v2.0.0-rc1" class="glyphicons google_maps"><i></i><span
+            class="badge pull-right badge-inverse">5</span><span>Events</span></a></li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-media" class="glyphicons picture" data-toggle="collapse"><span
+                class="badge pull-right badge-primary">2</span><i></i><span>Multimedia</span></a>
+        <ul id="sidebar-fusion-media" class="animated fadeIn collapse">
+            <li><a href="gallery_video.html?v=v2.0.0-rc1"><i class="fa fa-video-camera"></i> Video Gallery</a></li>
+            <li><a href="gallery_photo.html?v=v2.0.0-rc1"><i class="fa fa-camera"></i> Photo Gallery</a></li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-maps" class="glyphicons google_maps"
+           data-toggle="collapse"><i></i><span>Maps</span></a>
+        <ul id="sidebar-fusion-maps" class="animated fadeIn collapse">
+            <li><a href="maps_vector.html?v=v2.0.0-rc1"><i class="fa fa-map-marker"></i> Vector Maps</a></li>
+            <li><a href="maps_google.html?v=v2.0.0-rc1"><i class="fa fa-map-marker"></i> Google Maps</a></li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-manage" class="glyphicons wrench" data-toggle="collapse"><i></i><span>Manage</span></a>
+        <ul id="sidebar-fusion-manage" class="animated fadeIn collapse">
+            <li><a href="tasks.html?v=v2.0.0-rc1"><i class="fa fa-clock-o"></i> Tasks</a></li>
+            <li><a href="employees.html?v=v2.0.0-rc1"><i class="fa fa-user"></i> Employees</a></li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-medical" data-toggle="collapse"
+           class="glyphicons circle_plus"><i></i><span>Medical</span></a>
+        <ul id="sidebar-fusion-medical" class="animated fadeIn collapse">
+            <li class="">
+                <a href="medical_overview.html?v=v2.0.0-rc1"><i class="fa fa-medkit"></i> Overview</a>
+            </li>
+            <li class="">
+                <a href="medical_patients.html?v=v2.0.0-rc1"><span class="badge pull-right badge-primary">2</span><i
+                        class="fa fa-user-md"></i> Patients</a>
+            </li>
+            <li class="">
+                <a href="medical_appointments.html?v=v2.0.0-rc1"><i class="fa fa-stethoscope"></i> Appointments</a>
+            </li>
+            <li class="">
+                <a href="medical_memos.html?v=v2.0.0-rc1"><i class="fa fa-file-text-o"></i> Memos</a>
+            </li>
+            <li class="border-bottom-none">
+                <a href="medical_metrics.html?v=v2.0.0-rc1"><i class="fa fa-bar-chart-o"></i> Metrics</a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-learning" data-toggle="collapse"
+           class="glyphicons crown"><i></i><span>Courses</span></a>
+        <ul id="sidebar-fusion-learning" class="collapse">
+            <li class=""><a href="courses_2.html?v=v2.0.0-rc1"><i
+                    class="fa fa-book"></i><span>Courses Home #1</span></a></li>
+            <li class=""><a href="courses.html?v=v2.0.0-rc1"><i class="fa fa-book"></i><span>Courses Home #2</span></a>
+            </li>
+            <li class=""><a href="courses_listing.html?v=v2.0.0-rc1"><i
+                    class="fa fa-book"></i><span>Courses Listing</span></a></li>
+            <li class=""><a href="course.html?v=v2.0.0-rc1"><i class="fa fa-book"></i><span>Course page</span></a></li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-content" data-toggle="collapse" class="glyphicons notes_2"><i></i><span>Content</span></a>
+        <ul id="sidebar-fusion-content" class="animated fadeIn collapse">
+            <li><a href="news.html?v=v2.0.0-rc1"><i class="fa fa-file-text"></i> News</a></li>
+            <li><a href="stories.html?v=v2.0.0-rc1"><i class="fa fa-file-text-o"></i> Stories</a></li>
+            <li><a href="faq.html?v=v2.0.0-rc1"><i class="fa fa-question-circle"></i> FAQ</a></li>
+            <li><a href="search.html?v=v2.0.0-rc1"><i class="fa fa-search"></i> Search</a></li>
+        </ul>
+    </li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-financial" data-toggle="collapse"
+           class="glyphicons calculator"><i></i><span>Financial</span></a>
+        <ul id="sidebar-fusion-financial" class="animated fadeIn collapse">
+            <li><a href="invoice.html?v=v2.0.0-rc1"><i class="fa fa-file-text-o"></i> Invoice</a></li>
+            <li><a href="finances.html?v=v2.0.0-rc1"><i class="fa fa-legal"></i> Finances</a></li>
+            <li><a href="bookings.html?v=v2.0.0-rc1"><i class="fa fa-ticket"></i> Bookings</a></li>
+        </ul>
+    </li>
+
+    <li><a href="support_tickets.html?v=v2.0.0-rc1" class="glyphicons life_preserver"><i></i><span>Support</span></a>
+    </li>
+
+    <li><a href="shop_products.html?v=v2.0.0-rc1" class="glyphicons shopping_cart"><i></i><span>Shop</span></a></li>
+
+    <li><a href="ui.html?v=v2.0.0-rc1" class="glyphicons adjust_alt"><i></i><span>Elements</span></a></li>
+
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-account" data-toggle="collapse" class="glyphicons user"><i></i><span>Account</span></a>
+        <ul id="sidebar-fusion-account" class="animated fadeIn collapse">
+            <li><a href="login.html?v=v2.0.0-rc1" class="no-ajaxify"><i class="fa fa-lock"></i> Login</a></li>
+            <li><a href="signup.html?v=v2.0.0-rc1" class="no-ajaxify"><i class="fa fa-pencil"></i> Signup</a></li>
+        </ul>
+    </li>
+
+    <li><a href="survey.html?v=v2.0.0-rc1" class="glyphicons turtle no-ajaxify"><i></i><span>Surveys</span></a></li>
+
+    <li><a href="error.html?v=v2.0.0-rc1" class="glyphicons warning_sign"><i></i><span>Error</span></a></li>
+</ul>
+
+<ul class="menu list-unstyled hide" id="navigation_modules_front">
+    <li><a target="_blank" href="../front/index.html?v=v2.0.0-rc1"
+           class="glyphicons leather"><i></i><span>Multi-Purpose</span></a></li>
+    <li><a target="_blank" href="../realestate/index.html?v=v2.0.0-rc1"
+           class="glyphicons home"><i></i><span>Real Estate</span></a></li>
+    <li><a target="_blank" href="../shop/index.html?v=v2.0.0-rc1" class="glyphicons shopping_cart"><i></i><span>Online Shop</span></a>
+    </li>
+</ul>
+
+<ul class="menu list-unstyled" id="navigation_current_page">
+
+    <li class="reset profile-avatar">
+        <ul class="reset">
+            <li class="btn-avatar btn-group dropdown dropdown-menu-light btn-group-xs">
+                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
+                <ul class="dropdown-menu pull-right">
+                    <li class="active"><a data-toggle="tab" href="#profile_avatar_small" class="not-animated">Small</a>
+                    </li>
+                    <li><a data-toggle="tab" href="#profile_avatar_large" class="not-animated">Large</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="profile_avatar_small">
+                <div class="innerL innerT innerB">
+                    <div class="media innerL">
+                        <div class="animated bounceIn pull-left"><img src="../assets/images/people/50/16.jpg" width="48"
+                                                                      class="img-circle thumb"/><i
+                                class="bg-success"></i></div>
+                        <div class="media-body innerL half">
+                            <h4 class="text-white">MosaicPro</h4>
+                            <a href="#" class="btn btn-xs btn-inverse"><i class="fa fa-fw fa-check"></i> Friend</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="profile_avatar_large">
+                <div class="profile-avatar innerT">
+                    <div class="text-center innerTB">
+                        <span class="display-block-inline animated bounceIn"><img
+                                src="../assets/images/people/100/16.jpg"
+                                class="img-responsive img-circle thumb"/></span>
+                    </div>
+                </div>
+                <div class="innerAll">
+                    <h4 class="text-white margin-none"><i class="fa text-small fa-circle text-success pull-right"></i>
+                        MosaicPRO</h4>
+
+                    <p class="margin-none text-muted text-small">Premium Web Templates</p>
+                </div>
+                <div class="innerLR innerB center">
+                    <a href="#" class="btn btn-sm btn-block btn-inverse"><i class="fa fa-fw fa-check"></i> Friend</a>
+                </div>
+            </div>
+        </div>
+    </li>
+    <li class="active"><a href="index.html?v=v2.0.0-rc1" class="glyphicons cardio"><i></i><span>Activity</span></a></li>
+    <li><a href="social_account.html?v=v2.0.0-rc1" class="glyphicons user"><i></i><span>Account</span></a></li>
+    <li><a href="social_messages.html?v=v2.0.0-rc1"><i class="fa fa-comments-o"></i><span>Messages</span></a></li>
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-contacts" data-toggle="collapse" class="glyphicons iphone"><i></i><span>Contacts</span></a>
+        <ul class="collapse" id="sidebar-fusion-contacts">
+            <li><a href="social_friends.html?v=v2.0.0-rc1"><i class="fa fa-group"></i><span>Friends</span></a></li>
+            <li><a href="contacts_2.html?v=v2.0.0-rc1" class="glyphicons iphone"><i></i><span>Contacts #2</span></a>
+            </li>
+            <li><a href="contacts.html?v=v2.0.0-rc1" class="glyphicons iphone"><i></i><span>Contacts #1</span></a></li>
+        </ul>
+    </li>
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-social-components" data-toggle="collapse" class="glyphicons list"><i></i><span>Social components</span></a>
+        <ul class="collapse" id="sidebar-fusion-social-components">
+            <li><a href="ratings.html?v=v2.0.0-rc1" class="glyphicons star"><i></i><span>Ratings</span></a></li>
+            <li><a href="social.html?v=v2.0.0-rc1"><i class="fa fa-folder"></i><span>Widgets</span></a></li>
+            <li><a href="timeline.html?v=v2.0.0-rc1"><i class="fa fa-clock-o"></i><span>Timelines</span></a></li>
+        </ul>
+    </li>
+    <li class="reset">
+        <div class="innerAll">
+            <ul>
+                <li><a href=""><span class="fa fa-fw fa-circle-o text-success"></span> Work Related</a></li>
+                <li><a href=""><span class="fa fa-fw fa-circle-o text-primary"></span> Very Important</a></li>
+                <li><a href=""><span class="fa fa-fw fa-circle-o text-info"></span> Friends &amp; Family</a></li>
+            </ul>
+        </div>
+    </li>
+    <li class="hasSubmenu">
+        <a href="#sidebar-fusion-example" data-toggle="collapse"><span class="badge pull-right badge-primary">7</span><i
+                class="fa fa-stack-exchange"></i><span>Submenus</span></a>
+        <ul id="sidebar-fusion-example" class="collapse">
+            <li class="active"><a href=""><i class="fa fa-flash"></i><span>Active</span></a></li>
+            <li><a href=""><i class="fa fa-male"></i><span>Menu item</span></a></li>
+            <li><a href=""><i class="fa fa-comments-o"></i><span>Menu item</span></a></li>
+            <li class="menu hasSubmenu">
+                <a href="#submenu" data-toggle="collapse"><span class="badge pull-right badge-primary">30</span><i
+                        class="fa fa-envelope"></i><span>2nd level</span></a>
+                <ul class="collapse menu" id="submenu">
+                    <li><a href=""><span>Menu item</span></a></li>
+                    <li><a href=""><span>Menu item</span></a></li>
+                    <li><a href=""><span>Menu item</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+</ul>
+</div>
+
+
+</div>
+<!-- // Main Sidebar Menu END -->
+
+<!-- Main Sidebar Menu -->
+<div id="menu_kis" class="hidden-print sidebar-light">
+
+    <div>
+        <ul class="list-unstyled">
+
+            <li class="active"><a href="index.html?v=v2.0.0-rc1" class="glyphicons globe"><i></i><span>Social</span></a>
+            </li>
+
+            <li><a href="realestate_listing_map.html?v=v2.0.0-rc1" class="glyphicons home"><i></i> Estate</a></li>
+
+            <li><a href="events.html?v=v2.0.0-rc1" class="glyphicons google_maps"><i></i> Events</a></li>
+
+            <li><a href="news.html?v=v2.0.0-rc1" class="glyphicons notes"><i></i> Content</a></li>
+
+            <li><a href="gallery_video.html?v=v2.0.0-rc1" class="glyphicons picture"><i></i><span>Media</span></a></li>
+
+            <li><a href="tasks.html?v=v2.0.0-rc1" class="glyphicons share_alt"><i></i><span>Tasks</span></a></li>
+
+            <li><a href="support_tickets.html?v=v2.0.0-rc1"
+                   class="glyphicons life_preserver"><i></i><span>Support</span></a></li>
+
+            <li><a href="medical_overview.html?v=v2.0.0-rc1" class="glyphicons circle_plus"><i></i><span>Medical</span></a>
+            </li>
+
+            <li><a href="courses_2.html?v=v2.0.0-rc1" class="glyphicons crown"><i></i> Learning</a></li>
+
+            <li><a href="finances.html?v=v2.0.0-rc1" class="glyphicons calculator"><i></i> Finance</a></li>
+
+            <li><a href="shop_products.html?v=v2.0.0-rc1" class="glyphicons shopping_cart"><i></i><span>Shop</span></a>
+            </li>
+
+            <li><a href="survey.html?v=v2.0.0-rc1" class="glyphicons turtle no-ajaxify"><i></i><span>Surveys</span></a>
+            </li>
+
+            <li><a href="dashboard_analytics.html?v=v2.0.0-rc1" class="glyphicons plus"><i></i><span>Other</span></a>
+            </li>
+
+            <li><a href="../front/index.html?v=v2.0.0-rc1" class="glyphicons leather" target="_blank"><i></i><span>Website</span></a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+<!-- // Main Sidebar Menu END -->
+
+<!-- Content -->
+<div id="content">
+
+<div class="navbar hidden-print navbar-inverse box main" role="navigation">
+    <div class="user-action user-action-btn-navbar pull-left border-right">
+        <button class="btn btn-sm btn-navbar btn-primary btn-stroke"><i class="fa fa-bars fa-2x"></i></button>
+    </div>
+    <ul class="notifications pull-left hidden-xs">
+        <li class="dropdown notif">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block fa fa-comments-o"></i><span
+                    class="badge badge-primary">7</span></a>
+            <ul class="dropdown-menu chat media-list">
+                <li class="media">
+                    <a class="pull-left" href="#"><img class="media-object thumb"
+                                                       src="../assets/images/people/100/15.jpg" alt="50x50" width="50"/></a>
+
+                    <div class="media-body">
+                        <span class="label label-default pull-right">5 min</span>
+                        <h5 class="media-heading">Adrian D.</h5>
+
+                        <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    </div>
+                </li>
+                <li class="media">
+                    <a class="pull-left" href="#"><img class="media-object thumb"
+                                                       src="../assets/images/people/100/16.jpg" alt="50x50" width="50"/></a>
+
+                    <div class="media-body">
+                        <span class="label label-default pull-right">2 days</span>
+                        <h5 class="media-heading">Jane B.</h5>
+
+                        <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    </div>
+                </li>
+                <li class="media">
+                    <a class="pull-left" href="#"><img class="media-object thumb"
+                                                       src="../assets/images/people/100/17.jpg" alt="50x50" width="50"/></a>
+
+                    <div class="media-body">
+                        <span class="label label-default pull-right">3 days</span>
+                        <h5 class="media-heading">Andrew M.</h5>
+
+                        <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    </div>
+                </li>
+                <li><a href="#" class="btn btn-primary"><i class="fa fa-list"></i> <span>View all messages</span></a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown notif">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block fa fa-bell-o"></i><span
+                    class="badge badge-white">2</span></a>
+            <ul class="dropdown-menu alerts">
+                <li class="heading"><i class="fa fa-bell-o"></i><span>Alerts Heading</span></li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Jane Smith</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #333234</a>
+                    <small> by Adrian D.</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #484349</a>
+                    <small> by mosaicpro</small>
+                    <div class="action pull-right">
+                        <a href="" class="success active"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Mr. Awesome</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-user "></i> <a href="#">New Sign Up</a>
+                    <small> by Adrian</small>
+                    <div class="action pull-right">
+                        <a href="" class="success active"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Adrian Demian</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete active"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Jane Smith</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #333234</a>
+                    <small> by Adrian D.</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #484349</a>
+                    <small> by mosaicpro</small>
+                    <div class="action pull-right">
+                        <a href="" class="success active"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Mr. Awesome</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-user "></i> <a href="#">New Sign Up</a>
+                    <small> by Adrian</small>
+                    <div class="action pull-right">
+                        <a href="" class="success active"><i class="fa fa-check"></i></a> <a href="" class="delete"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa fa-folder "></i> <a href="#">Ticket #283901</a>
+                    <small> by Adrian Demian</small>
+                    <div class="action pull-right">
+                        <a href="" class="success"><i class="fa fa-check"></i></a> <a href="" class="delete active"><i
+                            class="fa fa-times"></i></a>
+                    </div>
+                </li>
+                <li class="center loadmore">
+                    <a href="#"><i class="fa fa-spinner fa-spin"></i> Load more</a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown notif">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block  fa fa-star-o"></i><span
+                    class="label label-info">35%</span></a>
+            <ul class="dropdown-menu chart ">
+                <li>
+
+                    <!-- Stats Widget -->
+                    <a href="" class="btn-info">
+                        <div data-builder-exclude="element children" data-percent="35"
+                             class="easy-pie primary easyPieChart pull-left"><span class="value">35</span>%
+                        </div>
+
+                        <span class="txt">Overall Progress</span>
+                        <span class="clearfix"></span>
+                    </a>
+                    <!-- // Stats Widget END -->
+
+
+                </li>
+                <li class="innerAll">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi vitae sed vel quos quae earum
+                        dolores illo incidunt reprehenderit nihil.
+                    </p>
+                    <a href="#" class="more pull-right">Read more <i class="fa fa-arrow-circle-o-right"></i></a>
+
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <div class="col-md-3 visible-md visible-lg padding-none">
+        <div class="input-group innerL">
+            <input type="text" class="form-control input-sm" placeholder="Search for your friends...">
+      		<span class="input-group-btn">
+        		<button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+      		</span>
+        </div>
+        <!-- /input-group -->
+    </div>
+
+    <div class="user-action visible-xs user-action-btn-navbar pull-right">
+        <button class="btn btn-sm btn-navbar-right btn-primary"><i class="fa fa-fw fa-arrow-right"></i><span
+                class="menu-left-hidden-xs"> Modules</span></button>
+    </div>
+
+    <div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs">
+        <div class="dropdown username hidden-xs pull-left">
+            <a class="dropdown-toggle " data-toggle="dropdown" href="#">
+				<span class="media margin-none">
+					<span class="pull-left"><img src="../assets/images/people/35/16.jpg" alt="user" class="img-circle"></span>
+					<span class="media-body">
+						Adrian Demian <span class="caret"></span> 
+					</span>
+				</span>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li class="active"><a href="index.html?v=v2.0.0-rc1" class="glyphicons user"><i></i> Profile</a></li>
+                <li><a href="timeline.html?v=v2.0.0-rc1" class="glyphicons list"><i></i>Timeline</a></li>
+                <li><a href="social_messages.html?v=v2.0.0-rc1" class="glyphicons envelope"><i></i>Messages</a></li>
+                <li><a href="social_account.html?v=v2.0.0-rc1">Settings</a></li>
+                <li><a href="login.html?v=v2.0.0-rc1">Logout</a></li>
+            </ul>
+        </div>
+        <div class="dropdown dropdown-icons padding-none">
+            <a data-toggle="dropdown" href="#" class="btn btn-primary btn-circle dropdown-toggle"><i
+                    class="fa fa-user"></i> </a>
+            <ul class="dropdown-menu">
+                <li data-toggle="tooltip" data-title="Photo Gallery" data-placement="left" data-container="body"><a
+                        href="gallery_photo.html?v=v2.0.0-rc1"><i class="fa fa-camera"></i></a></li>
+                <li data-toggle="tooltip" data-title="Tasks" data-placement="left" data-container="body"><a
+                        href="tasks.html?v=v2.0.0-rc1"><i class="fa fa-code-fork"></i></a></li>
+                <li data-toggle="tooltip" data-title="Employees" data-placement="left" data-container="body"><a
+                        href="employees.html?v=v2.0.0-rc1"><i class="fa fa-group"></i></a></li>
+                <li data-toggle="tooltip" data-title="Contacts" data-placement="left" data-container="body"><a
+                        href="contacts.html?v=v2.0.0-rc1"><i class="fa fa-phone-square"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!-- // END navbar -->
+
+<div id="menu-top">
+    <ul class="main pull-left">
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href=""><i class="fa fa-fw fa-cog"></i> Layout <span
+                    class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&layout_fixed=true" class="no-ajaxify">Fixed Layout
+                    with Top menu</a></li>
+                <li class="active"><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&layout_fixed=false"
+                                      class="no-ajaxify">Fluid Layout with Sidebars</a></li>
+                <li><a href="layout/layout-fixed-menu-top.html?v=v2.0.0-rc1" class="no-ajaxify">Layout examples</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href=""><i class="fa fa-fw fa-suitcase"></i> UI KIT <span
+                    class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="ui.html?v=v2.0.0-rc1">UI Elements</a></li>
+                <li><a href="icons.html?v=v2.0.0-rc1">Icons</a></li>
+                <li><a href="typography.html?v=v2.0.0-rc1">Typography</a></li>
+                <li><a href="widgets.html?v=v2.0.0-rc1">Widgets</a></li>
+                <li><a href="calendar.html?v=v2.0.0-rc1">Calendar</a></li>
+                <li><a href="tabs.html?v=v2.0.0-rc1">Tabs</a></li>
+                <li><a href="sliders.html?v=v2.0.0-rc1">Sliders</a></li>
+                <li><a href="charts.html?v=v2.0.0-rc1">Charts</a></li>
+                <li><a href="grid.html?v=v2.0.0-rc1">Grid</a></li>
+                <li><a href="notifications.html?v=v2.0.0-rc1">Notifications</a></li>
+                <li><a href="modals.html?v=v2.0.0-rc1">Modals</a></li>
+                <li><a href="thumbnails.html?v=v2.0.0-rc1">Thumbnails</a></li>
+                <li><a href="carousels.html?v=v2.0.0-rc1">Carousels</a></li>
+                <li><a href="image_crop.html?v=v2.0.0-rc1">Image Cropping</a></li>
+                <li><a href="twitter.html?v=v2.0.0-rc1">Twitter API</a></li>
+                <li><a href="infinite_scroll.html?v=v2.0.0-rc1">Infinite Scroll</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href=""><i class="fa fa-fw fa-check-square-o"></i> Forms
+                <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="form_wizards.html?v=v2.0.0-rc1">Form Wizards</a></li>
+                <li><a href="form_elements.html?v=v2.0.0-rc1">Form Elements</a></li>
+                <li><a href="form_validator.html?v=v2.0.0-rc1">Form Validator</a></li>
+                <li><a href="file_managers.html?v=v2.0.0-rc1">File Managers</a></li>
+            </ul>
+        </li>
+        <li class="dropdown hidden-xs">
+            <a data-toggle="dropdown" class="dropdown-toggle" href=""><i class="fa fa-fw fa-table"></i> Tables <span
+                    class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="tables.html?v=v2.0.0-rc1">Tables</a></li>
+                <li><a href="tables_responsive.html?v=v2.0.0-rc1">Responsive Tables</a></li>
+                <li><a href="pricing_tables.html?v=v2.0.0-rc1">Pricing Tables</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="main pull-right visible-lg">
+        <li><a href="">Close <i class="fa fa-fw fa-times"></i></a></li>
+    </ul>
+    <ul class="colors pull-right hidden-xs">
+
+        <li class="active"><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=style-default"
+                              style="background-color: #87c844" class="no-ajaxify"><span
+                class="hide">style-default</span></a></li>
+        <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=green" style="background-color: #87c844"
+               class="no-ajaxify"><span class="hide">green</span></a></li>
+        <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=coral" style="background-color: #7eccc2"
+               class="no-ajaxify"><span class="hide">coral</span></a></li>
+
+        <li class="dropdown">
+            <a href="" data-toggle="dropdown" class="dropdown-toggle">
+                <span class="color inverse"></span>
+                <span class="color danger"></span>
+                <span class="color success"></span>
+                <span class="color info"></span>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=alizarin-crimson" class="no-ajaxify"><span
+                        class="color" style="background-color: #F06F6F"></span> alizarin-crimson</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=blue-gray" class="no-ajaxify"><span
+                        class="color" style="background-color: #7293CF"></span> blue-gray</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=brown" class="no-ajaxify"><span class="color"
+                                                                                                          style="background-color: #d39174"></span>
+                    brown</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=purple-gray" class="no-ajaxify"><span
+                        class="color" style="background-color: #AF86B9"></span> purple-gray</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=purple-wine" class="no-ajaxify"><span
+                        class="color" style="background-color: #CC6788"></span> purple-wine</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=green-army" class="no-ajaxify"><span
+                        class="color" style="background-color: #9FB478"></span> green-army</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=black-and-white" class="no-ajaxify"><span
+                        class="color" style="background-color: #979797"></span> black-and-white</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=amazon" class="no-ajaxify"><span class="color"
+                                                                                                           style="background-color: #8BC4B9"></span>
+                    amazon</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=amber" class="no-ajaxify"><span class="color"
+                                                                                                          style="background-color: #CACA8A"></span>
+                    amber</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=android-green" class="no-ajaxify"><span
+                        class="color" style="background-color: #A9C784"></span> android-green</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=antique-brass" class="no-ajaxify"><span
+                        class="color" style="background-color: #B3998A"></span> antique-brass</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=antique-bronze" class="no-ajaxify"><span
+                        class="color" style="background-color: #8D8D6E"></span> antique-bronze</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=artichoke" class="no-ajaxify"><span
+                        class="color" style="background-color: #B0B69D"></span> artichoke</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=atomic-tangerine" class="no-ajaxify"><span
+                        class="color" style="background-color: #F19B69"></span> atomic-tangerine</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=bazaar" class="no-ajaxify"><span class="color"
+                                                                                                           style="background-color: #98777B"></span>
+                    bazaar</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=bistre-brown" class="no-ajaxify"><span
+                        class="color" style="background-color: #C3A961"></span> bistre-brown</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=bittersweet" class="no-ajaxify"><span
+                        class="color" style="background-color: #d6725e"></span> bittersweet</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=blueberry" class="no-ajaxify"><span
+                        class="color" style="background-color: #7789D1"></span> blueberry</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=bud-green" class="no-ajaxify"><span
+                        class="color" style="background-color: #6fa362"></span> bud-green</a></li>
+                <li><a href="?module=admin&url_rewrite=&v=v2.0.0-rc1&skin=burnt-sienna" class="no-ajaxify"><span
+                        class="color" style="background-color: #E4968A"></span> burnt-sienna</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="layout-app">
+
+
+<!-- row -->
+<div class="row row-app margin-none">
+
+
+<!-- col -->
+<div class="col-md-12">
+
+<!-- col-separator -->
+<div class="col-separator col-separator-first border-none">
+
+<!-- col-table -->
+<div class="col-table">
+
+<!-- col-table-row -->
+<div class="col-table-row">
+
+<!-- col-app -->
+<div class="col-app">
+
+<!-- row-app -->
+<div class="row row-app margin-none">
+
+<!-- col -->
+<div class="col-lg-10 col-md-9 col-sm-12">
+
+<!-- col-separator -->
+<div class="col-separator col-unscrollable">
+
+<!-- col-table -->
+<div class="col-table">
+
+<!-- box -->
+<div class="row row-merge box margin-none">
+
+    <!-- col -->
+    <div class="col-md-6 col-sm-12 reset-components">
+
+        <div class="widget widget-tabs widget-tabs-icons-only-2 widget-activity margin-none widget-activity-social">
+
+            <!-- Tabs Heading -->
+            <div class="widget-head">
+                <ul>
+                    <li class="active"><a data-toggle="tab" href="#shareTab" class="glyphicons user"><i></i></a></li>
+                    <li><a data-toggle="tab" href="#webcamTab" class="glyphicons webcam"><i></i></a></li>
+                    <li><a data-toggle="tab" href="#pictureTab" class="glyphicons picture"><i></i></a></li>
+                    <li><a data-toggle="tab" href="#linkTab" class="glyphicons link"><i></i></a></li>
+                </ul>
+            </div>
+            <!-- // Tabs Heading END -->
+
+            <div class="widget-body padding-none">
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="shareTab">
+                        <div class="share">
+                            <textarea class="form-control" rows="2"
+                                      placeholder="Share what you've been up to..."></textarea>
+
+                            <a class="btn btn-primary btn-sm">Submit <i class="fa fa-arrow-circle-o-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="tab-pane innerAll text-center" id="webcamTab">
+                        <h4>Share Webcam</h4>
+
+                        <p>CORAL would like to start your webcam.</p>
+                        <button class="btn btn-primary"><i class="fa fa-video-camera"></i> Allow</button>
+                        <button class="btn btn-danger"><i class="fa fa-ban"></i></button>
+                    </div>
+                    <div class="tab-pane innerAll" id="pictureTab">Picture</div>
+                    <div class="tab-pane" id="linkTab">
+                        <div class="share">
+                            <textarea class="form-control" rows="2" placeholder="Share a link ..."></textarea>
+
+                            <a class="btn btn-default">Share <i class="text-primary fa fa-arrow-circle-o-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- // END col -->
+
+    <!-- col -->
+    <div class="col-md-6 col-sm-12">
+        <div class="heading-buttons innerLR border-bottom">
+            <h5 class="pull-left margin-none innerTB">Friends Online <i class="fa fa-circle text-success fa-fw"></i>
+            </h5>
+
+            <div class="dropdown pull-right dropdown-icons dropdown-icons-xs">
+                <a data-toggle="dropdown" href="#" class="btn btn-default btn-stroke btn-circle dropdown-toggle"><i
+                        class="fa fa-eye"></i></a>
+                <ul class="dropdown-menu">
+                    <li data-toggle="tooltip" data-title="Online" data-placement="left" data-container="body"><a
+                            href="#"><i class="fa fa-circle"></i></a></li>
+                    <li data-toggle="tooltip" data-title="Offline" data-placement="left" data-container="body"><a
+                            href="#"><i class="fa fa-circle-o"></i></a></li>
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="innerAll ">
+
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/1.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/1.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/2.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/2.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/3.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/3.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/4.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/4.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/5.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/5.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/6.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/6.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/7.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/7.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/8.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/8.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/9.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/9.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/10.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/10.jpg" alt="photo" width="35">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/11.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/11.jpg" alt="photo" width="35" class="opacity30">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/12.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/12.jpg" alt="photo" width="35" class="opacity30">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/13.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/13.jpg" alt="photo" width="35" class="opacity30">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/14.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/14.jpg" alt="photo" width="35" class="opacity30">
+            </a>
+
+            <a data-toggle="image-preview" data-title="Lorem ipsum" data-content="<small>Last Activity: 1h ago</small>"
+               data-image-preview="../assets/images/people/250/15.jpg" width="100" href="#"
+               class="innerAll half pull-left border-none">
+                <img src="../assets/images/people/80/15.jpg" alt="photo" width="35" class="opacity30">
+            </a>
+
+            <div class="clearfix"></div>
+
+
+        </div>
+    </div>
+    <!-- // END col -->
+</div>
+<!-- // END box -->
+
+<div class="col-separator-h"></div>
+
+<!-- col-table-row -->
+<div class="col-table-row">
+
+<!-- box -->
+<div class="col-app box col-unscrollable overflow-hidden">
+
+<!-- col-table -->
+<div class="col-table">
+
+<div class="innerLR heading-buttons border-bottom">
+    <h4 class="innerTB margin-none pull-left">Recent Activity</h4>
+
+    <div class="btn-group btn-group-xs pull-right">
+        <button class="btn btn-default filled"><i class="fa fa-refresh "></i></button>
+        <button class="btn btn-default "><i class="fa fa-cog "></i></button>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<!-- col-table-row -->
+<div class="col-table-row">
+
+    <!-- col-app -->
+    <div class="col-app col-unscrollable">
+
+        <!-- col-app -->
+        <div class="col-app">
+            <ul class="timeline-activity list-unstyled">
+                <li class="active">
+                    <i class="list-icon fa fa-share"></i>
+
+                    <div class="block block-inline">
+                        <div class="caret"></div>
+                        <div class="box-generic">
+                            <div class="timeline-top-info bg-gray border-bottom">
+                                <i class="fa fa-user"></i> <a href="">mosaicpro</a> replied to <a href=""
+                                                                                                  class="text-primary">Having
+                                A Great Day!</a> from <a href="#"><img src="../assets/images/people/80/8.jpg"
+                                                                       alt="photo" width="20"></a> <a href="">Andrew
+                                M.</a>
+
+                                <div class="timeline-bottom">
+                                    <i class="fa fa-clock-o"></i> 2 days ago
+
+                                </div>
+                            </div>
+                            <div class="media innerAll margin-none">
+                                <a class="pull-left" href="#"><img src="../assets/images/people/80/8.jpg" alt="photo"
+                                                                   class="media-object" width="35"></a>
+
+                                <div class="media-body">
+                                    <a href="" class="strong">Andrew</a> Good Job. Congrats and hope to see more admin
+                                    templates like this in the future.
+                                    <div class="timeline-bottom">
+                                        <i class="fa fa-clock-o"></i> 2 days ago
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="media innerAll margin-none bg-gray border-top border-bottom">
+                                <a class="pull-left" href="#"><img src="../assets/images/people/80/2.jpg" alt="photo"
+                                                                   width="35" class="media-object"></a>
+
+                                <div class="media-body">
+                                    <a href="" class="strong">mosaicpro</a> Thanks, I apreciate it!
+                                    <div class="timeline-bottom">
+                                        <i class="fa fa-clock-o"></i> 5 days ago
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="innerAll">
+                                <input class="form-control" placeholder="Comment here..."/>
+                            </div>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <i class="list-icon fa fa-map-marker"></i>
+
+                    <div class="block block-inline">
+                        <div class="caret"></div>
+                        <div class="box-generic">
+                            <div class="timeline-top-info">
+                                <i class="fa fa-user"></i>
+                                <a href="">mosaicpro</a> visited
+                                <a href="" class="text-primary"><i class="text-primary fa fa-location-arrow"></i>
+                                    Dracula's Castle</a>
+                            </div>
+                            <div class="media margin-none">
+                                <div class="row innerLR innerB">
+                                    <div class="col-sm-4 col-lg-3">
+                                        <div class="innerT">
+                                            <div class="icon-block text-center ">
+                                                <span class="glyphicons tower"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-lg-9">
+                                        <div class="innerT">
+                                            <h5 class="strong">Bran Castle</h5>
+
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus,
+                                                aspernatur ut fuga eum cumque delectus voluptate impedit quaerat
+                                                sapiente officiis fugit voluptates sit neque quibusdam beatae est modi
+                                                repudiandae unde.</p>
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                                class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i
+                                                class="fa fa-star-o"></i> 3.5
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-bottom innerT half">
+                            <i class="fa fa-clock-o"></i> 2 days ago <span class="innerL"><i
+                                class="fa fa-calendar fa-fw"></i> 25 Oct 2013</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <i class="list-icon fa fa-comments"></i>
+
+                    <div class="block block-inline">
+                        <div class="caret"></div>
+                        <div class="box-generic">
+                            <div class="timeline-top-info">
+                                <i class="fa fa-user"></i> <a href="">mosaicpro</a> wrote a <a href=""
+                                                                                               class="text-primary">comment</a>
+                                to <a href="#"><img src="../assets/images/people/80/2.jpg" width="20"/></a> <a href="">Jane
+                                S.</a>
+
+                                <div class="timeline-bottom">
+                                    <i class="fa fa-clock-o"></i> 6 days ago
+                                </div>
+                            </div>
+                            <div class="bg-gray innerAll border-top">Good Job. Congrats and hope to see you soon.</div>
+                        </div>
+
+                    </div>
+                </li>
+                <li>
+                    <i class="list-icon fa fa-user"></i>
+
+                    <div class="block">
+                        <div class="caret"></div>
+                        <div class="inline-block box-generic">
+                            <div class="timeline-top-info bg-gray border-bottom">
+                                <i class="fa fa-user"></i> <a href="">mosaicpro</a> is following <a href="#"><img
+                                    src="../assets/images/people/80/1.jpg" width="20"/></a> <a href="">Jane S.</a>
+                            </div>
+                            <div class="media innerAll margin-none">
+                                <a class="pull-left" href="#">
+                                    <img src="../assets/images/people/80/1.jpg" alt="photo" class="media-object"
+                                         width="35">
+                                </a>
+
+                                <div class="media-body">
+                                    <a href="" class="strong">Jane Smith</a>
+                                    <a href="" class="clearfix text-primary strong">www.domain.com</a>
+
+                                    <div class="media-icons">
+                                        <a href=""><i class="fa fa-clock-o"></i></a>
+                                        <a href=""><i class="fa fa-calendar"></i></a>
+                                        <a href=""><i class="fa fa-user"></i></a>
+                                        <a href=""><i class="fa fa-star"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="inline-block box-generic">
+                            <div class="timeline-top-info bg-gray border-bottom">
+                                <i class="fa fa-user"></i> <a href="">mosaicpro</a> is following <a href="#"><img
+                                    src="../assets/images/people/80/1.jpg" width="20"/></a> <a href="">Jane S.</a>
+                            </div>
+
+                            <div class="media innerAll margin-none ">
+                                <a class="pull-left" href="#">
+                                    <img src="../assets/images/people/80/1.jpg" alt="photo" class="media-object"
+                                         width="35">
+                                </a>
+
+                                <div class="media-body">
+                                    <a href="" class="strong">Jane Smith</a>
+                                    <a href="" class="clearfix text-primary strong">www.domain.com</a>
+
+                                    <div class="media-icons">
+                                        <a href=""><i class="fa fa-clock-o"></i></a>
+                                        <a href=""><i class="fa fa-calendar"></i></a>
+                                        <a href=""><i class="fa fa-user"></i></a>
+                                        <a href=""><i class="fa fa-star"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <i class="list-icon fa fa-camera"></i>
+
+                    <div class="block block-inline">
+                        <div class="caret"></div>
+                        <div class="box-generic">
+                            <div class="timeline-top-info">
+                                <i class="fa fa-user"></i> <a href="">mosaicpro</a> has uploaded 10 photos in <a href=""
+                                                                                                                 class="text-primary"><i
+                                    class="text-primary fa fa-location-arrow"></i> Album Name #2</a>
+                            </div>
+                            <div class="innerLR innerB">
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/1.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/2.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/3.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/4.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/5.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/6.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/7.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/8.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/9.jpg" alt="photo" width="35"/></a>
+
+                                <a href="#" class="thumbnail pull-left border-none"><img
+                                        src="../assets/images/people/80/10.jpg" alt="photo" width="35"/></a>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="separator bottom"></div>
+                    </div>
+                </li>
+            </ul>
+
+
+        </div>
+        <!-- // END col-app -->
+
+    </div>
+    <!-- // END col-app -->
+
+</div>
+<!-- // END col-table-row -->
+
+</div>
+<!-- // END col-table -->
+
+</div>
+<!-- // END col-app.box -->
+
+</div>
+<!-- // END col-table-row -->
+
+</div>
+<!-- // END col-table -->
+
+</div>
+<!-- // END col-separator -->
+
+</div>
+<!-- // END col -->
+
+<!-- col -->
+<div class="col-sm-12 col-md-3 col-lg-2">
+
+    <!-- col-separator -->
+    <div class="col-separator col-unscrollable box col-separator-last reset-components">
+
+        <!-- col-table -->
+        <div class="col-table">
+
+            <div class="input-group friends-search">
+                <input class="form-control col-md-6 innerAll" id="appendedInputButtons" type="text"
+                       placeholder="Search">
+
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <!-- col-table-row -->
+            <div class="col-table-row">
+
+                <!-- col-app -->
+                <div class="col-app col-unscrollable">
+
+                    <!-- col-app -->
+                    <div class="col-app">
+
+                        <ul class="list-unstyled friends-list">
+
+                            <li><a data-toggle="image-preview" data-title="Perpetua Inger"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/1.jpg" href=""
+                                   class="glyphicons girl"><i></i>Perpetua Inger</a></li>
+                            <li><a data-toggle="image-preview" data-title="Zoticus Axel"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/2.jpg" href=""
+                                   class="glyphicons girl"><i></i>Zoticus Axel</a></li>
+                            <li><a data-toggle="image-preview" data-title="Yun Ragna"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/3.jpg" href=""
+                                   class="glyphicons girl"><i></i>Yun Ragna</a></li>
+                            <li><a data-toggle="image-preview" data-title="Victor Tacitus"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/4.jpg" href=""
+                                   class="glyphicons girl"><i></i>Victor Tacitus</a></li>
+                            <li><a data-toggle="image-preview" data-title="Arden Catharine"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/5.jpg" href=""
+                                   class="glyphicons girl"><i></i>Arden Catharine</a></li>
+                            <li><a data-toggle="image-preview" data-title="Mihovil Govinda"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/6.jpg" href=""
+                                   class="glyphicons girl"><i></i>Mihovil Govinda</a></li>
+                            <li><a data-toggle="image-preview" data-title="Mariya Hadya"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/7.jpg" href=""
+                                   class="glyphicons girl"><i></i>Mariya Hadya</a></li>
+                            <li><a data-toggle="image-preview" data-title="Tahir Benedikt"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/8.jpg" href=""
+                                   class="glyphicons girl"><i></i>Tahir Benedikt</a></li>
+                            <li><a data-toggle="image-preview" data-title="Olayinka Kristin"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/9.jpg" href=""
+                                   class="glyphicons girl"><i></i>Olayinka Kristin</a></li>
+                            <li><a data-toggle="image-preview" data-title="Danko Nikodim"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/10.jpg" href=""
+                                   class="glyphicons girl"><i></i>Danko Nikodim</a></li>
+                            <li><a data-toggle="image-preview" data-title="Zoja Aileas"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/11.jpg" href=""
+                                   class="glyphicons girl"><i></i>Zoja Aileas</a></li>
+                            <li><a data-toggle="image-preview" data-title="Alphonsus Braidy"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/12.jpg" href=""
+                                   class="glyphicons girl"><i></i>Alphonsus Braidy</a></li>
+                            <li><a data-toggle="image-preview" data-title="Helene Liana"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/13.jpg" href=""
+                                   class="glyphicons girl"><i></i>Helene Liana</a></li>
+                            <li><a data-toggle="image-preview" data-title="Sebastian Niklas"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/14.jpg" href=""
+                                   class="glyphicons girl"><i></i>Sebastian Niklas</a></li>
+                            <li><a data-toggle="image-preview" data-title="Elvire Maya"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/15.jpg" href=""
+                                   class="glyphicons girl"><i></i>Elvire Maya</a></li>
+                            <li><a data-toggle="image-preview" data-title="Kerman Otakar"
+                                   data-content="<small>Last Activity: 1h ago</small>"
+                                   data-image-preview="../assets/images/people/250/16.jpg" href=""
+                                   class="glyphicons girl"><i></i>Kerman Otakar</a></li>
+
+                        </ul>
+
+                    </div>
+                    <!-- // END col-app -->
+
+                </div>
+                <!-- // END col-app -->
+
+            </div>
+            <!-- // END col-table-row -->
+
+            <div class="col-separator-h box"></div>
+
+            <div class="innerAll">
+                <a href="#" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add user</a>
+            </div>
+            <div class="col-separator-h box"></div>
+
+            <!-- Stats Widget -->
+            <a href="" class="widget-stats widget-stats-gray widget-stats-2">
+                <span class="count">14</span>
+                <span class="txt">New Members</span>
+            </a>
+            <!-- // Stats Widget END -->
+
+
+        </div>
+        <!-- // END col-table -->
+
+    </div>
+    <!-- // END col-separator -->
+
+</div>
+<!-- // END col -->
+
+</div>
+<!-- // END row -->
+
+</div>
+<!-- // END col-app -->
+
+</div>
+<!-- // END col-table-row -->
+
+</div>
+<!-- // END col-table -->
+
+</div>
+<!-- // END col-separator -->
+
+</div>
+<!-- // END col -->
+
+</div>
+<!-- // END row-app -->
+
+
+</div>
+</div>
+<!-- // Content END -->
+
+<div class="clearfix"></div>
+<!-- // Sidebar menu & content wrapper END -->
+
+<!-- Footer -->
+<div id="footer" class="hidden-print">
+
+    <!--  Copyright Line -->
+    <div class="copy">&copy; 2012 - 2014 - <a href="http://www.mosaicpro.biz">MosaicPro</a> - All Rights Reserved. <a
+            href="http://themeforest.net/?ref=mosaicpro" target="_blank">Purchase CORAL on ThemeForest</a> - Current
+        version: v2.0.0-rc1 / <a target="_blank" href="../assets/../../CHANGELOG.txt?v=v2.0.0-rc1">changelog</a></div>
+    <!--  End Copyright Line -->
+
+</div>
+<!-- // Footer END -->
+
+
+</div>
+<!-- // Main Container Fluid END -->
+
+
+<!-- Global -->
+<script data-id="App.Config">
+    var basePath = '',
+            commonPath = '../assets/',
+            rootPath = '../',
+            DEV = false,
+            componentsPath = '../assets/components/';
+
+    var primaryColor = '#87c844',
+            dangerColor = '#b55151',
+            successColor = '#609450',
+            infoColor = '#4a8bc2',
+            warningColor = '#ab7a4b',
+            inverseColor = '#45484d';
+
+    var themerPrimaryColor = primaryColor;
+
+    App.Config = {
+        ajaxify_menu_selectors: ['#menu', '#menu_kis'],
+        ajaxify_layout_app: true        };
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PositionViewModel>
+<div class="widget-body innerAll inner-2x">
+    <!-- Table -->
+    <table class="dynamicTable scrollVertical table table-bordered table-primary">
+
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th class="center">Название</th>
+                <th>Отдел</th>
+                <th>Активен</th>
+                <th>Доступные действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.DepartmentId))
+            {
+                <tr>
+                    <td class="center">@item.Name</td>
+                    <td>@item.DepartmentName</td>
+                    <td>@item.IsActive</td>
+                    <td>
+                        <div class="btn-group">
+                            <span class="btn btn-default" onclick="loadModalContent('modal-add', 'PositionEdit', 'Department', '?positionId='+@item.PosId)"><i class="fa fa-edit"></i>&nbsp;Редактировать</span>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        <!-- // Table body END -->
+
+    </table>
+
+    <!-- // Table END -->
+
+</div>

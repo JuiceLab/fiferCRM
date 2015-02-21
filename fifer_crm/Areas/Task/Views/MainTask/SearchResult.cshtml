@@ -1,0 +1,187 @@
+﻿@model FilterModel.TaskSearchFilter
+@{
+    var statuses = new List<SelectListItem>();
+
+    foreach (TaskStatus status in Enum.GetValues(typeof(TaskStatus)))
+    {
+        statuses.Add(new SelectListItem() { Text = status.GetStringValue(), Value = ((byte)status).ToString() });
+    }
+}
+
+
+<div class="media widget" data-toggle="collapse-widget" data-collapse-closed="true">
+    <div class="widget-head">
+        <h4 class="heading">Расширенный поиск</h4>
+    </div>
+    <div class="widget-body">
+        <form id="task-search">
+            <div class="col-md-8 center">
+                <div class="innerLR">
+                    <label class="strong">Назначен</label>
+                    <select id="Assigned" style="width: 100%;" name="Assigned" class="multiselect" multiple>
+                        @foreach (var item in Model.AssignedAvailable)
+                        {
+                            if (item.Selected)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 center">
+                <div class="innerLR">
+                    <label class="strong">Статус</label>
+                    <select id="Statuses" style="width: 100%;" name="Statuses" class="multiselect" multiple>
+                        @foreach (var item in statuses)
+                        {
+                            if (item.Selected)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                    <div class="separator top"></div>
+                </div>
+            </div>
+            <div class="col-md-9 center">
+                <div class="innerLR">
+                    <label class=" col-md-4 strong" style="text-align:center">Диапазон дат:</label>
+                </div>
+            </div>
+            <div class="col-md-4 center">
+                <div class="innerLR">
+                    <label class="strong">C</label>
+                    <div class="input-group date">
+                        @Html.TextBoxFor(m => m.DateRangeInvariant[0], new { @class = "form-control" })
+                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                    </div>
+                    <div class="separator top"></div>
+                </div>
+            </div>
+            <div class="col-md-4 center">
+                <div class="innerLR">
+                    <label class="strong">По</label>
+                    <div class="input-group date">
+                        @Html.TextBoxFor(m => m.DateRangeInvariant[1], new { @class = "form-control" })
+                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 center">
+                <span style="margin-top:15px;" class="btn btn-primary btn-lg" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterTasks($('#option1:checked').length);"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="col-separator-h"></div>
+<!-- // END heading -->
+<!-- col-table-row -->
+<div id="calendar-div" class="col-table-row">
+    <!-- col-app.col-unscrollable -->
+    <div class="col-app col-unscrollable">
+        <!-- col-app -->
+        <div class="col-app">
+            <!-- row -->
+            <div class="row row-app">
+                <!-- col -->
+                <div class="col-md-9">
+                    <!-- col-separator -->
+                    <div class="col-separator bg-none">
+                        <!-- Widget -->
+                        <div class="widget">
+                            <div class="widget-body innerAll inner-2x">
+                                <div data-component>
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Widget END -->
+
+                    </div>
+                    <!-- // END col-separator -->
+                </div>
+                <!-- // END col -->
+                <!-- col -->
+                <div class="col-md-3">
+                    <!-- col-separator -->
+                    <div class="col-separator bg-none col-separator-last">
+                        <!-- External Events -->
+                        <div id="external-events">
+                            <!-- Widget -->
+                            <div class="widget">
+                                <!-- Widget heading -->
+                                <div class="widget-head">
+                                    <h3 class="heading">Задачи без даты или просроченные</h3>
+                                </div>
+                                <!-- // Widget heading END -->
+                                <div class="widget-body padding-none">
+                                    <div class="innerAll inner-2x border-bottom">
+                                        <!-- Events list -->
+                                        <ul class="unstyled">
+                                            @foreach (var item in Model.SearchResult.Where(m => m.Status == TaskStatus.Expired || !m.DateStarted.HasValue))
+                                            {
+                                                <li onclick="loadModalContentWithCallback('modal-help', 'TaskDateTransfer', 'Task/GroupTask', '?taskId=@(item.TaskId)', initDateMask);" title="Задать дату выполнения"><span><i class="fa fa-clock-o"></i> </span>&nbsp;@item.TaskNumber</li>
+                                            }
+                                        </ul>
+                                        <!-- Events list END -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- // Widget END -->
+
+                        </div>
+                        <!-- // External Events END -->
+                    </div>
+                    <!-- // END col-separator -->
+                </div>
+                <!-- // END col -->
+            </div>
+            <!-- // END row -->
+        </div>
+        <!-- // END col-app -->
+    </div>
+    <!-- // END col-app.col-unscrollable -->
+</div>
+<div id="table-div" class="col-table-row hide">
+    <!-- col-app.col-unscrollable -->
+    <div class="col-app col-unscrollable">
+        <!-- col-app -->
+        <div class="col-app">
+            <!-- row -->
+            <div class="row row-app">
+                <!-- col -->
+                <div class="col-md-12">
+                    <!-- col-separator -->
+                    <div class="col-separator bg-none">
+                        <!-- Widget -->
+                        <div class="widget">
+                            <div class="widget-body innerAll inner-2x">
+                                <div id="taskTable">
+                                    @Html.Partial("TaskTable", Model.SearchResult)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Widget END -->
+                    </div>
+                    <!-- // END col-separator -->
+                </div>
+                <!-- // END col -->
+            </div>
+            <!-- // END row -->
+        </div>
+        <!-- // END col-app -->
+    </div>
+    <!-- // END col-app.col-unscrollable -->
+</div>

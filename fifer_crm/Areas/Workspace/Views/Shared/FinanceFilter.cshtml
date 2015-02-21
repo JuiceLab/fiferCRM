@@ -1,0 +1,46 @@
+﻿@model IFinanceFilter
+<form id="filter-finance" class="margin-none form-inline">
+    <!-- From -->
+    <div class="form-group col-md-2 padding-none">
+        <label>From:</label>
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.DateRangeInvariant[0], new { @class = "form-control" })
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+    <!-- // From END -->
+    <!-- To -->
+    <div class="form-group col-md-2 padding-none">
+        <label>To:</label>
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.DateRangeInvariant[1], new { @class = "form-control" })
+            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+        </div>
+    </div>
+    <!-- // To END -->
+    <!-- Min -->
+    <div class="form-group col-md-2 padding-none">
+        <label>Min:</label>
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.PriceRange[0], new { @class = "form-control" })
+            <span class="input-group-addon"><i class="fa fa-ruble"></i></span>
+        </div>
+    </div>
+    <!-- // Min END -->
+    <!-- Max -->
+    <div class="form-group col-md-2 padding-none">
+        <label>Max:</label>
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.PriceRange[1], new { @class = "form-control" })
+            <span class="input-group-addon"><i class="fa fa-ruble"></i></span>
+        </div>
+    </div>
+    <!-- // Max END -->
+    <!-- Select -->
+    <div class="form-group col-md-3 padding-none">
+        <input class="btn btn-info" type="submit" value="Применить"/>
+    </div>
+    <!-- // Select END -->
+
+    <div class="clearfix"></div>
+</form>

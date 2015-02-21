@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CallTaskPreview>
+
+<ul class="list-group list-group-1 borders-none margin-none">
+    @foreach (var item in Model.OrderBy(m => m.Date))
+    {
+        <li class="list-group-item">
+            <div class="media innerAll">
+                <button class="pull-right btn-stroke btn-xs btn btn-info" onclick="loadModalContent('modal-help','TaskHistory','CommonTask', '?taskId=@(item.CallTaskId)&taskNumber=@item.TaskNumber')"><i class="icon icon-comment-1" title="История задачи"></i></button>
+                <img src="/assets/images/people/80/2.jpg" alt="" width="35" class="pull-left thumb">
+                <div class="media-body">
+                    <h5 class="media-heading strong">@item.TaskNumber/@item.CustomerName</h5>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-ticket"></i>&nbsp;@item.Title</li>
+                            <li><i class="fa fa-phone"></i>&nbsp;@item.Phone </li>
+                            <li><i class="fa fa-map-marker"></i>&nbsp;@item.CompanyName</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-clock-o"></i>&nbsp;@(item.Date.Date != DateTime.Now.Date ? item.Date.ToShortDateString() : item.Date.ToShortTimeString())</li>
+                            <li>@(((TaskStatus)item.StatusId).GetStringValue())</li>
+                            </ul>
+                    </div>
+                    <div class="pull-right">
+                       <ul class="list-unstyled">
+                                    <li>
+                                @if (item.StatusId != (byte)TaskStatus.Completed)
+                                {
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-success" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Call', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
+                                            Рассмотреть
+                                        </button>
+                                        @*<button type="button" class="btn btn-info" onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','CommonTask', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
+                                            Перенести на другое время
+                                        </button>
+                                        <button type="button" class="btn btn-default" onclick="loadModalContentWithCallback('modal-help','TaskAssign','CommonTask', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
+                                            Назначить исполнителя
+                                        </button>*@
+                                    </div>
+                                }
+                                else
+                                {
+                                    <label class="label label-success">Звонок выполнен</label>
+                                }
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+    }
+   
+</ul>
+

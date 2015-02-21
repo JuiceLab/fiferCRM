@@ -1,0 +1,66 @@
+﻿@model PasteBoardEditModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Основная информация сайта</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+    @using (Html.BeginForm("SiteInfo", "Editor", new { Area = "PasteBoard" }, FormMethod.Post, new { id="info-form", @class = "form-horizontal", role = "form" }))
+    {
+            @Html.HiddenFor(m => m.ProjectId)
+            @Html.HiddenFor(m => m.HeaderImagePath)
+            @Html.HiddenFor(m => m.LogoPath)
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Название сайта" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CompanyName, new { @class = "col-sm-4 control-label" })
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Thesis, new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => m.Thesis, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col-md-8 form-group">
+                         @Html.LabelFor(m => m.Address, new { @class = "col-sm-5 control-label" })
+                         <div class="col-sm-7">
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                         </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.CityName, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.CityName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                     <div class="col-md-8 form-group">
+                        @Html.LabelFor(m => m.Mail, new { @class = "col-sm-5 control-label" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(m => m.Mail, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        @Html.LabelFor(m => m.Phone, new { @class = "col-sm-4 control-label" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                @Html.ValidationSummary()
+                <span onclick="updateSiteInfo();" style="width:100%" class="btn btn-primary">Обновить</span>
+    }
+            </div>
+        </div>
+    </div>

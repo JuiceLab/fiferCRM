@@ -1,0 +1,111 @@
+﻿@model CompanyWrapViewModel
+@{
+    ViewBag.Title = @Model.CompanyName;
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+   @Html.Partial("TopMenu")
+}
+<div class="layout-app">
+
+    <!-- row --><div class="row row-app">
+    <!-- col -->
+    <div class="col-md-12">
+
+        <!-- col-separator.box -->
+        <div class="col-separator col-unscrollable box col-separator-first">
+
+            <!-- col-table -->
+            <div class="col-table">
+                                <!-- col-table-row -->
+                <div class="col-table-row">
+
+                    <!-- col-app -->
+                    <div class="col-app col-unscrollable">
+
+                        <!-- col-app -->
+                        <div class="col-app">
+
+                            <div class="innerAll">
+
+                                <!-- Tabs -->
+                                <div class="relativeWrap">
+                                    <div class="widget widget-tabs widget-tabs-double-2 widget-tabs-responsive">
+
+                                        <!-- Tabs Heading -->
+                                        <div class="widget-head">
+                                            <ul>
+                                                <li class="active"><a class="glyphicons user" href="#tabEmployee" data-toggle="tab"><i></i><span>Сотрудники</span></a></li>
+                                                <li><a class="glyphicons list" href="#tabEmployeeActivity" data-toggle="tab"><i></i><span>Действия</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- // Tabs Heading END -->
+                                        <div class="widget-body">
+                                            <div class="tab-content">
+                                                <!-- Tab content -->
+                                                <div id="tabEmployee" class="tab-pane active widget-body-regular">
+                                                        <h4 class="innerTB">Список сотрудников компании &nbsp;<span onclick="loadModalContentWithCallback('modal-add', 'EmployeeEdit', 'Employee', '', initMultiselectAndPhone)" class="btn btn-primary"><i class="fa fa-fw fa-plus-square-o"></i> Добавить нового сотрудника</span></h4>
+                                                        @Html.Partial("EmployeesTable", Model.Employees)
+                                                        <!-- // Widget END -->
+                                                </div>
+                                                <!-- // Tab content END -->
+                                                <!-- Tab content -->
+                                                <div id="tabEmployeeActivity" class="tab-pane widget-body-regular">
+                                                    <h4 class="innerTB">История действий сотрудников</h4>
+                                                    @Html.Partial("EmployeesHistoryLog", Model.EmployeesActions)
+                                                </div>
+                                                <!-- // Tab content END -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // Tabs END -->
+                                <!-- Tabs -->
+
+                            </div>
+
+                        </div>
+                        <!-- // END col-app -->
+
+                    </div>
+                    <!-- // END col-app.col-unscrollable -->
+
+                </div>
+                <!-- // END col-table-row -->
+
+            </div>
+            <!-- // END col-table -->
+
+        </div>
+        <!-- // END col-separator.box -->
+
+    </div>
+    <!-- // END row-app -->
+    </div>
+</div>
+
+<div class="modal fade in" id="modal-add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title">Отдел</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+
+            </div>
+            <!-- // Modal body END -->
+
+        </div>
+    </div>
+
+</div>

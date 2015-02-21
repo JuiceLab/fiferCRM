@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar fife-header">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a title="На главную страницу" id="logo" class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+                <img id="logo_fifer_img" src="/content/images/fifer_logo_wg.png">
+                <span><span id="logo-text">Название фирмы</span></span>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <ul id="digital-clock" class="digital">
+                        <li class="hour"></li>
+                        <li class="min"></li>
+                        <li class="sec"></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="test.php" title="Сервер помощи"><img id="topprofile" src="content/images/question.png"></a>
+                </li>
+                <li>
+                    <a class='iframe' href="test.php" title="Профиль пользователя: Имя">
+                        <img id="topprofile" src="content/images/profile.jpg">
+                        <span id="user-name"> Сергей Кондратьев</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <!-- left menu starts -->
+            <div class="col-md-3 main-menu">
+                <div class="well nav-collapse sidebar-nav">
+                    <div id="wrap"><div id="menu-create-but"><a class="iframe" href="test.php" title="Список действий">Список действий</a></div></div>
+                    <div>
+                            <ul class="nav nav-pills nav-stacked">
+                                <li id="menu-item-block">
+                                    <a id="menu-item-link" href="">Структура компании</a>
+                                </li>
+                                <li id="menu-item-block ">
+                                    <a id="menu-item-link" href="">Сотрудники</a>
+                                </li>
+                                <li id="menu-item-block ">
+                                    <a id="menu-item-link" href="">Посещаемость</a>
+                                </li>
+                            </ul>  
+                        </div>
+                    </div>
+                </div>
+        <div class="col-md-7">
+            <div class="td-fife-cont">
+                @RenderBody()
+                <div id="footer">
+                    <div class="footer-content-lowerEnd-wrap"><div class="footer-content-lowerEnd"></div></div>
+                    <span id="copyright"><span class="fiferpro-copyright">© 2010-2014 «Fifer»</span></span>
+                    <a href="" class="footer-discuss-link iframe" title="Добавление отзыва о системе">Оставить отзыв о системе</a>
+                </div>        
+            </div>
+        </div>
+        <div id="rightwidjet" class="pull-right">
+            <div id="invite-employees-button"><span class="invite-employees-link"><a class='iframe' href="" title="Подача заявки на тендер">Подать заявку на тендер</a></span></div>
+            <div class="rightwidjet-widget rightwidjet-widget-tasks">
+                <div class="rightwidjet-widget-top"><div class="rightwidjet-widget-top-title">Возможно Ваc заинтересует</div></div>
+                <div class="rightwidjet-widget-item-wrap">
+                    <a id="task-item" href=""><span class="task-item-text">Требуется ремонт квартиры</span></a>
+                    <a id="task-item" href=""><span class="task-item-text">Просроченные звонки</span></a>
+                    <a id="task-item" href=""><span class="task-item-text">Срочные задачи</span></a>
+                    <a id="task-item" href=""><span class="task-item-text">План на Завтра</span></a>
+                </div>
+            </div>
+            <div class="rightwidjet-widget rightwidjet-widget-tasks">
+                <div class="rightwidjet-widget-top"><div class="rightwidjet-widget-top-title">Горячая панель</div></div>
+                <div class="rightwidjet-widget-item-wrap">
+                    <a id="task-item" href=""><span class="task-item-text">Сообщений непрочитано</span><span class="task-item-index">1 <span class="task-item-counter">0</span></span></a>
+                    <a id="task-item" href=""><span class="task-item-text">Просроченные звонки</span><span class="task-item-index">1 <span class="task-item-counter">0</span></span></a>
+                    <a id="task-item" href=""><span class="task-item-text">Срочные задачи</span><span class="task-item-index">1 <span class="task-item-counter">0</span></span></a>
+                    <a id="task-item" href=""><span class="task-item-text">План на Завтра</span><span class="task-item-index">1 <span class="task-item-counter">0</span></span></a>
+                </div>
+            </div>
+
+
+
+        </div>
+        </div>
+    </div>
+    
+
+                    @Scripts.Render("~/bundles/jquery")
+                    @Scripts.Render("~/bundles/bootstrap")
+                    @RenderSection("scripts", required: false)
+</body>
+</html>

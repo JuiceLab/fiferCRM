@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8074b27190c4414aa660450f60decffd" Name="Diagram1" ZoomLevel="93">
+        <EntityTypeShape EntityType="PasteboardModel.PasteBoardSetting" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="PasteboardModel.Gallery" Width="1.5" PointX="5.625" PointY="1.375" />
+        <EntityTypeShape EntityType="PasteboardModel.SeoItem" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="PasteboardModel.PasteBoardPage" Width="1.5" PointX="7.875" PointY="1.875" />
+        <AssociationConnector Association="PasteboardModel.FK_PasteBoardPage_Gallery" />
+        <AssociationConnector Association="PasteboardModel.FK_PasteBoardPage_PasteBoardPage" />
+        <AssociationConnector Association="PasteboardModel.FK_PasteBoardPage_PasteBoardSettings" />
+        <AssociationConnector Association="PasteboardModel.FK_PasteBoardPage_SeoItem" />
+        <EntityTypeShape EntityType="PasteboardModel.SlideSetting" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="PasteboardModel.Image" Width="1.5" PointX="1.125" PointY="3.375" />
+        <AssociationConnector Association="PasteboardModel.FK_Image_Gallery" />
+        <AssociationConnector Association="PasteboardModel.FK_Image_SlideSettings" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

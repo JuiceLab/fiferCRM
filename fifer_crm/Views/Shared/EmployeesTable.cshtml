@@ -1,0 +1,49 @@
+﻿@model IEnumerable<EmployeeViewModel>
+
+<div class="widget-body innerAll inner-2x">
+    <table class=" table table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>Фото</th>
+                <th>ФИО</th>
+                <th>Отдел</th>
+                <th>Должность</th>
+                <th>Последний вход</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+           
+                @foreach (var item in Model.OrderBy(m => m.IsDismissed))
+                {
+                    <tr>
+                        <td><img style="max-width:40px" src="@(!string.IsNullOrEmpty(item.PhotoPath) ? item.PhotoPath : "/content/images/profile.jpg")" alt=""></td>
+                        <td>@item.FirstName&nbsp; @item.LastName&nbsp;@(!string.IsNullOrEmpty(item.Patronymic) ? item.Patronymic : string.Empty)</td>
+                        <td>@item.Department</td>
+                        <td>@item.Position</td>
+                        <td>@item.LastLogin</td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                                    Действия
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a onclick="loadModalContentWithCallback('modal-add', 'EmployeeEdit' , 'ERP/Employee', '?employeeId=@(item.EmployeeId)', intiCropAndPhone );return false;">Подробная информация</a></li>
+                                    <li><a onclick="loadModalContentWithCallback('modal-add', 'EmployeePassportEdit' , 'ERP/Employee', '?employeeId=@(item.EmployeeId)', intiCropAndPhone )">Паспортные данные </a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+                <!-- // Table END -->
+            
+</div>

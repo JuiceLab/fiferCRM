@@ -1,0 +1,80 @@
+﻿@model TaskWrapViewModel
+@{
+    ViewBag.Title = "Вопросы к службе тех. поддержки";
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+<div class="layout-app">
+
+    <!-- row -->
+    <div class="row row-app margin-none">
+
+        <!-- col -->
+        <div class="col-md-12">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box hasNiceScroll" tabindex="5000" style="overflow-y: hidden; outline: none;">
+
+                <!-- Tabs -->
+                <div class="widget widget-tabs widget-tabs-social-account widget-tabs-responsive">
+
+                    <!-- Tabs Heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons building" href="#tabTicket" data-toggle="tab"><i></i><span>Вопросы</span></a></li>
+                        </ul>
+                    </div>
+                    <!-- // Tabs Heading END -->
+                    <div class="col-separator-h box"></div>
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div id="tabTicket" class="tab-pane active widget-body-regular padding-none border-none reset-components">
+                                <h4 class="innerTB">Активные тикеты поддержки</h4>
+                                <!-- Widget -->
+                                <div class="row">
+                                    @Html.Partial("AcctualTicketsTable", Model.SupportTickets)
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div id="tabEvent" class="tab-pane">
+                                <div class="relativeWrap">
+                                    <div class="widget widget-tabs widget-tabs-double widget-tabs-vertical row row-merge">
+
+                                        <!-- Tabs Heading -->
+                                        <div class="widget-head col-md-3">
+                                        </div>
+                                        <!-- // Tabs Heading END -->
+
+                                        <div class="widget-body col-md-9">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- // Tab content END -->
+                        </div>
+                    </div>
+                </div>
+                <!-- // Tabs END -->
+            </div>
+            <!-- // END col-separator -->
+
+        </div>
+        <!-- // END col -->
+
+        <div id="ascrail2000" class="nicescroll-rails" style="width: 5px; z-index: 2; cursor: default; position: absolute; top: 0px; left: 1097px; height: 399px; display: block; opacity: 0;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 364px; border: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(235, 106, 90); background-clip: padding-box;"></div></div>
+    </div>
+    <!-- // END row-app -->
+
+
+</div>

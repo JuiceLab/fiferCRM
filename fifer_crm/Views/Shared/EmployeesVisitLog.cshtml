@@ -1,0 +1,29 @@
+﻿@model IEnumerable<TimeSheetViewModel>
+
+<table class="dynamicTable scrollVertical table table-primary">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th>Работник</th>
+            <th>Дата</th>
+            <th>Приход</th>
+            <th>Уход</th>
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+    <tbody>
+        <!-- Table row -->
+        @foreach (var item in Model.OrderByDescending(m => m.Created))
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.Created.ToShortDateString()</td>
+                <td>@item.Created.Add(item.TimeIn).ToLongTimeString() (@item.IpIn)</td>
+                <td>@(item.TimeOut.HasValue? item.Created.Add(item.TimeOut.Value).ToShortTimeString() + " ( " + item.IpOut + ")" : "-")</td>
+            </tr>
+        }
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<!-- // Table END -->

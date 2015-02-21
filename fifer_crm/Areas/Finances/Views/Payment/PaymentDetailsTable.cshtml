@@ -1,0 +1,103 @@
+﻿@model PaymentEditModel
+@{
+    var services = ViewBag.Services as IEnumerable<SelectListItem>;
+    decimal total = 0;
+    decimal tax = 0;
+}
+<table id="paymentDetails-table" class="table table-bordered table-primary table-striped table-vertical-center">
+    <thead>
+        <tr>
+            <th style="width: 1%;" class="center">#.</th>
+            <th>Название</th>
+            <th style="width: 50px;">Кол-во</th>
+            <th style="width: 80px;">Цена</th>
+            <th style="width: 80px;">Итого</th>
+            <th style="width: 80px;">Итого(вкл. НДС)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Cart item -->
+        @for (int i = 0; i < Model.PaymentDetails.Count; i++ )
+        {
+            var totalTax = Model.PaymentDetails[i].Total * Convert.ToDecimal(Model.PaymentDetails[i].Tax.HasValue? Model.PaymentDetails[i].Tax.Value : 0);
+            var itemCost = Model.PaymentDetails[i].HasNDS ? Model.PaymentDetails[i].Cost * new decimal(0.82) : Model.PaymentDetails[i].Cost;
+            total += itemCost * new decimal(Model.PaymentDetails[i].Qty);
+            tax += totalTax;
+              <tr>
+                <td class="center">@(i+1) @Html.HiddenFor(m=>m.PaymentDetails[0].ItemId)</td>
+                <td>
+                    @Model.PaymentDetails[i].Name @Html.HiddenFor(m => m.PaymentDetails[0].Name)
+                </td>
+                <td class="center">@Model.PaymentDetails[i].Qty @Html.HiddenFor(m => m.PaymentDetails[0].Qty)</td>
+                <td class="center">@(itemCost.ToString("c")) @Html.HiddenFor(m => m.PaymentDetails[0].Cost)</td>
+                <td class="center">@((itemCost * new decimal(Model.PaymentDetails[i].Qty)).ToString("c"))</td>
+                <td class="center">@((Model.PaymentDetails[i].Total * new decimal(Model.PaymentDetails[i].Qty)).ToString("c"))</td>
+            </tr>
+        }
+        @if(services !=null)
+        {
+            <tr>
+                <td colspan="6">@Html.DropDownList("service4Payment", services) &nbsp; к-во<input id="qty" type="text" value="" />&nbsp;<span class="btn btn-info" onclick="addTableItem();"><i class="fa fa-plus"></i>&nbsp;Добавить услугу</span></td>
+            </tr>
+        <!-- // Cart item END -->
+        }
+    </tbody>
+</table>
+
+<div class="separator bottom hidden-print"></div>
+
+<!-- Row -->
+<div class="row">
+
+    <!-- Column -->
+    <div class="col-md-5 hidden-print">
+        <div class="box-generic">
+            <p class="margin-none"><strong>Note:</strong><br />@Model.Comment</p>
+            @if (Model.PaymentId == 0)
+            {
+                <div class="col-md-12">
+                    <label class="col-sm-5 control-label">Наличные</label>
+                    <div class="col-sm-2">
+                        @Html.CheckBoxFor(m => m.IsCash)
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-sm-7 control-label">Дата платежа</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(m => m.PayBeforeInvariant)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- Column END -->
+    <!-- Column -->
+    <div class="col-md-4 col-md-offset-3">
+        <div class="box-generic">
+            <table class="table table-borderless margin-none table-condensed cart_total">
+                <tbody>
+                    <tr>
+                        <td class="right border-none">Стоимость услуг:</td>
+                        <td class="right strong border-none">@total.ToString("c")</td>
+                    </tr>
+                    <tr>
+                        <td class="right">НДС:</td>
+                        <td class="right strong">@tax.ToString("c")</td>
+                    </tr>
+                    <tr>
+                        <td class="right">Итого:</td>
+                        <td class="right strong">@((total + tax).ToString("c"))</td>
+                    </tr>
+                    <tr class="hidden-print">
+                        @if(Model.StatusId != (byte)PaymentStatus.WaitConfirm || Model.StatusId == (byte)PaymentStatus.Novelty)
+                        {
+                            <td colspan="2" class="border-none"><button onclick="createPayment();" class="btn btn-block btn-primary"><i class="fa fa-fw fa-arrow-right"></i> @(Model.PaymentId !=0?"Обновить":"Создать")</button></td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- // Column END -->
+
+</div>

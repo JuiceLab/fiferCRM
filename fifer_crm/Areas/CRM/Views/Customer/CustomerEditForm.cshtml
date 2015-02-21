@@ -1,0 +1,122 @@
+﻿@model CustomerEditModel
+@{
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    var companies = ViewBag.Companies as IEnumerable<SelectListItem>;
+    
+    var statuses = new List<SelectListItem>();
+    foreach (CustomerStatus item in Enum.GetValues(typeof(CustomerStatus)))
+	{
+        statuses.Add(new SelectListItem() { Text = item.GetStringValue(), Value = item.ToString("d"), Selected = Model.StatusId == (byte)item });
+	}
+}
+
+            @using (Html.BeginForm("Edit", "Customer", new {Area ="CRM"}, FormMethod.Post, new { id="legal-customer-id", @class = "form-horizontal", role = "form" }))
+            {
+                @Html.HiddenFor(m => m.CustomerId)
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- Widget heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons user" href="#person-data" data-toggle="tab"><i></i>Клиент</a></li>
+                            <li><a class="glyphicons suitcase" href="#position-data" data-toggle="tab"><i></i>Контакты</a></li>
+                            <li><a class="glyphicons asterisk" href="#additional-data" data-toggle="tab"><i></i>Дополнительно</a></li>
+                        </ul>
+                    </div>
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div class="tab-pane active" id="person-data">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.CompanyId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.CompanyId,companies,  new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Patronymic, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.IsLPR, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.CheckBoxFor(m => m.IsLPR, new { @class = "form-control" })
+                                    </div>
+                                </div>  
+                            </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div class="tab-pane" id="position-data">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Phone, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Mail, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.Mail, new { @class = "form-control"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.SocialLinks, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.SocialLinks, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.PositionName, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.PositionName, new { @class = "form-control"})
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- // Tab content END -->
+                            <div class="tab-pane" id="additional-data">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.AssignedBy, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.AssignedBy, assign, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.StatusId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.StatusId, statuses, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Comment, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <span class="btn btn-primary" onclick="updateUserProfile();" >@(Model.CustomerId != 0 ?"Обновить":"Добавить")</span>
+                    </div>
+                </div>
+            }
+        

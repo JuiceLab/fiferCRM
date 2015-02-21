@@ -1,0 +1,37 @@
+﻿<div class="navbar hidden-print box main navbar-primary" role="navigation">
+    <div class="user-action user-action-btn-navbar pull-left border-right">
+        <button class="btn btn-sm btn-navbar btn-primary btn-stroke"><i class="fa fa-bars fa-2x"></i></button>
+    </div>
+    <div class="user-action user-action-btn-navbar pull-right">
+        <button class="btn btn-sm btn-navbar-right btn-primary"><i class="fa fa-fw fa-arrow-right"></i><span class="menu-left-hidden-xs"> Modules</span></button>
+    </div>
+    <div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs">
+        <div class="dropdown username hidden-xs pull-left">
+            <a class="dropdown-toggle  dropdown-hover" data-toggle="dropdown" href="#">
+                <span class="media margin-none">
+                    <span class="pull-left"><img src="/content/images/profile.jpg" alt="user" class="img-circle"></span>
+                    <span class="media-body">
+                        @Membership.GetUser().UserName <span class="caret"></span>
+                    </span>
+                </span>
+            </a>
+            <input type="hidden" id="userId" value="@Membership.GetUser().ProviderUserKey" />
+            <input type="hidden" id="now-date" value="@DateTime.Now.ToString("dd.MM.yyyy")" />
+            <ul class="dropdown-menu pull-right">
+                <li class="active"><a href="#" class="glyphicons user"><i></i> Профиль</a></li>
+                <li><a href="#" class="glyphicons list"><i></i>История</a></li>
+                <li><a href="#" class="glyphicons envelope"><i></i>Сообщения</a></li>
+                <li><a href="#" class="glyphicons key" onclick="resetPass();"><i></i>Сбросить пароль</a></li>
+                
+                <li><a href="#" class="glyphicons cogwheels" onclick="loadModalContent('modal-help', 'NotifySettingsEdit', 'Notify', '');"> Настройки уведомлений</a></li>
+                <li><a href="/Admin/CRMManager/Index" class="glyphicons" > Настройки</a></li>
+                
+                <li><a href="/Account/Logout">Выйти</a></li>
+            </ul>
+        </div>
+        <a href="#" class="btn btn-default btn-circle dropdown-toggle dropdown-click" onclick="loadModalContent('modal-help', 'TicketEdit', 'Support', '');" title="Помощь"><i class="fa fa-question"></i> </a>
+    </div>
+    <ul id="lastNotify" class="notifications pull-right hidden-xs">
+    </ul>
+    <div class="clearfix"></div>
+</div>

@@ -1,0 +1,119 @@
+﻿@model  PassportViewModel
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Паспортные данные</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("EmployeePassportEdit", "Employee", new { Area = "ERP" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <input id="photoType" type="hidden" value="passport" />
+                @Html.HiddenFor(m => m.PassportId)
+                @Html.HiddenFor(m => m.EmployeeId)
+                @Html.HiddenFor(m => m.ScanPath, new { @class = "photo_hidden" })
+
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- Widget heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons user" href="#person-data" data-toggle="tab"><i></i>Cотрудник</a></li>
+                            <li><a class="glyphicons camera" href="#photo-data" data-toggle="tab"><i></i>Фото</a></li>
+                        </ul>
+                    </div>
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div class="tab-pane active" id="person-data">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Serial, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Serial, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Number, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m=>m.Number)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.DateIssue, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.DateIssue, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.DateIssue)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.WhoIssue, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.WhoIssue, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.WhoIssue)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.CodeIssue, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.CodeIssue, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.CodeIssue)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.RegLocation, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.RegLocation, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.RegLocation)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.BirthLocation, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.BirthLocation, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.BirthLocation)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="photo-data">
+                                <div id="img-items" class="col-md-12">
+                                    @foreach (var item in Model.ScanPath)
+                                    {
+                                        <div class="scan-img ">
+                                            @Html.Hidden("scanPaths", item)
+                                            <div class="col-md-2">
+                                                <label>&nbsp;<span class="btn btn-default padding-none" onclick="$(this).parents('.scan-img').remove()">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</span></label><img style="max-width:100px" src="@item" />
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-md-12">
+                                    <fieldset><legend>Загрузка изображений</legend></fieldset>
+                                    <div id="imageUpload">
+                                        <div id="image-cropper">
+                                            <div class="cropit-image-preview" style="width:300px;height:200px"></div>
+                                            <div class="btns">
+                                                <input style="display:none" class="cropit-image-input custom" type='file' id='crop-uploader' />
+                                                <div style="float:left; margin-top: 19px; margin-right:10px;" class="select-image-btn btn btn-info"><span class="icon icon-image"></span>Выбрать изображение</div>
+                                            </div>
+                                            <br />
+                                            <input style="width: 180px" type="button" class="btn btn-success" id="crop-multisave" value="Добавить изображение" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="col-sm-offset-2 col-sm-9">
+                        <button type="submit" class="btn btn-primary">@(Model.PassportId != 0 ? "Обновить" : "Добавить")</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

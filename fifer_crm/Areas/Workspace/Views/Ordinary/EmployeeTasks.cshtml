@@ -1,0 +1,62 @@
+﻿@model IEnumerable<TaskPreview>
+
+            <!-- tickets -->
+            @foreach (var item in Model.OrderBy(m => m.DateStarted))
+            {
+                <div class="innerAll border-bottom tickets">
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <ul class="media-list">
+                                <li class="media">
+                                    <div class="pull-left">
+                                        <div class="center">
+                                            <div class="checkbox">
+                                                <label class="checkbox-custom">
+                                                    <i class="fa fa-fw fa-square-o"></i>
+                                                    <input type="checkbox">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="pull-left">
+                                        <img style="max-width:50px;" class="media-object" src="@item.CreatedByPhotoPath" title="@item.CreatedBy">
+                                    </span>
+                                    <div class="media-body">
+                                        <span class="media-heading">
+                                            <label class="label label-default">
+                                                #@item.TaskNumber
+                                            </label>
+                                            <label class="label label-info">&nbsp;@item.Status.GetStringValue()</label>
+                                        </span>
+                                        <div class="clearfix"></div>
+                                        <small>
+                                            @if (item.IsHighProirity)
+                                            {
+                                                <i style="color:red" title="Важная задача" class="glyphicon glyphicon-warning-sign"></i>
+                                            } &nbsp;<i class="icon-time-clock fw"></i> @(!item.DateStarted.HasValue ? string.Empty : item.DateStarted.Value.Date > DateTime.Now.Date ? item.DateStarted.Value.ToShortDateString() : item.DateStarted.Value.ToShortTimeString())&nbsp;
+                                        </small>  
+                                        <div class="clearfix"></div>
+                                        <small><i class="fa fa-flag"></i> @item.CreatedBy</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5">
+                            <fieldset>
+                                <legend>
+                                    @item.Title
+                                    <span class="btn btn-info pull-right padding-none" onclick="loadModalContent('modal-help','TaskHistory','Task/GroupTask', '?taskId=@(item.TaskId)&taskNumber=@item.TaskNumber')" title="История задачи">&nbsp;<i class="icon icon-comment-1"></i>&nbsp;История&nbsp;</span>
+                                </legend>
+                                <p>@item.Msg</p>
+                            </fieldset>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-md-3">
+                                <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskProcess','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-info btn-inverse" style="width:100%; margin-bottom:3px" title="Редактировать"><i class="fa fa-pencil">&nbsp;Редактировать &nbsp;</i></a>
+                            <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskAssign','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-default text-danger" style="width:100%; margin-bottom:3px" title="Назначить исполнителя"><i class="fa fa-user"></i>&nbsp;Делегировать</a>
+                            <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-warning" style="width:100%; margin-bottom:3px" title="Перенести"><i class="fa fa-refresh"></i>&nbsp;Перенести&nbsp;</a></div>
+                            </div>
+                        </div>
+            }
+   

@@ -1,0 +1,170 @@
+﻿@model CompanyWrapViewModel
+@{
+    ViewBag.Title = @Model.Company.CompanyName;
+}
+
+@section LeftMenu
+{
+    @Html.Partial("LeftMenu", Model)
+}
+
+@section TopMenu
+{
+    @Html.Partial("TopMenu")
+}
+<div class="layout-app">
+    <input type="hidden" id="editable-forms"/>
+    <!-- row -->
+    <div class="row row-app margin-none">
+
+        <!-- col -->
+        <div class="col-md-12">
+
+            <!-- col-separator -->
+            <div class="col-separator col-separator-first box hasNiceScroll" tabindex="5000" style="overflow-y: hidden; outline: none;">
+
+                <!-- Tabs -->
+                <div class="widget widget-tabs widget-tabs-social-account widget-tabs-responsive">
+
+                    <!-- Tabs Heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons suitcase" href="#tabCompany" data-toggle="tab"><i></i><span>Данные о компании</span></a></li>
+                            <li class=""><a class="glyphicons building" href="#tabAddr" data-toggle="tab"><i></i><span>Адреса компании</span></a></li>
+                            <li><a class="glyphicons old_man" href="#tabHeader" data-toggle="tab"><i></i><span>Руководство</span></a></li>
+                        </ul>
+                    </div>
+                    <!-- // Tabs Heading END -->
+                    <div class="col-separator-h box"></div>
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div id="tabCompany" class="tab-pane active widget-body-regular padding-none border-none reset-components">
+                                <!-- Widget -->
+                                <div class="widget widget-tabs border-bottom-none">
+                                    <!-- Widget heading -->
+                                    <div class="widget-head">
+                                        <ul>
+                                            <li class="active"><a class="glyphicons notes" href="#company-details" data-toggle="tab"><i></i>Компания</a></li>
+                                            <li><a class="glyphicons credit_card" href="#payment-details" data-toggle="tab"><i></i>Реквизиты</a></li>
+                                            <li><a class="glyphicons globe " href="#contact-details" data-toggle="tab"><i></i>Контактная информация</a></li>
+                                            <li><a class="glyphicons camera" href="#photo-details" data-toggle="tab"><i></i>Логотип</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <!-- // Widget heading END -->
+                                    <div class="widget-body">
+                                        @Html.Partial("CompanyEdit", Model.Company)
+                                    </div>
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div id="tabAddr" class="tab-pane innerAll">
+                                <h4 class="innerTB">Адреса компании</h4>
+                                <!-- Widget -->
+                                <div class="widget widget-tabs border-bottom-none">
+                                    <!-- Widget heading -->
+                                    <div class="widget-head">
+                                        <ul>
+                                            <li class="active"><a class="glyphicons factory" href="#address-details" data-toggle="tab"><i></i>Фактический адрес</a></li>
+                                            <li><a class="glyphicons bank" href="#legaladdress-details" data-toggle="tab"><i></i>Юридический адрес</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- // Widget heading END -->
+                                    <div class="widget-body">
+                                        <div class="tab-content">
+                                            <!-- Tab content -->
+                                            <div class="tab-pane active" id="address-details">
+                                                @Html.Partial("AddressEdit", Model.Company.Addresses.FirstOrDefault(m=>!m.IsLegal))
+                                            </div>
+                                            <!-- // Tab content END -->
+                                            <!-- Tab content -->
+                                            <div class="tab-pane" id="legaladdress-details">
+                                                @Html.Partial("AddressEdit", Model.Company.Addresses.Any(m => m.IsLegal) ? Model.Company.Addresses.FirstOrDefault(m => m.IsLegal) : new CompanyAddressViewModel() { IsLegal = true, CompanyId = Model.Company.CompanyId })
+                                            </div>
+                                            <!-- // Tab content END -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- // Widget END -->
+                            </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div id="tabHeader" class="tab-pane">
+                                <div class="relativeWrap">
+                                    <div class="widget widget-tabs widget-tabs-double widget-tabs-vertical row row-merge">
+
+                                        <!-- Tabs Heading -->
+                                        <div class="widget-head col-md-3">
+                                            <ul class="">
+                                                <li class="active"><a href="#tab-user@(Model.Company.KeyEmployees.FirstOrDefault().Position.Value)" class="glyphicons user" data-toggle="tab"><i></i> @Model.GetPositionName(Model.Company.KeyEmployees.FirstOrDefault().Position.Value)</a></li>
+                                                @foreach (var item in Model.Company.KeyEmployees.Skip(1))
+                                                {
+                                                <li class=""><a href="#tab-user@(item.Position.Value)" class="glyphicons user" data-toggle="tab"><i></i>@Model.GetPositionName(item.Position.Value)</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                        <!-- // Tabs Heading END -->
+
+                                        <div class="widget-body col-md-9">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab-user@(Model.Company.KeyEmployees.FirstOrDefault().Position)">
+                                                    <!-- Row -->
+                                                    @Html.Partial("KeyEmployeeEdit", Model.Company.KeyEmployees.FirstOrDefault())
+                                                </div>
+                                                @foreach (var item in Model.Company.KeyEmployees.Skip(1))
+                                                {                                               <!-- Tab content -->
+                                                    <div class="tab-pane" id="tab-user@(item.Position.Value)">
+                                                        <!-- Row -->
+                                                        @Html.Partial("KeyEmployeeEdit", item)
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="relativeWrap">
+                                    <!-- Tabs Heading -->
+                                    <div class="widget-head col-md-3">
+                                        <ul class="list-group list-group-1 margin-none borders-none">
+                                            <li class="list-group-item"><a href="#tab-user@(Model.Company.KeyEmployees.FirstOrDefault().Position.Value)" data-toggle="tab"><i class="fa fa-inbox"></i> @Model.GetPositionName(Model.Company.KeyEmployees.FirstOrDefault().Position.Value)</a></li>
+                                            @foreach (var item in Model.Company.KeyEmployees.Skip(1))
+                                            {
+                                            <li class="list-group-item"><a href="#tab-user@(item.Position.Value)" data-toggle="tab"><i class="fa fa-inbox"></i>@Model.GetPositionName(item.Position.Value)</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <!-- // Tabs Heading END -->
+
+                                    <div class="widget-body col-md-9">
+                                        <div class="tab-content">
+                                            @foreach (var item in Model.Company.KeyEmployees)
+                                            {                                               <!-- Tab content -->
+                                            <div class="tab-pane" id="#tab-user@(item.Position.Value)">
+                                                <!-- Row -->
+                                                @Html.Partial("KeyEmployeeEdit", item)
+                                            </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <!-- // Tab content END -->
+                        </div>
+                    </div>
+                </div>
+                <!-- // Tabs END -->
+            </div>
+            <!-- // END col-separator -->
+
+        </div>
+        <!-- // END col -->
+
+        <div id="ascrail2000" class="nicescroll-rails" style="width: 5px; z-index: 2; cursor: default; position: absolute; top: 0px; left: 1097px; height: 399px; display: block; opacity: 0;"><div style="position: relative; top: 0px; float: right; width: 5px; height: 364px; border: none; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; background-color: rgb(235, 106, 90); background-clip: padding-box;"></div></div>
+    </div>
+    <!-- // END row-app -->
+
+
+</div>

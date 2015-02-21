@@ -1,0 +1,25 @@
+﻿@model LoginViewModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Управление сайтом. Вход</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+            @using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { role = "form", id="auth-from" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @for = "Email" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Введите email или логин" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @for = "Password" })
+                    @Html.TextBoxFor(m => m.Password, new { type = "password", @class = "form-control", placeholder = "Введите пароль" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+
+                <span onclick="doLogin()" class="btn btn-primary btn-block">Войти</span>
+            }
+</div>

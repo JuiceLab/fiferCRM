@@ -1,0 +1,6 @@
+@import "fon/fon_abstract_7_f.css"; /* Фоновое изображение и цвет фона */
+@import "fon/top_abstract_7.css"; /* Картинка под верхним меню */
+@import "topmenu/00_topmenu_def.css"; /* Стиль верхнего меню */
+@import "leftmenu/00_leftmenu_def.css"; /* Стиль левого меню */
+@import "colors/B5B8B1.css"; /* Стиль цвета ссылок, текста, фонов и др.  */
+@import "styles.css"; /* Основной стиль */

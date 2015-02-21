@@ -1,0 +1,55 @@
+﻿@model IPage
+<div id="section-header" class="clearFloat png_bg">
+
+    <div class="wrap-header">
+        <!-- ЛОГОТИП -->
+        <div style="float:left; margin-left:15px;width:545px;text-align:left;">
+            <div id="logo_logo"><a href="/@(ViewBag.Domain)/index.html" id="home">@Model.Header.Name</a></div>
+            @if (!string.IsNullOrEmpty(Model.Header.Thesis))
+            {
+                <div id="logo_logo_logo"><span>@Model.Header.Thesis</span></div>
+            }
+        </div>
+        <!-- Верхнее меню -->
+        <div id="nav-GNB">
+            <ul>
+                @foreach (var item in Model.Menu.Where(m => !m.ParentMenuItemId.HasValue).OrderBy(m => m.MenuItemId))
+                {
+                    <li id='@(Model.Menu.Any(m => m.ParentMenuItemId == item.MenuItemId)? "gnb-shoppingFinance" : "gnb-serviceOwners")' class="gnb @(item.IsCurrent ? "active" : "")">
+                        @if (Model.Menu.Any(m => m.ParentMenuItemId == item.MenuItemId))
+                        {
+                            <a href="/@(item.Url).html" class="gnb" id="shoppingFinance">@item.Name</a>
+
+                            <div style="display: none;" class="snb png_bg">
+                                <ul id="shoppingFinanceList">
+                                    @foreach (var childItem in Model.Menu.Where(m => m.ParentMenuItemId == item.MenuItemId))
+                                    {
+                                        <li><a href="/@(childItem.Url).html" title="">@childItem.Name</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="/@(item.Url).html" class="gnb" id="serviceOwners">@item.Name</a>
+                        }
+                    </li>
+
+                }
+            </ul>
+        </div>
+        <!-- Верхнее меню конец -->
+        <!-- Выводим телефон -->
+        <div id="go_site" class="top_tel" style="margin-top:0;">@Model.Header.Phone &nbsp;
+       
+       </div>
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="#" class="pull-right" onclick="logout(); return false;">Выйти</a>
+    }
+    else
+    {
+        <a href="#" class="pull-right" onclick="loadModalContent('modal-edit', 'SignIn','Account', '' ); return false;">Войти</a>
+    }
+</div>

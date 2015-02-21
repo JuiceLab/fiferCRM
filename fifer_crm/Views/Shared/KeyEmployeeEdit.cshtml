@@ -1,0 +1,81 @@
+﻿@model CompanyEmployeeViewModel
+@using (Html.BeginForm("EditKeyEmployee", "Employee", new { Area = "ERP" }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m=>m.EmployeeId)
+    @Html.HiddenFor(m => m.UserId)
+        <div class="row">
+            <!-- Column -->
+            <div class="col-md-6">
+                <!-- Group -->
+                <div class="form-group margin-none innerB">
+                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-none innerB">
+                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-none innerB">
+                    @Html.LabelFor(m => m.Patronymic, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Group END -->
+            </div>
+            <div class="col-md-6">
+                <!-- Group -->
+                <div class="form-group margin-none innerB">
+                    @Html.LabelFor(m => m.PositionName, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.PositionName, new { @class = "form-control" })
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group margin-none innerB">
+                    @Html.LabelFor(m => m.PositionNameGenetive, new { @class = "col-md-6 control-label" })
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.PositionNameGenetive, new { @class = "form-control" })
+                            <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Group END -->
+            </div>
+            <div class="col-md-12">
+                @Html.LabelFor(m => m.FullNameGenetive, new { @class = "col-md-3 control-label" })
+                <div class="col-md-9">
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.FullNameGenetive, new { @class = "form-control" })
+                        <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="Полное название компании"><i class="fa fa-question-circle"></i></span>
+                    </div>
+                </div>
+            </div>
+            <!-- // Column END -->
+        </div>
+        <!-- // Row END -->
+
+        <div class="separator line bottom"></div>
+        <!-- Form actions -->
+        <div class="separator top">
+            <span class="edit-on btn btn-primary"><i class="fa fa-fw fa-edit"></i> Изменить</span>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check-square-o"></i> Обновить</button>
+        </div>
+        <!-- // Form actions END -->
+}

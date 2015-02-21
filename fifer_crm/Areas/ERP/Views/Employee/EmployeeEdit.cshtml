@@ -1,0 +1,220 @@
+﻿@model EmployeeViewModel
+@{
+    var positions = ViewBag.Positions as List<PositionViewModel>;
+    var groups = ViewBag.Groups as IEnumerable<SelectListItem>;
+    var roles = ViewBag.FuncRoles4CRM as List<SelectListItem>;
+    var groupClear = groups.Select(m=> new SelectListItem(){ Text = m.Text, Value = m.Value}).ToList();
+    groupClear.FirstOrDefault(m=>m.Value ==( Model.GroupHeaderId.HasValue? Model.GroupHeaderId.Value.ToString() : "")).Selected = true;
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Сотрудник @(Model.EmployeeId != 0 ? Model.FirstName + " " + Model.LastName : "")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("EmployeeEdit", "Employee", new { Area ="ERP" }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <input id="photoType" type="hidden" value="employee" />
+                @Html.HiddenFor(m => m.EmployeeId)
+                @Html.HiddenFor(m => m.UserId)
+                @Html.HiddenFor(m => m.PhotoPath, new { @class="photo_hidden" })
+
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- Widget heading -->
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a class="glyphicons user" href="#person-data" data-toggle="tab"><i></i>Cотрудник</a></li>
+                            <li><a class="glyphicons suitcase" href="#position-data" data-toggle="tab"><i></i>Должность</a></li>
+                            <li><a class="glyphicons asterisk" href="#additional-data" data-toggle="tab"><i></i>Дополнительно</a></li>
+                            <li><a class="glyphicons camera" href="#photo-data" data-toggle="tab"><i></i>Фото</a></li>
+                        </ul>
+                    </div>
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <!-- Tab content -->
+                            <div class="tab-pane active" id="person-data">
+                               
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Patronymic, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FullNameGenetive, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.FullNameGenetive, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.BirthDate, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control", placeholder = "__.__.____" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FuncRoleId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.FuncRoleId, roles, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-6">
+                                        @Html.LabelFor(m => m.IsDismissed, new { @class = "col-sm-6 control-label" })
+                                        <div class="col-sm-6">
+                                            @Html.CheckBoxFor(m => m.IsDismissed, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        @Html.LabelFor(m => m.IsKeyEmployee, new { @class = "col-sm-6 control-label" })
+                                        <div class="col-sm-6">
+                                            @Html.CheckBoxFor(m => m.IsKeyEmployee, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <!-- // Tab content END -->
+                            <!-- Tab content -->
+                            <div class="tab-pane" id="position-data">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select id="WorkGroups" name="WorkGroups" class="multiselect" multiple>
+                                            @foreach (var item in groups)
+                                            {
+                                                if (item.Selected)
+                                                {
+                                                    <option value="@item.Value" selected>@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.GroupHeaderId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.GroupHeaderId, groupClear , new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PositionId, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(m => m.PositionId, positions.Select(m => new SelectListItem() { Text = string.Format("{0} в отделе '{1}'", m.Name, m.DepartmentName) , Value = m.PosId.ToString(), Selected = m.PosId == Model.PositionId }), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Salary, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Salary, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.TransactionPercent, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.TransactionPercent, new { @class = "form-control" })
+                                    </div>
+                                </div>                            
+                            </div>
+                            <!-- // Tab content END -->
+                            <div class="tab-pane" id="additional-data">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Phone, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Mail, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(m => m.Mail, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(m => m.Skype, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.Skype, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.LabelFor(m => m.ICQ, new { @class = "col-sm-3 control-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(m => m.ICQ, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">
+                                        Социальные сети&nbsp;<span class="btn btn-default" onclick="addTagsInputItem($(this))"><i class="fa fa-plus"></i></span>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(m => m.SocialLinks, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.NegativeOpinion, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(m => m.NegativeOpinion, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.PositiveOpinion, new { @class = "col-sm-3 control-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(m => m.PositiveOpinion, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="photo-data">
+                                <div class="form-group">
+                                    <img class="col-sm-3" style="max-width:150px" id="employee_img" src="@(!string.IsNullOrEmpty(Model.PhotoPath)? Model.PhotoPath : "/content/images/profile.jpg")" />
+                                    <div class="col-sm-9">
+                                        <div id="imageUpload">
+                                            <div id="image-cropper">
+                                                <div class="cropit-image-preview" style="width:150px;height:200px"></div>
+                                                <div class="btns">
+                                                    <input style="display:none" class="cropit-image-input custom" type='file' id='crop-uploader' />
+                                                    <div style="float:left; margin-top: 19px; margin-right:10px;" class="select-image-btn btn btn-info"><span class="icon icon-image"></span>Выбрать изображение</div>
+                                                </div>
+                                                <br />
+                                                <input style="width: 180px" type="button" class="btn btn-success" id="crop-save" value="Сохранить" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary">Обновить</button>
+                    </div>
+                </div>
+            }
+        </div>
+      
+    </div>
+</div>

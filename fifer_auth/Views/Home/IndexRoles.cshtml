@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Fifer роли";
+}
+
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <span>@ViewBag.Title</span>
+        </li>
+    </ul>
+</div>
+<div class="sortable row-fluid">
+
+</div>
+
+<div class="row-fluid">
+    <div class="box span12">
+        <div class="box-header well">
+            <h2><i class="icon-info-sign"></i>@ViewBag.Title</h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round" onclick="loadModalContent('myModal','RoleModal','Role', '')" title="Добавить роль"><i class="icon-plus"></i></a>
+                <a href="#" title="Свернуть" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                <a href="#" title="Закрыть" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <div>
+                @(Html.Kendo().Grid<UserContext.Role>()
+                              .Name("Roles")
+                               .Columns(columns =>
+                                {
+                                    columns.Bound(p => p.RoleId).Visible(false);
+                                    columns.Bound(p => p.Name).ClientTemplate("<a href='/Role/IndexRole?roleId=#= RoleId #' > #=Name #</a>");
+                                    columns.Bound(p => p.Description);                                    
+                                })
+                                .HtmlAttributes(new
+                                {
+                                    style = "height:1500px"
+                                })
+                                .Groupable()
+                                .Pageable(pager => pager.Refresh(true))
+                                .Scrollable()
+                                .Filterable()
+                                .Sortable()
+                                .DataSource(dataSource => dataSource
+                                .Ajax()
+                                .PageSize(50)
+                                .Read(read => read.Action("GetRoleGrid", "GridData")
+                                )
+                        ))
+            </div>
+
+    </div>
+</div>
+<div class="row-fluid sortable">
+</div><!--/row-->
+</div>
+

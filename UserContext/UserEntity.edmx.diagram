@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="017d5d3bcf3c4cb29c940b1c8a9c0e7f" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="FiferUserModel.AppCookie" Width="1.5" PointX="3" PointY="14.625" />
+        <EntityTypeShape EntityType="FiferUserModel.Application" Width="1.5" PointX="0.75" PointY="19" />
+        <EntityTypeShape EntityType="FiferUserModel.AuthStat" Width="1.5" PointX="3" PointY="26.5" />
+        <EntityTypeShape EntityType="FiferUserModel.FunctionalRole" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="FiferUserModel.Role" Width="1.5" PointX="0.75" PointY="16" />
+        <EntityTypeShape EntityType="FiferUserModel.Rule4Role" Width="1.5" PointX="6" PointY="16" />
+        <EntityTypeShape EntityType="FiferUserModel.User" Width="1.5" PointX="0.75" PointY="9.5" />
+        <EntityTypeShape EntityType="FiferUserModel.UserFunctionalRole" Width="1.5" PointX="3" PointY="8" />
+        <EntityTypeShape EntityType="FiferUserModel.UserRole" Width="1.5" PointX="3" PointY="11" />
+        <AssociationConnector Association="FiferUserModel.FK_AppCookie_ToApp" />
+        <AssociationConnector Association="FiferUserModel.FK_AppCookie_ToUser" />
+        <AssociationConnector Association="FiferUserModel.FK_AuthStat_ToUser" />
+        <AssociationConnector Association="FiferUserModel.FK_FunctionalRole_FunctionalRole" />
+        <AssociationConnector Association="FiferUserModel.FK_UserFunctionalRole_ToFunctionalRole" />
+        <AssociationConnector Association="FiferUserModel.FK_Rule4Role_ToRole" />
+        <AssociationConnector Association="FiferUserModel.FK_UserProfile_ToRole" />
+        <AssociationConnector Association="FiferUserModel.FK_UserFunctionalRole_ToUser" />
+        <AssociationConnector Association="FiferUserModel.FK_UserProfile_ToUser" />
+        <EntityTypeShape EntityType="FiferUserModel.Rule" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="FiferUserModel.FK_Rule4Role_ToRule" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

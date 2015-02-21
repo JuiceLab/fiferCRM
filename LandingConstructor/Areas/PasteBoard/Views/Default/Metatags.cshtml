@@ -1,0 +1,19 @@
+﻿@model IPage
+@if (Model.SeoItem != null)
+{
+    @Html.Raw(Model.SeoItem.RenderMetaTags(Model.H1))
+        <!-- БЛОК МИКРОРАЗМЕТКИ ОН ОБЯЗАТЕЛЕН -->
+    <div itemscope itemtype="http://schema.org/Organization">
+        <meta itemprop='name' content='@Model.SeoItem.Title : @Model.Header.Name - г.@Model.Header.CityName'>
+        <meta itemprop='description' content='@Model.SeoItem.Description' />
+        <meta itemprop='address' content='@Model.Footer.Address' />
+        <meta itemprop='telephone' content='@Model.Header.Phone' />
+    </div>
+        <!-- БЛОК МИКРОРАЗМЕТКИ КОНЕЦ -->
+}
+<input type="hidden" id="userId" value="@Model.UserId" />
+<input type="hidden" id="siteId" value="@Model.SiteId" />
+<input type="hidden" id="pageId" value="@Model.PageId" />
+
+<link rel="shortcut icon" href="/Content/favicons/@(Model.Header.LogoPath)" type="image/x-icon">
+<link id="css-variants" rel="stylesheet" type="text/css" href="~/assets/pasteboard/css/@Model.CssPostfix">

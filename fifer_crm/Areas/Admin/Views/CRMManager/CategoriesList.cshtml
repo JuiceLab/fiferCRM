@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SelectListItem>
+<div class="widget-body innerAll inner-2x">
+    <div class="innerAll inner-2x">
+        <ul class="chat media-list">
+            @foreach (var item in Model.OrderByDescending(m => m.Text))
+            {
+                <li class="media">
+                    <div class="media-body">
+                        <span class="btn btn-success pull-right" onclick="loadModalContent('modal-help','EditCategory','Admin/CRMManager', '?categoryId=@(item.Value)')"><i class="fa fa-edit"></i> Редактировать задачу</span>
+                        <h5 class="media-heading">@item.Text</h5>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+

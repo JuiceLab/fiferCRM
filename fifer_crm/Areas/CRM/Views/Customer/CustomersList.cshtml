@@ -1,0 +1,56 @@
+﻿@model  IList<CustomerViewModel>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Сотрудники</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR row">
+            <div class="widget widget-tabs border-bottom-none">
+                <!-- Widget heading -->
+
+                <div class="widget-body">
+                    <div class="col-sm-4">
+
+                        <!-- col-separator -->
+                        <div class="col-separator col-separator-first box col-unscrollable">
+
+                            <!-- col-table -->
+                            <div id="scrolled-div" class="col-table">
+                                @Html.Hidden("cur-legal-guid", (Guid)ViewBag.CompanyId)
+                                <span style="width:100%" class="btn btn-default" onclick="getUser();"><i class="fa fa-plus"></i>&nbsp;Добавить новый контакт</span>
+                                <div class="scroll-body" style="max-height:300px">
+                                    <ul class="list-group list-group-1 borders-none">
+                                        @foreach (var item in Model)
+                                        {
+                                            <li class="list-group-item" style="border:1px solid; padding:10px">
+                                                <small>@item.PositionName</small>
+                                                <h5>@item.FirstName @item.LastName</h5>
+                                                <div><i class="fa fa-phone"></i>&nbsp;@item.Phone</div>
+                                                <div><i class="fa fa-envelope"></i>&nbsp;@item.Mail</div>
+                                                <a class="btn btn-info padding-none" href="#" onclick="getUser(@(item.CustomerId)); $('.list-group-item').removeClass('active'); $(this).parents('li').addClass('active') ">&nbsp; все данные</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-separator-h box"></div>
+                            </div>
+                            <!-- // END col-table -->
+                        </div>
+                        <!-- // END col-separator.box -->
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="innerLR" id="customer-editor">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+#digital-clock li, #digital-clock li {
+display:inline;
+color:white;
+font-size:11px;
+font-weight:bold;
+}
+#digital-clock, #digital-clock {
+padding-left: 0;
+margin: 24px 0;
+}
+.title {
+color:#333333;
+font-size:11px;
+font-weight:bold;
+margin: 0 10px;
+}

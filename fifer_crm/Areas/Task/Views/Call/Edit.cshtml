@@ -1,0 +1,67 @@
+﻿@model CallTicket
+@{
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    var customers = ViewBag.Customers as IEnumerable<SelectListItem>;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">@(Model.TicketId ==Guid.Empty? "Новый звонок" :"Редактирование звонка")</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @Html.Hidden("task-cmd")
+            <form id="taskTicket" class="form-horizontal" role="form" method="post" action="/Task/Call/Edit">
+                @Html.HiddenFor(m => m.CreatedBy)
+                @Html.HiddenFor(m => m.TicketId)
+                @Html.HiddenFor(m => m.OwnerId)
+                @Html.HiddenFor(m => m.TicketStatus)
+               <div class="form-group">
+                    <label class="col-sm-3 control-label">Контакт</label>
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.ObjId, customers, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Дата звонка</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                    </div>
+                    <label class="col-sm-3 control-label">Время звонка</label>
+                    <div class="col-sm-3">
+                        <div class="input-group bootstrap-timepicker">
+                            @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control" })
+                            <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Msg, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(m => m.Msg, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Assigned, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    <div class="pull-right">
+                        <span onclick="editCall();" class="btn btn-primary" >@(Model.TicketId !=Guid.Empty? "Обновить": "Создать") звонок </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

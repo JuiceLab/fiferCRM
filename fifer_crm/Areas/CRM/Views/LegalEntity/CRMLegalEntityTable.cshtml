@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CRMCompanyViewModel>
+
+<div class="widget-body innerAll inner-2x">
+    <table class="dynamicTable scrollVertical table table-primary">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>Компания</th>
+                <th>Услуги</th>
+                <th>Телефоны</th>
+                <th>Почта</th>
+                <th>Сайт</th>
+                <th>Статус</th>
+                <th>Закреплена</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            @foreach (var item in Model.OrderBy(m => m.LegalName))
+            {
+                <tr>
+                    <td>
+                        @item.PublicName
+                    </td>
+                    <td>@item.ActivitiesStr</td>
+                    <td>@item.Phones</td>
+                    <td>@item.Mails</td>
+                    <td>@item.Sites</td>
+                    <td>@(((CompanyStatus)item.StatusId).GetStringValue())</td>
+                    <td>@item.AssignedName</td>
+                    <td>
+                        <span class="btn btn-default dropdown-toggle dropdown-hover" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'CRM/LegalEntity', '?legalEnitityId=@(item.LegalEntityId)', initLegalEnitityForm);" title="Редактировать компанию"><i class="fa fa-edit"></i> </span>&nbsp;
+                    <span class="btn btn-default dropdown-toggle dropdown-hover" onclick="loadModalContentWithCallback('modal-add', 'Edit', 'CRM/Customer', '?companyId=@(item.CompanyGuid)', initDateMask);" title="Создать контакт"><i class="fa fa-plus"></i> Новый контакт</span></td>
+                </tr>
+            }
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+    <!-- // Table END -->
+
+</div>
+
