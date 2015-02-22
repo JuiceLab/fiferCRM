@@ -109,5 +109,6 @@ namespace ContentSearchService
             }
             return items.Select(m=>JsonConvert.SerializeObject(m)).ToArray();
         }
+
     }
 }
