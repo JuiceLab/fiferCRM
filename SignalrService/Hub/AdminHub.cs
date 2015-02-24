@@ -64,6 +64,16 @@ namespace SignalrService.Hub
             { }
         }
 
+        public void NotifyCreated(IHubContext hub, Guid userId, string msg)
+        {
+            hub.Clients.All.taskTableRefresh(userId);
+            try
+            {
+                hub.Clients.Client(connectionUserIds[userId]).notifyCreated(msg);
+            }
+            catch
+            { }
+        }
 
         public void Send(string name, string message)
         {

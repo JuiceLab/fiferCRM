@@ -57,7 +57,7 @@ namespace CRMRepositories
                       UserId = m.InitByUserId.HasValue ? m.InitByUserId.Value : Guid.Empty,
                       Msg = m.Text,
                       Type = (byte)MsgType.Notify,
-                       IsLocal = true
+                       IsLocal = true,
                   })
                   .ToList();
         }

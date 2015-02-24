@@ -1695,6 +1695,8 @@
     <Content Include="Areas\Task\Views\GroupTask\TaskPeriods.cshtml" />
     <Content Include="Areas\Task\Views\GroupTask\TaskPeriod.cshtml" />
     <Content Include="Areas\CRM\Views\Customer\EditPassportCustomer.cshtml" />
+    <Content Include="Areas\GeoLocation\Views\LegalEntity\LegalAddress.cshtml" />
+    <Content Include="Areas\GeoLocation\Views\LegalEntity\LegalAddressEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\helper.modal.js" />
     <Content Include="Scripts\custom\helper.signalr.js" />
@@ -1788,6 +1790,7 @@
     <Content Include="Views\AuthMailer\GeneralEmail.cshtml" />
     <Content Include="Views\Shared\RegisterAppend.cshtml" />
     <Content Include="Views\Image\ScanImg.cshtml" />
+    <Content Include="Views\Shared\NotifyAssignedForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1800,7 +1803,6 @@
     <Folder Include="Areas\Finances\Models\" />
     <Folder Include="Areas\Finances\Views\Shared\" />
     <Folder Include="Areas\GeoLocation\Models\" />
-    <Folder Include="Areas\GeoLocation\Views\LegalEntity\" />
     <Folder Include="Areas\Settings\Controllers\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Settings\Views\Shared\" />

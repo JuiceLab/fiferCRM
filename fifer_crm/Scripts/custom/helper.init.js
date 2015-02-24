@@ -28,11 +28,8 @@ $(function () {
     });
 
     initDefaultAppendix();
-    
 
     $('#image-cropper').cropit();
-
-  
 
     if ($("#lastNotify").length > 0)
     {
@@ -52,7 +49,6 @@ $(function () {
         initDatePicker();
         if ($('#datepicker-events').length) {
             var array = $("#event-dates").val().split(',', 100);
-
             $('#datepicker-events').bdatepicker({
                 inline: false, showOtherMonths: true,
                 onSelect: function (date) {

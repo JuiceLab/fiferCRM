@@ -19,6 +19,7 @@ namespace CRMLocalContext
             this.LegalEnityDetails = new HashSet<LegalEnityDetail>();
             this.GeoLocations = new HashSet<GeoLocation>();
             this.Customers = new HashSet<Customer>();
+            this.LegalEntityAddPhones = new HashSet<LegalEntityAddPhone>();
         }
     
         public int LegalEntityId { get; set; }
@@ -41,5 +42,6 @@ namespace CRMLocalContext
         public virtual ICollection<LegalEnityDetail> LegalEnityDetails { get; set; }
         public virtual ICollection<GeoLocation> GeoLocations { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
     }
 }

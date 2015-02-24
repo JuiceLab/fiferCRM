@@ -8,16 +8,14 @@
 <!-- Modal body -->
 <div class="modal-body">
     <div class="innerAll">
-        <div class="innerLR row">
+        <div class="innerLR">
             <div class="widget widget-tabs border-bottom-none">
                 <!-- Widget heading -->
 
-                <div class="widget-body">
+                <div class="widget-body" style="display:flex" >
                     <div class="col-sm-4">
-
                         <!-- col-separator -->
                         <div class="col-separator col-separator-first box col-unscrollable">
-
                             <!-- col-table -->
                             <div id="scrolled-div" class="col-table">
                                 @Html.Hidden("cur-legal-guid", (Guid)ViewBag.CompanyId)
@@ -41,13 +39,11 @@
                             <!-- // END col-table -->
                         </div>
                         <!-- // END col-separator.box -->
-
                     </div>
 
                     <div class="col-md-8">
                         <div class="innerLR" id="customer-editor">
                         </div>
-
                     </div>
                 </div>
             </div>

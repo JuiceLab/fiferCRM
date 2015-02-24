@@ -111,6 +111,26 @@ function copyCRMCompany(companyId)
     });
 }
 
+function updateLegalGeo()
+{
+    $.post($(".legal-form").attr("action"),
+        $(".legal-form").serialize(),
+        function (result) {
+            $("#modal-add .modal-content").html(result);
+            var form = $(".legal-form")
+              .removeData("validator") /* added by the raw jquery.validate plugin */
+              .removeData("unobtrusiveValidation");  /* added by the jquery unobtrusive plugin */
+                if (form.length) {
+                    $.validator.unobtrusive.parse(form);
+                    var validator = $.data(form[0], 'validator');
+                    validator.settings.ignore = '';
+                }
+            initDefaultAppendix();
+            initLegalGeo();
+        }
+    );
+}
+
 function initLegalEnitityForm()
 {
     initDateMask();
@@ -118,10 +138,27 @@ function initLegalEnitityForm()
     $("#Sites").tagsInput();
     $("#Mails").tagsInput();
   
+    
     if ($('#companySearch #Services').length > 0)
+    {
         $('#companySearch #Services').select2();
-    if ($("#companySearch #DistrictId").length > 0) {
         $("#companySearch #DistrictId").on("change", function () {
+            $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
+                function (result) {
+                    $("#city-Drop").html(result);
+                    if ($("#google-map-geo-add").length > 0) {
+                        $("#City").on("change", function () {
+                            codeAddress($("#City option:selected").text(), "google-map-geo-add");
+                        })
+                    }
+                });
+        });
+    }
+
+    if ($('#legalEditForm #Services').length > 0)
+    {
+        $('#legalEditForm #Services').select2();
+        $("#legalEditForm #DistrictId").on("change", function () {
             $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
                 function (result) {
                     $("#city-Drop").html(result);

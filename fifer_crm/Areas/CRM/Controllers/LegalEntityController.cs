@@ -6,17 +6,21 @@ using CRMRepositories;
 using fifer_crm.Controllers;
 using fifer_crm.Models;
 using FilterModel;
+using FinanceRepositories;
 using LogService.FilterAttibute;
+using Microsoft.AspNet.SignalR;
+using SignalrService.Hub;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TaskModel;
+using TicketRepositories;
 
 namespace fifer_crm.Areas.CRM.Controllers
 {
-    [Authorize, CRMLogAttribute]
+    [System.Web.Mvc.Authorize, CRMLogAttribute]
     public class LegalEntityController : BaseFiferController
     {
 
@@ -33,15 +37,28 @@ namespace fifer_crm.Areas.CRM.Controllers
         public ActionResult GetHistory(Guid companyId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
-            ViewBag.Name = repository.GetCompany(companyId).LegalName;
-            List<MessageViewModel> model = repository.GetModifyLog(companyId);
-
+            var company = repository.GetCompany(companyId);
+            ViewBag.Name = company.LegalName;
+            Dictionary<string, List<MessageViewModel>> model = new Dictionary<string, List<MessageViewModel>>();
+            model.Add("Компания",  repository.GetModifyLog(companyId));
+            model.Add("Встречи", repository.GetMeetingsHistory(companyId));
+            
+            TaskTicketRepository taskRepository = new TaskTicketRepository();
             StaffRepository staffRepository = new StaffRepository();
+            var users = staffRepository.GetSubordinatedUsers(_userId);
+            
+            var customers = repository.GetCustomers4Subordinate(users.Select(m => Guid.Parse(m.Value)), company.LegalEntityId);
+
+            model.Add("Звонки", taskRepository.GetCallHistory(customers.Select(m=>Guid.Parse(m.Value))));
+            
+            FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);
+            model.Add("Платежи", financeRepository.GetPaymentHistory(companyId));
+            
             var photos = staffRepository.GetEmployeesPhoto(_userId);
 
             MembershipRepository membershipRepository = new MembershipRepository();
-            var names = membershipRepository.GetUserByIds(model.Select(m=>m.UserId).Distinct());
-            foreach (var item in model)
+            var names = membershipRepository.GetUserByIds(model.SelectMany(m=>m.Value).Select(m=>m.UserId).Distinct());
+            foreach (var item in model.SelectMany(m => m.Value))
             {
                 if (item.UserId != Guid.Empty)
                 {
@@ -89,7 +106,6 @@ namespace fifer_crm.Areas.CRM.Controllers
             StaffRepository staffRepository = new StaffRepository();
             ViewBag.Assign = staffRepository.GetSubordinatedUsers(_userId);
             ViewBag.Services = _repository.GetServices(new List<int>());
-           
             
             return PartialView("Edit", model);
         }
@@ -122,7 +138,6 @@ namespace fifer_crm.Areas.CRM.Controllers
             ViewBag.Cities = _repository.GetCitiesSelectItems(searchLegal.DistrictId, cityGuid);
             return PartialView("Edit", model);
         }
-
 
         [HttpPost]
         public ActionResult Edit(CRMCompanyEditModel model)
@@ -198,9 +213,42 @@ namespace fifer_crm.Areas.CRM.Controllers
         public ActionResult LegalSearch(LegalEntitySearch model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
-
             IEnumerable<LegalEntitySearch> items = repository.GetLegalCompanyPreviews(model);
             return PartialView(items);
+        }
+
+        public ActionResult NotifyAssignedForm(Guid? companyId, Guid? customerId)
+        {
+            ViewBag.IsCompany = companyId.HasValue;
+               return PartialView(companyId.HasValue? companyId.Value : customerId.Value);
+        }
+
+        public ActionResult NotifyAssigned(Guid companyId, string msg)
+        {
+            CRMLocalRepository repository = new CRMLocalRepository(_userId);
+            var company = repository.GetCompany(companyId);
+            if (company.Assigned.HasValue)
+            {
+                LocalNotifyRepository notifyRepository = new LocalNotifyRepository(_userId);
+                notifyRepository.CreateNotify(DateTime.Now, _userId, company.Assigned.Value, companyId, string.Format("{0}: {1}",company.PublicName, msg));
+                AdminHub hub = new AdminHub();
+                hub.NotifyCreated(GlobalHost.ConnectionManager.GetHubContext<AdminHub>(),company.Assigned.Value, msg);
+            }
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult NotifyNotLegalAssigned(Guid customerId, string msg)
+        {
+            CRMLocalRepository repository = new CRMLocalRepository(_userId);
+            var customer = repository.GetCustomerByGuid(customerId);
+            if (customer.Assigned.HasValue)
+            {
+                LocalNotifyRepository notifyRepository = new LocalNotifyRepository(_userId);
+                notifyRepository.CreateNotify(DateTime.Now, _userId, customer.Assigned.Value, customerId, string.Format("{0} {1}: {2}", customer.FirstName, customer.LastName, msg));
+                AdminHub hub = new AdminHub();
+                hub.NotifyCreated(GlobalHost.ConnectionManager.GetHubContext<AdminHub>(), customer.Assigned.Value, msg);
+            }
+            return Json(new { }, JsonRequestBehavior.AllowGet);
         }
     }
 }

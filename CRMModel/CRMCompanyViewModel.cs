@@ -16,5 +16,14 @@ namespace CRMModel
         public DateTime? CallDate { get; set; }
         public DateTime? MeetDate { get; set; }
 
+        public bool HasTodayEvent
+        {
+            get
+            {
+                return (PaymentDate.HasValue && PaymentDate.Value.Date == DateTime.Now.Date)
+                    || (CallDate.HasValue && CallDate.Value.Date == DateTime.Now.Date)
+                    || (MeetDate.HasValue && MeetDate.Value.Date == DateTime.Now.Date);
+            }
+        }
     }
 }

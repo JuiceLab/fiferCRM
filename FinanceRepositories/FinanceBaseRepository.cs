@@ -15,6 +15,7 @@ using FilterModel;
 using EntityRepository;
 using CRMModel;
 using System.Web.Mvc;
+using TaskModel;
 
 namespace FinanceRepositories
 {
@@ -642,6 +643,11 @@ namespace FinanceRepositories
                     .Select(m => new { id = m.LegalEnityDetail.LegalEntity.CompanyGuid, paymentId = m.PaymentId, date = m.PaymentBefore })
                     .GroupBy(m => m.id)
                     .ToDictionary(m => m.Key, m => m.FirstOrDefault().paymentId);
+        }
+
+        public List<MessageViewModel> GetPaymentHistory(Guid companyId)
+        {
+            return new List<MessageViewModel>();
         }
     }
 }

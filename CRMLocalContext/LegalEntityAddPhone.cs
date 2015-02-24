@@ -7,24 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CRMContext
+namespace CRMLocalContext
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class District
+    public partial class LegalEntityAddPhone
     {
-        public District()
-        {
-            this.Cities = new HashSet<City>();
-        }
-    
-        public int DistrictId { get; set; }
-        public string Name { get; set; }
-        public Nullable<int> C_CenterGeoId { get; set; }
-        public Nullable<int> Code { get; set; }
+        public int C_GeoLocationId { get; set; }
+        public int C_LegalEntityId { get; set; }
+        public string Phones { get; set; }
     
         public virtual GeoLocation GeoLocation { get; set; }
-        public virtual ICollection<City> Cities { get; set; }
+        public virtual LegalEntity LegalEntity { get; set; }
     }
 }

@@ -1,11 +1,38 @@
 ﻿
 var mapExist;
+var curMarker;
 var markers = [];
 var igms = false;
 
 if (typeof initGoogleMaps != 'undefined' && typeof google != 'undefined') {
     igms = true;
     initGoogleMaps();
+}
+
+
+function getAddress(addrId)
+{
+    $.get("/GeoLocation/LegalEntity/LegalAddressEdit?addrId=" + addrId + "&companyId=" + $("#legalCompanyId").val(),
+    function(result){ 
+        $("#legal-geo").html(result);
+        var gmgLatLng = new google.maps.LatLng(parseFloat($("#legal-geo #Latitude").val()), parseFloat($("#legal-geo #Longitude").val()));
+        if ($(".legal-form #DistrictId").length > 0) {
+            $(".legal-form #DistrictId").on("change", function () {
+                $.get("/GeoLocation/District/GetCities?distrId=" + $(".legal-form #DistrictId").val(),
+                    function (result) {
+                        $(".legal-form  #city-Drop").html(result);
+                        if ($("#google-map-legalgeo-add").length > 0) {
+                            $(".legal-form #City").on("change", function () {
+                                codeAddress("Россия " + $(".legal-form #City option:selected").text(), "google-map-legalgeo-add");
+                            })
+                        }
+                    });
+            });
+        }
+        $("#Phones").tagsInput();
+
+        setLegalLocation($("#google-map-legalgeo-add"), gmgLatLng, curMarker);
+    });
 }
 
 function initScripts() {
@@ -129,6 +156,12 @@ function initGeoLocationMap() {
    
 }
 
+function setAddLegalAddr() {
+    $(".legal-form #Address").val($(".legal-form #DistrictId option:selected").text()  + " "+$(".legal-form #City option:selected").text() + " " + $(".legal-form #Street").val() + " " + $(".legal-form #Number").val() + " " + $(".legal-form #AddNumber").val());
+    $(".legal-form #addr").val($(".legal-form #Address").val());
+    codeAddress($(".legal-form #Address").val(), "google-map-legalgeo-add");
+}
+
 function setLegalAddr()
 {
     $("#Address").val($("#City option:selected").text() + " " + $("#Street").val() + " " + $("#App").val() + " " + $("#AddApp").val());
@@ -147,21 +180,24 @@ function codeAddress(address, map_id) {
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             }
             map = new google.maps.Map(document.getElementById(map_id), myOptions);
+            map.setCenter(results[0].geometry.location);
 
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
             });
-            setLocation($("#google-map-add"), map.center, $("#google-map-add").gmap());
+            if (map_id == 'google-map-add')
+                setLocation($("#google-map-add"), map.center, marker);
+            else
+                setLegalLocation($("#google-map-legalgeo-add"), map.center, marker);
+
         }
     });
 }
 
-function initGoogleMaps() {
-    initScripts();
-
-    if ($('#google-map-add').length) {
-        $("#google-map-add").gmap({
+function initLegalGeo() {
+    if ($('#google-map-legalgeo-add').length) {
+        $("#google-map-legalgeo-add").gmap({
             'zoomControl': true,
             'zoomControlOpt': {
                 'style': 'SMALL',
@@ -174,26 +210,28 @@ function initGoogleMaps() {
             'scrollwheel': false,
             'mapTypeId': google.maps.MapTypeId.ROADMAP
         }).bind('init', function (event, map) {
+            $('#google-map-legalgeo-add').css("overflow", "visible");
             mapExist = map;
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var gmgLatLng = new google.maps.LatLng(position.coords.latitude,
                                                      position.coords.longitude);
-                    $("#google-map-add").gmap('addMarker', {
+                    $("#google-map-legalgeo-add").gmap('addMarker', {
                         'position': gmgLatLng,
                         'draggable': true,
                         'bounds': false
                     }, function (map, marker) {
+                        curMarker = marker;
                     }).dragend(function (event) {
-                        setLocation($("#google-map-add"), event.latLng, this);
+                        setLegalLocation($("#google-map-legalgeo-add"), event.latLng, this);
                     }).click(function (event) {
-                        setLocation($("#google-map-add"), event.latLng, this);
+                        setLegalLocation($("#google-map-legalgeo-add"), event.latLng, this);
                     });
-                    $("#google-map-add").gmap('option', 'zoom', 12);
+                    $("#google-map-legalgeo-add").gmap('option', 'zoom', 12);
                     google.maps.event.trigger(map, "resize");
                     map.setCenter(gmgLatLng);
                     $(map).click(function (event) {
-                        $("#google-map-add").gmap('addMarker', {
+                        $("#google-map-legalgeo-add").gmap('addMarker', {
                             'position': event.latLng,
                             'draggable': true,
                             'bounds': false
@@ -201,38 +239,95 @@ function initGoogleMaps() {
                             for (var i = 0; i < markers.length; i++) {
                                 markers[i].setMap(null);
                             }
+                            curMarker = marker;
                             markers = [];
                             markers.push(marker);
-                            setLocation($("#google-map-add"), marker.getPosition(), marker);
+                            setLegalLocation($("#google-map-legalgeo-add"), marker.getPosition(), marker);
                         }).dragend(function (event) {
-                            setLocation($("#google-map-add"), event.latLng, this);
+                            setLegalLocation($("#google-map-legalgeo-add"), event.latLng, this);
                         });
                     });
-
                 });
             }
         });
     }
 }
+    function initGoogleMaps() {
+        initScripts();
 
-function loadMapWithGeo(curLat, curLong) {
-    initScripts();
-    $("form").removeClass("cur-form");
-    $("#modal-map").modal();
+        if ($('#google-map-add').length) {
+            $("#google-map-add").gmap({
+                'zoomControl': true,
+                'zoomControlOpt': {
+                    'style': 'SMALL',
+                    'position': 'TOP_LEFT'
+                },
+                'panControl': false,
+                'streetViewControl': false,
+                'mapTypeControl': false,
+                'overviewMapControl': false,
+                'scrollwheel': false,
+                'mapTypeId': google.maps.MapTypeId.ROADMAP
+            }).bind('init', function (event, map) {
+                mapExist = map;
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var gmgLatLng = new google.maps.LatLng(position.coords.latitude,
+                                                         position.coords.longitude);
+                        $("#google-map-add").gmap('addMarker', {
+                            'position': gmgLatLng,
+                            'draggable': true,
+                            'bounds': false
+                        }, function (map, marker) {
+                        }).dragend(function (event) {
+                            setLocation($("#google-map-add"), event.latLng, this);
+                        }).click(function (event) {
+                            setLocation($("#google-map-add"), event.latLng, this);
+                        });
+                        $("#google-map-add").gmap('option', 'zoom', 12);
+                        google.maps.event.trigger(map, "resize");
+                        map.setCenter(gmgLatLng);
+                        $(map).click(function (event) {
+                            $("#google-map-add").gmap('addMarker', {
+                                'position': event.latLng,
+                                'draggable': true,
+                                'bounds': false
+                            }, function (map, marker) {
+                                for (var i = 0; i < markers.length; i++) {
+                                    markers[i].setMap(null);
+                                }
+                                markers = [];
+                                markers.push(marker);
+                                setLocation($("#google-map-add"), marker.getPosition(), marker);
+                            }).dragend(function (event) {
+                                setLocation($("#google-map-add"), event.latLng, this);
+                            });
+                        });
 
-    if (curLat.length > 0 && curLong.length > 0) {
-        var gmgLatLng = new google.maps.LatLng(parseFloat(curLat), parseFloat(curLong));
-        $("#google-map-add").gmap('option', 'center', gmgLatLng);
-        $("#google-map-add").gmap('option', 'zoom', 14);
-        $("#google-map-add").gmap('addMarker', {
-            'position': gmgLatLng,
-            'draggable': true,
-            'bounds': false
-        });
+                    });
+                }
+            });
+        }
     }
-    setTimeout(function () { resizingMap(); }, 400);
 
-}
+    function loadMapWithGeo(curLat, curLong) {
+        initScripts();
+        $("form").removeClass("cur-form");
+        $("#modal-map").modal();
+
+        if (curLat.length > 0 && curLong.length > 0) {
+            var gmgLatLng = new google.maps.LatLng(parseFloat(curLat), parseFloat(curLong));
+            $("#google-map-add").gmap('option', 'center', gmgLatLng);
+            $("#google-map-add").gmap('option', 'zoom', 14);
+            $("#google-map-add").gmap('addMarker', {
+                'position': gmgLatLng,
+                'draggable': true,
+                'bounds': false
+            });
+        }
+        setTimeout(function () { resizingMap(); }, 400);
+
+    }
 
     function initFormDialogMap(curItem) {
         initScripts();
@@ -247,20 +342,40 @@ function loadMapWithGeo(curLat, curLong) {
             $("#google-map-add").gmap('option', 'center', gmgLatLng)
         }
         setTimeout(function () { resizingMap(); }, 400);
-       
+
     }
 
     function resizingMap() {
-        if(typeof mapExist =="undefined") return;
+        if (typeof mapExist == "undefined") return;
         var center = mapExist.getCenter();
         google.maps.event.trigger(mapExist, "resize");
         mapExist.setCenter(center);
+    }
+
+    function setLegalLocation(curMap, locationMap, marker) {
+        if ($(".legal-form #Latitude").length > 0) {
+            $(".legal-form #Latitude").val(locationMap.k);
+            $(".legal-form #Longitude").val(locationMap.B);
+            $("#google-map-legalgeo-add").gmap('option', 'center', locationMap);
+
+            $('#google-map-legalgeo-add').trigger("resize");
+        }
+        $(curMap).gmap('search', { 'location': locationMap }, function (results, status) {
+            if (status === 'OK') {
+                if ($("#addr").length) {
+                    $("#addr").text(results[0].formatted_address);
+                }
+                $(".legal-form #Address").val(results[0].formatted_address);
+                //marker.setTitle(results[0].formatted_address);
+            }
+        });
     }
 
     function setLocation(curMap, locationMap, marker) {
         if ($(".cur-form #Latitude").length > 0) {
             $(".cur-form #Latitude").val(locationMap.k);
             $(".cur-form #Longitude").val(locationMap.D);
+
         }
         else {
             $(".cur-form #GeoAddr_Latitude").val(locationMap.k);
@@ -268,12 +383,11 @@ function loadMapWithGeo(curLat, curLong) {
         }
         $(curMap).gmap('search', { 'location': locationMap }, function (results, status) {
             if (status === 'OK') {
-                if ($("#addr").length)
-                {
+                if ($("#addr").length) {
                     $("#addr").text(results[0].formatted_address);
                 }
                 $(".cur-form #Address").val(results[0].formatted_address);
-                marker.setTitle(results[0].formatted_address);
+                //marker.setTitle(results[0].formatted_address);
             }
         });
     }

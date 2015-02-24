@@ -12,8 +12,9 @@
           <Property Name="CityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Code" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="CityGuid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CityGuid" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="_DistrictId" Type="int" />
+          <Property Name="CityPrefix" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="CompanyService">
           <Key>
@@ -55,6 +56,7 @@
           <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="_CenterGeoId" Type="int" />
+          <Property Name="Code" Type="int" />
         </EntityType>
         <EntityType Name="GeoLocation">
           <Key>
@@ -139,6 +141,15 @@
           </Key>
           <Property Name="_LegalEntityId" Type="int" Nullable="false" />
           <Property Name="_GeoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LegalLocationPhone">
+          <Key>
+            <PropertyRef Name="_GeoLocationId" />
+            <PropertyRef Name="_LegalEntityId" />
+          </Key>
+          <Property Name="_GeoLocationId" Type="int" Nullable="false" />
+          <Property Name="_LegalEntityId" Type="int" Nullable="false" />
+          <Property Name="Phones" Type="nvarchar" MaxLength="1024" Nullable="false" />
         </EntityType>
         <EntityType Name="Passport">
           <Key>
@@ -358,6 +369,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LegalLocationPhone_GeoLocation">
+          <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
+          <End Role="LegalLocationPhone" Type="Self.LegalLocationPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalLocationPhone">
+              <PropertyRef Name="_GeoLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalLocationPhone_LegalEntity">
+          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
+          <End Role="LegalLocationPhone" Type="Self.LegalLocationPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalLocationPhone">
+              <PropertyRef Name="_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CRMModelStoreContainer">
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyService" EntityType="Self.CompanyService" Schema="dbo" store:Type="Tables" />
@@ -370,6 +405,7 @@
           <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalEntityAddPhone" EntityType="Self.LegalEntityAddPhone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalLocation" EntityType="Self.LegalLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalLocationPhone" EntityType="Self.LegalLocationPhone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_City_District" Association="Self.FK_City_District">
             <End Role="District" EntitySet="District" />
@@ -438,6 +474,14 @@
           <AssociationSet Name="FK_LegalLocation_LegalEntity" Association="Self.FK_LegalLocation_LegalEntity">
             <End Role="LegalEntity" EntitySet="LegalEntity" />
             <End Role="LegalLocation" EntitySet="LegalLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalLocationPhone_GeoLocation" Association="Self.FK_LegalLocationPhone_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocation" />
+            <End Role="LegalLocationPhone" EntitySet="LegalLocationPhone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalLocationPhone_LegalEntity" Association="Self.FK_LegalLocationPhone_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntity" />
+            <End Role="LegalLocationPhone" EntitySet="LegalLocationPhone" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -524,6 +568,15 @@
             <End Role="LegalEntity" EntitySet="LegalEntities" />
             <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhones" />
           </AssociationSet>
+          <EntitySet Name="LegalLocationPhones" EntityType="CRMModel.LegalLocationPhone" />
+          <AssociationSet Name="FK_LegalLocationPhone_GeoLocation" Association="CRMModel.FK_LegalLocationPhone_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocations" />
+            <End Role="LegalLocationPhone" EntitySet="LegalLocationPhones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalLocationPhone_LegalEntity" Association="CRMModel.FK_LegalLocationPhone_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+            <End Role="LegalLocationPhone" EntitySet="LegalLocationPhones" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="LegalCopy">
           <Key>
@@ -561,6 +614,7 @@
           <NavigationProperty Name="Customers" Relationship="CRMModel.FK_Customer_LegalEntity" FromRole="LegalEntity" ToRole="Customer" />
           <Property Name="LogoPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LegalEntityAddPhones" Relationship="CRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalLocationPhones" Relationship="CRMModel.FK_LegalLocationPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalLocationPhone" />
         </EntityType>
         <Association Name="FK_LegalCopy_LegalEntity">
           <End Type="CRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
@@ -686,10 +740,11 @@
           <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="Code" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="CityGuid" Type="Guid" Nullable="false" />
+          <Property Name="CityGuid" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="C_DistrictId" Type="Int32" />
           <NavigationProperty Name="GeoLocations" Relationship="CRMModel.FK_GeoLocation_City" FromRole="City" ToRole="GeoLocation" />
           <NavigationProperty Name="District" Relationship="CRMModel.FK_City_District" FromRole="City" ToRole="District" />
+          <Property Name="CityPrefix" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="District">
           <Key>
@@ -700,6 +755,7 @@
           <Property Name="C_CenterGeoId" Type="Int32" />
           <NavigationProperty Name="GeoLocation" Relationship="CRMModel.FK_District_District" FromRole="District" ToRole="GeoLocation" />
           <NavigationProperty Name="Cities" Relationship="CRMModel.FK_City_District" FromRole="District" ToRole="City" />
+          <Property Name="Code" Type="Int32" />
         </EntityType>
         <EntityType Name="GeoLocation">
           <Key>
@@ -718,6 +774,7 @@
           <NavigationProperty Name="LegalEntities1" Relationship="CRMModel.LegalLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
           <NavigationProperty Name="Customers" Relationship="CRMModel.FK_Customer_LegalEntity1" FromRole="GeoLocation" ToRole="Customer" />
           <NavigationProperty Name="LegalEntityAddPhones" Relationship="CRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalLocationPhones" Relationship="CRMModel.FK_LegalLocationPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalLocationPhone" />
         </EntityType>
         <Association Name="FK_GeoLocation_City">
           <End Type="CRMModel.City" Role="City" Multiplicity="1" />
@@ -896,6 +953,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LegalLocationPhone">
+          <Key>
+            <PropertyRef Name="C_GeoLocationId" />
+            <PropertyRef Name="C_LegalEntityId" />
+          </Key>
+          <Property Name="C_GeoLocationId" Type="Int32" Nullable="false" />
+          <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
+          <Property Name="Phones" Type="String" Nullable="false" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GeoLocation" Relationship="CRMModel.FK_LegalLocationPhone_GeoLocation" FromRole="LegalLocationPhone" ToRole="GeoLocation" />
+          <NavigationProperty Name="LegalEntity" Relationship="CRMModel.FK_LegalLocationPhone_LegalEntity" FromRole="LegalLocationPhone" ToRole="LegalEntity" />
+        </EntityType>
+        <Association Name="FK_LegalLocationPhone_GeoLocation">
+          <End Type="CRMModel.GeoLocation" Role="GeoLocation" Multiplicity="1" />
+          <End Type="CRMModel.LegalLocationPhone" Role="LegalLocationPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalLocationPhone">
+              <PropertyRef Name="C_GeoLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalLocationPhone_LegalEntity">
+          <End Type="CRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
+          <End Type="CRMModel.LegalLocationPhone" Role="LegalLocationPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalLocationPhone">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -975,6 +1067,7 @@
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="CRMModel.City">
               <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="CityPrefix" ColumnName="CityPrefix" />
                 <ScalarProperty Name="C_DistrictId" ColumnName="_DistrictId" />
                 <ScalarProperty Name="CityGuid" ColumnName="CityGuid" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -986,6 +1079,7 @@
           <EntitySetMapping Name="Districts">
             <EntityTypeMapping TypeName="CRMModel.District">
               <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="C_CenterGeoId" ColumnName="_CenterGeoId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
@@ -1055,6 +1149,15 @@
           <EntitySetMapping Name="LegalEntityAddPhones">
             <EntityTypeMapping TypeName="CRMModel.LegalEntityAddPhone">
               <MappingFragment StoreEntitySet="LegalEntityAddPhone">
+                <ScalarProperty Name="Phones" ColumnName="Phones" />
+                <ScalarProperty Name="C_LegalEntityId" ColumnName="_LegalEntityId" />
+                <ScalarProperty Name="C_GeoLocationId" ColumnName="_GeoLocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalLocationPhones">
+            <EntityTypeMapping TypeName="CRMModel.LegalLocationPhone">
+              <MappingFragment StoreEntitySet="LegalLocationPhone">
                 <ScalarProperty Name="Phones" ColumnName="Phones" />
                 <ScalarProperty Name="C_LegalEntityId" ColumnName="_LegalEntityId" />
                 <ScalarProperty Name="C_GeoLocationId" ColumnName="_GeoLocationId" />

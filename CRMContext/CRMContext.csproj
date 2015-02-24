@@ -95,6 +95,9 @@
     <Compile Include="LegalEntityAddPhone.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="LegalLocationPhone.cs">
+      <DependentUpon>CRMEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Passport.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>

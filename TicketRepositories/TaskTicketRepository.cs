@@ -272,12 +272,33 @@ namespace TicketRepositories
                 existGroup.AssignedUsers = string.Join(",", updatedUsers);
                 existGroup.UserStatuses = string.Join(",", updatedStatuses);
             }
-
     
             //todo change statuses
             Context.SaveChanges();
         }
 
-     
+
+
+        public List<MessageViewModel> GetCallHistory(IEnumerable<Guid> customers)
+        {
+            var lastMonth = DateTime.Now.AddMonths(-3);
+            var calls = Context.CallTickets
+                .Where(m => m.Created > lastMonth
+                    && m.CustomerGuid.HasValue
+                    && customers.Contains(m.CustomerGuid.Value))
+                .Select(m => new { id = m.CallTicketNumber, guid = m.CallTicketId, title = m.Title })
+                .ToList();
+            var ids = calls.Select(m => m.guid).ToList();
+            return Context.QueryStatus
+                .ToList()
+                .Where(m => ids.Contains(m.QueryItemId))
+                .Select(m => new MessageViewModel()
+                {
+                    Type = (byte)MsgType.Status,
+                    Created = m.DateCreated,
+                    Msg = string.Format("Тикет {0}. Статус:{1}", calls.FirstOrDefault(n => n.guid == m.QueryItemId).id, m.StatusId.HasValue ? ((WFTaskStatus)m.StatusId.Value).GetStringValue() : m.CustomStatus),
+                    UserId = m.OwnerId.HasValue ? m.OwnerId.Value : Guid.Empty
+                }).ToList();
+        }
     }
 }

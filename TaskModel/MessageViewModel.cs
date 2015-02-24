@@ -9,6 +9,8 @@ namespace TaskModel
     public class MessageViewModel
     {
         public int NotifyId { get; set; }
+
+        public string ObjectId { get; set; }
         public byte Type { get; set; }
         public Guid UserId { get; set; }
         public string IconPath { get; set; }

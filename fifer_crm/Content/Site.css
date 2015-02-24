@@ -67,4 +67,53 @@ width:100%;
     animation-fill-mode: both;
 	-webkit-animation-name: modal-dialog;
 	animation-name: modal-dialog;
-}          
+}
+
+.today-cart {
+border:1px solid red;
+}
+.st-clr-0,
+.st-clr-1 {
+    background:gray;
+    border-color:gray;
+    color:white;
+}
+.st-clr-2 {
+    background:green;
+    border-color:green;
+    color:white;
+}
+.st-clr-3 {
+    background:black;
+    border-color:black;
+    color:white;
+}
+.st-clr-4 {
+    background:orange;
+    border-color:orange;
+    color:white;
+}
+.st-clr-5 {
+    background:blue;
+    border-color:blue;
+    color:white;
+}
+.st-clr-6 {
+    background:yellow;
+    border-color:yellow;
+    color:white;
+}
+.st-clr-7 {
+    background:brown;
+    border-color:brown;
+    color:white;
+}
+.st-clr-8 {
+    background:red;
+    border-color:red;
+}
+.st-clr-9 {
+    background:cayn;
+    border-color:cayn;
+}
+         

@@ -170,24 +170,24 @@
 <h4 style="margin:10px">Физ. лица</h4>
 @foreach (var item in items.OrderBy(m => m.StatusId))
 {
-    <div class="media contact">
+    <div class="media contact @(item.HasTodayEvent? "today-cart" : string.Empty)">
         <a class="pull-left" href="#"><img class="thumb" src="@(string.IsNullOrEmpty(item.PhotoPath)? "/assets/images/front/tab1-ties.jpg": item.PhotoPath)" width="50" alt="people"></a>
         <div class="media-body">
             <ul class="list-unstyled col-md-7">
                 <li>
                     <h4 class="media-heading strong"><i class="fa fa-star"></i>&nbsp;@item.FirstName </h4>
                     <small>@item.LastName @item.Patronymic</small>&nbsp;
-                    <span class="btn btn-info padding-none" onclick="loadModalContent('modal-help', 'ChangeStatus', 'CRM/Customer', '?customerId=@(item.CustomerId)')">&nbsp;<i class="fa fa-info"></i> @(((CompanyStatus)item.StatusId).GetStringValue())&nbsp;</span>
+                    <span class="btn st-clr-@(item.StatusId) padding-none" onclick="loadModalContent('modal-help', 'ChangeStatus', 'CRM/Customer', '?customerId=@(item.CustomerId)')">&nbsp;<i class="fa fa-info"></i> @(((CompanyStatus)item.StatusId).GetStringValue())&nbsp;</span>
                 <li>
                     <div class="col-md-5">
                         <div><i class="fa fa-phone-square"></i>&nbsp;@item.Phone</div>
                         <div><i class="fa fa-mail-forward"></i>&nbsp;@item.Mail</div>
-                        <div><a href="skype:@(item.Skype)?call"><i class="fa fa-skype"></i>@item.Skype</a> </div> 
+                        <div><a href="skype:@(item.Skype)?call"><i class="fa fa-skype"></i>@item.Skype</a> </div>
                     </div>
                     <div class="col-md-7">
-                <div><span class="btn btn-default padding-none" onclick="loadModalContent('modal-help', 'EditComment', 'CRM/Customer', '?customerId=@(item.CustomerId)')"><i class="fa fa-comment-o"></i>&nbsp;Заметка:&nbsp;</span></div>
-                    <p class="well">@item.Comment</p>
-                </div>
+                        <div><span class="btn btn-default padding-none" onclick="loadModalContent('modal-help', 'EditComment', 'CRM/Customer', '?customerId=@(item.CustomerId)')"><i class="fa fa-comment-o"></i>&nbsp;Заметка:&nbsp;</span></div>
+                        <p class="well">@item.Comment</p>
+                    </div>
                 </li>
             </ul>
             <div class="col-md-5">
@@ -228,19 +228,23 @@
                 <ul class="list-unstyled col-md-12">
                     <li><i class="fa fa-flag"></i>&nbsp;Закреплен за:</li>
                     <li>
-                        <a href="#" class="btn btn-default padding-none" style="width:100%" onclick="loadModalContent('modal-help', 'Assign', 'CRM/Customer', '?customerId=@(item.CustomerId)')">
-                            <img style="max-width:50px;float:left;" src="@(item.AssignedBy.HasValue && !string.IsNullOrEmpty(Model.EmployeesPhoto[item.AssignedBy.Value]) ? Model.EmployeesPhoto[item.AssignedBy.Value] : "/assets/images/avatar-large-girl.jpg")" />@(item.AssignedBy.HasValue ? item.AssignedName : string.Empty)
+                        <img style="max-width:50px;float:left;" src="@(item.AssignedBy.HasValue && !string.IsNullOrEmpty(Model.EmployeesPhoto[item.AssignedBy.Value]) ? Model.EmployeesPhoto[item.AssignedBy.Value] : "/assets/images/avatar-large-girl.jpg")" />
+                        <a href="#" class="btn btn-default padding-none" style="width:80%" onclick="loadModalContent('modal-help', 'Assign', 'CRM/Customer', '?customerId=@(item.CustomerId)')">
+                            @(item.AssignedBy.HasValue ? item.AssignedName : string.Empty)
+                        </a>
+                        <a href="#" class="btn btn-default padding-none" style="width:80%" onclick="loadModalContent('modal-help', 'NotifyAssignedForm', 'CRM/LegalEntity', '?customerId=@(item.Guid)')">
+                            Уведомить сотрудника
                         </a>
                     </li>
                 </ul>
-                </div>
-               
-                    <ul class="list-unstyled col-md-12" style="border-top:1px solid; padding-top:5px">
-                        <li>
-                            <span class=" pull-right btn btn-default padding-none" onclick="loadModalContent('modal-help', 'GetHistory', 'CRM/Customer', '?customerId=@(item.Guid)');">&nbsp;<i class="fa fa-history"></i>&nbsp;История изменений&nbsp;</span>
-                            <span class=" btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'EditPassportCustomer', 'CRM/Customer', '?customerId=@(item.Guid)', intiCropAndPhone); return false;">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Паспортные данные&nbsp;</span>&nbsp;
-                        </li>
-</ul>
+            </div>
+
+            <ul class="list-unstyled col-md-12" style="border-top:1px solid; padding-top:5px">
+                <li>
+                    <span class=" pull-right btn btn-default padding-none" onclick="loadModalContent('modal-help', 'GetHistory', 'CRM/Customer', '?customerId=@(item.Guid)');">&nbsp;<i class="fa fa-history"></i>&nbsp;История изменений&nbsp;</span>
+                    <span class=" btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'EditPassportCustomer', 'CRM/Customer', '?customerId=@(item.Guid)', intiCropAndPhone); return false;">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Паспортные данные&nbsp;</span>&nbsp;
+                </li>
+            </ul>
         </div>
     </div>
 }

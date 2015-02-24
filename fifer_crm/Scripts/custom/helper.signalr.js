@@ -39,6 +39,9 @@
         }
     };
 
+    adminHub.client.notifyCreated = function (userId) {
+        getLasNotify();
+    };
 
     $.connection.hub.start().done(function () {
         if ($("#userId").length > 0) {

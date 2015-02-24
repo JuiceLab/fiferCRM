@@ -50,7 +50,6 @@ namespace fifer_crm.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
-
         // GET: Notify
         public ActionResult GetLastNotify()
         {

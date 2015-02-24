@@ -190,31 +190,55 @@ namespace CRMRepositories
                 LocalContext.SaveChanges();
 
                 var detail = LocalContext.LegalEnityDetails.FirstOrDefault(m => m.C_LegalEntityId == legalEntity.LegalEntityId);
-                detail.KPP = company.Details[0].KPP;
-                detail.KS = company.Details[0].KS;
-                detail.INN = company.Details[0].INN;
-                detail.OGRN = company.Details[0].OGRN;
-                detail.RS = company.Details[0].RS;
-                detail.BIK = company.Details[0].BIK;
-                detail.PayLocation = company.Details[0].PaymentLocation;
-                detail.IsActive = true;
-                LocalContext.SaveChanges();
-
-                foreach (var item in LocalContext.LegalActivities.Where(m => m.C_LegalEntityId == detail.LegalEntityDetailId))
+                if (detail != null)
                 {
-                    LocalContext.LegalActivities.Remove(item);
+                    detail.KPP = company.Details[0].KPP;
+                    detail.KS = company.Details[0].KS;
+                    detail.INN = company.Details[0].INN;
+                    detail.OGRN = company.Details[0].OGRN;
+                    detail.RS = company.Details[0].RS;
+                    detail.BIK = company.Details[0].BIK;
+                    detail.PayLocation = company.Details[0].PaymentLocation;
+                    detail.IsActive = true;
+                    LocalContext.SaveChanges();
                 }
-                if (company.Activities != null)
+                else if(company.Details[0].INN !=0)
                 {
-                    foreach (var item in company.Activities)
+                    detail = new LegalEnityDetail()
+                                {
+                                    KPP = company.Details[0].KPP,
+                                    KS = company.Details[0].KS,
+                                    INN = company.Details[0].INN,
+                                    OGRN = company.Details[0].OGRN,
+                                    RS = company.Details[0].RS,
+                                    BIK = company.Details[0].BIK,
+                                    PayLocation = company.Details[0].PaymentLocation,
+                                    IsActive = true,
+                                    Created = DateTime.Now,
+                                    CreatedBy = userId,
+                                    C_GeoId = legalEntity.C_MainGeoId,
+                                    C_LegalEntityId = legalEntity.LegalEntityId
+                                };
+                    LocalContext.InsertUnit(detail);
+                }
+                if (detail != null)
+                {
+                    foreach (var item in LocalContext.LegalActivities.Where(m => m.C_LegalEntityId == detail.LegalEntityDetailId))
                     {
-                        var service = LocalContext.CompanyServices.FirstOrDefault(m => m.CompanyServiceId == item);
-                        LocalContext.InsertUnit(new LegalActivity()
+                        LocalContext.LegalActivities.Remove(item);
+                    }
+                    if (company.Activities != null)
+                    {
+                        foreach (var item in company.Activities)
                         {
-                            ActivityFullName = service.CompanyService2.Name + ": " + service.Name,
-                            C_LegalEntityId = detail.LegalEntityDetailId,
-                            C_ServiceId = service.CompanyServiceId,
-                        });
+                            var service = LocalContext.CompanyServices.FirstOrDefault(m => m.CompanyServiceId == item);
+                            LocalContext.InsertUnit(new LegalActivity()
+                            {
+                                ActivityFullName = service.CompanyService2.Name + ": " + service.Name,
+                                C_LegalEntityId = detail.LegalEntityDetailId,
+                                C_ServiceId = service.CompanyServiceId,
+                            });
+                        }
                     }
                 }
             }
@@ -707,6 +731,16 @@ namespace CRMRepositories
                     CreatedBy = userId,
                     C_GeoId = location.GeoLocationId,
                     C_LegalEntityId = legalEnitity.LegalEntityId
+                });
+            }
+
+            foreach (var item in company.LegalEntityAddPhones)
+            {
+                LocalContext.InsertUnit(new LegalEntityAddPhone()
+                {
+                    Phones = item.Phones,
+                    C_LegalEntityId = legalEnitity.LegalEntityId,
+                    C_GeoLocationId = location.GeoLocationId
                 });
             }
 
@@ -1226,5 +1260,112 @@ namespace CRMRepositories
             return searchResult;
         }
 
+        public IEnumerable<CompanyAddressViewModel> GetLocations(int companyId)
+        {
+            var legalEntity = LocalContext.GetUnitById<LegalEntity>(companyId);
+            var items = new List<GeoLocation>();
+            items.AddRange(legalEntity.GeoLocations);
+            items.Add(legalEntity.GeoLocation);
+            return items.Select(m => new CompanyAddressViewModel()
+            {
+                Latitude = m.Latitude.ToString(),
+                Longitude = m.Longitude.ToString(),
+                Phones = m.LegalEntityAddPhones.Count > 0 ? string.Join(",", m.LegalEntityAddPhones.Select(n => n.Phones)) : string.Empty,
+                AddrId = m.GeoLocationId,
+                CompanyId = companyId,
+                CityGuid = m.CityGuid,
+                Address = m.Address
+            }).ToList();
+        }
+
+        public void UpdateLegalAddress(CompanyAddressViewModel model)
+        {
+            IFormatProvider provider = new CultureInfo("en-US");
+
+            if (model.AddrId == 0)
+            {
+                GeoLocation geo = new GeoLocation()
+                {
+                    Address = model.Address,
+                    Latitude = Convert.ToDouble(model.Latitude, provider),
+                    Longitude = Convert.ToDouble(model.Longitude, provider),
+                    CityGuid = model.CityGuid,
+                };
+                
+                LocalContext.InsertUnit(geo);
+                LocalContext.LegalEntities
+                    .FirstOrDefault(m => m.LegalEntityId == model.CompanyId)
+                    .GeoLocations
+                    .Add(geo);
+                LocalContext.SaveChanges();
+                if (!string.IsNullOrEmpty(model.Phones))
+                {
+                    LocalContext.InsertUnit(new LegalEntityAddPhone()
+                    {
+                        Phones = model.Phones,
+                        C_LegalEntityId = model.CompanyId,
+                        C_GeoLocationId = geo.GeoLocationId
+                    });
+                }
+            }
+            else
+            {
+                var geo = LocalContext.GetUnitById<GeoLocation>(model.AddrId);
+                geo.Address = model.Address;
+                    geo.Latitude = Convert.ToDouble(model.Latitude, provider);
+                    geo.Longitude = Convert.ToDouble(model.Longitude, provider);
+                    geo.CityGuid = model.CityGuid;
+                    LocalContext.SaveChanges();
+                if (!string.IsNullOrEmpty(model.Phones))
+                {
+                    if (!geo.LegalEntityAddPhones.Any(m => m.C_LegalEntityId == model.CompanyId))
+                    {
+                        LocalContext.InsertUnit(new LegalEntityAddPhone()
+                        {
+                            Phones = model.Phones,
+                            C_LegalEntityId = model.CompanyId,
+                            C_GeoLocationId = geo.GeoLocationId
+                        });
+                    }
+                    else
+                    {
+                        geo.LegalEntityAddPhones.FirstOrDefault(m => m.C_LegalEntityId == model.CompanyId).Phones = model.Phones;
+                        LocalContext.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public CompanyAddressViewModel GetLocation(int companyId, int? addrId)
+        {
+            var geo = LocalContext.GetUnitById<LegalEntity>(companyId).GeoLocation;
+            var model = new CompanyAddressViewModel()
+            {
+                CityGuid = geo.CityGuid,
+                Latitude = geo.Latitude.ToString().Replace(",", "."),
+                Longitude = geo.Longitude.ToString().Replace(",", ".")
+            };
+
+            if (addrId.HasValue)
+            {
+                var curGeo = LocalContext.GetUnitById<GeoLocation>(addrId.Value);
+                model.Latitude = curGeo.Latitude.ToString().Replace(",",".");
+                model.Longitude = curGeo.Longitude.ToString().Replace(",", ".");
+                    model.Phones = curGeo.LegalEntityAddPhones.Where(m=>m.C_LegalEntityId == companyId).Count() > 0 ?
+                        string.Join(",", curGeo.LegalEntityAddPhones.Where(m => m.C_LegalEntityId == companyId).Select(n => n.Phones))
+                        : string.Empty;
+                    model.AddrId = curGeo.GeoLocationId;
+                    model.CompanyId = companyId;
+                    model.CityGuid = curGeo.CityGuid;
+                    model.Address = curGeo.Address;
+            }
+            return model;
+        }
+
+        public List<MessageViewModel> GetMeetingsHistory(Guid companyId)
+        {
+            return new List<MessageViewModel>();
+
+        }
     }
 }

@@ -1,0 +1,53 @@
+﻿@model CompanyModel.CompanyAddressViewModel
+@{
+    var districts = ViewBag.Districts as List<SelectListItem>;
+    var cities = ViewBag.Cities as List<SelectListItem>;
+}
+<span class="col-md-6 btn btn-success" id="updateGeoBtn" onclick="updateLegalGeo()">Сохранить</span>
+<span class="col-md-6 btn btn-success" onclick="setAddLegalAddr();">Показать на карте</span>
+<label class="label label-info" id="addr" style="text-align:center">@Model.Address</label>
+
+
+
+@using (Html.BeginForm("AddressEdit", "LegalEntity", new { Area = "GeoLocation" }, FormMethod.Post, new { @class = "legal-form form-horizontal", role = "form", id = "legalEditForm" }))
+{
+    @Html.HiddenFor(m => m.Latitude)
+    @Html.HiddenFor(m => m.AddrId)
+    @Html.HiddenFor(m => m.Longitude)
+    @Html.HiddenFor(m => m.CompanyId)
+    @Html.HiddenFor(m => m.CityGuid)
+    @Html.HiddenFor(m => m.Address)
+    <fieldset>
+        <legend>@(Model.AddrId == 0 ? "Задать" : "Изменить") адресную информацию</legend>
+        <div class="col-md-9">
+            <label>Регион</label>
+            @Html.DropDownList("DistrictId", districts, new { @class = "col-md-6 form-control", placeholder = "Город" })
+            <div class="separator"></div>
+            <div id="city-Drop">
+                @Html.LabelFor(m => m.City)
+                @Html.DropDownListFor(m => m.City, cities, new { @class = "col-md-6 form-control", placeholder = "Город" })
+                @Html.ValidationMessageFor(m => m.City)
+            </div>
+            <div class="separator"></div>
+            @Html.LabelFor(m => m.Street)
+            @Html.TextBoxFor(m => m.Street, new { @class = "col-md-6 form-control", placeholder = "Улица" })
+            @Html.ValidationMessageFor(m => m.Street)
+        </div>
+        <div class="col-md-3 ">
+            @Html.LabelFor(m => m.Number)
+            @Html.TextBoxFor(m => m.Number, new { @class = "col-md-6 form-control", placeholder = "номер дома" })
+        </div>
+        <div class="col-md-9">
+            @Html.LabelFor(m => m.AddNumber)
+            @Html.TextBoxFor(m => m.AddNumber, new { @class = "col-md-6 form-control", placeholder = "строение, корпус и т.п." })
+            @Html.ValidationMessageFor(m => m.AddNumber)
+        </div>
+        <div class="col-md-12">
+            @Html.LabelFor(m => m.Phones)
+            @Html.TextBoxFor(m => m.Phones, new { @class = "col-md-6 form-control" })
+            @Html.ValidationMessageFor(m => m.AddNumber)
+        </div>
+    </fieldset>
+}
+    
+

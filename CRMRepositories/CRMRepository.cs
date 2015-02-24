@@ -203,14 +203,18 @@ namespace CRMRepositories
             var result = BaseContext.Cities.AsQueryable();
             if (distId.HasValue)
                 result = result.Where(m => m.C_DistrictId == distId.Value);
-            else if (cityGuid.HasValue)
+            else if (cityGuid.HasValue && cityGuid != Guid.Empty)
             {
                 var city = BaseContext.Cities.FirstOrDefault(m => m.CityGuid == cityGuid);
                 result = result.Where(m => m.C_DistrictId == city.C_DistrictId);
-            } return result.Select(m => new { id = m.CityId, name = m.Name, selected =  m.CityGuid == cityGuid })
+            } 
+            
+            return result
+                  .ToList()
+                  .Select(m => new { id = m.CityId, name = m.Name, selected =  m.CityGuid == cityGuid })
                   .ToList()
                   .OrderBy(m => m.name)
-                  .Select(m => new SelectListItem() { Text = m.name, Value = m.id.ToString() })
+                  .Select(m => new SelectListItem() { Text = m.name, Value = m.id.ToString(), Selected = m.selected })
                   .ToList();
         }
 
@@ -222,7 +226,7 @@ namespace CRMRepositories
                  {
                      CityId = m.CityId,
                      Name = m.Name,
-                     Code = m.Code,
+                     Code = int.Parse(m.Code),
                      NumCompanies = m.GeoLocations.SelectMany(n => n.LegalEntities).Distinct().Count()
                  })
                  .ToList();
@@ -246,7 +250,7 @@ namespace CRMRepositories
                 var existCity  = BaseContext.GetUnitById<City>(cityId.Value);
                 model.CityId = existCity.CityId;
                 model.Name = existCity.Name;
-                model.Code = existCity.Code;
+                model.Code = int.Parse(existCity.Code);
             }
             return model;
         }
@@ -257,14 +261,14 @@ namespace CRMRepositories
             {
                 Context.InsertUnit(new City()
                 {
-                    Code = city.Code,
+                    Code = city.Code.ToString(),
                     Name = city.Name
                 });
             }
             else
             {
                 var existCity = Context.GetUnitById<City>(city.CityId);
-                existCity.Code = city.Code;
+                existCity.Code = city.Code.ToString();
                 existCity.Name = city.Name;
                 Context.SaveChanges();
             }

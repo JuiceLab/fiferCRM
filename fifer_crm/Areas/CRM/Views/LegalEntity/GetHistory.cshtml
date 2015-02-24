@@ -1,21 +1,22 @@
-﻿@model IEnumerable<MessageViewModel>
+﻿@model Dictionary<string,List<MessageViewModel>>
 
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 class="modal-title">История изменений @ViewBag.Name</h3>
+    <h3 class="modal-title">История клиента @ViewBag.Name</h3>
 </div>
 <!-- // Modal heading END -->
 <!-- Modal body -->
 <div class="modal-body">
     <div class="relativeWrap">
-        @if (Model.Count() > 0)
-        {
             <div class="box-generic">
-
+        @if (Model.Where(m => m.Value.Count > 0).Count() > 0) { 
                 <!-- Tabs Heading -->
                 <div class="tabsbar tabsbar-2">
                     <ul class="row row-merge">
-                        <li class="col-md-6 glyphicons history"><a href="#tab1-4" data-toggle="tab"><i></i> <span>История</span></a></li>
+                        @foreach (var item in Model.Where(m=>m.Value.Count > 0))
+                        {
+                            <li class="col-md-6 glyphicons history"><a href="#tab1-@item.Key" data-toggle="tab"><i></i> <span>@item.Key</span></a></li>
+                        }
                     </ul>
                 </div>
                 <!-- // Tabs Heading END -->
@@ -23,12 +24,12 @@
                 <div class="tab-content">
 
                     <!-- Tab content -->
-                    <div class="tab-pane active" id="tab1-4">
+                    <div class="tab-pane active" id="tab1-@(Model.FirstOrDefault(m => m.Value.Count > 0).Key)">
                         <div class="innerLR" style="display:flex">
                             <div class="widget-body innerAll inner-2x">
                                 <div class="innerAll inner-2x">
                                     <ul class="chat media-list">
-                                        @foreach (var item in Model.OrderByDescending(m => m.Created))
+                                        @foreach (var item in Model.FirstOrDefault(m => m.Value.Count > 0).Value)
                                         {
                                             <li class="media">
                                                 <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
@@ -44,7 +45,31 @@
                             </div>
                         </div>
                     </div>
-               
+               @foreach (var tab in Model.Where(m => m.Value.Count > 0).Skip(1))
+               {
+                <div class="tab-pane" id="tab1-@(tab.Key)">
+                    <div class="innerLR" style="display:flex">
+                        <div class="widget-body innerAll inner-2x">
+                            <div class="innerAll inner-2x">
+                                <ul class="chat media-list">
+                                    @foreach (var item in tab.Value)
+                                    {
+                                        <li class="media">
+                                            <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                                            <div class="media-body">
+                                                <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
+                                                <h5 class="media-heading">@item.Title</h5>
+                                                <p class="margin-none">@item.Msg</p>
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+               }
                 </div>
             </div>
         }

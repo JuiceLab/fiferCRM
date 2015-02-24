@@ -71,6 +71,9 @@
     <Compile Include="LegalEntity.cs">
       <DependentUpon>LocalCRMEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="LegalEntityAddPhone.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="LocalCRMEntities.Context.cs">
       <DependentUpon>LocalCRMEntities.Context.tt</DependentUpon>
       <AutoGen>True</AutoGen>

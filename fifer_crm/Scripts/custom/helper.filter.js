@@ -41,12 +41,12 @@ function filterCustomers(isLegal) {
         $("#customer-search").serialize(),
         function (result) {
             $("#customerList").html(result);
-            setCalendarTasks();
-            initDatePicker();
-            
-            initPhoneMask();
-            initWidgetCollapsable();
             initFilterItems();
+            setCalendarTasks();
+            initPhoneMask();
+            initScroll();
+            initWidgetCollapsable();
+            initDatePicker();
         });
     $(".modal .close").trigger("click");
 }
@@ -56,7 +56,6 @@ function filterTasks(isCalendar) {
         $("#task-search").serialize(),
         function (result) {
             $("#task-search-div").html(result);
-            initDatePicker();
             initFilterItems();
             if ($("#IsLegal").val() != "true")
                 initPhoneMask();
@@ -64,5 +63,7 @@ function filterTasks(isCalendar) {
             {
                 $('#option1').trigger("click");
             }
+            initDatePicker();
+
         });
 }

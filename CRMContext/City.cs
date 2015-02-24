@@ -24,6 +24,7 @@ namespace CRMContext
         public string Code { get; set; }
         public System.Guid CityGuid { get; set; }
         public Nullable<int> C_DistrictId { get; set; }
+        public string CityPrefix { get; set; }
     
         public virtual ICollection<GeoLocation> GeoLocations { get; set; }
         public virtual District District { get; set; }

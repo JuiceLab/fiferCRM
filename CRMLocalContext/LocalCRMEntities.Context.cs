@@ -45,5 +45,6 @@ namespace CRMLocalContext
         public virtual DbSet<TaskPeriod> TaskPeriods { get; set; }
         public virtual DbSet<TaskCategory> TaskCategories { get; set; }
         public virtual DbSet<UserNotify> UserNotifies { get; set; }
+        public virtual DbSet<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
     }
 }
