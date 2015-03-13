@@ -39,7 +39,7 @@ namespace ContentSearchService
         {
             var search = new LegalEntitySearch();
             search.DistrictId = city.C_DistrictId.HasValue ? city.C_DistrictId.Value : 0;
-            search.City = new List<int>() { city.CityId };
+            search.City =  city.CityId ;
             cityGuid = city.CityGuid;
             return search;
         }
@@ -99,7 +99,10 @@ namespace ContentSearchService
                    .Replace(" ", string.Empty)
                    .Replace("-", string.Empty);
 
-               result = result.Where(m => m.Phones.Split(',').Any(n => n.IndexOf(search.Phone) != -1) || m.Phones.Split(',').Any(n => n.IndexOf(clearPhone) != -1)).ToList();
+               result = result.Where(m => m.Phones.Split(',').Any(n => n.IndexOf(search.Phone) != -1) 
+                || m.Phones.Split(',').Any(n => n.IndexOf(clearPhone) != -1)
+                || m.CustomerPhones.Split(',').Any(n => n.IndexOf(search.Phone) != -1)
+                || m.CustomerPhones.Split(',').Any(n => n.IndexOf(clearPhone) != -1)).ToList();
            }
 
            search.AvailableNames = companies
@@ -143,7 +146,7 @@ namespace ContentSearchService
             else if (search.AssignedBy.Count() > 0 || !search.AssignedAvailable.Any(m=>m.Value == _userId.ToString()))
                 search.AssignedAvailable.FirstOrDefault(m => m.Value == Guid.Empty.ToString()).Selected = true;
             else 
-                search.AssignedAvailable.FirstOrDefault(m => m.Value == null).Selected = true;
+                search.AssignedAvailable.FirstOrDefault(m => m.Value == null || m.Value == Guid.Empty.ToString()).Selected = true;
             search.SearchResult  = result;
             return SearchCRMLegal(search);
         }
@@ -168,7 +171,7 @@ namespace ContentSearchService
             }
 
             if (!string.IsNullOrEmpty(search.Mail))
-                result = result.Where(m => m.Mail.IndexOf(search.Mail) != - 1).ToList();
+                result = result.Where(m => m.Mail !=null && m.Mail.IndexOf(search.Mail) != - 1).ToList();
 
             if (!string.IsNullOrEmpty(search.Phone))
                 result = result.Where(m => m.Phone == search.Phone).ToList();

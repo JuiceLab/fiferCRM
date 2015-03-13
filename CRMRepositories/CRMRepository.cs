@@ -35,12 +35,10 @@ namespace CRMRepositories
             }
             else
             {
-                var id = int.Parse(model.City);
-
                 var geo = new GeoLocation()
                 {
                     Address = string.Format("{0}, {1} {2}", model.Street, model.Number.Value, model.AddNumber),
-                    C_CityId = id
+                    C_CityId = BaseContext.Cities.FirstOrDefault(m=>m.CityGuid == model.City).CityId
                 };
                 BaseContext.InsertUnit(geo);
 
@@ -198,9 +196,13 @@ namespace CRMRepositories
             return commonModel.CustomerGuid;
         }
 
-        public List<SelectListItem> GetCitiesSelectItems(int? distId, Guid? cityGuid = null)
+        public List<SelectListItem> GetCitiesSelectItems(int? distId, Guid? cityGuid = null, bool filtred = true)
         {
-            var result = BaseContext.Cities.AsQueryable();
+            
+            var companyCities= BaseContext.LegalEntityViews.Select(m => m.C_CityId).Distinct().ToList();
+            var result = filtred?  
+                BaseContext.Cities.Where(m => companyCities.Contains(m.CityId))
+                : BaseContext.Cities;
             if (distId.HasValue)
                 result = result.Where(m => m.C_DistrictId == distId.Value);
             else if (cityGuid.HasValue && cityGuid != Guid.Empty)
@@ -209,23 +211,29 @@ namespace CRMRepositories
                 result = result.Where(m => m.C_DistrictId == city.C_DistrictId);
             } 
             
-            return result
+            var model = result
                   .ToList()
-                  .Select(m => new { id = m.CityId, name = m.Name, selected =  m.CityGuid == cityGuid })
+                  .Select(m => new { id = m.CityGuid, name = m.CityPrefix!=null ? string.Format("{0}. {1}", m.CityPrefix, m.Name): m.Name, selected = m.CityGuid == cityGuid })
                   .ToList()
                   .OrderBy(m => m.name)
+                  .GroupBy(m => m.name)
+                  .SelectMany(m=>m.Take(1))
                   .Select(m => new SelectListItem() { Text = m.name, Value = m.id.ToString(), Selected = m.selected })
                   .ToList();
+            model.Insert(0, new SelectListItem() { Text = "Все города" });
+            return model;
         }
 
         public IEnumerable<CityPreview> GetCities()
         {
+            var companyCities= BaseContext.LegalEntityViews.Select(m => m.C_CityId).Distinct().ToList();
             var result = BaseContext.Cities
-                 .ToList()
+                .Where(m => companyCities.Contains(m.CityId)) 
+                .ToList()
                  .Select(m => new CityPreview()
                  {
                      CityId = m.CityId,
-                     Name = m.Name,
+                     Name = string.Format( "{0}. {1}", m.CityPrefix, m.Name),
                      Code = int.Parse(m.Code),
                      NumCompanies = m.GeoLocations.SelectMany(n => n.LegalEntities).Distinct().Count()
                  })
@@ -242,14 +250,29 @@ namespace CRMRepositories
             return result;
         }
 
+        public CityPreview GetCity(Guid? cityId)
+        {
+            CityPreview model = new CityPreview();
+            if (cityId.HasValue)
+            {
+                var existCity  = BaseContext.Cities.FirstOrDefault( m=> m.CityGuid == cityId);
+                model.CityId = existCity.CityId;
+                model.Name = existCity.Name;
+                model.Prefix = string.IsNullOrEmpty(existCity.CityPrefix) ? string.Empty : existCity.CityPrefix + ".";
+                model.Code = int.Parse(existCity.Code);
+            }
+            return model;
+        }
+
         public CityPreview GetCity(int? cityId)
         {
             CityPreview model = new CityPreview();
             if (cityId.HasValue)
             {
-                var existCity  = BaseContext.GetUnitById<City>(cityId.Value);
+                var existCity = BaseContext.Cities.FirstOrDefault(m => m.CityId == cityId);
                 model.CityId = existCity.CityId;
                 model.Name = existCity.Name;
+                model.Prefix = string.IsNullOrEmpty(existCity.CityPrefix) ? string.Empty : existCity.CityPrefix + ".";
                 model.Code = int.Parse(existCity.Code);
             }
             return model;
@@ -387,15 +410,29 @@ namespace CRMRepositories
             List<SelectListItem> result = new List<SelectListItem>(){
                 new SelectListItem(){ Text="Выберите регион вашей компании", Value=""}
             };
-            result.AddRange(BaseContext.Districts.ToList()
+            
+            result.AddRange(BaseContext.Districts.OrderBy(m=>m.Name).ToList()
                 .Select(m => new SelectListItem() { Text = m.Name, Value = m.DistrictId.ToString() }));
             return result;
         }
 
         public City GetCompanyCity(Guid? companyGuid)
         {
-            var city = Context.Companies.FirstOrDefault(m => m.CRMGuid == companyGuid).Address.City;
-            return BaseContext.Cities.FirstOrDefault(m => m.Name == city);
+
+            if (!companyGuid.HasValue)
+                return new City();
+            else
+            {
+                var id = Context.Companies.FirstOrDefault(m => m.CRMGuid == companyGuid).Address.CityGuid;
+                return BaseContext.Cities.FirstOrDefault(m => m.CityGuid == id);
+            }
+        }
+        
+        public Guid GetCompanyCityId(Guid? companyGuid)
+        {
+            return !companyGuid.HasValue?
+                Guid.Empty
+                :Context.Companies.FirstOrDefault(m => m.CRMGuid == companyGuid).Address.CityGuid;
         }
 
         public int? GetDistrictByCity(Guid cityGuid)

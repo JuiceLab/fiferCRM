@@ -32,6 +32,7 @@ namespace CompanyContext
         public Nullable<double> Latitiude { get; set; }
         public bool IsActive { get; set; }
         public int C_CompanyId { get; set; }
+        public System.Guid CityGuid { get; set; }
     
         public virtual Company Company { get; set; }
         public virtual ICollection<Company> Companies { get; set; }

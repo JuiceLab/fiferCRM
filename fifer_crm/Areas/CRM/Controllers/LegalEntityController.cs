@@ -49,7 +49,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             
             var customers = repository.GetCustomers4Subordinate(users.Select(m => Guid.Parse(m.Value)), company.LegalEntityId);
 
-            model.Add("Звонки", taskRepository.GetCallHistory(customers.Select(m=>Guid.Parse(m.Value))));
+            model.Add("Звонки", taskRepository.GetCallHistory(customers.Where(m=>!string.IsNullOrEmpty(m.Value)).Select(m=>Guid.Parse(m.Value))));
             
             FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);
             model.Add("Платежи", financeRepository.GetPaymentHistory(companyId));

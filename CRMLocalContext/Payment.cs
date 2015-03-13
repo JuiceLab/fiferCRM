@@ -34,6 +34,8 @@ namespace CRMLocalContext
         public Nullable<System.Guid> SubmitedBy { get; set; }
         public Nullable<System.DateTime> SubmitedDate { get; set; }
         public Nullable<int> C_LegalEntityDetailId { get; set; }
+        public Nullable<System.Guid> CallGuid { get; set; }
+        public Nullable<System.Guid> MeetingGuid { get; set; }
     
         public virtual LegalEnityDetail LegalEnityDetail { get; set; }
         public virtual ICollection<PaymentDetail> PaymentDetails { get; set; }

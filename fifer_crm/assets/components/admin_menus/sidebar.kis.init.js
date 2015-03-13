@@ -1,8 +1,8 @@
 (function($)
 {
-	$('.btn-navbar-right').click(function(){
+	$('.btn-navbar-right').on("click", function(){
 		$('body').toggleClass('menu-right-visible');
-
+		
 		if ($('.container-fluid.menu-left-visible').length)
 			$('.container-fluid').addClass('menu-hidden').removeClass('menu-left-visible');
 

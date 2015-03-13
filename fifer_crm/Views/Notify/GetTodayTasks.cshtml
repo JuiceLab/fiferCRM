@@ -1,0 +1,53 @@
+﻿@model Dictionary<CRMEventType, List<MessageViewModel>>
+<li class="dropdown notif">
+    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block fa fa-tasks"></i><span class="badge badge-primary">@Model[CRMEventType.Task].Count</span></a>
+    <ul class="dropdown-menu chat media-list">
+        @foreach (var item in Model[CRMEventType.Task])
+        {
+            <li id="ntfy@(item.NotifyId)" class="media">
+                <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                <div class="media-body">
+                    <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
+                    <h5 class="media-heading">@item.Title</h5>
+                    <span class="btn btn-success pull-right padding-none" onclick="loadModalContentWithCallback('modal-help','TaskProcess','Task/GroupTask', '?taskId=@(item.ObjectId)', getTaskActions); return false;">&nbsp;Рассмотреть&nbsp;</span>
+                </div>
+            </li>
+        } 
+        <li><a href="#" class="btn btn-primary"><i class="fa fa-list"></i> <span>View all messages</span></a></li>
+    </ul>
+</li>
+
+<li class="dropdown notif">
+    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block fa fa-phone"></i><span class="badge badge-primary">@Model[CRMEventType.TaskCall].Count</span></a>
+    <ul class="dropdown-menu chat media-list">
+        @foreach (var item in Model[CRMEventType.TaskCall])
+        {
+            <li id="ntfy@(item.NotifyId)" class="media">
+                <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                <div class="media-body">
+                    <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
+                    <h5 class="media-heading">@item.Title</h5>
+                    <p class="margin-none">@item.Msg</p>
+                    <span class="btn btn-success pull-right padding-none" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Call', '?taskId=@(item.ObjectId)', initCallTask); return false;">&nbsp;Рассмотреть&nbsp;</span>
+                </div>
+            </li>
+        }
+        <li><a href="#" class="btn btn-primary"><i class="fa fa-list"></i> <span>View all messages</span></a></li>
+    </ul>
+</li>
+<li class="dropdown notif">
+    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="notif-block fa fa-group"></i><span class="badge badge-white">@Model[CRMEventType.Meeting].Count</span></a>
+    <ul class="dropdown-menu " style="width:300px">
+        @foreach (var item in Model[CRMEventType.Meeting])
+        {
+            <li>
+                <h5 style="text-align:left">@item.Title <br /> в @(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</h5>
+                <div class="btn btn-success " style="width:100%">
+                    <a href="#" class="success" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Meeting', '?taskId=@(item.ObjectId)', getTaskActions); return false;">Рассмотреть</a>
+                </div>
+            </li>
+
+        }
+    </ul>
+</li>
+

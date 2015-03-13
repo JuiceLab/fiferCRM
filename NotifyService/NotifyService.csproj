@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventHandlers\TicketEventHandler.cs" />
+    <Compile Include="LocalNotifyService.cs" />
     <Compile Include="Observers\NotifyObserver.cs" />
     <Compile Include="Notifiers\IEventNotifier.cs" />
     <Compile Include="Notifiers\SignalrNotifier.cs" />
@@ -57,6 +58,26 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\CompanyModel\CompanyModel.csproj">
+      <Project>{5248c243-b0d5-42b0-b796-0805a05154ef}</Project>
+      <Name>CompanyModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CRMModel\CRMModel.csproj">
+      <Project>{770e0e2b-3c06-4df2-8eb8-54f0b1774090}</Project>
+      <Name>CRMModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityRepository\EntityRepository.csproj">
+      <Project>{a87259dd-f94f-4715-9f12-646d49a08049}</Project>
+      <Name>EntityRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelper\EnumHelper.csproj">
+      <Project>{51baae80-caa9-4756-8787-8ffd4936bc12}</Project>
+      <Name>EnumHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtensionHelpers\ExtensionHelpers.csproj">
+      <Project>{240aee1e-c04f-4079-826c-9e022588ba10}</Project>
+      <Name>ExtensionHelpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogContext\LogContext.csproj">
       <Project>{6839f2a0-d3fc-4fc9-8a75-389709586b4c}</Project>
       <Name>LogContext</Name>
@@ -80,6 +101,10 @@
     <ProjectReference Include="..\Settings\Settings.csproj">
       <Project>{b7e78673-3d44-4503-9253-16fa013bd456}</Project>
       <Name>Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskModel\TaskModel.csproj">
+      <Project>{9c3aa9fd-5b9a-47d4-b8e3-3e4552b84745}</Project>
+      <Name>TaskModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

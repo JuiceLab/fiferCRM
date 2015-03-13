@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeetingTicket.cs" />
     <Compile Include="CallTicket.cs" />
     <Compile Include="Interfaces\IFiferTask.cs" />
     <Compile Include="FiferTaskTicket.cs" />

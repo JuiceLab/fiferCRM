@@ -1,11 +1,13 @@
 ﻿using AccessRepositories;
 using CompanyRepositories;
 using CRMRepositories;
+using EnumHelper.CRM;
 using fifer_crm.Models;
 using LogRepositories;
 using LogService.FilterAttibute;
 using NotifyEventModel;
 using NotifyModel;
+using NotifyService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -73,6 +75,17 @@ namespace fifer_crm.Controllers
                     item.IconPath = photos[item.UserId];
             }
             return PartialView(messages);
+        }
+
+        public ActionResult GetTodayTasks()
+        {
+            Dictionary<CRMEventType, List<MessageViewModel>> model = new Dictionary<CRMEventType, List<MessageViewModel>>();
+            var employeeData = new EmployeeWrapViewModel(_userId);
+            LocalNotifyService notifyService = new LocalNotifyService();
+            model.Add(CRMEventType.Task,notifyService.GetTaskItems(employeeData.TaskTickets));
+            model.Add(CRMEventType.TaskCall, notifyService.GetTaskCallItems(employeeData.CallTasks));
+            model.Add(CRMEventType.Meeting, notifyService.GetMeetings(employeeData.Meetings));
+            return PartialView(model);
         }
 
         public ActionResult SetLastNotifyViewed()

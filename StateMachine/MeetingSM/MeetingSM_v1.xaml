@@ -1,0 +1,549 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="StateMachine.MeetingSM.MeetingSM_v1" sap2010:ExpressionActivityEditor.ExpressionActivityEditor="C#" sap2010:WorkflowViewState.IdRef="StateMachine.MeetingSM.MeetingSM_v1_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:wc="clr-namespace:WFActivities.Common;assembly=WFAcivities"
+ xmlns:wt="clr-namespace:WFActivities.Ticket;assembly=WFAcivities"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>EnumHelper.CRM</x:String>
+      <x:String>EnumHelper</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>EntityFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Activities.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>EntityRepository</AssemblyReference>
+      <AssemblyReference>EnumHelper</AssemblyReference>
+      <AssemblyReference>ExtensionHelpers</AssemblyReference>
+      <AssemblyReference>Interfaces</AssemblyReference>
+      <AssemblyReference>Settings</AssemblyReference>
+      <AssemblyReference>SupportContext</AssemblyReference>
+      <AssemblyReference>TicketModel</AssemblyReference>
+      <AssemblyReference>WFAcivities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>StateMachine</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <StateMachine sap2010:WorkflowViewState.IdRef="StateMachine_1">
+    <StateMachine.InitialState>
+      <State x:Name="__ReferenceID5" DisplayName="Новая встреча" sap2010:WorkflowViewState.IdRef="State_6">
+        <State.Entry>
+          <If sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Condition>
+              <InArgument x:TypeArguments="x:Boolean">
+                <mca:CSharpValue x:TypeArguments="x:Boolean">IsNovelty</mca:CSharpValue>
+              </InArgument>
+            </If.Condition>
+            <If.Then>
+              <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+                <wt:CreateTicket NoveltyTicket="{x:Null}" sap2010:WorkflowViewState.IdRef="CreateTicket_1" />
+                <Assign sap2010:WorkflowViewState.IdRef="Assign_1">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">
+                      <mca:CSharpReference x:TypeArguments="x:Boolean">IsNovelty</mca:CSharpReference>
+                    </OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+          </If>
+        </State.Entry>
+        <State.Transitions>
+          <Transition DisplayName="перенести" sap2010:WorkflowViewState.IdRef="Transition_5">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_2">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.ReMeet</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <State x:Name="__ReferenceID0" DisplayName="Перенесенная встреча" sap2010:WorkflowViewState.IdRef="State_5">
+                <State.Transitions>
+                  <Transition DisplayName="оформить платеж" sap2010:WorkflowViewState.IdRef="Transition_10">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_3">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreatePayment</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID1" DisplayName="Платеж" sap2010:WorkflowViewState.IdRef="State_1" IsFinal="True" />
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="оформить встречу" sap2010:WorkflowViewState.IdRef="Transition_11">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_4">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreateMeet</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID4" DisplayName="Новая встреча" sap2010:WorkflowViewState.IdRef="State_3" IsFinal="True" />
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="завершить" sap2010:WorkflowViewState.IdRef="Transition_12">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_5">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.EndMeet</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID3" DisplayName="Завершена" sap2010:WorkflowViewState.IdRef="State_4" IsFinal="True" />
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="назначить исполнителя" sap2010:WorkflowViewState.IdRef="Transition_15">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_11">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.Assign</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID0</x:Reference>
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="просмотр" sap2010:WorkflowViewState.IdRef="Transition_16">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_12">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.View</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID0</x:Reference>
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="комментарий" sap2010:WorkflowViewState.IdRef="Transition_18">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_14">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.Comment</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <x:Reference>__ReferenceID0</x:Reference>
+                    </Transition.To>
+                  </Transition>
+                  <Transition DisplayName="оформить звонок" sap2010:WorkflowViewState.IdRef="Transition_13">
+                    <Transition.Trigger>
+                      <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_6">
+                        <wc:WaitForByteCommand.Command>
+                          <InArgument x:TypeArguments="x:Byte">
+                            <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreateCall</mca:CSharpValue>
+                          </InArgument>
+                        </wc:WaitForByteCommand.Command>
+                      </wc:WaitForByteCommand>
+                    </Transition.Trigger>
+                    <Transition.To>
+                      <State x:Name="__ReferenceID2" DisplayName="Звонок" sap2010:WorkflowViewState.IdRef="State_2" IsFinal="True" />
+                    </Transition.To>
+                  </Transition>
+                </State.Transitions>
+              </State>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="оформить платеж" sap2010:WorkflowViewState.IdRef="Transition_6">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_7">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreatePayment</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID1</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="оформить звонок" sap2010:WorkflowViewState.IdRef="Transition_7">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_1">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreateCall</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID2</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="завершить" sap2010:WorkflowViewState.IdRef="Transition_9">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_8">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.EndMeet</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID3</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="оформить встречу" sap2010:WorkflowViewState.IdRef="Transition_8">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_9">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.CreateMeet</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID4</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="назначить исполнителя" sap2010:WorkflowViewState.IdRef="Transition_14">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_10">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.Assign</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID5</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="просмотр" sap2010:WorkflowViewState.IdRef="Transition_17">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_13">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.View</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID5</x:Reference>
+            </Transition.To>
+          </Transition>
+          <Transition DisplayName="комментарий" sap2010:WorkflowViewState.IdRef="Transition_19">
+            <Transition.Trigger>
+              <wc:WaitForByteCommand TicketId="{x:Null}" sap2010:WorkflowViewState.IdRef="WaitForByteCommand_15">
+                <wc:WaitForByteCommand.Command>
+                  <InArgument x:TypeArguments="x:Byte">
+                    <mca:CSharpValue x:TypeArguments="x:Byte">(byte)WFMeetingCommand.Comment</mca:CSharpValue>
+                  </InArgument>
+                </wc:WaitForByteCommand.Command>
+              </wc:WaitForByteCommand>
+            </Transition.Trigger>
+            <Transition.To>
+              <x:Reference>__ReferenceID5</x:Reference>
+            </Transition.To>
+          </Transition>
+        </State.Transitions>
+        <State.Variables>
+          <Variable x:TypeArguments="x:Boolean" Default="True" Name="IsNovelty" />
+        </State.Variables>
+      </State>
+    </StateMachine.InitialState>
+    <x:Reference>__ReferenceID5</x:Reference>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <x:Reference>__ReferenceID4</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID3</x:Reference>
+    <sads:DebugSymbol.Symbol>d0VEOlxmaWZlcl9jcm1cZmlmZXJfZ3JvdXBfY3JtXFN0YXRlTWFjaGluZVxNZWV0aW5nU01cTWVldGluZ1NNX3YxLnhhbWwtNgO0AhICAQE4B6sCDwIBGl0PwgEXAgEKeBd4jQECAQi+ARe+AYYBAgEGahdqhgECAQSGAReGAYkBAgECqQI5qQI/AgEbOgtPEAIBNVQPWicCATLHAQ/NAScCAS/VAQ/bAScCASzjAQ/pAScCASnxAQ/3AScCASb/AQ+FAicCASONAg+TAicCASCbAg+hAicCAR1hF2cvAgEYbxd1LwIBFn0XgwEvAgEUiwEXkQEvAgESmQEXnwEvAgEQpwEXrQEvAgEOtQEXuwEvAgEMPRE9WQIBNkEPTRoCAThXFVduAgEzygEVygF1AgEw2AEV2AFyAgEt5gEV5gFvAgEq9AEV9AFyAgEnggIVggJuAgEkkAIVkAJsAgEhngIVngJvAgEeZB1kfQIBGXIdcnoCAReAAR2AAXcCARWOAR2OAXYCAROcAR2cAXQCARGqAR2qAXcCAQ+4AR24AXoCAQ1CEUJuAgE9QxFMGgIBOUo9SkICATxGF0ZnAgE6</sads:DebugSymbol.Symbol>
+  </StateMachine>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="CreateTicket_1" sap:VirtualizedContainerService.HintSize="242,22" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="264,248">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="464,398" />
+      <sap2010:ViewStateData Id="WaitForByteCommand_2" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="WaitForByteCommand_3" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="State_1" sap:VirtualizedContainerService.HintSize="161,100">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">109.5,460</av:Point>
+            <av:Size x:Key="ShapeSize">161,100</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">147</x:Double>
+            <x:Double x:Key="StateContainerHeight">63.631999999999891</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_10" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">69</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">46</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">283,262.1 206.1,262.1 206.1,460</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_4" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="State_3" sap:VirtualizedContainerService.HintSize="114,75">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">3,332.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,75</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">100</x:Double>
+            <x:Double x:Key="StateContainerHeight">39.299793418208196</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_11" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">53</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">0</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">283,243.3 155,243.3 155,336.25 117,336.25</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_5" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="State_4" sap:VirtualizedContainerService.HintSize="167,114">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">296.5,453</av:Point>
+            <av:Size x:Key="ShapeSize">167,114</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">153</x:Double>
+            <x:Double x:Key="StateContainerHeight">78</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_12" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">23</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">26</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">355,271.5 355,301.5 354.95,301.5 354.95,453</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_11" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_15" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">1</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">14</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">283,182.2 271,182.2 271,147.5 331,147.5 331,177.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_12" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_16" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">32</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">62</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">523,219.8 535,219.8 535,147.5 475,147.5 475,177.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_14" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_18" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">59</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">60</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">463,271.5 463,299.04 554.5,299.04 554.5,252.7 523,252.7</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_6" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="State_2" sap:VirtualizedContainerService.HintSize="114,61">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">473,389.5</av:Point>
+            <av:Size x:Key="ShapeSize">114,61</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_13" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Int32 x:Key="SrcConnectionPointIndex">43</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">22</x:Int32>
+            <av:PointCollection x:Key="ConnectorLocation">415,271.5 415,350.04 507.2,350.04 507.2,389.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_5" sap:VirtualizedContainerService.HintSize="240,94">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">283,177.5</av:Point>
+            <av:Size x:Key="ShapeSize">240,94</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">226</x:Double>
+            <x:Double x:Key="StateContainerHeight">58.080000000000041</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Transition_5" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">157.4,162.5 157.4,224.5 283,224.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">47</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">37</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_7" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_6" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">105.2,162.5 105.2,192.5 165.85,192.5 165.85,460</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">23</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">26</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_7" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">227,141.25 575.6,141.25 575.6,389.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">56</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">70</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_8" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_9" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">192.2,162.5 192.2,423 329.9,423 329.9,453</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">63</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">14</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_9" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_8" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">87.8,162.5 87.8,192.5 77.1,192.5 77.1,332.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">15</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">50</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_10" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_14" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">53,103 23,103 23,47.5 79.1,47.5 79.1,77.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">21</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">10</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_13" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_17" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">53,141.25 40.4,141.25 40.4,192.5 70.4,192.5 70.4,162.5</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">57</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">7</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="WaitForByteCommand_15" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Transition_19" sap:VirtualizedContainerService.HintSize="430,507">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:PointCollection x:Key="ConnectorLocation">166.1,77.5 166.1,47.5 257,47.5 257,98.75 227,98.75</av:PointCollection>
+            <x:Int32 x:Key="SrcConnectionPointIndex">50</x:Int32>
+            <x:Int32 x:Key="DestConnectionPointIndex">16</x:Int32>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="State_6" sap:VirtualizedContainerService.HintSize="174,85">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">53,77.5</av:Point>
+            <av:Size x:Key="ShapeSize">174,85</av:Size>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            <x:Double x:Key="StateContainerWidth">160</x:Double>
+            <x:Double x:Key="StateContainerHeight">49.079999999999984</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <x:Double x:Key="StateContainerWidth">600</x:Double>
+            <x:Double x:Key="StateContainerHeight">600</x:Double>
+            <av:PointCollection x:Key="ConnectorLocation">273,77.5 273,120 227,120</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="StateMachine.MeetingSM.MeetingSM_v1_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

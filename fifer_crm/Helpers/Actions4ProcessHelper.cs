@@ -1,5 +1,6 @@
 ﻿using AccessRepositories;
 using EnumHelper;
+using EnumHelper.CRM;
 using StateMachine.Accessor;
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,37 @@ namespace fifer_crm.Helpers
             }
             return result;
         }
-      
+
+
+        internal object ManagmentCallTask(Guid taskId, Guid guid)
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            CallTaskAccessor taskWrap = new CallTaskAccessor();
+            IEnumerable<string> availableCommands = taskWrap.GetBookmarks(taskId);
+            var strEnum = GetByteStringEnums<WFCallTaskCommand>();
+
+            foreach (var item in availableCommands)
+            {
+                var selectItem = new SelectListItem() { Value = strEnum.FirstOrDefault(m => m == item) };
+                switch ((WFCallTaskCommand)Convert.ToByte(item))
+                {
+                    case WFCallTaskCommand.Comment:
+                        selectItem.Text = "Оставить комментарий";
+                        break;
+                    case WFCallTaskCommand.Assign:
+                    case WFCallTaskCommand.View:
+                        break;
+                    default:
+                        selectItem.Text = ((WFCallTaskCommand)Convert.ToByte(strEnum.FirstOrDefault(m => m == item))).GetStringValue();
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(selectItem.Text))
+                    result.Add(selectItem);
+            }
+
+            return result;
+
+        }
     }
 }

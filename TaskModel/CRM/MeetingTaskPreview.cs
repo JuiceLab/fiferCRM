@@ -9,6 +9,7 @@ namespace TaskModel.CRM
     public class MeetingTaskPreview
     {
         public Guid MeetingId { get; set; }
+        public string Phone { get; set; }
         public Guid OwnerId { get; set; }
         public string OwnerName { get; set; }
         public Guid CustomerId { get; set; }

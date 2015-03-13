@@ -6,6 +6,7 @@ using System;
 using System.Activities;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -113,7 +114,7 @@ namespace StateMachine.Dispatcher
             };
 
             var bookmarks = host.GetAvailableTransition(host.TicketParticipant.Bookmarks);
-            host.TicketParticipant.IdWF = ticketId.ToString();
+            host.TicketParticipant.IdWF = instanceId.ToString();
             host.Host.Unload();
             if (!commandDone.WaitOne(Timeout))
             {
@@ -130,6 +131,36 @@ namespace StateMachine.Dispatcher
                 : new List<byte>() { (byte)WFTaskCommand.Create };
         }
 
+        public override Guid GetInstanceIdFromObjId(Guid objId)
+        {
+            var guid = Guid.Empty;
+            using (TicketEntities context = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
+            {
+                var id = context.TicketsQueries.FirstOrDefault(m => m.TicketId == objId).WorkflowId.Value;
+
+
+                // Get Workflow ID of user by querying promoted properties
+                using (
+                    var connection =
+                        new SqlConnection(AccessSettings.LoadSettings().InstanceStore))
+                {
+                    var command = new SqlCommand(FindExistingInstancesSql, connection);
+
+                    command.Parameters.AddWithValue("@PromotionName", PromotionName);
+                    command.Parameters.AddWithValue("@IdWF", id.ToString());
+                    connection.Open();
+                    var dataReader = command.ExecuteReader();
+                    dataReader.Read();
+
+                    guid = dataReader.HasRows ? dataReader.GetGuid(0) : Guid.Empty;
+
+                    connection.Close();
+                }
+            }
+            return guid;
+
+        }
+        
         #endregion
 
         #region Observer Imlementation

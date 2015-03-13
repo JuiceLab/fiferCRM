@@ -14,6 +14,11 @@ namespace SupportContext
     
     public partial class CallTicket
     {
+        public CallTicket()
+        {
+            this.CallTicket1 = new HashSet<CallTicket>();
+        }
+    
         public System.Guid CallTicketId { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
@@ -26,5 +31,9 @@ namespace SupportContext
         public System.DateTime Created { get; set; }
         public System.Guid CreatedBy { get; set; }
         public Nullable<System.Guid> CustomerGuid { get; set; }
+        public Nullable<System.Guid> PrevCallId { get; set; }
+    
+        public virtual ICollection<CallTicket> CallTicket1 { get; set; }
+        public virtual CallTicket CallTicket2 { get; set; }
     }
 }

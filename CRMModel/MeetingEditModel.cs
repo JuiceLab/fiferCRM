@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces.CRM;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CRMModel
 {
-    public class MeetingEditModel
+    public class MeetingEditModel : IMeetingTicket
     {
         public int MeetingId { get; set; }
         [DisplayName("Контакт")]
@@ -23,5 +24,7 @@ namespace CRMModel
         public byte StatusId { get; set; }
         [DisplayName("Комментарий")]
         public string Comment { get; set; }
+
+        public string Calls { get; set; }
     }
 }

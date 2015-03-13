@@ -48,20 +48,22 @@
                                 <!-- content -->
                                 <div class="row row-app">
                                     <div class="col-md-8">
+                                        
                                         <div class="col-separator">
+                                            
                                             <div class="col-separator-h"></div>
                                             <div class="col-separator col-separator-last">
-                                                    <div class="innerLR heading-buttons border-bottom">
-                                                        <h4 class="innerTB margin-none pull-left">Звонки</h4>
-                                                        <span class="btn-group display-block btn-group-xs pull-right">
-                                                            <span class="btn btn-xs btn-default pull-right" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '', initDateMask);" title="Создать звонок"><i class="fa fa-plus"></i> Новый </span>
-                                                        </span>
-                                                        <div class="clearfix"></div>
-                                                    </div>
+                                                <div class="innerLR heading-buttons border-bottom">
+                                                    <h4 class="innerTB margin-none pull-left">Звонки</h4>
+                                                    <span class="btn-group display-block btn-group-xs pull-right">
+                                                        <span class="btn btn-xs btn-default pull-right" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '', initDateMask);" title="Создать звонок"><i class="fa fa-plus"></i> Новый </span>
+                                                    </span>
+                                                    <div class="clearfix"></div>
+                                                </div>
                                                     @Html.Partial("EmployeeCallTasks", Model.CallTasks)
                                                     <div class="col-separator-h"></div>
                                                     <div class="innerLR heading-buttons border-bottom">
-                                                        <h4 class="innerTB margin-none pull-left">Активность</h4>
+                                                        <h4 class="innerTB margin-none pull-left">Задачи</h4>
                                                         <div class="btn-group btn-group-xs pull-right">
                                                             <span class="btn btn-default filled" onclick="loadModalContentWithCallback('modal-help', 'TaskEdit', 'Task/GroupTask', '', initGroupTask);" title="Создать задачу"><i class="fa fa-plus"></i> Новая задача</span>
                                                             <span class="btn btn-default btn-xs ">Выделить все</span>

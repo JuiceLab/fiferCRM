@@ -98,12 +98,11 @@ namespace fifer_crm.Controllers
         [HttpPost]
         public ActionResult SignUp(CompanyRegisterModel model)
         {
-            model.City = model.City.Trim().First().ToString().ToUpper() + String.Join("", model.City.Trim().Skip(1));
             string pass = string.Empty;
             var user = _repository.CreateUser(model, out pass);
             int companyId = 0;
             CRMRepository baseRepository = new CRMRepository();
-            var city = baseRepository.GetCity(int.Parse(model.City));
+            var city = baseRepository.GetCity(model.City);
             string companyDb = _companyRepository.CreateCompany(model, user.UserId, city.Name, out companyId);
            
             CRMLocalRepository repository = new CRMLocalRepository(user.UserId);

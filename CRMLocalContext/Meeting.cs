@@ -30,6 +30,7 @@ namespace CRMLocalContext
         public string Calls { get; set; }
         public string ResultComment { get; set; }
         public System.Guid MeetingGuid { get; set; }
+        public System.Guid Assigned { get; set; }
     
         public virtual ICollection<MeetingTransfer> MeetingTransfers { get; set; }
         public virtual Customer Customer { get; set; }

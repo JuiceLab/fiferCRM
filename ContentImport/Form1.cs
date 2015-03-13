@@ -14,39 +14,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EntityRepository;
+using LoaderService.Excel;
 
 namespace ContentImport
 {
     public partial class Form1 : Form
     {
+        DemoDataLoader loader = new DemoDataLoader(Guid.Empty);
+
         public Form1()
         {
             InitializeComponent();
+            backgroundWorker1.WorkerReportsProgress = true;
+            backgroundWorker1.WorkerSupportsCancellation = true;
+            backgroundWorker2.WorkerReportsProgress = true;
+            backgroundWorker2.WorkerSupportsCancellation = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int size = -1;
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
-            {
-                string file = openFileDialog1.FileName;
-                try
-                {
-                    using (var streamReader = new FileStream(file, FileMode.Open))
-                    {
-                        using (IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(streamReader))
-                        {
-                            excelReader.IsFirstRowAsColumnNames = false;
-                            DataSet resultSet = excelReader.AsDataSet();
-                            UpdateCities(resultSet);
-                        }
-                    }
-                }
-                catch (IOException)
-                {
-                }
-            }
+            loader.ChangeProcess += new ProgressChangedEventHandler(backgroundInternalWorker1_ProgressChanged);
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void UpdateCities(DataSet result)
@@ -159,6 +147,119 @@ namespace ContentImport
 
                 }
             }
+        }
+
+        private void ClearDublicateCities()
+        {
+            using (CRMEntities context = new CRMEntities(AccessSettings.LoadSettings().CrmEntites))
+            {
+                var regions = context.Districts.ToList();
+                var items = context.Cities.Where(m => !m.C_DistrictId.HasValue).ToList();
+                
+                foreach (var item in regions)
+                {
+                      var cities = context.Cities.Where(m=>m.C_DistrictId == item.DistrictId )
+                          .ToList()
+                          .GroupBy(m=>m.Name + m.CityPrefix)
+                          .ToDictionary(m=>m.FirstOrDefault(), m=>m.Skip(1).ToList());
+                      foreach (var dublicate in cities)
+                      {
+                          foreach (var city in dublicate.Value)
+                          {
+                              context.Cities.Remove(city);
+                          }
+                          var curCities = items.Where(m =>m.CityId != dublicate.Key.CityId && dublicate.Key.Name ==  m.Name).ToList();
+                          if (curCities.Count > 0)
+                          {
+                              var ids= curCities.Select(m=>m.CityId).ToList();
+
+                              using (CRMEntities context4Update = new CRMEntities(AccessSettings.LoadSettings().CrmEntites))
+                              {
+                                  foreach (var geoExist in context4Update.Cities.Where(m => ids.Contains(m.CityId)).SelectMany(m=>m.GeoLocations).Distinct().ToList())
+                                  {
+                                      geoExist.C_CityId = dublicate.Key.CityId;
+                                  }
+                                  foreach (var city4Delete in curCities)
+                                  {
+                                      context.Cities.Remove(city4Delete);
+                                  }
+                                  context.SaveChanges();
+                                  context4Update.SaveChanges();
+                              }
+                          }
+                      }
+                      context.SaveChanges();
+                }
+            }
+        }
+
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            try
+            {
+
+                this.textBox1.Clear();
+                this.textBox1.AppendText((string)e.UserState + "\r\n");
+            this.progressBar1.Value = e.ProgressPercentage;
+        
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void backgroundInternalWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            backgroundWorker1.ReportProgress(e.ProgressPercentage, e.UserState);
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string[] files4Update = Directory.GetFiles(@textBox2.Text);
+            foreach (var file4Update in files4Update)
+            {
+                FileInfo file = new FileInfo(file4Update);
+                if (file.LastWriteTimeUtc.Date > DateTime.Now.Date.AddDays(-2))
+                {
+                    label1.Invoke((MethodInvoker)delegate
+                    {
+                        label2.Text = Path.GetFileNameWithoutExtension(file4Update);
+                    });
+                    try
+                    {
+                        using (var streamReader = new FileStream(file4Update, FileMode.Open))
+                        {
+                            loader.RefreshCRMCompanies( streamReader,Path.GetFileNameWithoutExtension(file4Update), true);
+                        }
+                    }
+                    catch (IOException)
+                    {
+                    }
+                }
+            }
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            backgroundWorker2.RunWorkerAsync(); 
+
+        }
+
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ClearDublicateCities();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            button1.PerformClick();
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

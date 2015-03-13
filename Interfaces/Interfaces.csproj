@@ -61,6 +61,8 @@
     <Compile Include="CRM\ICompanyInfo.cs" />
     <Compile Include="CRM\ICRMEventPreview.cs" />
     <Compile Include="CRM\ILegalEntitySearch.cs" />
+    <Compile Include="CRM\IMeeting.cs" />
+    <Compile Include="CRM\IMeetingTicket.cs" />
     <Compile Include="CRM\IMenuItem.cs" />
     <Compile Include="CRM\IStatus.cs" />
     <Compile Include="CRM\ITaskPeriod.cs" />

@@ -150,6 +150,7 @@
           </Key>
           <Property Name="MeetingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Assigned" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="C_CustomerId" Type="int" Nullable="false" />
@@ -213,6 +214,8 @@
           <Property Name="SubmitedBy" Type="uniqueidentifier" />
           <Property Name="SubmitedDate" Type="datetime" />
           <Property Name="C_LegalEntityDetailId" Type="int" />
+          <Property Name="CallGuid" Type="uniqueidentifier" />
+          <Property Name="MeetingGuid" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="PaymentDetail">
           <Key>
@@ -865,6 +868,7 @@
           <NavigationProperty Name="MeetingTransfers" Relationship="LocalCRMModel.FK_MeetingTransfer_Meeting" FromRole="Meeting" ToRole="MeetingTransfer" />
           <Property Name="MeetingGuid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="LocalCRMModel.FK_Meeting_Customer" FromRole="Meeting" ToRole="Customer" />
+          <Property Name="Assigned" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="MeetingTransfer">
           <Key>
@@ -1069,6 +1073,8 @@
           <NavigationProperty Name="LegalEnityDetail" Relationship="LocalCRMModel.FK_Payment_LegalEnityDetail" FromRole="Payment" ToRole="LegalEnityDetail" />
           <NavigationProperty Name="PaymentDetails" Relationship="LocalCRMModel.FK_PaymentDetail_Payment" FromRole="Payment" ToRole="PaymentDetail" />
           <NavigationProperty Name="PaymentSchedules" Relationship="LocalCRMModel.FK_PaymentSchedule_Payment" FromRole="Payment" ToRole="PaymentSchedule" />
+          <Property Name="CallGuid" Type="Guid" />
+          <Property Name="MeetingGuid" Type="Guid" />
         </EntityType>
         <Association Name="FK_LegalActivity_LegalEnityDetail">
           <End Type="LocalCRMModel.LegalEnityDetail" Role="LegalEnityDetail" Multiplicity="1" />
@@ -1406,6 +1412,7 @@
           <EntitySetMapping Name="Meetings">
             <EntityTypeMapping TypeName="LocalCRMModel.Meeting">
               <MappingFragment StoreEntitySet="Meeting">
+                <ScalarProperty Name="Assigned" ColumnName="Assigned" />
                 <ScalarProperty Name="MeetingGuid" ColumnName="MeetingGuid" />
                 <ScalarProperty Name="ResultComment" ColumnName="ResultComment" />
                 <ScalarProperty Name="Calls" ColumnName="Calls" />
@@ -1521,6 +1528,8 @@
           <EntitySetMapping Name="Payments">
             <EntityTypeMapping TypeName="LocalCRMModel.Payment">
               <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="MeetingGuid" ColumnName="MeetingGuid" />
+                <ScalarProperty Name="CallGuid" ColumnName="CallGuid" />
                 <ScalarProperty Name="C_LegalEntityDetailId" ColumnName="C_LegalEntityDetailId" />
                 <ScalarProperty Name="SubmitedDate" ColumnName="SubmitedDate" />
                 <ScalarProperty Name="SubmitedBy" ColumnName="SubmitedBy" />

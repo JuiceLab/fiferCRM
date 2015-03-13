@@ -36,6 +36,8 @@ namespace CRMContext
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Passport> Passports { get; set; }
         public virtual DbSet<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
-        public virtual DbSet<LegalLocationPhone> LegalLocationPhones { get; set; }
+        public virtual DbSet<LegalEntityView> LegalEntityViews { get; set; }
+        public virtual DbSet<LegalEntityShortView> LegalEntityShortViews { get; set; }
+        public virtual DbSet<GeoLocationCityView> GeoLocationCityViews { get; set; }
     }
 }

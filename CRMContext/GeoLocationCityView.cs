@@ -12,13 +12,13 @@ namespace CRMContext
     using System;
     using System.Collections.Generic;
     
-    public partial class LegalLocationPhone
+    public partial class GeoLocationCityView
     {
-        public int C_GeoLocationId { get; set; }
-        public int C_LegalEntityId { get; set; }
-        public string Phones { get; set; }
-    
-        public virtual GeoLocation GeoLocation { get; set; }
-        public virtual LegalEntity LegalEntity { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public int GeoLocationId { get; set; }
+        public Nullable<int> C_DistrictId { get; set; }
+        public int CityId { get; set; }
+        public System.Guid CityGuid { get; set; }
     }
 }

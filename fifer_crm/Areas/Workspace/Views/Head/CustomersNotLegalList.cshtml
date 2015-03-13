@@ -111,9 +111,12 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <span class="btn btn-primary btn-lg" style="margin-top:15px; width:100%" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
-                                    </div>
+                                    <div class="col-md-12 btn btn-group" style="margin-top:15px;">
+                                            <span class=" btn btn-primary btn-lg" style="margin-top:15px;width:70%" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());">
+                                                <i class="fa fa-fw fa-search"></i> Искать...
+                                            </span>
+                                            <span class="btn btn-danger btn-lg" style="margin-top:15px;" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="resetFilter();"><i class="fa fa-fw fa-refresh"></i> Сбросить</span>
+                                        </div>
                                 </div>
                             <!-- // Tab content END -->
                             <!-- Tab content -->
@@ -130,32 +133,36 @@
                                     <label class="strong">Платежи</label>
                                     @Html.CheckBoxFor(m => m.HasPayment, new { @class = "form-control" })
                                 </div>
-                                <div class="col-md-12 center">
+                                <div class="col-md-6 center">
                                     <div class="innerLR">
-                                        <label class=" col-md-4 strong" style="text-align:center">Диапазон дат:</label>
+                                        <label class=" col-md-12 strong" style="text-align:center">Диапазон дат:</label>
                                     </div>
-                                </div>
-                                <div class="col-md-4 center">
-                                    <div class="innerLR">
-                                        <label class="strong">C</label>
-                                        <div class="input-group date">
-                                            @Html.TextBoxFor(m => m.DateRangeInvariant[0], new { @class = "form-control" })
-                                            <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                                        </div>
-                                        <div class="separator top"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 center">
-                                    <div class="innerLR">
-                                        <label class="strong">По</label>
-                                        <div class="input-group date">
-                                            @Html.TextBoxFor(m => m.DateRangeInvariant[1], new { @class = "form-control" })
-                                            <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                    <div class="col-md-6 center">
+                                        <div class="innerLR">
+                                            <label class="strong">C</label>
+                                            <div class="input-group date">
+                                                @Html.TextBoxFor(m => m.DateRangeInvariant[0], new { @class = "form-control" })
+                                                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                            </div>
+                                            <div class="separator top"></div>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 center">
+                                        <div class="innerLR">
+                                            <label class="strong">По</label>
+                                            <div class="input-group date">
+                                                @Html.TextBoxFor(m => m.DateRangeInvariant[1], new { @class = "form-control" })
+                                                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 center">
-                                    <span style="margin-top:15px; width:100%" class="btn btn-primary btn-lg" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
+                              
+                                <div class="col-md-12 center btn btn-group" style="margin-top:15px;">
+                                        <span class=" btn btn-primary btn-lg" style="margin-top:15px;width:70%" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterCustomers($('#IsLegal').val());">
+                                            <i class="fa fa-fw fa-search"></i> Искать...
+                                        </span>
+                                        <span class="btn btn-danger btn-lg" style="margin-top:15px;" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="resetFilter();"><i class="fa fa-fw fa-refresh"></i> Сбросить</span>
                                 </div>
                             </div>
                             <!-- // Tab content END -->
@@ -168,25 +175,60 @@
 </div>
 
 <h4 style="margin:10px">Физ. лица</h4>
-@foreach (var item in items.OrderBy(m => m.StatusId))
+@foreach (var item in items.OrderByDescending(m => m.HasTodayEvent))
 {
     <div class="media contact @(item.HasTodayEvent? "today-cart" : string.Empty)">
         <a class="pull-left" href="#"><img class="thumb" src="@(string.IsNullOrEmpty(item.PhotoPath)? "/assets/images/front/tab1-ties.jpg": item.PhotoPath)" width="50" alt="people"></a>
         <div class="media-body">
             <ul class="list-unstyled col-md-7">
                 <li>
-                    <h4 class="media-heading strong"><i class="fa fa-star"></i>&nbsp;@item.FirstName </h4>
+                    <h4 class="media-heading strong" ><i class="fa fa-star"></i>&nbsp;@item.FirstName </h4>
                     <small>@item.LastName @item.Patronymic</small>&nbsp;
                     <span class="btn st-clr-@(item.StatusId) padding-none" onclick="loadModalContent('modal-help', 'ChangeStatus', 'CRM/Customer', '?customerId=@(item.CustomerId)')">&nbsp;<i class="fa fa-info"></i> @(((CompanyStatus)item.StatusId).GetStringValue())&nbsp;</span>
                 <li>
                     <div class="col-md-5">
-                        <div><i class="fa fa-phone-square"></i>&nbsp;@item.Phone</div>
-                        <div><i class="fa fa-mail-forward"></i>&nbsp;@item.Mail</div>
-                        <div><a href="skype:@(item.Skype)?call"><i class="fa fa-skype"></i>@item.Skype</a> </div>
+                        @if (!string.IsNullOrEmpty(item.Phone))
+                        {
+                            <div><i class="fa fa-phone-square"></i>&nbsp;
+                                @if (item.Phone.Contains(","))
+                                {
+                                    foreach (var phone in item.Phone.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        @phone <br />
+                                    }
+                                }
+                                else
+                                {
+                                    @item.Phone
+                                }
+                        </div>
+                        }
+                        @if (!string.IsNullOrEmpty(item.Mail))
+                        {
+                             <div><i class="fa fa-envelope"></i>&nbsp;
+                                @if (item.Mail.Contains(","))
+                                {
+                                    foreach (var mail in item.Mail.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        @mail <br />
+                                    }
+                                }
+                                else
+                                {
+                                    @item.Mail
+                                }
+                        </div>}
+    @if (!string.IsNullOrEmpty(item.Skype))
+                        { 
+        <div><a href="skype:@(item.Skype)?call"><i class="fa fa-skype"></i>&nbsp;@item.Skype</a> </div>
+    }
                     </div>
                     <div class="col-md-7">
-                        <div><span class="btn btn-default padding-none" onclick="loadModalContent('modal-help', 'EditComment', 'CRM/Customer', '?customerId=@(item.CustomerId)')"><i class="fa fa-comment-o"></i>&nbsp;Заметка:&nbsp;</span></div>
-                        <p class="well">@item.Comment</p>
+                        <div><span class="btn btn-default padding-none" onclick="loadModalContent('modal-help', 'EditComment', 'CRM/Customer', '?customerId=@(item.CustomerId)')">&nbsp;<i class="fa fa-comment-o"></i>&nbsp;Заметка:&nbsp;</span></div>
+                       @if (!string.IsNullOrEmpty(item.Comment))
+                        { 
+                            <p class="well">@item.Comment</p>
+                       }
                     </div>
                 </li>
             </ul>
@@ -198,15 +240,30 @@
                     </li>
                     @if (item.PaymentDate.HasValue)
                     {
-                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/CustomerPayment', '?customerId=@(item.CustomerId)&type=@((byte)PaymentType.Payment)', initPaymentCallback); return false;"><i class="fa fa-ruble"></i> @item.PaymentDate.Value.ToShortDateString()</a></li>
+                        <li> @if (item.PaymentDate.Value.Date == DateTime.Now.Date)
+                        {
+                            <i style="color:red;" class="fa fa-warning btn btn-inverse" data-toggle="popover" data-title="На сегодня есть платеж" data-content="" data-placement="top" data-original-title="" title=""></i>
+                        }<a href="#"  onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/CustomerPayment', '?customerId=@(item.CustomerId)&type=@((byte)PaymentType.Payment)', initPaymentCallback); return false;">
+                          
+                                <i class="fa fa-ruble"></i> @item.PaymentDate.Value.ToShortDateString()</a></li>
                     }
                     @if (item.CallDate.HasValue)
                     {
-                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.CallId)&customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()</a></li>
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.CallId)&customerId=@(item.Guid)', getTaskActions); return false;">
+                                 @if (item.CallDate.Value.Date == DateTime.Now.Date)
+                                 {
+                                    <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть звонок" data-content="" data-placement="top" data-original-title="" title=""></i>
+                                 }
+                                 <i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()</a></li>
 
                     }@if (item.MeetDate.HasValue)
                     {
-                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit', 'Task/Meeting', '?taskId=@(item.MeetingId)&customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()</a></li>
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit', 'Task/Meeting', '?taskId=@(item.MeetingId)&customerId=@(item.Guid)', getTaskActions); return false;">
+                                 @if (item.MeetDate.Value.Date == DateTime.Now.Date)
+                                 {
+                                    <span class="btn btn-inverse" data-toggle="tooltip" data-original-title="Tooltip on Left" data-placement="left">Tooltip on Left</span>
+                                     <i style="color:red;" class="fa fa-warning btn btn-inverse" data-toggle="popover" data-title="На сегодня есть встреча" data-content="" data-placement="top" data-original-title="" title=""></i>
+                                 }<i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()</a></li>
                     }
                 </ul>
                 <ul class="list-unstyled col-md-7">
@@ -230,19 +287,20 @@
                     <li>
                         <img style="max-width:50px;float:left;" src="@(item.AssignedBy.HasValue && !string.IsNullOrEmpty(Model.EmployeesPhoto[item.AssignedBy.Value]) ? Model.EmployeesPhoto[item.AssignedBy.Value] : "/assets/images/avatar-large-girl.jpg")" />
                         <a href="#" class="btn btn-default padding-none" style="width:80%" onclick="loadModalContent('modal-help', 'Assign', 'CRM/Customer', '?customerId=@(item.CustomerId)')">
-                            @(item.AssignedBy.HasValue ? item.AssignedName : string.Empty)
+                            &nbsp;<i class="fa fa-user"></i>&nbsp;  @(item.AssignedBy.HasValue ? item.AssignedName : string.Empty)
                         </a>
                         <a href="#" class="btn btn-default padding-none" style="width:80%" onclick="loadModalContent('modal-help', 'NotifyAssignedForm', 'CRM/LegalEntity', '?customerId=@(item.Guid)')">
-                            Уведомить сотрудника
+                            &nbsp;<i class="fa fa-envelope"></i>&nbsp; Уведомить сотрудника
                         </a>
+                        <a href="#" class="btn btn-default padding-none" style="width:80%" onclick="loadModalContent('modal-help', 'GetHistory', 'CRM/Customer', '?customerId=@(item.Guid)');">&nbsp;<i class="fa fa-history"></i>&nbsp;История изменений&nbsp;</a>
+
                     </li>
                 </ul>
             </div>
 
             <ul class="list-unstyled col-md-12" style="border-top:1px solid; padding-top:5px">
                 <li>
-                    <span class=" pull-right btn btn-default padding-none" onclick="loadModalContent('modal-help', 'GetHistory', 'CRM/Customer', '?customerId=@(item.Guid)');">&nbsp;<i class="fa fa-history"></i>&nbsp;История изменений&nbsp;</span>
-                    <span class=" btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'EditPassportCustomer', 'CRM/Customer', '?customerId=@(item.Guid)', intiCropAndPhone); return false;">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Паспортные данные&nbsp;</span>&nbsp;
+                    <span class=" btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'EditPassportCustomer', 'CRM/Customer', '?customerId=@(item.Guid)', intiPassportForm); return false;">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Паспортные данные&nbsp;</span>&nbsp;
                 </li>
             </ul>
         </div>

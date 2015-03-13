@@ -2,6 +2,10 @@
 @{
     var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
     var customers = ViewBag.Customers as IEnumerable<SelectListItem>;
+    if (Model.TicketId != Guid.Empty)
+    {
+        customers = customers.Where(m => m.Value == Model.ObjId.ToString());
+    }
 }
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -12,7 +16,7 @@
 <div class="modal-body">
     <div class="innerAll">
         <div class="innerLR">
-            @Html.Hidden("task-cmd")
+            @Html.Hidden("task-cmd", (byte)ViewBag.Command)
             <form id="taskTicket" class="form-horizontal" role="form" method="post" action="/Task/Call/Edit">
                 @Html.HiddenFor(m => m.CreatedBy)
                 @Html.HiddenFor(m => m.TicketId)
@@ -24,6 +28,8 @@
                         @Html.DropDownListFor(m => m.ObjId, customers, new { @class = "form-control" })
                     </div>
                 </div>
+@if (Model.TicketId == Guid.Empty)
+                    {
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Дата звонка</label>
                     <div class="col-sm-3">
@@ -38,6 +44,7 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    
                     @Html.LabelFor(m => m.Title, new { @class = "col-sm-3 control-label" })
                     <div class="col-sm-9">
                         @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
@@ -55,11 +62,59 @@
                         @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
                     </div>
                 </div>
+                    }
+else
+{
+    <h4>@Model.Title</h4>
+    <label>Позвонить @Model.DateStartedStr в @Model.TimeStartedStr</label>
+    <p>@Model.Msg</p>
+    if(Model.Assigned.HasValue)
+    { 
+        <small>Исполнитель: @assign.FirstOrDefault(m=>m.Value == Model.Assigned.Value.ToString()).Text</small>
+    }
+    @Html.HiddenFor(m => m.Assigned)
+    <div id="hide@(WFCallTaskCommand.Recall.ToString("d"))" class="hide form-group">
+        <label class="col-sm-3 control-label">Дата звонка</label>
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+        </div>
+        <label class="col-sm-3 control-label">Время звонка</label>
+        <div class="col-sm-3">
+            <div class="input-group bootstrap-timepicker">
+                @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control" })
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+            </div>
+        </div>
+        <div class="col-md-12"><input style="margin-top:3px; width:100%" class="btn btn-info" onclick="updateCallTask(@WFCallTaskCommand.Recall.ToString("d"))" value="Сохранить"/> </div>
+    </div>
+       <div class="form-group">
+        @Html.LabelFor(m => m.Msg, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextArea("CurrentComment", string.Empty, new { @class = "form-control" })
+        </div>
+    </div>
+}
                 <div class="form-group">
                     @Html.ValidationSummary()
+                    @if (Model.TicketId != Guid.Empty)
+                    {
+                        <div id="availableActions">
+                            <label style="width:100%" >Загрузка доступных действий &nbsp;<i class="fa fa-spin fa-spinner"></i></label>
+                        </div>
+                    }
+                    else
+                    {
+                        <label class="col-sm-3 control-label">Напомнить за</label>
+                        <div class="col-sm-4">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.TextBoxFor(m => m.NotifyBeforeStr, new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            </div>
+                        </div>
                     <div class="pull-right">
-                        <span onclick="editCall();" class="btn btn-primary" >@(Model.TicketId !=Guid.Empty? "Обновить": "Создать") звонок </span>
+                        <span onclick="updateCallTask($('#task-cmd').val());" class="btn btn-primary" >@(Model.TicketId != Guid.Empty? "Обновить": "Создать") звонок </span>
                     </div>
+                    }
                 </div>
             </form>
         </div>

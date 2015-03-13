@@ -4,11 +4,27 @@ $(function () {
         setCalendarTasks();
     }
 })
+
+function initCallTask()
+{
+    initDateMask();
+    if ($("#availableActions").length) {
+        $.ajax({
+            url: apihost + "/calltask/SetViewed?ticketId=" + $("#taskTicket #TicketId").val() + "&userId=" + $("#userId").val(),
+            complete: function () {
+                $.get("/Task/Call/Actions4CallTask?taskId=" + $("#taskTicket #TicketId").val(),
+                     function (result) {
+                         $("#availableActions").html(result);
+                     });
+            }
+        });
+    }
+}
+
 function setCalendarTasks() {
     $.post("/Task/MainTask/GetTasks",
-            $("#customer-search").serialize(),
+            $("#task-search").serialize(),
                 function (result) {
-
                     var array = Array();
                     $.each(result.data, function (index, item) {
                         array.push($.parseJSON(item));
@@ -72,14 +88,34 @@ function getActions(ticketId, number)
 function createTaskTicket() {
     if ($("#taskTicket").valid()) {
         $("#modal-help .close").trigger("click");
-        $.post(apihost + "/TaskTicket/post?idCommand=" + $("#task-cmd").val(),
+        $.post(apihost + "/task/post?idCommand=" + $("#task-cmd").val(),
         $("#taskTicket").serialize(),
             function (result) { });
     }
 }
 
+function updateCallTask(cmd) {
+    if ($("#hide" + cmd).length && $("#hide" + cmd).hasClass("hide")) {
+        $("#hide" + cmd).removeClass("hide");
+    }
+    else if ($("#taskTicket").valid()) {
+        $("#modal-help .close").trigger("click");
+        $.ajax({
+            url: apihost + "/calltask/post?idCommand=" + cmd,
+            data: $("#taskTicket").serialize(),
+            method: "POST",
+            complete: function () {
+                if (cmd == 10) {
+                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?prevCallid=' + $("#taskTicket #TicketId").val(), initCallTask);
+                }
+                
+            }
+        });
+    }
+}
+
 function updateTaskTicket(cmd) {
-    if ($("#taskTicket").valid()) {
+    if ($("#taskTicketProcess").valid()) {
         $("#modal-help .close").trigger("click");
         $.post(apihost + "/Task/post?idCommand=" + cmd,
         $("#taskTicketProcess").serialize(),

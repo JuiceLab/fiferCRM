@@ -19,7 +19,6 @@
                 @Html.HiddenFor(m => m.ObjId)
                 @Html.HiddenFor(m => m.MasterId)
                 @Html.HiddenFor(m => m.TicketId)
-                @Html.HiddenFor(m => m.CurrentCommentId)
                 @Html.HiddenFor(m => m.CategoryId)
                 @Html.HiddenFor(m => m.Priority)
                 @Html.HiddenFor(m => m.Title)
@@ -45,7 +44,7 @@
                 <div class="form-group">
                     @Html.ValidationSummary()
                     <div id="taskProcessActions" class="col-sm-offset-2 col-sm-10">
-                        <label>Загрузка доступных действий</label>
+                        <label style="width:100%">Загрузка доступных действий &nbsp;<i class="fa fa-spin fa-spinner"></i></label>
                     </div>
                 </div>
             </form>

@@ -169,6 +169,10 @@
       <Project>{fabf4906-188f-4228-b5c2-57665586e507}</Project>
       <Name>LandingModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LoaderService\LoaderService.csproj">
+      <Project>{ac03adb1-78ba-4b84-9e49-6aceeeb13fe6}</Project>
+      <Name>LoaderService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogContext\LogContext.csproj">
       <Project>{6839f2a0-d3fc-4fc9-8a75-389709586b4c}</Project>
       <Name>LogContext</Name>

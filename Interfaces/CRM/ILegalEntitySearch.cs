@@ -33,7 +33,7 @@ namespace Interfaces.CRM
         string EMail { get; set; }
 
         [DisplayName("Города")]
-        List<int> City { get; set; }
+        int? City { get; set; }
 
         [DisplayName("Виды деятельности")]
         List<int> Services { get; set; }

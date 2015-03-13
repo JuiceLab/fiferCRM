@@ -1,56 +1,51 @@
 ﻿@model IEnumerable<CallTaskPreview>
 
-<ul class="list-group list-group-1 borders-none margin-none">
-    @foreach (var item in Model.OrderBy(m => m.Date))
+   @foreach (var item in Model.OrderBy(m => m.Date))
     {
-        <li class="list-group-item">
-            <div class="media innerAll">
-                <button class="pull-right btn-stroke btn-xs btn btn-info" onclick="loadModalContent('modal-help','TaskHistory','CommonTask', '?taskId=@(item.CallTaskId)&taskNumber=@item.TaskNumber')"><i class="icon icon-comment-1" title="История задачи"></i></button>
-                <img src="/assets/images/people/80/2.jpg" alt="" width="35" class="pull-left thumb">
-                <div class="media-body">
-                    <h5 class="media-heading strong">@item.TaskNumber/@item.CustomerName</h5>
-                    <div class="col-md-6">
-                        <ul class="list-unstyled">
-                            <li><i class="fa fa-ticket"></i>&nbsp;@item.Title</li>
-                            <li><i class="fa fa-phone"></i>&nbsp;@item.Phone </li>
-                            <li><i class="fa fa-map-marker"></i>&nbsp;@item.CompanyName</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3">
-                        <ul class="list-unstyled">
-                            <li><i class="fa fa-clock-o"></i>&nbsp;@(item.Date.Date != DateTime.Now.Date ? item.Date.ToShortDateString() : item.Date.ToShortTimeString())</li>
-                            <li>@(((TaskStatus)item.StatusId).GetStringValue())</li>
+        <div class="innerAll border-bottom tickets">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="media innerAll">
+                        <span class="pull-left">
+                            <img src="@(string.IsNullOrEmpty(item.CustomerPhoto)? " /assets/images/people/80/2.jpg": item.CustomerPhoto)" alt="" width="35" class="pull-left thumb">
+                        </span>
+                        <div class="media-body">
+                            <h5 class="media-heading strong">
+                                № @item.TaskNumber
+                            </h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-ticket"></i>&nbsp;@item.Title</li>
+                                <li><label class="label st-clr-@(item.StatusId.ToString("d"))">&nbsp; @(((TaskStatus)item.StatusId).GetStringValue())</label></li>
+                                <li><i class="fa fa-clock-o"></i>&nbsp;Звонить &nbsp;@(item.Date.Date != DateTime.Now.Date ? item.Date.ToShortDateString() : item.Date.ToShortTimeString())</li>
                             </ul>
-                    </div>
-                    <div class="pull-right">
-                       <ul class="list-unstyled">
-                                    <li>
-                                @if (item.StatusId != (byte)TaskStatus.Completed)
-                                {
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-success" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Call', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
-                                            Рассмотреть
-                                        </button>
-                                        @*<button type="button" class="btn btn-info" onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','CommonTask', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
-                                            Перенести на другое время
-                                        </button>
-                                        <button type="button" class="btn btn-default" onclick="loadModalContentWithCallback('modal-help','TaskAssign','CommonTask', '?taskId=@(item.CallTaskId)', getTaskActions); return false;">
-                                            Назначить исполнителя
-                                        </button>*@
-                                    </div>
-                                }
-                                else
-                                {
-                                    <label class="label label-success">Звонок выполнен</label>
-                                }
-                                </li>
-                            </ul>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li>
+                            <span class="btn btn-info pull-right padding-none" onclick="loadModalContent('modal-help','TaskHistory','CommonTask', '?taskId=@(item.CallTaskId)&taskNumber=@item.TaskNumber')" title="История задачи">&nbsp;<i class="icon icon-comment-1"></i>&nbsp;История&nbsp;</span>
+                        </li>
+                        <li><i class="fa fa-phone"></i>&nbsp;@item.Phone </li>
+                        <li><i class="fa fa-user"></i>&nbsp;@item.CustomerName</li>
+                       <li><i class="fa fa-map-marker"></i>&nbsp;@item.CompanyName</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    @if (item.StatusId != (byte)TaskStatus.Completed)
+                    {
+                        <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Call', '?taskId=@(item.CallTaskId)', initCallTask); return false;" class="btn btn-default text-success" style="width:100%; margin-bottom:3px" title="Редактировать"><i class="fa fa-pencil"></i>&nbsp;Редактировать &nbsp;</a>
+                        <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskAssign','Task/Call', '?taskId=@(item.CallTaskId)', getTaskActions); return false;" class="btn btn-default text-danger" style="width:100%; margin-bottom:3px" title="Назначить исполнителя"><i class="fa fa-user"></i>&nbsp;Делегировать</a>
+                    }
+                    else
+                    {
+                        <label class="label label-success">Звонок выполнен</label>
+                    }
+                </div>
+
             </div>
-        </li>
+        </div>
 
     }
    
-</ul>
 

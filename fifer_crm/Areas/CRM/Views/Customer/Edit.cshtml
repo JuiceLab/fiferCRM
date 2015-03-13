@@ -28,8 +28,8 @@
                     <!-- Widget heading -->
                     <div class="widget-head">
                         <ul>
-                            <li class="active"><a class="glyphicons user" href="#person-data" data-toggle="tab"><i></i>Клиент</a></li>
-                            <li><a class="glyphicons suitcase" href="#position-data" data-toggle="tab"><i></i>Контакты</a></li>
+                            <li class="active"><a class="glyphicons user" href="#personcustomer-data" data-toggle="tab"><i></i>Клиент</a></li>
+                            <li><a class="glyphicons suitcase" href="#personposition-data" data-toggle="tab"><i></i>Контакты</a></li>
                             <li><a class="glyphicons asterisk" href="#additional-data" data-toggle="tab"><i></i>Дополнительно</a></li>
                         </ul>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="widget-body">
                         <div class="tab-content">
                             <!-- Tab content -->
-                            <div class="tab-pane active" id="person-data">
+                            <div class="tab-pane active" id="personcustomer-data">
                                 <div class="form-group">
                                     <img class="col-sm-3" style="max-width:150px" id="employee_img" src="@(!string.IsNullOrEmpty(Model.PhotoPath)? Model.PhotoPath : "/content/images/profile.jpg")" />
                                     <div class="col-sm-9">
@@ -57,7 +57,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.CompanyId, new { @class = "col-sm-3 control-label" })
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(m => m.CompanyId,companies,  new { @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.CompanyId, companies, new { @class = "form-control" })
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -77,17 +77,17 @@
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(m => m.Patronymic, new { @class = "form-control" })
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.IsLPR, new { @class = "col-sm-3 control-label" })
                                     <div class="col-sm-9">
                                         @Html.CheckBoxFor(m => m.IsLPR, new { @class = "form-control" })
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                             <!-- // Tab content END -->
                             <!-- Tab content -->
-                            <div class="tab-pane" id="position-data">
+                            <div class="tab-pane" id="personposition-data">
                                 <div class="form-group">
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Phone, new { @class = "col-sm-3 control-label" })
@@ -98,7 +98,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.Mail, new { @class = "col-sm-3 control-label" })
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(m => m.Mail, new { @class = "form-control"})
+                                            @Html.TextBoxFor(m => m.Mail, new { @class = "form-control" })
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -110,7 +110,7 @@
                                     <div class="form-group">
                                         @Html.LabelFor(m => m.PositionName, new { @class = "col-sm-3 control-label" })
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(m => m.PositionName, new { @class = "form-control"})
+                                            @Html.TextBoxFor(m => m.PositionName, new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>

@@ -171,6 +171,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ReloadController.cs" />
+    <Compile Include="Controllers\CallTicketController.cs" />
     <Compile Include="Controllers\SupportTicketController.cs" />
     <Compile Include="Controllers\FiferTaskTicketController.cs" />
     <Compile Include="Controllers\TaskTicketController.cs" />

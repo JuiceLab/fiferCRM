@@ -1,9 +1,9 @@
 ﻿@model CompanyAddressViewModel
 @{
     var cities = ViewBag.Cities as List<SelectListItem>;
-    if (cities.Any(m => m.Text == Model.City))
+    if (cities.Any(m => m.Value == Model.CityGuid.ToString()))
     {
-        cities.FirstOrDefault(m => m.Text == Model.City).Selected = true;
+        cities.FirstOrDefault(m => m.Value == Model.CityGuid.ToString()).Selected = true;
     }
 }
 
@@ -23,9 +23,9 @@
                 @Html.LabelFor(m => m.City, new { @class = "col-md-6 control-label" })
                 <div class="col-md-6">
                     <div class="input-group">
-                        @Html.DropDownListFor(m => m.City, cities, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.CityGuid, cities, new { @class = "form-control" })
                         <span class="input-group-addon" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title=""><i class="fa fa-question-circle"></i></span>
-                        @Html.ValidationMessageFor(m=>m.City)
+                        @Html.ValidationMessageFor(m => m.CityGuid)
                     </div>
                 </div>
             </div>

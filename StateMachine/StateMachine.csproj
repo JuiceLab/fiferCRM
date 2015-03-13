@@ -51,9 +51,11 @@
   <ItemGroup>
     <Compile Include="Accessor\BaseAccessor.cs" />
     <Compile Include="Accessor\FiferTaskAccessor.cs" />
+    <Compile Include="Accessor\CallTaskAccessor.cs" />
     <Compile Include="Accessor\TaskAccessor.cs" />
     <Compile Include="Accessor\SupportAccessor.cs" />
     <Compile Include="Dispatcher\BaseDispatcher.cs" />
+    <Compile Include="Dispatcher\CallTaskDispatcher.cs" />
     <Compile Include="Dispatcher\TaskDispatcher.cs" />
     <Compile Include="Dispatcher\TicketDispatcher.cs" />
     <Compile Include="Interface\IWorkflowDispatcher.cs" />
@@ -111,6 +113,19 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="TaskSM\EmployeeTaskSM_v2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <XamlAppDef Include="CallSM\CallSM_v1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="MeetingSM\MeetingSM_v1.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

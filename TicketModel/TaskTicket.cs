@@ -154,7 +154,7 @@ namespace TicketModel
                 var queryStatus = new QueryStatu()
                 {
                     QueryItemId = this.TicketId,
-                    OwnerId = this.OwnerId,
+                    OwnerId = CreatedBy,
                     DateCreated = DateTime.UtcNow
                 };
 
@@ -236,10 +236,10 @@ namespace TicketModel
                                 IsNonePreview = true
                             };
 
+                            wfContext.TicketsQueries.Add(tq);
                             if (CurrentCommentId == idDefault)
                                 CurrentCommentId = Guid.NewGuid();
 
-                            wfContext.TicketsQueries.Add(tq);
 
                             var comment = new CommentBody()
                             {
@@ -282,11 +282,12 @@ namespace TicketModel
                         Comment = CurrentComment,
                         DateCreated = DateTime.UtcNow,
                         GuidItem = TicketId,
-                        CommentId = wfContext.CommentBodies.Any(m => m.CommentId == CurrentCommentId) ? Guid.NewGuid() : CurrentCommentId,
-                        UserId = OwnerId,
+                        CommentId = CurrentCommentId == Guid.Empty || wfContext.CommentBodies.Any(m => m.CommentId == CurrentCommentId) ? Guid.NewGuid() : CurrentCommentId,
+                        UserId = CreatedBy
                     };
 
                     wfContext.CommentBodies.Add(comment);
+                    wfContext.SaveChanges();
                 }
 
                 if (wfContext.Tickets.Any(m => m.TicketId == TicketId))

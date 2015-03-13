@@ -53,7 +53,7 @@ namespace WFActivities.Ticket
                 try
                 {
                     wfContext.SaveChanges();
-                    regParticipant.IdWF = ticket.TicketId.ToString();
+                    regParticipant.IdWF = ticketQuery.WorkflowId.ToString();
                 }
                 catch (UpdateException uex)
                 {

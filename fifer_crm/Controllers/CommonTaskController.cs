@@ -18,7 +18,7 @@ using TicketRepositories;
 namespace fifer_crm.Controllers
 {
     [Authorize, CRMLogAttribute]
-    public class CommonTaskController : Controller
+    public class CommonTaskController : BaseFiferController
     {
         TaskTicketRepository _repository = new TaskTicketRepository();
 
@@ -61,19 +61,20 @@ namespace fifer_crm.Controllers
         {
             IEnumerable<MessageViewModel> messages = _repository.GetMessages4Item(taskId);
             IEnumerable<MessageViewModel> statuses = _repository.GetStatus4Task(taskId);
-
-            MembershipRepository accessRepository = new MembershipRepository();
-            var users = accessRepository.GetUserByIds(messages
-                .Select(m => m.UserId).Distinct()
-                .Union(statuses.Select(m=>m.UserId).Distinct()));
-
+            
+            StaffRepository staffRepository = new StaffRepository();
+            var employees = staffRepository.GetEmployees(_userId).ToList();
             foreach (var item in messages)
             {
-                item.Title = users.FirstOrDefault(m => m.UserId == item.UserId).Login;
+                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
+                item.Title = exist.FirstName + ' ' + exist.LastName;
+                item.IconPath = exist.PhotoPath; 
             }
             foreach (var item in statuses)
             {
-                item.Title = users.FirstOrDefault(m => m.UserId == item.UserId).Login;
+                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
+                item.Title = exist.FirstName + ' ' + exist.LastName;
+                item.IconPath = exist.PhotoPath;
             }
             ViewBag.Number = taskNumber;
             return PartialView(messages.Union(statuses));

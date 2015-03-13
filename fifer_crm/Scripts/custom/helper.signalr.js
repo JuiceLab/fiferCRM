@@ -18,6 +18,14 @@
         });
     };
 
+    adminHub.client.calltaskCreated = function (message) {
+        notyfy({
+            text: message,
+            dismissQueue: true,
+            layout: 'top'
+        });
+    };
+
     adminHub.client.ticketTableRefresh = function (userId) {
         if ($("#tabTicket").length > 0)
         {
@@ -40,7 +48,7 @@
     };
 
     adminHub.client.notifyCreated = function (userId) {
-        getLasNotify();
+        getLastNotify();
     };
 
     $.connection.hub.start().done(function () {

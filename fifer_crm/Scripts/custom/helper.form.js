@@ -48,10 +48,8 @@ function editLegalCompany(legalId)
     $.get("/CRM/LegalEntity/Edit?legalEnitityId=" + legalId,
       function (result) {
           $("#modal-add .modal-content").html(result);
-          $("#City").on("change", function () {
-              codeAddress($("#City").text(), "google-map-geo-add");
-          })
-          $("#Address").on("keyup", function () {
+          
+          $("#legalEditForm #Address").on("keyup", function () {
               if ($("#Address").val().length > 0)
                   codeAddress($("#Address").val(), "google-map-geo-add");
           });
@@ -143,25 +141,44 @@ function initLegalEnitityForm()
     {
         $('#companySearch #Services').select2();
         $("#companySearch #DistrictId").on("change", function () {
-            $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
+            $.get("/GeoLocation/District/GetCities?distrId=" + $("#companySearch #DistrictId").val(),
                 function (result) {
-                    $("#city-Drop").html(result);
+                    $("#companySearch #city-Drop").html(result);
                     if ($("#google-map-geo-add").length > 0) {
-                        $("#City").on("change", function () {
-                            codeAddress($("#City option:selected").text(), "google-map-geo-add");
+                        $("#companySearch #City").on("change", function () {
+                            codeAddress($("#companySearch #City option:selected").text(), "google-map-geo-add");
                         })
                     }
                 });
         });
     }
 
-    if ($('#legalEditForm #Services').length > 0)
+    if ($('#legalEditForm #Activities').length > 0)
     {
+      
+        $("#legalEditForm #DistrictId").on("change", function () {
+            $.get("/GeoLocation/District/GetCities?distrId=" + $("#legalEditForm #DistrictId").val(),
+                function (result) {
+                    $("#legalEditForm #city-Drop").html(result);
+                    if ($("#google-map-geo-add").length > 0) {
+                        $("#City").on("change", function () {
+                            $("#legalEditForm #City").on("change", function () {
+                                codeAddress($("#legalEditForm #City").text(), "google-map-geo-add");
+                            })
+                            codeAddress($("#legalEditForm #City option:selected").text(), "google-map-geo-add");
+                        })
+                    }
+                });
+        });
+    }
+  
+
+    if ($('#legalEditForm #Services').length > 0) {
         $('#legalEditForm #Services').select2();
         $("#legalEditForm #DistrictId").on("change", function () {
             $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
                 function (result) {
-                    $("#city-Drop").html(result);
+                    $("#legalEditForm #city-Drop").html(result);
                     if ($("#google-map-geo-add").length > 0) {
                         $("#City").on("change", function () {
                             codeAddress($("#City option:selected").text(), "google-map-geo-add");
@@ -170,7 +187,6 @@ function initLegalEnitityForm()
                 });
         });
     }
-  
 }
 
 function updateAssign()

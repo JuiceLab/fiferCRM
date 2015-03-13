@@ -35,7 +35,7 @@
 
 
                                     <li class="media">
-                                        <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "http://localhost:41252/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+                                        <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
                                         <div class="media-body">
                                             <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
                                             <h5 class="media-heading">@item.Title</h5>
@@ -61,8 +61,8 @@
 
 
                                     <li class="media">
-                                        <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "http://localhost:41252/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
-                                        <div class="media-body">
+                                        <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
+<div class="media-body">
                                             <span class="label label-default pull-right">@(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</span>
                                             <h5 class="media-heading">@item.Title</h5>
                                             <p class="margin-none">@item.Msg</p>

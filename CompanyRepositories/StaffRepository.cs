@@ -88,6 +88,42 @@ namespace CompanyRepositories
             }
             return model;
         }
+        public EmployeeViewModel GetEmployee(Guid? employeeId)
+        {
+            EmployeeViewModel model = new EmployeeViewModel();
+            if (employeeId.HasValue)
+            {
+                var employee = ViewContext.UserInDepartmentView.FirstOrDefault(m => m.UserId ==  employeeId.Value);
+                model.EmployeeId = employee.EmployeeId;
+                model.FirstName = employee.FirstName;
+                model.LastName = employee.LastName;
+                model.IsKeyEmployee = employee.IsKeyEmployee;
+                model.Patronymic = employee.Patronymic;
+                model.FullNameGenetive = employee.FullNameGenitive;
+                model.PhotoPath = employee.PhotoPath;
+                model.NegativeOpinion = employee.NegativeMention;
+                model.PositionId = employee.C_PosId;
+                model.Skype = employee.Skype;
+                model.ICQ = employee.ICQ;
+                model.PositiveOpinion = employee.PositiveMention;
+                model.SocialLinks = employee.SocialLinks;
+                model.UserId = employee.UserId;
+                model.LastLogin = employee.LastLogin;
+                model.IsDismissed = employee.IsDismissed;
+                model.PassportId = employee.C_PassportId;
+                model.BirthDate = employee.BirthDate;
+                model.Position = employee.Name;
+                model.Department = employee.Title;
+                model.IsOnline = false;
+                model.Salary = employee.Salary;
+                model.TransactionPercent = employee.TransactionPercent;
+                model.GroupHeaderId = employee.C_GroupHeaderId;
+                model.WorkGroups = string.IsNullOrEmpty(employee.WorkGroups) ?
+                    new List<int>()
+                    : employee.WorkGroups.Split(',').Select(m => Convert.ToInt32(m)).ToList();
+            }
+            return model;
+        }
         
         public PassportViewModel GetEmployeePassport(int? employeeId)
         {

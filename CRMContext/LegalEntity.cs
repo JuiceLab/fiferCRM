@@ -22,7 +22,6 @@ namespace CRMContext
             this.GeoLocations = new HashSet<GeoLocation>();
             this.Customers = new HashSet<Customer>();
             this.LegalEntityAddPhones = new HashSet<LegalEntityAddPhone>();
-            this.LegalLocationPhones = new HashSet<LegalLocationPhone>();
         }
     
         public int LegalEntityId { get; set; }
@@ -48,6 +47,5 @@ namespace CRMContext
         public virtual ICollection<GeoLocation> GeoLocations { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
-        public virtual ICollection<LegalLocationPhone> LegalLocationPhones { get; set; }
     }
 }

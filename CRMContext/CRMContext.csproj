@@ -80,6 +80,9 @@
     <Compile Include="GeoLocation.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="GeoLocationCityView.cs">
+      <DependentUpon>CRMEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="LegalActivity.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
@@ -95,7 +98,10 @@
     <Compile Include="LegalEntityAddPhone.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="LegalLocationPhone.cs">
+    <Compile Include="LegalEntityShortView.cs">
+      <DependentUpon>CRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LegalEntityView.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Passport.cs">

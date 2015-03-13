@@ -104,24 +104,24 @@
                 '/Scripts/jquery.validate.unobtrusive.js',
                 '/Scripts/jquery.cropit.min.js',
                 '/Scripts/jquery.signalR-2.1.2.min.js',
-                '/scripts/custom/helper.geolocation.js?v=v2.4.6-rc1&sv=v0.0.1.2',
+                '/scripts/custom/helper.geolocation.js?v=v2.4.8-rc1&sv=v0.0.1.2',
                 '/signalr/hubs'
             ], /* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
             custom: [
             '/scripts/custom/helper.table.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.init.mask.js?v=v2.3.8-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.init.js?v=v2.4.2-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.init.js?v=v2.4.9-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.modal.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.ticket.js?v=v2.3.0-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.signalr.js?v=v2.4.2-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.image.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.form.js?v=v2.1.4-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.task.js?v=v2.4.1-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.filter.js?v=v2.3.5-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.task.js?v=v2.5.1-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.filter.js?v=v2.3.7-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.autocomplete.js?v=v2.3.0-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.site.js?v=v2.3.2-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.excel.js?v=v2.3.2-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.notify.js?v=v2.3.3-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.notify.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.signup.js',
             'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps'
             ]
@@ -155,7 +155,21 @@
                 @RenderSection("LeftMenu", required: false)
             </div>
         </div>
+        <div id="menu_kis" class="hidden-print sidebar-light">
 
+            <div>
+                <ul class="list-unstyled">
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '', initDateMask);" class="glyphicons phone_alt"><i></i><span>Звонок</span></a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initDateMask);" class="glyphicons group"><i></i> Встреча</a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'TaskEdit', 'Task/GroupTask', '', initDateMask);" class="glyphicons cogwheel"><i></i> Задача</a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Payment)', initPaymentCallback);" class="glyphicons money"><i></i> Счет</a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Expense)', initPaymentCallback);" class="glyphicons cargo"><i></i> Расход</a></li>
+
+                </ul>
+            </div>
+
+
+        </div>
         <!-- Content -->
         <div id="content">
             @RenderSection("TopMenu", required: false)
@@ -203,6 +217,9 @@
                 <!-- // Modal heading END -->
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <label id="addrTxt"></label>
+                    <label class="label label-info">Для установки координат просто кликните по месту на карте. Затем закройте диалоговое окно и сохраните данные</label>
+                    <br />
                     <div id="google-map-add" class="map_canvas" style="height: 300px"></div>
                 </div>
                 <!-- // Modal body END -->
@@ -228,6 +245,9 @@
             </div>
         </div>
 
+    </div>
+    <div id="spinner">
+        Обработка...
     </div>
     <!-- Global -->
     <script data-id="App.Config">

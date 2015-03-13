@@ -19,6 +19,7 @@
         <EntityTypeShape EntityType="TicketModel.CallTicketsQuery" Width="1.5" PointX="8.375" PointY="6.75" />
         <EntityTypeShape EntityType="TicketModel.TicketGroup" Width="1.5" PointX="5.25" PointY="0.75" />
         <AssociationConnector Association="TicketModel.FK_TicketGroup_Ticket" />
+        <AssociationConnector Association="TicketModel.FK_CallTicket_CallTicket" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

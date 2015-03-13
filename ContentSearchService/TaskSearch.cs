@@ -96,7 +96,7 @@ namespace ContentSearchService
                 search.AssignedAvailable.FirstOrDefault(m => m.Value == Guid.Empty.ToString()).Selected = true;
             else
             {
-                foreach (var item in search.AssignedAvailable.Where(m => assigned.Contains(Guid.Parse(m.Value))))
+                foreach (var item in search.AssignedAvailable.Where(m =>!string.IsNullOrEmpty(m.Value) &&  assigned.Contains(Guid.Parse(m.Value))))
                 {
                     item.Selected = true;
                 }

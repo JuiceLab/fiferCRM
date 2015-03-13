@@ -22,8 +22,8 @@ namespace fifer_crm.Areas.ERP.Controllers
         public ActionResult Edit(CompanyAddressViewModel model)
         {
             CRMRepository crmRepository = new CRMRepository();
-            var city = crmRepository.GetCity(int.Parse(model.City));
-            model.City = city.Name;
+            var city = crmRepository.GetCity(model.CityGuid);
+            model.City = city.Prefix + " " + city.Name; 
             _repository.UpdateAddress(model, _userId);
             return RedirectToAction("IndexCompany", "Company", new { Area = "ERP" });
         }

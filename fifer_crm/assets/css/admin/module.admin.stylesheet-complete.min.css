@@ -9380,7 +9380,7 @@ ul.social-comments li .user-info abbr {
   left: 13px;
 }
 .dropdown-menu li a .fa {
-  color: #e2e2e2;
+  color: green;
   font-size: 15px;
   width: 20px;
   left: -2px;
@@ -11335,7 +11335,7 @@ ul.social-comments li .user-info abbr {
 }
 .navbar.main.navbar-primary [class*="border-"] a .notif-block.fa,
 .navbar.main.navbar-primary .notifications > li a .notif-block.fa {
-  color: #fce5e2;
+  color: white;
 }
 .navbar.main.navbar-primary [class*="border-"]:hover,
 .navbar.main.navbar-primary .notifications > li:hover,

@@ -5,8 +5,7 @@
             {
                 <div class="innerAll border-bottom tickets">
                     <div class="row">
-
-                        <div class="col-sm-4">
+                        <div class="col-md-4">
                             <ul class="media-list">
                                 <li class="media">
                                     <div class="pull-left">
@@ -20,14 +19,15 @@
                                         </div>
                                     </div>
                                     <span class="pull-left">
-                                        <img style="max-width:50px;" class="media-object" src="@item.CreatedByPhotoPath" title="@item.CreatedBy">
+                                        <img style="max-width:50px;" class="media-object" src="@(string.IsNullOrEmpty(item.CreatedByPhotoPath)? " /assets/images/people/80/2.jpg": item.CreatedByPhotoPath)" title="@item.CreatedBy">
                                     </span>
                                     <div class="media-body">
+                                        <label class="">
+                                            № @item.TaskNumber
+                                        </label>
                                         <span class="media-heading">
-                                            <label class="label label-default">
-                                                #@item.TaskNumber
-                                            </label>
-                                            <label class="label label-info">&nbsp;@item.Status.GetStringValue()</label>
+                                           
+                                            <label class="label st-clr-@(item.Status.ToString("d"))">&nbsp;@item.Status.GetStringValue()</label>
                                         </span>
                                         <div class="clearfix"></div>
                                         <small>
@@ -35,7 +35,7 @@
                                             {
                                                 <i style="color:red" title="Важная задача" class="glyphicon glyphicon-warning-sign"></i>
                                             } &nbsp;<i class="icon-time-clock fw"></i> @(!item.DateStarted.HasValue ? string.Empty : item.DateStarted.Value.Date > DateTime.Now.Date ? item.DateStarted.Value.ToShortDateString() : item.DateStarted.Value.ToShortTimeString())&nbsp;
-                                        </small>  
+                                        </small>
                                         <div class="clearfix"></div>
                                         <small><i class="fa fa-flag"></i> @item.CreatedBy</small>
                                     </div>
@@ -53,10 +53,11 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="col-md-3">
-                                <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskProcess','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-info btn-inverse" style="width:100%; margin-bottom:3px" title="Редактировать"><i class="fa fa-pencil">&nbsp;Редактировать &nbsp;</i></a>
+                            <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskProcess','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-default text-success" style="width:100%; margin-bottom:3px" title="Редактировать"><i class="fa fa-pencil"></i>&nbsp;Редактировать&nbsp;</a>
                             <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskAssign','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-default text-danger" style="width:100%; margin-bottom:3px" title="Назначить исполнителя"><i class="fa fa-user"></i>&nbsp;Делегировать</a>
-                            <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-warning" style="width:100%; margin-bottom:3px" title="Перенести"><i class="fa fa-refresh"></i>&nbsp;Перенести&nbsp;</a></div>
-                            </div>
+                            <a href="#" onclick="loadModalContentWithCallback('modal-help','TaskDateTransfer','Task/GroupTask', '?taskId=@(item.TaskId)', getTaskActions); return false;" class="btn btn-default text-info" style="width:100%; margin-bottom:3px" title="Перенести"><i class="fa fa-refresh"></i>&nbsp;Перенести&nbsp;</a>
                         </div>
+                    </div>
+                </div>
             }
    

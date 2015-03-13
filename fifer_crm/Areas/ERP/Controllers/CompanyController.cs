@@ -33,8 +33,8 @@ namespace fifer_crm.Areas.ERP.Controllers
             model.Positions = repository.GetPositions(model.Company.CompanyId);
             model.Menu = GetMenu("Данные компании");
             CRMRepository crmRepository = new CRMRepository();
-            var city = crmRepository.GetCompanyCity(model.Company.Guid);
-            ViewBag.Cities = crmRepository.GetCitiesSelectItems(null, city.CityGuid);
+            var cityId = crmRepository.GetCompanyCityId(model.Company.Guid);
+            ViewBag.Cities = crmRepository.GetCitiesSelectItems(null, cityId, false);
             return View(model);
         }
 

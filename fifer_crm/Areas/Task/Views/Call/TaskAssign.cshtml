@@ -1,0 +1,46 @@
+﻿@model CallTicket
+@{
+    Model.CurrentComment = "";
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">Назначение исполнителя</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            <form id="taskTicket" class="form-horizontal" role="form">
+                @Html.HiddenFor(m => m.OwnerId)
+                @Html.HiddenFor(m => m.TicketStatus)
+                @Html.HiddenFor(m => m.CreatedBy)
+                @Html.HiddenFor(m => m.Assigned)
+                @Html.HiddenFor(m => m.ObjId)
+                @Html.HiddenFor(m => m.DateStartedStr)
+                @Html.HiddenFor(m => m.TimeStartedStr)
+                @Html.HiddenFor(m => m.Phone)
+                <h4>@Model.Title</h4>
+                <label>Позвонить @Model.DateStartedStr в @Model.TimeStartedStr</label>
+                <p>@Model.Msg</p>
+                @if(Model.Assigned.HasValue)
+                {
+                <small>Исполнитель: @assign.FirstOrDefault(m => m.Value == Model.Assigned.Value.ToString()).Text</small>
+                }
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Assigned, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div id="taskAssignActions" class="col-sm-offset-2 col-sm-10">
+                        <input type="button" onclick="updateCallTask(@WFCallTaskCommand.Assign.ToString("d"))" class="col-sm-6 btn btn-primary btn-action" value="@WFCallTaskCommand.Assign.GetStringValue()" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

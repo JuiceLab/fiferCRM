@@ -13,7 +13,18 @@
         <div class="innerLR">
             <form id="assign-legal-form" class="form-horizontal" role="form">
                @Html.HiddenFor(m=>m.CustomerId)
-             
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Причина переназначения</label>
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AssignedBy, new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(m => m.AssignedBy, assign, new { @class = "form-control" })
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.AssignedBy, new { @class = "col-sm-3 control-label" })
                     <div class="col-sm-9">
@@ -22,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="button" onclick="updateCustomerAssign()" class="btn btn-primary btn-action" value="Закрепить организацию за сотрудником" />
+                        <input type="button" onclick="updateCustomerAssign()" class="btn btn-primary btn-action" value="Закрепить клиента за сотрудником" />
                     </div>
                 </div>
             </form>

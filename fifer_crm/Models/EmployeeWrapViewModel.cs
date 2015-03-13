@@ -25,6 +25,9 @@ namespace fifer_crm.Models
         public CompanyViewModel Company { get; set; }
 
         public IEnumerable<EmployeeViewModel> CompanyEmployees { get; set; }
+
+        public IEnumerable<MeetingTaskPreview> Meetings { get; set; }
+
         public IEnumerable<TaskPreview> TaskTickets { get; set; }
         public IEnumerable<CallTaskPreview> CallTasks { get; set; }
         public Dictionary<DateTime, IEnumerable<CRMEventPreview> > SheduledEvents { get; set; }
@@ -50,6 +53,7 @@ namespace fifer_crm.Models
             CRMLocalRepository crmRepository = new CRMLocalRepository(userId);
             CallTasks = _repository.GetCallTasksPreview(null, userId);
             crmRepository.UpdateCustomerInfo(CallTasks);
+            Meetings = crmRepository.GetMeetings(userId);
             SheduledEvents = _repository.SheduledEvents(users.Select(m => Guid.Parse(m.Value)));
             crmRepository.UpdateSheduledEvents(SheduledEvents, users.Select(m => Guid.Parse(m.Value)));
 
@@ -59,6 +63,14 @@ namespace fifer_crm.Models
             ids.AddRange(TaskTickets.Select(m => m.AssignedById));
             ids.AddRange(SheduledEvents.SelectMany(m => m.Value.Select(n => n.OwnerId)).Distinct());
             ids.AddRange(CallTasks.Where(m => m.AssignId.HasValue).Select(m => m.AssignId.Value).Distinct());
+            ids.AddRange(Meetings.Select(m => m.OwnerId).Distinct());
+
+            foreach (var item in Meetings)
+            {
+                var owner = CompanyEmployees.FirstOrDefault(m => m.UserId == item.OwnerId);
+                item.OwnerName = owner != null ? string.Format("{0} {1}", owner.FirstName, owner.LastName) : string.Empty;
+            }
+
             foreach (var item in CallTasks)
             {
                 if (item.AssignId.HasValue)

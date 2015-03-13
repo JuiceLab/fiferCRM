@@ -52,6 +52,7 @@ namespace fifer_crm.Areas.Task.Controllers
             FiferTaskTicket ticket = new FiferTaskTicket();
             ticket.Load(taskId);
             ticket.OwnerId = (Guid)Membership.GetUser().ProviderUserKey;
+            ticket.CreatedBy = ticket.OwnerId;
             return PartialView(ticket);
         }
 
@@ -142,18 +143,26 @@ namespace fifer_crm.Areas.Task.Controllers
             IEnumerable<MessageViewModel> messages = _repository.GetMessages4Item(taskId);
             IEnumerable<MessageViewModel> statuses = _repository.GetStatus4Task(taskId);
 
-            MembershipRepository accessRepository = new MembershipRepository();
-            var users = accessRepository.GetUserByIds(messages
-                .Select(m => m.UserId).Distinct()
-                .Union(statuses.Select(m => m.UserId).Distinct()));
+            StaffRepository staffRepository = new StaffRepository();
+            var employees = staffRepository.GetEmployees(_userId).ToList();
 
             foreach (var item in messages)
             {
-                item.Title = users.FirstOrDefault(m => m.UserId == item.UserId).Login;
+                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
+                if (exist != null)
+                {
+                    item.Title = exist.FirstName + ' ' + exist.LastName;
+                    item.IconPath = exist.PhotoPath;
+                }
             }
             foreach (var item in statuses)
             {
-                item.Title = users.FirstOrDefault(m => m.UserId == item.UserId).Login;
+                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
+                if (exist != null)
+                {
+                    item.Title = exist.FirstName + ' ' + exist.LastName;
+                    item.IconPath = exist.PhotoPath;
+                }
             }
             ViewBag.Number = taskNumber;
             return PartialView(messages.Union(statuses));

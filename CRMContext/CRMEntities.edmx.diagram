@@ -33,9 +33,9 @@
         <AssociationConnector Association="CRMModel.FK_Customer_LegalEntity1" />
         <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_GeoLocation" />
         <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_LegalEntity" />
-        <EntityTypeShape EntityType="CRMModel.LegalLocationPhone" Width="1.5" PointX="12.5" PointY="8.625" />
-        <AssociationConnector Association="CRMModel.FK_LegalLocationPhone_GeoLocation" />
-        <AssociationConnector Association="CRMModel.FK_LegalLocationPhone_LegalEntity" />
+        <EntityTypeShape EntityType="CRMModel.LegalEntityView" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="CRMModel.LegalEntityShortView" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CRMModel.GeoLocationCityView" Width="1.5" PointX="9.375" PointY="11.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

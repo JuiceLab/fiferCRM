@@ -1697,6 +1697,8 @@
     <Content Include="Areas\CRM\Views\Customer\EditPassportCustomer.cshtml" />
     <Content Include="Areas\GeoLocation\Views\LegalEntity\LegalAddress.cshtml" />
     <Content Include="Areas\GeoLocation\Views\LegalEntity\LegalAddressEdit.cshtml" />
+    <Content Include="Areas\Task\Views\Call\Actions4CallTask.cshtml" />
+    <Content Include="Areas\Task\Views\Call\TaskAssign.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\helper.modal.js" />
     <Content Include="Scripts\custom\helper.signalr.js" />
@@ -1791,6 +1793,7 @@
     <Content Include="Views\Shared\RegisterAppend.cshtml" />
     <Content Include="Views\Image\ScanImg.cshtml" />
     <Content Include="Views\Shared\NotifyAssignedForm.cshtml" />
+    <Content Include="Views\Notify\GetTodayTasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

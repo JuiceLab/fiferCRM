@@ -10,5 +10,7 @@ namespace Interfaces.CRM
     public interface ICallTicket : ITicket
     {
         string Phone { get; set; }
+        string NotifyBeforeStr { get; set; }
+        Guid? PrevCallId { get; set; }
     }
 }

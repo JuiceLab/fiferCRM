@@ -106,7 +106,13 @@ namespace TicketRepositories
                {
                    Type = (byte)MsgType.Status,
                    Created = m.DateCreated,
-                   Msg = m.StatusId.HasValue ? ((WFTaskStatus)m.StatusId.Value).GetStringValue() : m.CustomStatus,
+                   Msg = m.StatusId.HasValue ?
+                        (Context.CallTickets.Any(n=>n.CallTicketId == taskId)?
+                                ((WFCallTaskStatus)m.StatusId.Value).GetStringValue()
+                           :Context.Tickets.Any(n=>n.TicketId == taskId)?
+                                ((WFTaskStatus)m.StatusId.Value).GetStringValue()
+                                : string.Empty)
+                        : m.CustomStatus,
                    UserId =  m.OwnerId.HasValue?  m.OwnerId.Value : Guid.Empty
                }).ToList();
         }

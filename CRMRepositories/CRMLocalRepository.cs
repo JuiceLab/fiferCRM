@@ -338,9 +338,10 @@ namespace CRMRepositories
                 ActivitiesStr = string.Join(", ", m.LegalEnityDetails.SelectMany(n => n.LegalActivities).Select(n => n.ActivityFullName)),
                 AssignedBy = m.Assigned,
                 Comment = m.Comment,
-                Phones = m.Phones + (m.Customers.Count > 0 ? "," + string.Join(",", m.Customers.Where(n=>!string.IsNullOrEmpty(n.Phone)).Select(n=>n.Phone)) : string.Empty),
+                Phones = string.IsNullOrEmpty(m.Phones)? string.Empty:  m.Phones,
+                CustomerPhones = (m.Customers.Count > 0 ? "," + string.Join(",", m.Customers.Where(n => !string.IsNullOrEmpty(n.Phone)).Select(n => n.Phone)) : string.Empty),
                 Mails = m.Mails + (m.Customers.Count > 0 ? "," + string.Join(",", m.Customers.Where(n => !string.IsNullOrEmpty(n.Mail)).Select(n => n.Mail)) : string.Empty),
-                Sites = m.Sites,
+                Sites = string.IsNullOrEmpty(m.Sites) ? string.Empty : m.Sites,
                 PhotoPath = m.LogoPath,
                 Skype = m.Skype,
                 CityGuid = m.GeoLocation.CityGuid,
@@ -367,11 +368,11 @@ namespace CRMRepositories
                    IsLPR = n.IsLPR,
                    LastName = n.LastName,
                    Patronymic = n.Patronymic,
-                   Mail = n.Mail,
+                   Mail = string.IsNullOrEmpty(n.Mail) ? string.Empty : n.Mail,
                    PhotoPath = n.PhotoPath,
                    Skype = n.Skype,
                    StatusId = n.StatusId,
-                   Phone = n.Phone,
+                   Phone = string.IsNullOrEmpty(n.Phone) ? string.Empty : n.Phone,
                    Guid = n.CustomerGuid,
                    Comment = n.Comment,
                    CustomerId = n.CustomerId,
@@ -436,6 +437,7 @@ namespace CRMRepositories
                     .Where(m => m.CreatedBy == ownerId.Value)
                     .Select(m => new MeetingTaskPreview()
                 {
+                    Phone = m.Customer.Phone,
                     CustomerId = m.Customer.CustomerGuid,
                     Date = m.Date,
                     CustomerName = m.Customer.LegalEntity.LegalName + ":" + m.Customer.FirstName + " " + m.Customer.LastName,
@@ -493,7 +495,7 @@ namespace CRMRepositories
                     .ToList()
                     .Select(m => new SelectListItem()
                     {
-                        Text = (string.IsNullOrEmpty(m.Phone) ? "Не задан телефон! " : string.Empty) + (m.C_LegalEntityId.HasValue? m.LegalEntity.LegalName : string.Empty ) + ": " + m.FirstName + " " + m.LastName + ". " + m.Phone,
+                        Text = (string.IsNullOrEmpty(m.Phone) ? "Не задан телефон! " : string.Empty) + (m.C_LegalEntityId.HasValue ? m.LegalEntity.LegalName + ": " : string.Empty) + m.FirstName + " " + m.LastName + ". " + m.Phone,
                         Value = string.IsNullOrEmpty(m.Phone) ? "" : m.CustomerGuid.ToString()
                     }).ToList();
         }
@@ -783,7 +785,13 @@ namespace CRMRepositories
         public void UpdateCustomerInfo(IEnumerable<CallTaskPreview> CallTasks)
         {
             var ids= CallTasks.Select(m => m.CustomerId).ToList();
-           var existCustomers =  LocalContext.Customers.Where(m => ids.Contains(m.CustomerGuid)).Select(m => new { id = m.CustomerGuid, phone = m.Phone, company = m.LegalEntity.LegalName, name = m.FirstName + " " + m.LastName });
+           var existCustomers =  LocalContext.Customers.Where(m => ids.Contains(m.CustomerGuid))
+               .Select(m => new { 
+                   id = m.CustomerGuid,
+                   photo = m.PhotoPath,
+                   phone = m.Phone,
+                   company = m.LegalEntity.LegalName, 
+                   name = m.FirstName + " " + m.LastName });
            foreach (var item in CallTasks)
            {
                var customer = existCustomers.FirstOrDefault(m => m.id == item.CustomerId);
@@ -791,6 +799,7 @@ namespace CRMRepositories
                LocalContext.SaveChanges();
                if (customer != null)
                {
+                   item.CustomerPhoto = customer.photo;
                    item.Phone = customer.phone;
                    item.CustomerName = customer.name;
                    item.CompanyName = customer.company;
@@ -977,7 +986,7 @@ namespace CRMRepositories
             return items.ToList();
         }
 
-        private void WriteModify(string msg, Guid userId, Guid objId)
+        public void WriteModify(string msg, Guid userId, Guid objId)
         {
 
             LocalContext.InsertUnit(new ModifyLog()
@@ -1216,9 +1225,9 @@ namespace CRMRepositories
                 existLegalEnitites = existLegalEnitites.Where(n => n.LegalName.Contains(model.CompanyName) || n.PublicName.Contains(model.CompanyName));
             if (existLegalEnitites.Count() > 1)
             {
-                if (model.City != null && model.City.Count > 0)
-                    existLegalEnitites = existLegalEnitites.Where(n => model.City.Contains(n.GeoLocation.C_CityId)
-                        || (n.C_CurrentLegalDetailId.HasValue && n.LegalEnityDetail.C_GeoId.HasValue && model.City.Contains(n.LegalEnityDetail.GeoLocation.C_CityId)));
+                if (model.City.HasValue )
+                    existLegalEnitites = existLegalEnitites.Where(n => model.City.Value == n.GeoLocation.C_CityId
+                        || (n.C_CurrentLegalDetailId.HasValue && n.LegalEnityDetail.C_GeoId.HasValue && model.City.Value == n.LegalEnityDetail.GeoLocation.C_CityId));
                 if (model.Services != null && model.Services.Count > 0)
                     existLegalEnitites = existLegalEnitites.Where(m => m.LegalActivities.Any(n => model.Services.Contains(n.C_ServiceId)));
             }
@@ -1226,7 +1235,7 @@ namespace CRMRepositories
             {
                 CompanyId = m.LegalEntityGuid,
                 INN = m.C_CurrentLegalDetailId.HasValue ? m.LegalEnityDetail.INN : new Nullable<long>(),
-                CompanyName = m.LegalName,
+                CompanyName = m.PublicName,
                 EMail = m.Mails,
                 Phone = m.Phones,
                 OGRN = m.C_CurrentLegalDetailId.HasValue ? m.LegalEnityDetail.OGRN : new Nullable<long>(),

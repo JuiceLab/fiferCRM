@@ -2,8 +2,13 @@
     <div class="user-action user-action-btn-navbar pull-left border-right">
         <button class="btn btn-sm btn-navbar btn-primary btn-stroke"><i class="fa fa-bars fa-2x"></i></button>
     </div>
+     <ul id="todayTasks" class="notifications pull-left hidden-xs">
+        
+    </ul>
+
+   
     <div class="user-action user-action-btn-navbar pull-right">
-        <button class="btn btn-sm btn-navbar-right btn-primary"><i class="fa fa-fw fa-arrow-right"></i><span class="menu-left-hidden-xs"> Modules</span></button>
+        <button class="btn btn-sm btn-navbar-right btn-primary"><i class="fa fa-fw fa-anchor"></i></button>
     </div>
     <div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs">
         <div class="dropdown username hidden-xs pull-left">
@@ -29,6 +34,7 @@
                 <li><a href="/Account/Logout">Выйти</a></li>
             </ul>
         </div>
+
         <a href="#" class="btn btn-default btn-circle dropdown-toggle dropdown-click" onclick="loadModalContent('modal-help', 'TicketEdit', 'Support', '');" title="Помощь"><i class="fa fa-question"></i> </a>
     </div>
     <ul id="lastNotify" class="notifications pull-right hidden-xs">

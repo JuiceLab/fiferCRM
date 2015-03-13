@@ -3,7 +3,7 @@
     if ($("#DistrictId").length > 0)
     {
         $("#DistrictId").on("change", function () {
-            $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
+            $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val() + "&filtred=false",
                 function (result)
                 {
                     $("#city-Drop").html(result);

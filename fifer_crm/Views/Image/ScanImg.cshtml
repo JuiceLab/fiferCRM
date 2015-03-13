@@ -2,6 +2,7 @@
 <div class="scan-img ">
     @Html.Hidden("scanPaths", Model)
     <div class="col-md-2">
-        <label>&nbsp;<span class="btn btn-default padding-none" onclick="$(this).parents('.scan-img').remove()">&nbsp;<i class="fa fa-trash-o"></i>&nbsp;</span></label><img style="max-width:100px" src="@Model" />
-    </div>
+        <img style="max-width:100px" src="@Model" />
+        <small><span class="btn btn-default padding-none" onclick="$(this).parents('.scan-img').remove()">&nbsp;Удалить:<i class="fa fa-trash-o"></i>&nbsp;</span></small>
+ </div>
 </div>

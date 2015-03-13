@@ -1,0 +1,7 @@
+﻿@model IEnumerable<SelectListItem>
+@foreach (var item in Model)
+{
+    <input type="button" onclick="updateCallTask(@item.Value)" class="col-sm-6 btn btn-primary btn-action" value="@item.Text" />
+}
+
+

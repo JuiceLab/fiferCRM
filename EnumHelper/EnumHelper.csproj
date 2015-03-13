@@ -44,6 +44,10 @@
     <Compile Include="CRM\CRMEventType.cs" />
     <Compile Include="CRM\CustomerStatus.cs" />
     <Compile Include="CRM\TaskPeriodType.cs" />
+    <Compile Include="CRM\WFMeetingCommand.cs" />
+    <Compile Include="CRM\WFMeetingStatus.cs" />
+    <Compile Include="CRM\WFCallTaskCommand.cs" />
+    <Compile Include="CRM\WFCallTaskStatus.cs" />
     <Compile Include="Mailer\AuthMail.cs" />
     <Compile Include="Mailer\CustomerMail.cs" />
     <Compile Include="NotifyCategoryType.cs" />

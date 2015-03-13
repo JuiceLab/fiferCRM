@@ -43,7 +43,7 @@ namespace AccessModel
         public int DistrictId { get; set; }
         [DisplayName("Город"), Required(ErrorMessage = "Укажите город"),
         StringLength(128, ErrorMessage = "Название города не должно превышать 128 символов.")]
-        public string City { get; set; }
+        public Guid City { get; set; }
         [DisplayName("Улица"), Required(ErrorMessage = "Укажите улицу"),
         StringLength(256, ErrorMessage = "Название улицы не должно превышать 256 символов.")]
         public string Street { get; set; }

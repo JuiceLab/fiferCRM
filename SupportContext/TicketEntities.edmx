@@ -21,6 +21,7 @@
           <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CustomerGuid" Type="uniqueidentifier" />
+          <Property Name="PrevCallId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="CallTicketsQuery">
           <Key>
@@ -133,6 +134,18 @@
           <Property Name="UserIdLock" Type="uniqueidentifier" />
           <Property Name="IsNonePreview" Type="bit" />
         </EntityType>
+        <Association Name="FK_CallTicket_CallTicket">
+          <End Role="CallTicket" Type="Self.CallTicket" Multiplicity="0..1" />
+          <End Role="CallTicket1" Type="Self.CallTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CallTicket">
+              <PropertyRef Name="CallTicketId" />
+            </Principal>
+            <Dependent Role="CallTicket1">
+              <PropertyRef Name="PrevCallId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Ticket_TicketCategory">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
@@ -181,6 +194,10 @@
           <EntitySet Name="TicketGroup" EntityType="Self.TicketGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TicketMaster" EntityType="Self.TicketMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TicketsQuery" EntityType="Self.TicketsQuery" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CallTicket_CallTicket" Association="Self.FK_CallTicket_CallTicket">
+            <End Role="CallTicket" EntitySet="CallTicket" />
+            <End Role="CallTicket1" EntitySet="CallTicket" />
+          </AssociationSet>
           <AssociationSet Name="FK_Ticket_TicketCategory" Association="Self.FK_Ticket_TicketCategory">
             <End Role="Category" EntitySet="Category" />
             <End Role="Ticket" EntitySet="Ticket" />
@@ -221,6 +238,10 @@
           <AssociationSet Name="FK_TicketGroup_Ticket" Association="TicketModel.FK_TicketGroup_Ticket">
             <End Role="Ticket" EntitySet="Tickets" />
             <End Role="TicketGroup" EntitySet="TicketGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CallTicket_CallTicket" Association="TicketModel.FK_CallTicket_CallTicket">
+            <End Role="CallTicket" EntitySet="CallTickets" />
+            <End Role="CallTicket1" EntitySet="CallTickets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CommentBody">
@@ -358,6 +379,9 @@
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="CreatedBy" Type="Guid" Nullable="false" />
           <Property Name="CustomerGuid" Type="Guid" />
+          <Property Name="PrevCallId" Type="Guid" />
+          <NavigationProperty Name="CallTicket1" Relationship="TicketModel.FK_CallTicket_CallTicket" FromRole="CallTicket" ToRole="CallTicket1" />
+          <NavigationProperty Name="CallTicket2" Relationship="TicketModel.FK_CallTicket_CallTicket" FromRole="CallTicket1" ToRole="CallTicket" />
         </EntityType>
         <EntityType Name="CallTicketsQuery">
           <Key>
@@ -390,6 +414,18 @@
             </Principal>
             <Dependent Role="TicketGroup">
               <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CallTicket_CallTicket">
+          <End Type="TicketModel.CallTicket" Role="CallTicket" Multiplicity="0..1" />
+          <End Type="TicketModel.CallTicket" Role="CallTicket1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CallTicket">
+              <PropertyRef Name="CallTicketId" />
+            </Principal>
+            <Dependent Role="CallTicket1">
+              <PropertyRef Name="PrevCallId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -500,6 +536,7 @@
           <EntitySetMapping Name="CallTickets">
             <EntityTypeMapping TypeName="TicketModel.CallTicket">
               <MappingFragment StoreEntitySet="CallTicket">
+                <ScalarProperty Name="PrevCallId" ColumnName="PrevCallId" />
                 <ScalarProperty Name="CustomerGuid" ColumnName="CustomerGuid" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />

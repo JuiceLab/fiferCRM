@@ -78,7 +78,10 @@ where Value1 = @IdWF";
 
                 workflow.InitObj(ticket);
                 idNotifer = new Guid(workflow.PromotedParticipant.IdWF);
-                ticket.Load(idNotifer);
+                using (TicketEntities context = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
+                {
+                    ticket.Load(context.TicketsQueries.FirstOrDefault(m => m.WorkflowId == idNotifer).TicketId.Value);
+                }
             }
 
             else
@@ -190,23 +193,27 @@ where Value1 = @IdWF";
         {
             if (ticketId != Guid.Empty)
             {
-                var instanceStore = workflow.InstanceStore;
-                var instanceId = GetInstanceIdFromObjId(ticketId, "Task");
-                if (instanceId != Guid.Empty)
+                using (TicketEntities context = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
                 {
-                    var activity = LoadVersionedWF(instanceId, instanceStore);
-                    if (activity.Key != null)
+                    var id = context.TicketsQueries.FirstOrDefault(m => m.TicketId == ticketId).WorkflowId;
+                    var instanceStore = workflow.InstanceStore;
+                    var instanceId = GetInstanceIdFromObjId(id.HasValue ? id.Value : Guid.NewGuid(), "Task");
+                    if (instanceId != Guid.Empty)
                     {
-                        var type = activity.Value.GetType();
-                        Type genericListType = typeof(TaskDispatcher<>).MakeGenericType(type);
-                        workflow = (IWorkflowDispatcher)Activator.CreateInstance(genericListType);
-                        workflow.RegistrationIdentity = activity.Key;
+                        var activity = LoadVersionedWF(instanceId, instanceStore);
+                        if (activity.Key != null)
+                        {
+                            var type = activity.Value.GetType();
+                            Type genericListType = typeof(TaskDispatcher<>).MakeGenericType(type);
+                            workflow = (IWorkflowDispatcher)Activator.CreateInstance(genericListType);
+                            workflow.RegistrationIdentity = activity.Key;
+                        }
+                        else
+                        {
+                            workflow = new TaskDispatcher<StateMachine.TaskSM.EmployeeTaskSM>(true);
+                        }
+                        workflow.InstanceStore = instanceStore;
                     }
-                    else
-                    {
-                        workflow = new TaskDispatcher<StateMachine.TaskSM.EmployeeTaskSM>(true);
-                    }
-                    workflow.InstanceStore = instanceStore;
                 }
                 //else
                 //{

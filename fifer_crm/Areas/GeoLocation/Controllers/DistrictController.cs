@@ -12,10 +12,10 @@ namespace fifer_crm.Areas.GeoLocation.Controllers
     {
         [AllowAnonymous]
         // GET: GeoLocation/District
-        public ActionResult GetCities(int distrId)
+        public ActionResult GetCities(int distrId, bool filtred = true)
         {
             CRMRepository crmRepository = new CRMRepository();
-            var model = crmRepository.GetCitiesSelectItems(distrId);
+            var model = crmRepository.GetCitiesSelectItems(distrId, null, filtred);
             return PartialView(model);
         }
     }

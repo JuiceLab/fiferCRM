@@ -16,6 +16,7 @@ namespace CRMModel
         public DateTime? CallDate { get; set; }
         public DateTime? MeetDate { get; set; }
 
+        public string CustomerPhones { get; set; }
         public bool HasTodayEvent
         {
             get

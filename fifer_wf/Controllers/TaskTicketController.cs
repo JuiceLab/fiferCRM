@@ -30,6 +30,7 @@ namespace fifer_wf.Controllers
                     CategoryId = value.CategoryId,
                     Title = value.Title,
                     Msg = value.Msg,
+                    CurrentComment = value.CurrentComment,
                     DateStartedStr = value.DateStartedStr,
                     IsHighPriority = value.IsHighPriority,
                     CreatedBy = value.CreatedBy,
@@ -59,7 +60,8 @@ namespace fifer_wf.Controllers
                     curItem.UpdatePeriods(userGuid);
                 }
 
-                if (value.NotifyDate.HasValue && value.Assigned.HasValue)
+                if (value.NotifyDate.HasValue && value.Assigned.HasValue
+                    && (idCommand == WFTaskCommand.Create || idCommand == WFTaskCommand.Assign))
                 {
                     LocalNotifyRepository notifyRepository = new LocalNotifyRepository(userGuid);
                     notifyRepository.CreateNotify(value.NotifyDate.Value, userGuid, value.Assigned.Value, curItem.TicketId, 

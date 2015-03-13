@@ -2,25 +2,9 @@
 var apihost = "http://wf.bizinvit.ru/api";
 
 $(function () {
-        $.datepicker.regional['ru'] = {
-            closeText: 'Закрыть',
-            prevText: '&#x3c;Пред',
-            nextText: 'След&#x3e;',
-            currentText: 'Сегодня',
-            monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь',
-            'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
-            monthNamesShort: ['Янв','Фев','Мар','Апр','Май','Июн',
-            'Июл','Авг','Сен','Окт','Ноя','Дек'],
-            dayNames: ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],
-            dayNamesShort: ['вск','пнд','втр','срд','чтв','птн','сбт'],
-            dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
-            weekHeader: 'Не',
-            dateFormat: 'dd.mm.yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''};
-
+    $(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+        hideProgress();
+    });
     jQuery.extend(jQuery.validator.methods, {
         date: function (value, element) {
             return value.match(/^\d\d?\.\d\d?\.\d\d\d\d$/);
@@ -33,7 +17,12 @@ $(function () {
 
     if ($("#lastNotify").length > 0)
     {
-        getLasNotify();
+        getLastNotify();
+    }
+
+    if ($("#todayTasks").length)
+    {
+        getTodayTasks();
     }
 
     initScroll();
@@ -44,9 +33,13 @@ $(function () {
     setTimeout(function () {
         if (typeof $.fn.bdatepicker == 'undefined')
             $.fn.bdatepicker = $.fn.datepicker;
-        $.fn.datepicker.defaults.language = 'ru';
 
+        $.datepicker.setDefaults($.datepicker.regional["ru"]);
+
+        $.fn.datepicker.defaults.language = 'ru';
+        
         initDatePicker();
+       
         if ($('#datepicker-events').length) {
             var array = $("#event-dates").val().split(',', 100);
             $('#datepicker-events').bdatepicker({
@@ -142,12 +135,24 @@ $(function () {
     });
 })
 
+function getTodayTasks() {
+    $.get("/Notify/GetTodayTasks", function (result) {
+        $("#todayTasks").html(result);
+        $('#todayTasks li.notif').on({
+            "shown.bs.dropdown": function () { this.closable = false; },
+            "click": function () { this.closable = true; },
+            "hide.bs.dropdown": function () { return this.closable; }
+        });
+       
+    });
+}
 
-function getLasNotify()
+
+function getLastNotify()
 {
     $.get("/Notify/GetLastNotify", function (result) {
         $("#lastNotify").html(result);
-        $('li.notif').on({
+        $('#lastNotify li.notif').on({
             "shown.bs.dropdown": function() { this.closable = false; },
             "click":             function() { this.closable = true; },
             "hide.bs.dropdown":  function() { return this.closable; }
@@ -242,6 +247,7 @@ function intiCropAndPhone()
 }
 
 function initDatePicker() {
+    if ($.fn.datepicker.dates != undefined)
     $.fn.datepicker.dates['ru'] = {
         days: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
         daysShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Суб", "Вск"],
@@ -261,15 +267,16 @@ function initDatePicker() {
 
     if ($('#BirthDate').length) $("#BirthDate").bdatepicker({
         format: 'dd.mm.yyyy',
-        startDate: $("#now-date").val()
+        endDate: '-1d'
     });
 
     if ($('#DateIssue').length) $("#DateIssue").bdatepicker({
         format: 'dd.mm.yyyy',
-        startDate: $("#now-date").val()
+        endDate: '-1d'
     });
 
-    if ($("input[name^='DateRangeInvariant'], #PayBeforeInvariant").length) $("input[name^='DateRangeInvariant'], #PayBeforeInvariant").bdatepicker({
+    if ($("input[name^='DateRangeInvariant'], #PayBeforeInvariant").length)
+        $("input[name^='DateRangeInvariant'], #PayBeforeInvariant").bdatepicker({
         format: 'dd.mm.yyyy'
     });
     if ($("#DateRangeInvariant_0_").length) {
@@ -279,6 +286,41 @@ function initDatePicker() {
               startDate: $("#now-date").val()
           });
     }
+
+    $(window).on('load', function () {
+        if ($('.menu-right-hidden').length) {
+            $('.btn-navbar-right').parent().removeClass('visible-xs');
+
+            if (typeof sidebarKisInit !== 'undefined')
+                return;
+
+            $('#menu_kis').width(70);
+
+            setTimeout(function () {
+
+                $('#menu_kis').animate({
+                    right: '-70px'
+                }, function () {
+                    $(this).removeAttr('style');
+                });
+
+            }, 1000);
+        }
+
+        window.sidebarKisInit = true;
+    });
+}
+
+function intiPassportForm()
+{
+    initCropper();
+    initDatePicker();
+    $("#customer_passport #DistrictId").on("change", function () {
+        $.get("/GeoLocation/District/GetCities?distrId=" + $("#customer_passport #DistrictId").val(),
+            function (result) {
+                $("#customer_passport #city-Drop").html(result);
+            });
+    });
 }
 
 function initTaskPeriods() {
@@ -308,6 +350,7 @@ function initScroll() {
     if ($("#scrolled-div").length > 0) {
         $("#scrolled-div .scroll-body").niceScroll("#scrolled-div .scroll-body ul", { cursorcolor: "#00F" });
     }
+
 
     if ($("#tabEmployeeActivity").length > 0) {
         $("#tabEmployeeActivity .widget-body").niceScroll("#tabEmployeeActivity .widget-body .innerAll", { cursorcolor: "#00F" });

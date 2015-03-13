@@ -63,7 +63,7 @@ namespace StateMachine.Dispatcher
         /// <summary>
         /// The find existing instances sql.
         /// </summary>
-        private const string FindExistingInstancesSql = @"SELECT InstanceId, Value1      
+        protected const string FindExistingInstancesSql = @"SELECT InstanceId, Value1      
             FROM [System.Activities.DurableInstancing].[InstancePromotedProperties]
             WHERE PromotionName = @PromotionName 
             AND Value1 = @IdWF";

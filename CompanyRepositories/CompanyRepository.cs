@@ -172,6 +172,7 @@ namespace CompanyRepositories
                 ICQ = company.ICQ,
                 Mail = company.Email,
                 Skype = company.Skype,
+                Guid = company.CRMGuid,
                 Services = !string.IsNullOrEmpty(company.Services) ?
                         company.Services.Split(',').Select(m => int.Parse(m)).ToList()
                         : new List<int>(),
@@ -194,6 +195,7 @@ namespace CompanyRepositories
                 }).ToList(),
                 Addresses = company.Addresses.ToList().Select(m => new CompanyAddressViewModel()
                 {
+                    CityGuid = m.CityGuid,
                     City = m.City,
                     Street = m.Street,
                     IsLegal = m.LegalEntities.Count > 0,
@@ -292,6 +294,7 @@ namespace CompanyRepositories
             var addr = Context.Addresses.FirstOrDefault(m => m.AddrId == model.AddrId);
             if (addr != null)
             {
+                addr.CityGuid = model.CityGuid;
                 addr.City = model.City;
                 addr.AddNumber = model.AddNumber;
                 addr.Street = model.Street;
@@ -307,6 +310,7 @@ namespace CompanyRepositories
             {
                 addr = new Address()
                 {
+                    CityGuid = model.CityGuid,
                     City = model.City,
                     AddNumber = model.AddNumber,
                     Street = model.Street,

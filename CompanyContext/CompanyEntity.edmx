@@ -21,6 +21,7 @@
           <Property Name="Latitiude" Type="float" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="_CompanyId" Type="int" Nullable="false" />
+          <Property Name="CityGuid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -571,6 +572,7 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <NavigationProperty Name="Company" Relationship="CompanyModel.FK_Address_Company" FromRole="Address" ToRole="Company" />
           <NavigationProperty Name="Companies" Relationship="CompanyModel.FK_Company_Address" FromRole="Address" ToRole="Company" />
           <NavigationProperty Name="LegalEntities" Relationship="CompanyModel.FK_LegalEntity_Address" FromRole="Address" ToRole="LegalEntity" />
+          <Property Name="CityGuid" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
@@ -917,6 +919,7 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <EntitySetMapping Name="Addresses">
             <EntityTypeMapping TypeName="CompanyModel.Address">
               <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="CityGuid" ColumnName="CityGuid" />
                 <ScalarProperty Name="C_CompanyId" ColumnName="_CompanyId" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Latitiude" ColumnName="Latitiude" />
