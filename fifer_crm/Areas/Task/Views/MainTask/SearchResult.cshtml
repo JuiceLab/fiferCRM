@@ -4,7 +4,7 @@
 
     foreach (TaskStatus status in Enum.GetValues(typeof(TaskStatus)))
     {
-        statuses.Add(new SelectListItem() { Text = status.GetStringValue(), Value = ((byte)status).ToString() });
+        statuses.Add(new SelectListItem() { Text = status.GetStringValue(), Value = ((byte)status).ToString(), Selected = Model.Statuses.Contains((byte)status) });
     }
 }
 
@@ -15,7 +15,8 @@
     </div>
     <div class="widget-body">
         <form id="task-search">
-            <div class="col-md-8 center">
+            <input type="hidden" id="isCalendar" value="true" />
+            <div class="col-md-5 center">
                 <div class="innerLR">
                     <label class="strong">Назначен</label>
                     <select id="Assigned" style="width: 100%;" name="Assigned" class="multiselect" multiple>
@@ -52,6 +53,13 @@
                     <div class="separator top"></div>
                 </div>
             </div>
+            <div class="col-md-3 center">
+                <div class="innerLR">
+                    <label class="strong">Не закреплены за сотрудниками</label>
+                    @Html.CheckBoxFor(m => m.HasUnssigned)
+                    <div class="separator top"></div>
+                </div>
+            </div>
             <div class="col-md-9 center">
                 <div class="innerLR">
                     <label class=" col-md-4 strong" style="text-align:center">Диапазон дат:</label>
@@ -76,13 +84,14 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="col-md-4 center">
-                <span style="margin-top:15px;" class="btn btn-primary btn-lg" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterTasks($('#option1:checked').length);"><i class="fa fa-fw fa-search"></i> Начать поиск...</span>
+            <div class="col-md-12 center btn btn-group" style="margin-top:15px;">
+                <span class=" btn btn-primary btn-lg" style="margin-top:15px;width:50%" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="filterTasks($('#option1:checked').length);">
+                    <i class="fa fa-fw fa-search"></i> Искать...
+                </span>
+                <span class="btn btn-danger btn-lg" style="margin-top:15px;" data-loading-text="Now searching ..." data-toggle="btn-loading" onclick="resetFilterTasks();"><i class="fa fa-fw fa-refresh"></i> Сбросить</span>
             </div>
-        </form>
-    </div>
+    </form>
+</div>
 </div>
 
 <div class="col-separator-h"></div>
@@ -123,16 +132,25 @@
                             <div class="widget">
                                 <!-- Widget heading -->
                                 <div class="widget-head">
-                                    <h3 class="heading">Задачи без даты или просроченные</h3>
+                                    <h3 class="heading">Текущие задачи</h3>
                                 </div>
                                 <!-- // Widget heading END -->
                                 <div class="widget-body padding-none">
                                     <div class="innerAll inner-2x border-bottom">
                                         <!-- Events list -->
                                         <ul class="unstyled">
-                                            @foreach (var item in Model.SearchResult.Where(m => m.Status == TaskStatus.Expired || !m.DateStarted.HasValue))
+                                            @foreach (var item in Model.SearchResult.Where(m => m.DateStarted.HasValue && m.DateStarted.Value.Date < DateTime.Now.Date).OrderBy(m=>m.DateStarted.Value))
                                             {
-                                                <li onclick="loadModalContentWithCallback('modal-help', 'TaskDateTransfer', 'Task/GroupTask', '?taskId=@(item.TaskId)', initDateMask);" title="Задать дату выполнения"><span><i class="fa fa-clock-o"></i> </span>&nbsp;@item.TaskNumber</li>
+                                                <li style="background:red;" onclick="loadModalContentWithCallback('modal-help', 'TaskProcess', 'Task/GroupTask', '?taskId=@(item.TaskId)', initDateMask);" title="Обработать"><span><i class="fa fa-clock-o"></i> </span>&nbsp;@item.Title @(item.DateStarted.HasValue && item.DateStarted.Value.Date !=DateTime.Now.Date ?  item.DateStarted.Value.ToShortDateString() : item.DateStarted.Value.ToShortTimeString())</li>
+                                            }
+
+                                            @foreach (var item in Model.SearchResult.Where(m => m.DateStarted.HasValue && m.DateStarted.Value.Date == DateTime.Now.Date).OrderBy(m=>m.DateStarted.Value))
+                                            {
+                                                <li style="background:green;" onclick="loadModalContentWithCallback('modal-help', 'TaskProcess', 'Task/GroupTask', '?taskId=@(item.TaskId)', initDateMask);" title="Обработать"><span><i class="fa fa-clock-o"></i> </span>&nbsp;@item.Title @(item.DateStarted.HasValue && item.DateStarted.Value.Date != DateTime.Now.Date ? item.DateStarted.Value.ToShortDateString() : item.DateStarted.Value.ToShortTimeString())</li>
+                                            }
+                                            @foreach (var item in Model.SearchResult.Where(m => !m.DateStarted.HasValue))
+                                            {
+                                                <li style="background:gray" onclick="loadModalContentWithCallback('modal-help', 'TaskDateTransfer', 'Task/GroupTask', '?taskId=@(item.TaskId)', initDateMask);" title="Задать дату выполнения"><span><i class="fa fa-clock-o"></i> </span>&nbsp;@item.TaskNumber</li>
                                             }
                                         </ul>
                                         <!-- Events list END -->

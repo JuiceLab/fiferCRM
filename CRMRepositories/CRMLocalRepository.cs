@@ -71,11 +71,11 @@ namespace CRMRepositories
                 model.Activities = company.LegalEnityDetails.SelectMany(m=>m.LegalActivities).Select(m => m.C_ServiceId).ToList();
                 model.AssignedBy = company.Assigned;
                 model.Comment = company.Comment;
-                model.CityGuid = company.GeoLocation.CityGuid;
-                var city = BaseContext.Cities.FirstOrDefault(m => m.CityGuid == model.CityGuid);
+                model.City = company.GeoLocation.CityGuid;
+                var city = BaseContext.Cities.FirstOrDefault(m => m.CityGuid == model.City);
                if(city!=null)
                {
-                   model.City= city.CityId;
+                   model.City = city.CityGuid;
                    model.DistrictId = city.C_DistrictId;
                }
                 model.GeoAddr = new GeoEditModel()
@@ -101,51 +101,9 @@ namespace CRMRepositories
             return model;
         }
 
-        public MeetingEditModel GetMeetingEditModel(Guid? taskId, Guid userId,int? companyId = null)
-        {
-            MeetingEditModel model = new MeetingEditModel();
-            {
-                model.Date = DateTime.Now.Date.AddDays(1).ToShortDateString();
-                model.OwnerId = userId;
-                model.StatusId = (byte)EnumHelper.TaskStatus.Novelty;
-            };
-            if (companyId.HasValue)
-            {
-                var meeting = LocalContext.Meetings.Where(m =>m.Customer.C_LegalEntityId == companyId &&  m.StatusId != (byte)EnumHelper.TaskStatus.Completed)
-                .OrderBy(m=>m.Date)
-                .FirstOrDefault();
-                if (meeting != null)
-                {
-                    model.MeetingId = meeting.MeetingId;
-                    model.CustomerId = meeting.Customer.CustomerGuid;
-                    model.Goals = meeting.Goals;
-                    model.StatusId = meeting.StatusId;
-                    model.OwnerId = meeting.CreatedBy;
-                    model.Date = DateTime.Now.Date == meeting.Date.Date ? meeting.Date.ToShortTimeString() : meeting.Date.ToShortDateString();
-                    model.Result = meeting.ResultComment;
-                    model.Comment = meeting.Comment;
-                }
-            }
-
-            else  if (taskId.HasValue)
-            {
-                var meeting = LocalContext.Meetings.FirstOrDefault(m=>m.MeetingGuid == taskId.Value);
-                model.MeetingId = meeting.MeetingId;
-                model.CustomerId = meeting.Customer.CustomerGuid;
-                model.Goals = meeting.Goals;
-                model.StatusId = meeting.StatusId;
-                model.OwnerId = meeting.CreatedBy;
-                model.Date = DateTime.Now.Date == meeting.Date.Date ? meeting.Date.ToShortTimeString() : meeting.Date.ToShortDateString();
-                model.Result = meeting.ResultComment;
-                model.Comment = meeting.Comment;
-            }
-            return model;
-        }
-
         public void UpdateCompany(CRMCompanyEditModel company, Guid userId)
         {
             IFormatProvider provider = new CultureInfo("en-US");
-
             if (company.LegalEntityId == 0)
             {
                 var companyGuid = AddCompanyToBase(company, userId);
@@ -294,36 +252,6 @@ namespace CRMRepositories
             return legalEnitity;
         }
 
-        public void UpdateMeeting(MeetingEditModel meeting)
-        {
-            if (meeting.MeetingId == 0)
-            {
-                var model = new Meeting();
-                model.C_CustomerId = LocalContext.Customers.FirstOrDefault(m=>m.CustomerGuid == meeting.CustomerId).CustomerId;
-                model.Goals = meeting.Goals;
-                model.StatusId = meeting.StatusId;
-                model.CreatedBy = meeting.OwnerId;
-                model.Created = DateTime.Now;
-                model.Date = Convert.ToDateTime(meeting.Date);
-                model.ResultComment = meeting.Result;
-                model.Comment = meeting.Comment;
-                model.MeetingGuid = Guid.NewGuid();
-                LocalContext.InsertUnit(model);
-            }
-            else
-            {
-                var model = LocalContext.GetUnitById<Meeting>(meeting.MeetingId);
-                model.C_CustomerId = LocalContext.Customers.FirstOrDefault(m => m.CustomerGuid == meeting.CustomerId).CustomerId;
-                model.Goals = meeting.Goals;
-                model.StatusId = meeting.StatusId;
-                model.CreatedBy = meeting.OwnerId;
-                model.Date = Convert.ToDateTime(meeting.Date);
-                model.ResultComment = meeting.Result;
-                model.Comment = meeting.Comment;
-                LocalContext.SaveChanges();
-            }
-        }
-
         public IList<CRMCompanyViewModel> GetCompanies()
         {
             return LocalContext.LegalEntities
@@ -344,7 +272,7 @@ namespace CRMRepositories
                 Sites = string.IsNullOrEmpty(m.Sites) ? string.Empty : m.Sites,
                 PhotoPath = m.LogoPath,
                 Skype = m.Skype,
-                CityGuid = m.GeoLocation.CityGuid,
+                City = m.GeoLocation.CityGuid,
                 GeoAddr = new GeoEditModel()
                 {
                     Address = m.GeoLocation.Address,
@@ -421,7 +349,7 @@ namespace CRMRepositories
                 var items = LocalContext.Customers.Where(m => m.C_LegalEntityId.HasValue).Select(m => new { id = m.CustomerGuid, companyId = m.LegalEntity.CompanyGuid })
                    .GroupBy(m => m.companyId)
                    .ToDictionary(m => m.Key, m => m.Select(n => n.id).ToList());
-                foreach (var item in items)
+                foreach (var item in items.Where(m=> !model.Keys.Contains(m.Key)))
                 {
                     model.Add(item.Key, item.Value);
                 }
@@ -437,6 +365,8 @@ namespace CRMRepositories
                     .Where(m => m.CreatedBy == ownerId.Value)
                     .Select(m => new MeetingTaskPreview()
                 {
+                     CompanyPhoto = m.Customer.C_LegalEntityId.HasValue? m.Customer.LegalEntity.LogoPath : string.Empty,
+                     CustomerPhoto = m.Customer.PhotoPath, 
                     Phone = m.Customer.Phone,
                     CustomerId = m.Customer.CustomerGuid,
                     Date = m.Date,
@@ -452,6 +382,8 @@ namespace CRMRepositories
             {
                 return LocalContext.Meetings.Select(m => new MeetingTaskPreview()
                 {
+                    CompanyPhoto = m.Customer.C_LegalEntityId.HasValue ? m.Customer.LegalEntity.LogoPath : string.Empty,
+                    CustomerPhoto = m.Customer.PhotoPath,
                     CustomerId = m.Customer.CustomerGuid,
                     Date = m.Date,
                     CustomerName = m.Customer.LegalEntity.LegalName + ":" + m.Customer.FirstName + " " + m.Customer.LastName,
@@ -467,7 +399,7 @@ namespace CRMRepositories
         {
 
             return LocalContext.Meetings
-                .Where(m => customers.Contains(m.Customer.CustomerGuid))
+                .Where(m => customers.Contains(m.Customer.CustomerGuid) && m.StatusId != (byte)EnumHelper.TaskStatus.Completed)
                 .Select(m => new MeetingTaskPreview()
             {
                 CustomerId = m.Customer.CustomerGuid,
@@ -488,16 +420,19 @@ namespace CRMRepositories
                 .Where(m => (availableOwners.Contains(m.CreatedBy)
                     || (m.Assigned.HasValue && availableOwners.Contains(m.Assigned.Value))));
 
-            if(companyId.HasValue)
-                customers = customers.Where(m=>m.C_LegalEntityId.HasValue && m.C_LegalEntityId == companyId.Value);
-            
-            return customers
-                    .ToList()
-                    .Select(m => new SelectListItem()
-                    {
-                        Text = (string.IsNullOrEmpty(m.Phone) ? "Не задан телефон! " : string.Empty) + (m.C_LegalEntityId.HasValue ? m.LegalEntity.LegalName + ": " : string.Empty) + m.FirstName + " " + m.LastName + ". " + m.Phone,
-                        Value = string.IsNullOrEmpty(m.Phone) ? "" : m.CustomerGuid.ToString()
-                    }).ToList();
+            if (companyId.HasValue)
+                customers = customers.Where(m => m.C_LegalEntityId.HasValue && m.C_LegalEntityId == companyId.Value);
+
+            var result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "Клиент не выбран" });
+            result.AddRange(customers
+                     .ToList()
+                     .Select(m => new SelectListItem()
+                     {
+                         Text = (string.IsNullOrEmpty(m.Phone) ? "Не задан телефон! " : string.Empty) + (m.C_LegalEntityId.HasValue ? m.LegalEntity.LegalName + ": " : string.Empty) + m.FirstName + " " + m.LastName + ". " + m.Phone,
+                         Value = string.IsNullOrEmpty(m.Phone) ? "" : m.CustomerGuid.ToString()
+                     }).ToList());
+            return result;
         }
 
         public IEnumerable<SelectListItem> GetSerivces4CustomerCompany(int customerId)
@@ -735,14 +670,56 @@ namespace CRMRepositories
                     C_LegalEntityId = legalEnitity.LegalEntityId
                 });
             }
-
-            foreach (var item in company.LegalEntityAddPhones)
+            List<int> existLocation = new List<int>();
+            foreach (var item in company.LegalEntityAddresses)
             {
-                LocalContext.InsertUnit(new LegalEntityAddPhone()
+                var curLocation = LocalContext.GeoLocations
+                    .FirstOrDefault(m => m.Latitude == item.GeoLocation.Latitude
+                                        && m.Longitude == item.GeoLocation.Longitude
+                                        && m.Address == item.GeoLocation.Address);
+                if (curLocation == null)
                 {
+                    curLocation = new GeoLocation()
+                    {
+                        Address = item.GeoLocation.Address,
+                        Latitude = item.GeoLocation.Latitude,
+                        Longitude = item.GeoLocation.Longitude,
+                        Comment = item.GeoLocation.Comment
+                    };
+                    LocalContext.InsertUnit(curLocation);
+                }
+                existLocation.Add(item.C_GeoLocationId);
+                LocalContext.InsertUnit(new LegalEntityAddress()
+                {
+                    Mails = item.Mails,
+                    AddAddress = item.AddAddress,
                     Phones = item.Phones,
                     C_LegalEntityId = legalEnitity.LegalEntityId,
-                    C_GeoLocationId = location.GeoLocationId
+                    C_GeoLocationId = curLocation.GeoLocationId
+                });
+            }
+
+            foreach (var item in company.GeoLocations.Where(m=> !existLocation.Contains(m.GeoLocationId)))
+            {
+                var curLocation = LocalContext.GeoLocations
+                    .FirstOrDefault(m => m.Latitude == item.Latitude
+                                    && m.Longitude == item.Longitude 
+                                    && m.Address == item.Address);
+                if (curLocation == null)
+                {
+                    curLocation = new GeoLocation()
+                    {
+                        Address = item.Address,
+                        Latitude = item.Latitude,
+                        Longitude = item.Longitude,
+                        Comment = item.Comment
+                    };
+                    LocalContext.InsertUnit(curLocation);
+                } 
+                LocalContext.InsertUnit(new LegalEntityAddress()
+                {
+                    C_LegalEntityId = legalEnitity.LegalEntityId,
+                    C_GeoLocationId = curLocation.GeoLocationId
                 });
             }
 
@@ -790,15 +767,16 @@ namespace CRMRepositories
                    id = m.CustomerGuid,
                    photo = m.PhotoPath,
                    phone = m.Phone,
-                   company = m.LegalEntity.LegalName, 
+                   logo = m.C_LegalEntityId.HasValue ? m.LegalEntity.LogoPath : string.Empty,
+                   company = m.C_LegalEntityId.HasValue? m.LegalEntity.LegalName : "физ. лицо", 
                    name = m.FirstName + " " + m.LastName });
            foreach (var item in CallTasks)
            {
                var customer = existCustomers.FirstOrDefault(m => m.id == item.CustomerId);
                item.AssignId = ids[0];
-               LocalContext.SaveChanges();
                if (customer != null)
                {
+                   item.CompanyPhoto = customer.logo;
                    item.CustomerPhoto = customer.photo;
                    item.Phone = customer.phone;
                    item.CustomerName = customer.name;
@@ -850,6 +828,7 @@ namespace CRMRepositories
                 SheduledEvents[item] = SheduledEvents[item].Union(items.Where(m => m.EventDate.Date == item).ToList());
             }
         }
+
 
         public IEnumerable<SelectListItem> GetExpenseServices()
         {
@@ -973,9 +952,9 @@ namespace CRMRepositories
             return LocalContext.LegalEntities.FirstOrDefault(m => m.CompanyGuid == companyId);
         }
 
-        public List<MessageViewModel> GetModifyLog(Guid companyId)
+        public List<MessageViewModel> GetModifyLog(Guid objId)
         {
-            var items = LocalContext.ModifyLogs.Where(m => m.ObjId == companyId)
+            var items = LocalContext.ModifyLogs.Where(m => m.ObjId == objId)
                 .Select(m => new MessageViewModel()
                 {
                     Created = m.Created,
@@ -1181,7 +1160,7 @@ namespace CRMRepositories
                 Comment = exist.Comment,
                 Assigned = exist.Assigned,
                 DateStartedStr = exist.DateStarted.ToString("dd.MM.yyyy"),
-                TimeStartedStr = exist.DateStarted.ToString("hh:mm"),
+                TimeStartedStr = exist.DateStarted.ToString("HH:mm"),
                 TicketId = exist.TaskTicketId
             };
             return model;
@@ -1226,8 +1205,8 @@ namespace CRMRepositories
             if (existLegalEnitites.Count() > 1)
             {
                 if (model.City.HasValue )
-                    existLegalEnitites = existLegalEnitites.Where(n => model.City.Value == n.GeoLocation.C_CityId
-                        || (n.C_CurrentLegalDetailId.HasValue && n.LegalEnityDetail.C_GeoId.HasValue && model.City.Value == n.LegalEnityDetail.GeoLocation.C_CityId));
+                    existLegalEnitites = existLegalEnitites.Where(n => model.City.Value == n.GeoLocation.City.CityGuid
+                        || (n.C_CurrentLegalDetailId.HasValue && n.LegalEnityDetail.C_GeoId.HasValue && model.City.Value == n.LegalEnityDetail.GeoLocation.City.CityGuid));
                 if (model.Services != null && model.Services.Count > 0)
                     existLegalEnitites = existLegalEnitites.Where(m => m.LegalActivities.Any(n => model.Services.Contains(n.C_ServiceId)));
             }
@@ -1273,13 +1252,23 @@ namespace CRMRepositories
         {
             var legalEntity = LocalContext.GetUnitById<LegalEntity>(companyId);
             var items = new List<GeoLocation>();
-            items.AddRange(legalEntity.GeoLocations);
+            items.AddRange(legalEntity.LegalEntityAddresses.Select(m => m.GeoLocation));
             items.Add(legalEntity.GeoLocation);
-            return items.Select(m => new CompanyAddressViewModel()
+            return items.Distinct()
+                .ToList()
+                .Select(m => new CompanyAddressViewModel()
             {
                 Latitude = m.Latitude.ToString(),
                 Longitude = m.Longitude.ToString(),
-                Phones = m.LegalEntityAddPhones.Count > 0 ? string.Join(",", m.LegalEntityAddPhones.Select(n => n.Phones)) : string.Empty,
+                Phones = m.LegalEntityAddresses.Where(n=>n.C_LegalEntityId == companyId).Count() > 0
+                    ? string.Join(", ", m.LegalEntityAddresses.Where(n => n.C_LegalEntityId == companyId).Select(n => n.Phones))
+                    : string.Empty,
+                Mails = m.LegalEntityAddresses.Where(n => n.C_LegalEntityId == companyId).Count() > 0
+                    ? string.Join(", ", m.LegalEntityAddresses.Where(n => n.C_LegalEntityId == companyId).Select(n => n.Mails))
+                    : string.Empty,
+                AddNumber = m.LegalEntityAddresses.Where(n => n.C_LegalEntityId == companyId).Count() > 0
+                   ? string.Join(", ", m.LegalEntityAddresses.Where(n => n.C_LegalEntityId == companyId).Select(n => n.AddAddress))
+                   : string.Empty,
                 AddrId = m.GeoLocationId,
                 CompanyId = companyId,
                 CityGuid = m.CityGuid,
@@ -1290,47 +1279,44 @@ namespace CRMRepositories
         public void UpdateLegalAddress(CompanyAddressViewModel model)
         {
             IFormatProvider provider = new CultureInfo("en-US");
-
-            if (model.AddrId == 0)
+            if (model.Latitude.Contains(".") || model.Longitude.Contains("."))
             {
-                GeoLocation geo = new GeoLocation()
+                if (model.AddrId == 0)
                 {
-                    Address = model.Address,
-                    Latitude = Convert.ToDouble(model.Latitude, provider),
-                    Longitude = Convert.ToDouble(model.Longitude, provider),
-                    CityGuid = model.CityGuid,
-                };
-                
-                LocalContext.InsertUnit(geo);
-                LocalContext.LegalEntities
-                    .FirstOrDefault(m => m.LegalEntityId == model.CompanyId)
-                    .GeoLocations
-                    .Add(geo);
-                LocalContext.SaveChanges();
-                if (!string.IsNullOrEmpty(model.Phones))
-                {
-                    LocalContext.InsertUnit(new LegalEntityAddPhone()
+                    GeoLocation geo = new GeoLocation()
                     {
+                        Address = model.Address,
+                        Latitude = Convert.ToDouble(model.Latitude, provider),
+                        Longitude = Convert.ToDouble(model.Longitude, provider),
+                        CityGuid = model.CityGuid,
+                    };
+
+                    LocalContext.InsertUnit(geo);
+
+                    LocalContext.InsertUnit(new LegalEntityAddress()
+                    {
+                        Mails = model.Mails,
+                        AddAddress = model.AddNumber,
                         Phones = model.Phones,
                         C_LegalEntityId = model.CompanyId,
                         C_GeoLocationId = geo.GeoLocationId
                     });
                 }
-            }
-            else
-            {
-                var geo = LocalContext.GetUnitById<GeoLocation>(model.AddrId);
-                geo.Address = model.Address;
+                else
+                {
+                    var geo = LocalContext.GetUnitById<GeoLocation>(model.AddrId);
+                    geo.Address = model.Address;
                     geo.Latitude = Convert.ToDouble(model.Latitude, provider);
                     geo.Longitude = Convert.ToDouble(model.Longitude, provider);
                     geo.CityGuid = model.CityGuid;
                     LocalContext.SaveChanges();
-                if (!string.IsNullOrEmpty(model.Phones))
-                {
-                    if (!geo.LegalEntityAddPhones.Any(m => m.C_LegalEntityId == model.CompanyId))
+
+                    if (!geo.LegalEntityAddresses.Any(m => m.C_LegalEntityId == model.CompanyId))
                     {
-                        LocalContext.InsertUnit(new LegalEntityAddPhone()
+                        LocalContext.InsertUnit(new LegalEntityAddress()
                         {
+                            Mails = model.Mails,
+                            AddAddress = model.AddNumber,
                             Phones = model.Phones,
                             C_LegalEntityId = model.CompanyId,
                             C_GeoLocationId = geo.GeoLocationId
@@ -1338,7 +1324,10 @@ namespace CRMRepositories
                     }
                     else
                     {
-                        geo.LegalEntityAddPhones.FirstOrDefault(m => m.C_LegalEntityId == model.CompanyId).Phones = model.Phones;
+                        var existLegal = geo.LegalEntityAddresses.FirstOrDefault(m => m.C_LegalEntityId == model.CompanyId);
+                        existLegal.Phones = model.Phones;
+                        existLegal.Mails = model.Mails;
+                        existLegal.AddAddress = model.AddNumber;
                         LocalContext.SaveChanges();
                     }
                 }
@@ -1358,23 +1347,38 @@ namespace CRMRepositories
             if (addrId.HasValue)
             {
                 var curGeo = LocalContext.GetUnitById<GeoLocation>(addrId.Value);
-                model.Latitude = curGeo.Latitude.ToString().Replace(",",".");
+                model.Latitude = curGeo.Latitude.ToString().Replace(",", ".");
                 model.Longitude = curGeo.Longitude.ToString().Replace(",", ".");
-                    model.Phones = curGeo.LegalEntityAddPhones.Where(m=>m.C_LegalEntityId == companyId).Count() > 0 ?
-                        string.Join(",", curGeo.LegalEntityAddPhones.Where(m => m.C_LegalEntityId == companyId).Select(n => n.Phones))
-                        : string.Empty;
-                    model.AddrId = curGeo.GeoLocationId;
-                    model.CompanyId = companyId;
-                    model.CityGuid = curGeo.CityGuid;
-                    model.Address = curGeo.Address;
+                model.Phones = curGeo.LegalEntityAddresses.Where(m => m.C_LegalEntityId == companyId).Count() > 0 ?
+                    string.Join(",", curGeo.LegalEntityAddresses.Where(m => m.C_LegalEntityId == companyId).Select(n => n.Phones))
+                    : string.Empty;
+                model.AddrId = curGeo.GeoLocationId;
+                model.CompanyId = companyId;
+                model.CityGuid = curGeo.CityGuid;
+                model.Address = curGeo.Address;
             }
             return model;
         }
 
-        public List<MessageViewModel> GetMeetingsHistory(Guid companyId)
+        public List<SelectListItem> GetMeetings(IEnumerable<Guid> customers)
         {
-            return new List<MessageViewModel>();
+            var lastMonth = DateTime.Now.AddMonths(-3);
+            return LocalContext.Meetings
+                .Where(m => m.Created > lastMonth
+                    && customers.Contains(m.Customer.CustomerGuid))
+                .Select(m => new { id = m.MeetingGuid, title = m.Customer.FirstName + " " + m.Customer.LastName })
+                .ToList()
+                .Select(m => new SelectListItem() {  Text = m.title, Value = m.id.ToString()})
+                .ToList();
+        }
 
+        public Guid? GetLastCompanyMeeting(int companyId)
+        {
+            return LocalContext.Meetings
+                .Where(m => m.Customer.C_LegalEntityId == companyId 
+                    && m.StatusId != (byte)EnumHelper.TaskStatus.Completed)
+                .OrderBy(m => m.Date)
+                .FirstOrDefault().MeetingGuid;
         }
     }
 }

@@ -7,6 +7,7 @@ using Interfaces.Finance;
 using LogService.FilterAttibute;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +18,7 @@ namespace fifer_crm.Areas.Workspace.Controllers
     {
         [Authorize, CRMLogAttribute]
         // GET: Workspace/Finance
+        [DisplayName("Главная страница финансовго отдела")]
         public ActionResult Index(FinanceFilter filter)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);

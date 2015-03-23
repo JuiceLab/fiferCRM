@@ -23,6 +23,8 @@ namespace fifer_crm.Areas.Workspace.Controllers
             DepartmentRepository repository = new DepartmentRepository();
 
             var model = new EmployeeWrapViewModel(_userId);
+            ViewBag.Profile = model.UserPhoto;
+
             model.Menu = GetMenu("Текущие задачи");
             return View(model);
         }

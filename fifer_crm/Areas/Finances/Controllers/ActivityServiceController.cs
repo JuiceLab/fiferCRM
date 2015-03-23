@@ -6,6 +6,7 @@ using FinanceRepositories;
 using LogService.FilterAttibute;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,19 +17,23 @@ namespace fifer_crm.Areas.Finances.Controllers
     public class ActivityServiceController : BaseFiferController
     {
         // GET: Finances/ActivityService
+        [DisplayName("Страница услуг")]
         public ActionResult Index()
         {
             FinanceBaseRepository repository = new  FinanceBaseRepository(_userId);
             FinanceClause model = repository.GetFinanceClause();
             model.Menu = GetMenu("Статьи доходов и расходов");
             CompanyRepository companyRepository = new CompanyRepository();
-            ViewBag.IsRegisterCompany = companyRepository.GetShortCompanyInfoByUserId(_userId).Guid.HasValue;
+            var company = companyRepository.GetShortCompanyInfoByUserId(_userId);
+            ViewBag.IsRegisterCompany = company.Guid.HasValue;
+            ViewBag.Profile = company.UserPhoto;
 
             companyRepository.UpdateCompanyInfoByUserId(_userId, model);
             return View(model);
         }
 
         [HttpGet]
+        [DisplayName("Загрузка формы редактирования услуги")]
         public ActionResult ActivityServiceEdit(int? serviceId)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);
@@ -47,6 +52,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение услуги")]
         public ActionResult ActivityServiceEdit(ActivityServiceItem model)
         {
             CompanyRepository companyRepository = new CompanyRepository();
@@ -58,6 +64,7 @@ namespace fifer_crm.Areas.Finances.Controllers
             return RedirectToAction("Index");
         }
 
+        [DisplayName("Загрузка формы редактирования расхода")]
         [HttpGet]
         public ActionResult ExpenseEdit(int? expenseId)
         {
@@ -66,6 +73,7 @@ namespace fifer_crm.Areas.Finances.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Сохранение расхода")]
         public ActionResult ExpenseEdit(SelectListItem model)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);

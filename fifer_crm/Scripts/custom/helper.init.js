@@ -1,10 +1,11 @@
 ﻿//var apihost = "http://localhost:2271/api";
-var apihost = "http://wf.bizinvit.ru/api";
+ var apihost = "http://wf.bizinvit.ru/api";
+$(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
+    hideProgress();
+});
 
 $(function () {
-    $(document).ajaxError(function myErrorHandler(event, xhr, ajaxOptions, thrownError) {
-        hideProgress();
-    });
+    
     jQuery.extend(jQuery.validator.methods, {
         date: function (value, element) {
             return value.match(/^\d\d?\.\d\d?\.\d\d\d\d$/);

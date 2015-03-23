@@ -31,7 +31,7 @@ namespace fifer_crm.Controllers
 
             var model = new TaskWrapViewModel(_userId, true);
             model.Menu = GetMenu("Вопросы тех. поддержки");
-
+            ViewBag.Profile = model.UserPhoto;
             return View(model);
         }
 

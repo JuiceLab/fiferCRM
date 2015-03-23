@@ -9,6 +9,7 @@ using fifer_crm.Models;
 using LogService.FilterAttibute;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,6 +20,7 @@ namespace fifer_crm.Areas.CRM.Controllers
     [Authorize, CRMLogAttribute]
     public class CustomerController : BaseFiferController
     {
+        [DisplayName("Загрузка списка сотрудников ю.л.")]
         public ActionResult CustomersList(Guid? companyId)
         {
             CRMCustomerRepository crmRepository = new CRMCustomerRepository(_userId);
@@ -38,6 +40,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка истории взаимодейсвтия с физ. лицом")]
         public ActionResult GetHistory(Guid customerId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -62,6 +65,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Загрузка формы редактирования клиента")]
         public ActionResult Edit(int? customerId, bool? isLegal)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -78,12 +82,11 @@ namespace fifer_crm.Areas.CRM.Controllers
             }
             else
             {
-               
-
                 model.Passport = repository.GetCustomerPassport(customerId);
                 return PartialView("EditNonLegal", model); 
             }
         }
+        [DisplayName("Загрузка формы редактирования клиента")]
         public ActionResult CustomerEditForm(int? customerId, Guid? companyId)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -102,6 +105,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             return PartialView(model);
         }
         [HttpPost]
+        [DisplayName("Сохранение данных клиента")]
         public ActionResult Edit(CustomerEditModel model)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -110,6 +114,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
 
+        [DisplayName("Загрузка паспортных данных клиента")]
         public ActionResult EditPassportCustomer(Guid customerId)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -128,6 +133,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение паспортных данных клиента")]
         public ActionResult EditPassportCustomer(PassportViewModel model, List<string> scanPaths)
         {
             if (scanPaths !=null)
@@ -137,6 +143,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
+        [DisplayName("Загрузка списка услуг клиента")]
         public ActionResult CompanyServices(int customerId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -145,6 +152,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка формы назначения клиента за сотрудником")]
         public ActionResult Assign(int? customerId)
         {
             InitSubordinatedUsers();
@@ -158,6 +166,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение сотрудника, закрепленного за клиентом")]
         public ActionResult Assign(CustomerEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -168,6 +177,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загруза формы изменения статуса клиента")]
         public ActionResult ChangeStatus(int customerId)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -176,6 +186,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение статуса клиента")]
         public ActionResult ChangeStatus(CustomerEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -184,6 +195,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка комментария по клиенту")]
         public ActionResult EditComment(int customerId)
         {
             CRMCustomerRepository repository = new CRMCustomerRepository(_userId);
@@ -193,6 +205,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение комментария по клиенту")]
         public ActionResult EditComment(CustomerEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);

@@ -29,15 +29,15 @@ namespace CRMContext
         public virtual DbSet<LegalEntity> LegalEntities { get; set; }
         public virtual DbSet<LegalActivity> LegalActivities { get; set; }
         public virtual DbSet<LegalEnityDetail> LegalEnityDetails { get; set; }
-        public virtual DbSet<CompanyService> CompanyServices { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<GeoLocation> GeoLocations { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Passport> Passports { get; set; }
-        public virtual DbSet<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
         public virtual DbSet<LegalEntityView> LegalEntityViews { get; set; }
         public virtual DbSet<LegalEntityShortView> LegalEntityShortViews { get; set; }
         public virtual DbSet<GeoLocationCityView> GeoLocationCityViews { get; set; }
+        public virtual DbSet<CompanyService> CompanyServices { get; set; }
+        public virtual DbSet<LegalEntityAddress> LegalEntityAddresses { get; set; }
     }
 }

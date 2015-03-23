@@ -33,6 +33,7 @@
                     <input id="photoType" type="hidden" value="company" @*todo set save favicon form 'website' + '/favicon.ico' *@ />
                     @Html.HiddenFor(m => m.GeoAddr.Latitude)
                     @Html.HiddenFor(m => m.GeoAddr.Longitude)
+                    @Html.HiddenFor(m => m.Address)
                     @Html.HiddenFor(m => m.LegalEntityId)
                     @Html.HiddenFor(m => m.PhotoPath, new { @class = "photo_hidden" })
 
@@ -95,9 +96,6 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="address-data">
-                                        @Html.HiddenFor(m => m.GeoAddr.Latitude)
-                                        @Html.HiddenFor(m => m.GeoAddr.Longitude)
-                                        @Html.HiddenFor(m => m.Address)
                                         <div class="col-md-12 ">
                                             @Html.LabelFor(m => m.DistrictId)
                                             @Html.DropDownListFor(m => m.DistrictId, districts, new { @class = "col-md-6 form-control", placeholder = "Город" })
@@ -131,7 +129,7 @@
                                             <div class="separator"></div>
                                         </div>
                                         <div class="col-md-12" style="margin-top:10px">
-                                            <span class="btn btn-success" style="width:100%" onclick="setLegalAddr();" >Показать на карте</span>
+                                            <span class="btn btn-success" style="width:100%" onclick="setAddAddr();" >Показать на карте</span>
                                         </div>
                                         <div class="form-group">
                                             <label class="label label-info" id="addr" style="text-align:center">@Model.Address</label>

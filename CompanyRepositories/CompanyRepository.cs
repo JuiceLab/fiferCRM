@@ -134,12 +134,13 @@ namespace CompanyRepositories
 
         public CompanyViewModel GetShortCompanyInfoByUserId(Guid userId)
         {
-            var companyId = ViewContext.UserInDepartmentView
-                .FirstOrDefault(m => m.UserId == userId)
-                .C_CompanyId;
+            var user = ViewContext.UserInDepartmentView
+                .FirstOrDefault(m => m.UserId == userId);
+            var companyId = user.C_CompanyId;
             var company = Context.Companies.FirstOrDefault(m => m.CompanyId == companyId);
             var model = new CompanyViewModel()
             {
+                UserPhoto = user.PhotoPath,
                 Guid = company.CRMGuid,
                 CompanyId = companyId,
                 CompanyName = company.CompanyName,

@@ -71,7 +71,7 @@
     <Compile Include="LegalEntity.cs">
       <DependentUpon>LocalCRMEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="LegalEntityAddPhone.cs">
+    <Compile Include="LegalEntityAddress.cs">
       <DependentUpon>LocalCRMEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="LocalCRMEntities.Context.cs">
@@ -93,6 +93,9 @@
       <DependentUpon>LocalCRMEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="MeetingTransfer.cs">
+      <DependentUpon>LocalCRMEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Message.cs">
       <DependentUpon>LocalCRMEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ModifyLog.cs">

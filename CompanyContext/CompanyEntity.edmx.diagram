@@ -30,6 +30,8 @@
         <AssociationConnector Association="CompanyModel.FK_Employee_WorkGroup" />
         <EntityTypeShape EntityType="CompanyModel.WebSite" Width="1.5" PointX="5.25" PointY="14.125" />
         <AssociationConnector Association="CompanyModel.FK_WebSite_Company" />
+        <EntityTypeShape EntityType="CompanyModel.TimesheetBreak" Width="1.5" PointX="14.25" PointY="9.75" />
+        <AssociationConnector Association="CompanyModel.FK_TimesheetBreak_EmployeeTimesheet" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

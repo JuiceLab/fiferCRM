@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="fifer_userModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="fifer_userModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AppCookie">
           <Key>
             <PropertyRef Name="CookieId" />
@@ -102,6 +102,8 @@
           <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="IsTemporaryAbsent" Type="bit" />
           <Property Name="AbsentReason" Type="nvarchar" MaxLength="1024" />
+          <Property Name="AvailableIps" Type="text" />
+          <Property Name="RemoteToken" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="UserFunctionalRole">
           <Key>
@@ -452,6 +454,8 @@
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="IsTemporaryAbsent" Type="Boolean" />
           <Property Name="AbsentReason" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="AvailableIps" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="RemoteToken" Type="Guid" />
         </EntityType>
         <EntityType Name="UserFunctionalRole">
           <Key>
@@ -686,6 +690,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FiferUserModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="RemoteToken" ColumnName="RemoteToken" />
+                <ScalarProperty Name="AvailableIps" ColumnName="AvailableIps" />
                 <ScalarProperty Name="AbsentReason" ColumnName="AbsentReason" />
                 <ScalarProperty Name="IsTemporaryAbsent" ColumnName="IsTemporaryAbsent" />
                 <ScalarProperty Name="Created" ColumnName="Created" />

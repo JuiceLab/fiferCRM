@@ -61,7 +61,7 @@ where Value1 = @IdWF";
         public void CreateNoveltyTicket(TicketModel.CallTicket ticket, Guid userGuid)
         {
             ticket.CreatedBy = userGuid;
-            var localWF = new TaskDispatcher<StateMachine.CallSM.CallSM_v1>();
+            var localWF = new CallTaskDispatcher<StateMachine.CallSM.CallSM_v1>();
             localWF.InitObj(ticket);
         }
 

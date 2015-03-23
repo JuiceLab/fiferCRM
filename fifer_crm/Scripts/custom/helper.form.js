@@ -135,7 +135,6 @@ function initLegalEnitityForm()
     $("#Phones").tagsInput();
     $("#Sites").tagsInput();
     $("#Mails").tagsInput();
-  
     
     if ($('#companySearch #Services').length > 0)
     {
@@ -144,18 +143,12 @@ function initLegalEnitityForm()
             $.get("/GeoLocation/District/GetCities?distrId=" + $("#companySearch #DistrictId").val(),
                 function (result) {
                     $("#companySearch #city-Drop").html(result);
-                    if ($("#google-map-geo-add").length > 0) {
-                        $("#companySearch #City").on("change", function () {
-                            codeAddress($("#companySearch #City option:selected").text(), "google-map-geo-add");
-                        })
-                    }
                 });
         });
     }
 
     if ($('#legalEditForm #Activities').length > 0)
     {
-      
         $("#legalEditForm #DistrictId").on("change", function () {
             $.get("/GeoLocation/District/GetCities?distrId=" + $("#legalEditForm #DistrictId").val(),
                 function (result) {
@@ -163,25 +156,9 @@ function initLegalEnitityForm()
                     if ($("#google-map-geo-add").length > 0) {
                         $("#City").on("change", function () {
                             $("#legalEditForm #City").on("change", function () {
-                                codeAddress($("#legalEditForm #City").text(), "google-map-geo-add");
+                                codeAddAddress($("#legalEditForm #City").text());
                             })
-                            codeAddress($("#legalEditForm #City option:selected").text(), "google-map-geo-add");
-                        })
-                    }
-                });
-        });
-    }
-  
-
-    if ($('#legalEditForm #Services').length > 0) {
-        $('#legalEditForm #Services').select2();
-        $("#legalEditForm #DistrictId").on("change", function () {
-            $.get("/GeoLocation/District/GetCities?distrId=" + $("#DistrictId").val(),
-                function (result) {
-                    $("#legalEditForm #city-Drop").html(result);
-                    if ($("#google-map-geo-add").length > 0) {
-                        $("#City").on("change", function () {
-                            codeAddress($("#City option:selected").text(), "google-map-geo-add");
+                            codeAddAddress($("#legalEditForm #City option:selected").text());
                         })
                     }
                 });
@@ -315,16 +292,6 @@ function editCustomerNonLegal()
     }
 }
 
-function editMeeting()
-{
-    if ($("#taskTicket").valid()) {
-        $.post($("#taskTicket").attr("action"),
-            $("#taskTicket").serialize(),
-             function (result) {
-                location.reload();
-             });
-    }
-}
 function editCall()
 {
     if ($("#taskTicket").valid()) {
@@ -365,4 +332,11 @@ function changePaymentStatus(statusId)
     )
 }
 
+function updateUserLock() {
+    $("#employee-lock-form").parents(".modal").find(".close").trigger("click");
 
+    $.post($("#employee-lock-form").attr("action"),
+    $("#employee-lock-form").serialize(),
+        function (result) {
+        });
+}

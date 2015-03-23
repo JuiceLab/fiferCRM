@@ -1,5 +1,6 @@
 ﻿using AccessRepositories;
 using CompanyRepositories;
+using CRMRepositories;
 using EnumHelper;
 using fifer_crm.Helpers;
 using fifer_crm.Models;
@@ -59,25 +60,33 @@ namespace fifer_crm.Controllers
         [DisplayName("История сообщений по задаче")]
         public ActionResult TaskHistory(Guid taskId, string taskNumber)
         {
-            IEnumerable<MessageViewModel> messages = _repository.GetMessages4Item(taskId);
-            IEnumerable<MessageViewModel> statuses = _repository.GetStatus4Task(taskId);
-            
+            CRMLocalRepository repository = new CRMLocalRepository(_userId);
+
+            Dictionary<string, List<MessageViewModel>> model = new Dictionary<string, List<MessageViewModel>>();
+            model.Add("Изменения", repository.GetModifyLog(taskId));
+          
+            model.Add("Сообщения", _repository.GetMessages4Item(taskId).ToList());
+            model.Add("Статусы", _repository.GetStatus4Task(taskId).ToList());
+        
             StaffRepository staffRepository = new StaffRepository();
-            var employees = staffRepository.GetEmployees(_userId).ToList();
-            foreach (var item in messages)
+            var users = staffRepository.GetSubordinatedUsers(_userId);
+            var photos = staffRepository.GetEmployeesPhoto(_userId);
+
+            MembershipRepository membershipRepository = new MembershipRepository();
+            var names = membershipRepository.GetUserByIds(model.SelectMany(m => m.Value).Select(m => m.UserId).Distinct());
+            foreach (var item in model.SelectMany(m => m.Value))
             {
-                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
-                item.Title = exist.FirstName + ' ' + exist.LastName;
-                item.IconPath = exist.PhotoPath; 
+                if (item.UserId != Guid.Empty)
+                {
+                    var owner = names.FirstOrDefault(m => m.UserId == item.UserId);
+                    item.Title = owner != null ? string.Format("{0} {1}", owner.FirstName, owner.LastName) : string.Empty;
+                    item.IconPath = photos[item.UserId];
+                }
             }
-            foreach (var item in statuses)
-            {
-                var exist = employees.FirstOrDefault(m => m.UserId == item.UserId);
-                item.Title = exist.FirstName + ' ' + exist.LastName;
-                item.IconPath = exist.PhotoPath;
-            }
+          
             ViewBag.Number = taskNumber;
-            return PartialView(messages.Union(statuses));
+            return PartialView(model);
+
         }
 
         [DisplayName("Загрузка доступных действий для задачи")]
@@ -88,6 +97,7 @@ namespace fifer_crm.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Загрузка таблицы задач")]
         public ActionResult GetTaskTable(Guid userId)
         {
             var model = new TaskWrapViewModel((Guid)Membership.GetUser().ProviderUserKey, false);

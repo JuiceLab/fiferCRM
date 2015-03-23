@@ -13,9 +13,6 @@
         <EntityTypeShape EntityType="CRMModel.LegalEnityDetail" Width="1.5" PointX="10.5" PointY="3.375" />
         <AssociationConnector Association="CRMModel.FK_LegalEnityDetail_LegalEntity" />
         <AssociationConnector Association="CRMModel.FK_LegalEntity_LegalEnityDetail" />
-        <EntityTypeShape EntityType="CRMModel.CompanyService" Width="1.5" PointX="0.75" PointY="1" />
-        <AssociationConnector Association="CRMModel.FK_CompanyService_CompanyService" />
-        <AssociationConnector Association="CRMModel.FK_LegalActivity_CompanyService" />
         <EntityTypeShape EntityType="CRMModel.City" Width="1.5" PointX="0.75" PointY="4.875" />
         <EntityTypeShape EntityType="CRMModel.District" Width="1.5" PointX="5.25" PointY="1.125" />
         <EntityTypeShape EntityType="CRMModel.GeoLocation" Width="1.5" PointX="3" PointY="4.375" />
@@ -29,13 +26,16 @@
         <AssociationConnector Association="CRMModel.FK_City_District" />
         <AssociationConnector Association="CRMModel.FK_Customer_LegalEntity" />
         <AssociationConnector Association="CRMModel.FK_Customer_Passport" />
-        <EntityTypeShape EntityType="CRMModel.LegalEntityAddPhone" Width="1.5" PointX="10.5" PointY="0.75" />
         <AssociationConnector Association="CRMModel.FK_Customer_LegalEntity1" />
-        <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_GeoLocation" />
-        <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_LegalEntity" />
         <EntityTypeShape EntityType="CRMModel.LegalEntityView" Width="1.5" PointX="3.375" PointY="10.75" />
         <EntityTypeShape EntityType="CRMModel.LegalEntityShortView" Width="1.5" PointX="7.375" PointY="11.75" />
         <EntityTypeShape EntityType="CRMModel.GeoLocationCityView" Width="1.5" PointX="9.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CRMModel.CompanyService" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="CRMModel.LegalEntityAddress" Width="1.5" PointX="12.875" PointY="9.375" />
+        <AssociationConnector Association="CRMModel.FK_CompanyService_CompanyService" />
+        <AssociationConnector Association="CRMModel.FK_LegalActivity_CompanyService" />
+        <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_GeoLocation" />
+        <AssociationConnector Association="CRMModel.FK_LegalEntityAddPhone_LegalEntity" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

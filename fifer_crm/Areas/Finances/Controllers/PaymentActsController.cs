@@ -6,6 +6,7 @@ using FinanceModel;
 using FinanceRepositories;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,20 +16,25 @@ namespace fifer_crm.Areas.Finances.Controllers
     public class PaymentActsController : BaseFiferController
     {
         // GET: Finances/PaymentActs
+        [DisplayName("Страница актов выполненны работ")]
         public ActionResult Index()
         {
             CompanyPaymentsWrapModel model = new CompanyPaymentsWrapModel(_userId);
+            ViewBag.Profile = model.UserPhoto;
             model.Menu = GetMenu("Акты работ");
             return View(model);
         }
 
+        [DisplayName("Список платежей")]
         public ActionResult PaymentsList(Guid companyId)
         {
             CompanyPaymentsWrapModel model = new CompanyPaymentsWrapModel(_userId, companyId);
+            ViewBag.Profile = model.UserPhoto;
             return PartialView(model);
         }
 
         [HttpGet]
+        [DisplayName("Загрузка формы платежа")]
         public ActionResult Edit(int? actId)
         {
             FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);
@@ -46,6 +52,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение платежа")]
         public ActionResult Edit(CompletionActEditModel model)
         {
             FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);
@@ -54,6 +61,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Таблица платежей для акта выполненных работ")]
         public ActionResult PaymentActDetailsTable(string payments, string companyGuid)
         {
             FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);

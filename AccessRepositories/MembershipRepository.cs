@@ -504,5 +504,33 @@ namespace AccessRepositories
             existUser.Phone = employee.Phone;
             Context.SaveChanges();
         }
+
+        public UserLockModel GetEmployeeLocks(Guid userId)
+        {
+            var user = Context.GetUnitById<User>(userId);
+            return new UserLockModel()
+            {
+                UserId = user.UserId,
+                IsTokenAccess = user.RemoteToken.HasValue,
+                LockIps = user.AvailableIps
+            };
+        }
+
+        public void UpdateEmployeeLock(UserLockModel model)
+        {
+            var user = Context.GetUnitById<User>(model.UserId);
+            user.AvailableIps = model.LockIps;
+            if (!model.IsTokenAccess)
+                user.RemoteToken = null;
+            else
+                user.RemoteToken = Guid.NewGuid();
+            Context.SaveChanges();
+        }
+
+        public Guid GetUserId(string userName)
+        {
+            var user = Context.Users.FirstOrDefault(m => m.Login == userName || m.Mail == userName);
+            return user != null ? user.UserId : Guid.Empty;
+        }
     }
 }

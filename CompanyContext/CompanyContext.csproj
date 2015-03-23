@@ -109,6 +109,9 @@
       <DependentUpon>CompanyEntityView.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimesheetBreak.cs">
+      <DependentUpon>CompanyEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="UserInCompanyView.cs">
       <DependentUpon>CompanyEntityView.tt</DependentUpon>
     </Compile>

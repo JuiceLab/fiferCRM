@@ -322,22 +322,25 @@ namespace LoaderService.Excel
 
                                     if (legalItem.Phones != phones
                                         && legalItem.Phones != clearPhone
-                                        && legalItem.LegalEntityAddPhones.Where(m => m.C_GeoLocationId == geoView.GeoLocationId).Count() == 0)
+                                        && legalItem.LegalEntityAddresses.Where(m => m.C_GeoLocationId == geoView.GeoLocationId).Count() == 0)
                                     {
-                                        context.InsertUnit(new LegalEntityAddPhone()
+                                        context.InsertUnit(new LegalEntityAddress()
                                         {
                                             C_LegalEntityId = legalItem.LegalEntityId,
                                             C_GeoLocationId = geoView.GeoLocationId,
-                                            Phones = string.Join(",", phones.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                                            Phones = string.Join(",", phones.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)),
+                                            Mails = email
                                         });
                                     }
-                                    legalItem.Phones = clearPhone;
-
-                                    if (geoView.GeoLocationId != legalItem.C_MainGeoId && !legalItem.GeoLocations.Any(m => m.GeoLocationId == geoView.GeoLocationId))
+                                    else if (legalItem.LegalEntityAddresses.Where(m => m.C_GeoLocationId == geoView.GeoLocationId).Count() > 0)
                                     {
-                                        legalItem.GeoLocations.Add(context.GetUnitById<GeoLocation>(geoView.GeoLocationId));
-                                        context.SaveChanges();
-
+                                        var existGeo = legalItem.LegalEntityAddresses.FirstOrDefault(m => m.C_GeoLocationId == geoView.GeoLocationId);
+                                        existGeo.Mails = email;
+                                        var noveltyPhones = existGeo.Phones.Split(',').Intersect(phones.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                                        if (noveltyPhones.Count() > 0)
+                                            existGeo.Phones += "," + noveltyPhones;
+                                        if (!string.IsNullOrEmpty(email) || noveltyPhones.Count() > 0)
+                                            context.SaveChanges();
                                     }
                                 }
                             }

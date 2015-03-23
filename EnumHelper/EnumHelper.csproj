@@ -50,6 +50,7 @@
     <Compile Include="CRM\WFCallTaskStatus.cs" />
     <Compile Include="Mailer\AuthMail.cs" />
     <Compile Include="Mailer\CustomerMail.cs" />
+    <Compile Include="TimeBreakType.cs" />
     <Compile Include="NotifyCategoryType.cs" />
     <Compile Include="MsgType.cs" />
     <Compile Include="Payment\PaymentStatus.cs" />

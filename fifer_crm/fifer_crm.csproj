@@ -1607,7 +1607,7 @@
     <Content Include="Areas\CRM\Views\Customer\Edit.cshtml" />
     <Content Include="Areas\Workspace\Views\Head\CustomersList.cshtml" />
     <Content Include="Areas\CRM\Views\LegalEntity\CRMLegalEntityTable.cshtml" />
-    <Content Include="Areas\Task\Views\CallTask\Index.cshtml" />
+    <Content Include="Areas\Task\Views\Call\Index.cshtml" />
     <Content Include="Areas\Task\Views\Call\CallTasksTable.cshtml" />
     <Content Include="Areas\Task\Views\Call\Edit.cshtml" />
     <Content Include="Areas\Task\Views\Meeting\Index.cshtml" />
@@ -1623,7 +1623,9 @@
     <Content Include="Scripts\custom\helper.notify.js" />
     <Content Include="Scripts\custom\helper.site.js" />
     <Content Include="Content\jquery.tagsinput.css" />
+    <Content Include="Scripts\custom\helper.timesheet.js" />
     <Content Include="Scripts\jquery.tagsinput.min.js" />
+    <Content Include="Scripts\jquery.timers.js" />
     <Content Include="Views\Shared\_FinanceLayout.cshtml" />
     <Content Include="Areas\Workspace\Views\Head\Index.cshtml" />
     <Content Include="Areas\Workspace\Views\Finance\Index.cshtml" />
@@ -1699,6 +1701,8 @@
     <Content Include="Areas\GeoLocation\Views\LegalEntity\LegalAddressEdit.cshtml" />
     <Content Include="Areas\Task\Views\Call\Actions4CallTask.cshtml" />
     <Content Include="Areas\Task\Views\Call\TaskAssign.cshtml" />
+    <Content Include="Areas\Task\Views\Meeting\Actions4MeetingTask.cshtml" />
+    <Content Include="Areas\ERP\Views\Employee\EmployeeLockEdit.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\custom\helper.modal.js" />
     <Content Include="Scripts\custom\helper.signalr.js" />

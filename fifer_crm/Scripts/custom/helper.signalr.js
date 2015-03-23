@@ -8,6 +8,7 @@
             dismissQueue: true,
             layout: 'top'
         });
+        refreshItems();
     };
 
     adminHub.client.taskCreated = function (message) {
@@ -16,6 +17,7 @@
             dismissQueue: true,
             layout: 'top'
         });
+        refreshItems();
     };
 
     adminHub.client.calltaskCreated = function (message) {
@@ -24,8 +26,17 @@
             dismissQueue: true,
             layout: 'top'
         });
+        refreshItems();
     };
-
+    adminHub.client.meetingtaskCreated = function (message) {
+        notyfy({
+            text: message,
+            dismissQueue: true,
+            layout: 'top'
+        });
+        refreshItems();
+    };
+    
     adminHub.client.ticketTableRefresh = function (userId) {
         if ($("#tabTicket").length > 0)
         {
@@ -35,6 +46,8 @@
                     initTable();
             })
         }
+        refreshItems();
+
     };
 
     adminHub.client.taskTableRefresh = function (userId) {
@@ -45,10 +58,11 @@
                     initTable();
                 })
         }
+        refreshItems();
     };
 
     adminHub.client.notifyCreated = function (userId) {
-        getLastNotify();
+        refreshItems();
     };
 
     $.connection.hub.start().done(function () {
@@ -65,3 +79,10 @@
 
    
 });
+function refreshItems()
+{
+    getTodayTasks();
+    getLastNotify();
+    loadFilterData();
+
+}

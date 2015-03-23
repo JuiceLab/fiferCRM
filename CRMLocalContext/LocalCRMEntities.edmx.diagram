@@ -19,7 +19,6 @@
         <AssociationConnector Association="LocalCRMModel.FK_LegalEnityDetail_LegalEntity" />
         <AssociationConnector Association="LocalCRMModel.FK_MeetingTransfer_Meeting" />
         <AssociationConnector Association="LocalCRMModel.FK_PaymentSchedule_PaymentTemplate" />
-        <AssociationConnector Association="LocalCRMModel.LegalLocation" />
         <EntityTypeShape EntityType="LocalCRMModel.PaymentInvoice" Width="1.5" PointX="7.5" PointY="20.625" />
         <AssociationConnector Association="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail" />
         <AssociationConnector Association="LocalCRMModel.FK_PaymentDetail_PaymentInvoice" />
@@ -43,9 +42,11 @@
         <EntityTypeShape EntityType="LocalCRMModel.TaskPeriod" Width="1.5" PointX="3.375" PointY="3.75" />
         <EntityTypeShape EntityType="LocalCRMModel.TaskCategory" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="LocalCRMModel.UserNotify" Width="1.5" PointX="10.375" PointY="10.75" />
-        <EntityTypeShape EntityType="LocalCRMModel.LegalEntityAddPhone" Width="1.5" PointX="10.25" PointY="3.875" />
+        <EntityTypeShape EntityType="LocalCRMModel.LegalEntityAddress" Width="1.5" PointX="12.25" PointY="14.625" />
         <AssociationConnector Association="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation" />
         <AssociationConnector Association="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity" />
+        <EntityTypeShape EntityType="LocalCRMModel.Message" Width="1.5" PointX="12.375" PointY="0.75" />
+        <AssociationConnector Association="LocalCRMModel.FK_Message_Message" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

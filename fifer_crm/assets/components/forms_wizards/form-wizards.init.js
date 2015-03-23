@@ -17,8 +17,6 @@ function initFormWizzard(formSelector, isStep)
         $(this).bootstrapWizard(
 		{
 		    onNext: function (tab, navigation, index) {
-		      
-		   
 		        if (index == 1 && $("#address-data").length > 0)
 		            resizeGMap();
 		    },

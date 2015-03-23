@@ -3,6 +3,7 @@ using AccessRepositories;
 using AuthService.AuthorizeAttribute;
 using CompanyModel;
 using CompanyRepositories;
+using EnumHelper;
 using EnumHelper.Mailer;
 using fifer_crm.Controllers;
 using fifer_crm.Models;
@@ -32,6 +33,8 @@ namespace fifer_crm.Areas.ERP.Controllers
             StaffRepository repository = new StaffRepository();
             BaseLogRepository logRepository = new BaseLogRepository();
             var model = new CompanyWrapViewModel(_userId);
+            ViewBag.Profile = model.UserPhoto;
+
             model.CompanyName = repository.GetCompanyName(model.UserId);
             model.Employees = repository.GetEmployees(model.UserId);
             model.EmployeesActions = logRepository.GetUserLogActions(model.Employees.Select(m => m.UserId), DateTime.Now.Date.AddDays(-1));
@@ -138,5 +141,29 @@ namespace fifer_crm.Areas.ERP.Controllers
             _repository.AddOrUpdateEmployeePassport(passport);
             return RedirectToAction("IndexEmployees");
         }
+
+        [DisplayName("Ограничение доступа сотрудника")]
+        public ActionResult EmployeeLockEdit(int employeeId)
+        {
+            var employee = _repository.GetEmployee(employeeId);
+            ViewBag.Employee = employee.FirstName + " " + employee.LastName;
+            return PartialView(_accessRepository.GetEmployeeLocks(employee.UserId));
+        }
+
+        [DisplayName("Применение ограничение доступа сотрудника")]
+        public ActionResult EmployeeLockEdit(UserLockModel model)
+        {
+            _accessRepository.UpdateEmployeeLock(model);
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+
+        [DisplayName("Перерыв")]        
+        public ActionResult SetTimeBreak(string comment, TimeBreakType type,  bool isStart)
+        {
+            CompanyRepository repository = new CompanyRepository();
+            _repository.SetTimeBreak(comment, type, isStart, _userId);
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

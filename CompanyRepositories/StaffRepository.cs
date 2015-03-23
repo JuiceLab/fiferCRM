@@ -2,6 +2,7 @@
 using AccessRepositories;
 using CompanyContext;
 using CompanyModel;
+using EnumHelper;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -379,12 +380,12 @@ namespace CompanyRepositories
             if (isLogin)
             {
                 var employee = Context.Employees.FirstOrDefault(m => m.UserId == userId);
-                employee.LastLogin = DateTime.Now;
+                employee.LastLogin = DateTime.UtcNow;
                 Context.EmployeeTimesheets.Add(new EmployeeTimesheet()
                 {
                     C_EmployeeId = employee.EmployeeId,
-                    Created = DateTime.Now,
-                    BeginWork = DateTime.Now.TimeOfDay,
+                    Created = DateTime.UtcNow,
+                    BeginWork = DateTime.UtcNow.TimeOfDay,
                     IpLocationBegin = ip
                 });
                 Context.SaveChanges();
@@ -400,7 +401,7 @@ namespace CompanyRepositories
                 if (timesheet != null)
                 {
                     timesheet.IpLocationEnd = ip;
-                    timesheet.EndTime = DateTime.Now.TimeOfDay;
+                    timesheet.EndTime = DateTime.UtcNow.TimeOfDay;
                     Context.SaveChanges();
                 }
             }
@@ -470,6 +471,34 @@ namespace CompanyRepositories
                         .ToList();
             }
             return model;
+        }
+
+        public void SetTimeBreak(string comment, TimeBreakType type, bool isStart, Guid _userId)
+        {
+            if (type != TimeBreakType.EndDay)
+            {
+                var curTimeSheet = Context.EmployeeTimesheets
+                    .Where(m => m.Employee.UserId == _userId && !m.EndTime.HasValue)
+                    .OrderByDescending(m=>m.EmployeeTimesheetId).FirstOrDefault();
+                if (isStart)
+                {
+                    Context.TimesheetBreaks.Add(new TimesheetBreak()
+                    {
+                        Comment = comment,
+                        DateStarted = DateTime.UtcNow,
+                        TypeReasonId = (byte)type,
+                        C_EmployeeTimesheetId = curTimeSheet.EmployeeTimesheetId
+                    });
+                }
+                else
+                {
+                    var timeBreak = curTimeSheet.TimesheetBreaks.FirstOrDefault(m => !m.DateFinished.HasValue);
+                    if(timeBreak !=null)
+                        timeBreak.DateFinished = DateTime.UtcNow;
+                }
+                Context.SaveChanges();
+
+            }
         }
     }
 }

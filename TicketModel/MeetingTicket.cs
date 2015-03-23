@@ -25,9 +25,18 @@ namespace TicketModel
     [Serializable]
     public class MeetingTicket : IMeetingTicket, ITicket
     {
+        private const string defaultLocalDB = "fifer_localcrm_0";
+        
         private IFormatProvider ruDateFormat = new CultureInfo("ru-RU").DateTimeFormat;
         
         private object lockObj = new object();
+
+        public MeetingTicket()
+        { }
+        public MeetingTicket(Guid userId)
+        {
+            OwnerId = userId;
+        }
 
         public int MeetingId { get; set; }
         public Guid CustomerId { get; set; }
@@ -105,47 +114,93 @@ namespace TicketModel
 
         public void Create()
         {
-            using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites))
-            {
-                lock (lockObj)
-                {
-                    var ticket = new Meeting()
-                    {
-                        C_CustomerId = context.Customers.FirstOrDefault(m => m.CustomerGuid == CustomerId).CustomerId,
-                        Calls = Calls,
-                        CreatedBy = OwnerId,
-                        Created = DateTime.UtcNow,
-                        Comment = Msg,
-                        Date = DateStarted.Value,
-                        Goals = Goals,
-                        MeetingGuid = Guid.NewGuid(),
-                        ResultComment = string.Empty,
-                        StatusId = TicketStatus.Value,
-                    };
-                    context.Meetings.Add(ticket);
-                    context.SaveChanges();
-                    TicketId = ticket.MeetingGuid;
+            Guid idDefault = new Guid();
 
+            using (CompanyContext.CompanyViewEntities viewContext = new CompanyContext.CompanyViewEntities(AccessSettings.LoadSettings().CompanyViewsEntites))
+            {
+                var localDb = viewContext.UserInCompanyView.FirstOrDefault(m => m.UserId == OwnerId).LocalDB;
+                using (LocalCRMEntities localContext = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites.Replace(defaultLocalDB, localDb)))
+                {
+                    lock (lockObj)
+                    {
+                        var ticket = new Meeting()
+                        {
+                            C_CustomerId = localContext.Customers.FirstOrDefault(m => m.CustomerGuid == CustomerId).CustomerId,
+                            Calls = Calls,
+                            CreatedBy = OwnerId,
+                            Created = DateTime.UtcNow,
+                            Comment = Msg,
+                            Date = DateStarted.Value,
+                            Goals = Goals,
+                            Assigned = Assigned.HasValue? Assigned.Value : Guid.Empty,
+                            MeetingGuid = Guid.NewGuid(),
+                            ResultComment = string.Empty,
+                            StatusId = (byte)WFMeetingStatus.Novelty,
+                        };
+                        localContext.Meetings.Add(ticket);
+                        localContext.SaveChanges();
+                        TicketId = ticket.MeetingGuid;
+                        using (TicketEntities context = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
+                        {
+                            TicketsQuery tq = new TicketsQuery()
+                                    {
+                                        TicketQueryId = Guid.NewGuid(),
+                                        TicketId = ticket.MeetingGuid,
+                                        IsNonePreview = true
+                                    };
+
+                            context.TicketsQueries.Add(tq);
+                            context.SaveChanges();
+                            if (CurrentCommentId == idDefault)
+                                CurrentCommentId = Guid.NewGuid();
+                            if (!string.IsNullOrEmpty(CurrentComment))
+                            {
+                                var comment = new CommentBody()
+                                {
+                                    Comment = CurrentComment,
+                                    GuidItem = ticket.MeetingGuid,
+                                    CommentId = CurrentCommentId,
+                                    UserId = CreatedBy
+                                };
+                                context.CommentBodies.Add(comment);
+                                context.SaveChanges();
+
+                                var enclosures = context.CommentEnclosures.Where(m => m.C_CommentId == CurrentCommentId || m.C_PossibleCommentId == CurrentCommentId);
+                                foreach (var item in enclosures)
+                                {
+                                    item.C_PossibleCommentId = CurrentCommentId;
+                                    item.C_CommentId = comment.CommentId;
+                                }
+                                context.SaveChanges();
+                            }
+                        }
+                    }
                 }
             }
         }
 
         public void Load(Guid guid)
         {
-            using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites))
+            using (CompanyContext.CompanyViewEntities viewContext = new CompanyContext.CompanyViewEntities(AccessSettings.LoadSettings().CompanyViewsEntites))
             {
-                var meeting = context.Meetings.FirstOrDefault(m => m.MeetingGuid == TicketId);
-                CustomerId = meeting.Customer.CustomerGuid;
-                Calls = meeting.Calls;
-                Assigned = meeting.Assigned;
-                CreatedBy = meeting.CreatedBy;
-                DateCreated = meeting.Created;
-                Msg = meeting.Comment;
-                DateStarted = meeting.Date;
-                Goals = meeting.Goals;
-                TicketId = meeting.MeetingGuid;
-                Result = meeting.ResultComment;
-                TicketStatus = meeting.StatusId;
+                var localDb = viewContext.UserInCompanyView.FirstOrDefault(m => m.UserId == OwnerId).LocalDB;
+                using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites.Replace(defaultLocalDB, localDb)))
+                {
+                    var meeting = context.Meetings.FirstOrDefault(m => m.MeetingGuid == guid);
+                    CustomerId = meeting.Customer.CustomerGuid;
+                    Calls = meeting.Calls;
+                    Assigned = meeting.Assigned;
+                    CreatedBy = meeting.CreatedBy;
+                    DateCreated = meeting.Created;
+                    Msg = meeting.Comment;
+                    DateStarted = meeting.Date;
+                    Goals = meeting.Goals;
+                    TicketId = meeting.MeetingGuid;
+                    Result = meeting.ResultComment;
+                    TicketStatus = meeting.StatusId;
+                    TimeStartedStr = meeting.Date.ToShortTimeString();
+                    DateStartedStr = meeting.Date.ToShortDateString();
+                }
             }
         }
 
@@ -158,16 +213,53 @@ namespace TicketModel
                 Create();
             else
             {
-
-                using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites))
+                using (TicketEntities context = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
                 {
-                    var meeting = context.Meetings.FirstOrDefault(m => m.MeetingGuid == TicketId);
-                    meeting.Date = DateStarted.HasValue ? DateStarted.Value : DateTime.Now;
-                    meeting.Goals = Goals;
-                    meeting.Assigned = Assigned.Value;
-                    meeting.ResultComment = Result;
-                    meeting.StatusId = TicketStatus.Value;
-                    context.SaveChanges();
+                    if (!string.IsNullOrEmpty(CurrentComment))
+                    {
+                        if (context.CommentBodies.Any(m => m.CommentId == CurrentCommentId))
+                            CurrentCommentId = Guid.NewGuid();
+
+                        var comment = new CommentBody()
+                        {
+                            Comment = CurrentComment,
+                            DateCreated = DateTime.UtcNow,
+                            GuidItem = TicketId,
+                            CommentId = CurrentCommentId,
+                            UserId = OwnerId,
+                        };
+
+                        context.CommentBodies.Add(comment);
+                    }
+                    using (CompanyContext.CompanyViewEntities viewContext = new CompanyContext.CompanyViewEntities(AccessSettings.LoadSettings().CompanyViewsEntites))
+                    {
+                        var localDb = viewContext.UserInCompanyView.FirstOrDefault(m => m.UserId == OwnerId).LocalDB;
+                        using (LocalCRMEntities localContext = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites.Replace(defaultLocalDB, localDb)))
+                        {
+                            var meeting = localContext.Meetings.FirstOrDefault(m => m.MeetingGuid == TicketId);
+                            meeting.Date = DateStarted.HasValue ? DateStarted.Value : DateTime.Now;
+                            meeting.Goals = Goals;
+                            meeting.Assigned = Assigned.Value;
+                            meeting.ResultComment = Result;
+                            localContext.SaveChanges();
+                        }
+                    }
+
+                    var enclosures = context.CommentEnclosures.Where(m => m.C_CommentId == CurrentCommentId || m.C_PossibleCommentId == CurrentCommentId);
+                    foreach (var item in enclosures)
+                    {
+                        item.C_PossibleCommentId = CurrentCommentId;
+                        item.C_CommentId = CurrentCommentId;
+                    }
+
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (DbEntityValidationException dbEx)
+                    {
+                        Trace.WriteLine(string.Join("\r\n", dbEx.EntityValidationErrors.SelectMany(m => m.ValidationErrors.Select(n => n.ErrorMessage))));
+                    }
                 }
             }
         }
@@ -187,59 +279,67 @@ namespace TicketModel
             Guid result = new Guid();
             NotifyRepository repository = new NotifyRepository();
 
-            using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites))
+            using (CompanyContext.CompanyViewEntities viewContext = new CompanyContext.CompanyViewEntities(AccessSettings.LoadSettings().CompanyViewsEntites))
             {
-                var meeting = context.Meetings.FirstOrDefault(m => m.MeetingGuid == TicketId);
-                
-                switch ((WFMeetingStatus)statusId)
+                var localDb = viewContext.UserInCompanyView.FirstOrDefault(m => m.UserId == OwnerId).LocalDB;
+                using (LocalCRMEntities context = new LocalCRMEntities(AccessSettings.LoadSettings().LocalCrmEntites.Replace(defaultLocalDB, localDb)))
                 {
-                    case WFMeetingStatus.EndCall:
-                    case WFMeetingStatus.EndMeet:
-                    case WFMeetingStatus.EndPayment:
-                        TicketEventsObserver.Instance.EventFired(GetNotifyItem(1, meeting));
-                        meeting.StatusId = (byte)EnumHelper.TaskStatus.Completed;                        
-                        break;
-                    case WFMeetingStatus.AssignMeet:
-                        meeting.StatusId = (byte)EnumHelper.TaskStatus.Updated;                        
-                        break;
-                    case WFMeetingStatus.Novelty:
-                        meeting.StatusId = (byte)EnumHelper.TaskStatus.Novelty;
-                        break;
-                    case WFMeetingStatus.TransferMeet:
-                        meeting.StatusId = (byte)EnumHelper.TaskStatus.Updated;
-                        break;
-                    default:
-                        meeting.StatusId = (byte)EnumHelper.TaskStatus.Error;
-                        break;
-                };
+                    var meeting = context.Meetings.FirstOrDefault(m => m.MeetingGuid == TicketId);
 
-                var queryStatus = new QueryStatu()
-                {
-                    QueryItemId = this.TicketId,
-                    OwnerId = this.OwnerId,
-                    DateCreated = DateTime.UtcNow
-                };
+                    switch ((WFMeetingStatus)statusId)
+                    {
+                        case WFMeetingStatus.EndCall:
+                        case WFMeetingStatus.EndMeet:
+                        case WFMeetingStatus.EndPayment:
+                        case WFMeetingStatus.Ended:
+                            TicketEventsObserver.Instance.EventFired(GetNotifyItem(1, meeting));
+                            meeting.StatusId = (byte)EnumHelper.TaskStatus.Completed;
+                            meeting.ResultComment = CurrentComment;
+                            break;
+                        case WFMeetingStatus.AssignMeet:
+                        case WFMeetingStatus.TransferMeet:
+                        case WFMeetingStatus.Commented:
+                            meeting.StatusId = (byte)EnumHelper.TaskStatus.Updated;
+                            break;
+                        case WFMeetingStatus.Novelty:
+                            meeting.StatusId = (byte)EnumHelper.TaskStatus.Novelty;
+                            break;
+                        case WFMeetingStatus.Viewed:
+                            break;
+                        default:
+                            meeting.StatusId = (byte)EnumHelper.TaskStatus.Error;
+                            break;
+                    };
 
-                if (string.IsNullOrEmpty(customStatus))
-                    queryStatus.StatusId = statusId;
-                else
-                    queryStatus.CustomStatus = customStatus;
-                using (TicketEntities wfContext = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
-                {
-                    wfContext.QueryStatus.Add(queryStatus);
+                    var queryStatus = new QueryStatu()
+                    {
+                        QueryItemId = this.TicketId,
+                        OwnerId = this.OwnerId,
+                        DateCreated = DateTime.UtcNow
+                    };
 
-                    try
+                    if (string.IsNullOrEmpty(customStatus))
+                        queryStatus.StatusId = statusId;
+                    else
+                        queryStatus.CustomStatus = customStatus;
+                    using (TicketEntities wfContext = new TicketEntities(AccessSettings.LoadSettings().TicketEntites))
                     {
-                        wfContext.SaveChanges();
-                        context.SaveChanges();
-                    }
-                    catch (DbEntityValidationException dbEx)
-                    {
-                        Trace.WriteLine(string.Join("\r\n", dbEx.EntityValidationErrors.SelectMany(m => m.ValidationErrors.Select(n => n.ErrorMessage))));
-                    }
-                    finally
-                    {
-                        result = TicketId;
+                        wfContext.QueryStatus.Add(queryStatus);
+                        var id = wfContext.TicketsQueries.FirstOrDefault(m => m.TicketId == meeting.MeetingGuid).WorkflowId;
+
+                        try
+                        {
+                            wfContext.SaveChanges();
+                            context.SaveChanges();
+                        }
+                        catch (DbEntityValidationException dbEx)
+                        {
+                            Trace.WriteLine(string.Join("\r\n", dbEx.EntityValidationErrors.SelectMany(m => m.ValidationErrors.Select(n => n.ErrorMessage))));
+                        }
+                        finally
+                        {
+                            result = id.HasValue ? id.Value : Guid.Empty;
+                        }
                     }
                 }
             }
@@ -268,6 +368,5 @@ namespace TicketModel
 
         public bool IsNonePreview { get; set; }
         public Guid OwnerId { get; set; }
-
     }
 }

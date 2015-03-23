@@ -170,6 +170,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\MeetingTicketController.cs" />
     <Compile Include="Controllers\ReloadController.cs" />
     <Compile Include="Controllers\CallTicketController.cs" />
     <Compile Include="Controllers\SupportTicketController.cs" />
@@ -239,6 +240,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AccessModel\AccessModel.csproj">
+      <Project>{5696042a-6cb0-4726-b4a7-f338e69b3865}</Project>
+      <Name>AccessModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccessRepositories\AccessRepositories.csproj">
+      <Project>{29aea7e6-09f5-45c3-a692-b06ed76c6790}</Project>
+      <Name>AccessRepositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CRMLocalContext\CRMLocalContext.csproj">
       <Project>{030a76f5-561b-4b33-9931-a5dc798042fe}</Project>
       <Name>CRMLocalContext</Name>

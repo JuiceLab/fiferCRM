@@ -5,11 +5,11 @@
 }
 <span class="col-md-6 btn btn-success" id="updateGeoBtn" onclick="updateLegalGeo()">Сохранить</span>
 <span class="col-md-6 btn btn-success" onclick="setAddLegalAddr();">Показать на карте</span>
-<label class="label label-info" id="addr" style="text-align:center">@Model.Address</label>
+<label class="label label-info" id="addr" style="text-align:center">@(string.IsNullOrEmpty(Model.Address)? "задайте адрес и сохраните значения" : Model.Address)</label>
 
 
 
-@using (Html.BeginForm("AddressEdit", "LegalEntity", new { Area = "GeoLocation" }, FormMethod.Post, new { @class = "legal-form form-horizontal", role = "form", id = "legalEditForm" }))
+@using (Html.BeginForm("AddressEdit", "LegalEntity", new { Area = "GeoLocation" }, FormMethod.Post, new { @class = "hide legal-form form-horizontal", role = "form", id = "legalEditForm" }))
 {
     @Html.HiddenFor(m => m.Latitude)
     @Html.HiddenFor(m => m.AddrId)

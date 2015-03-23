@@ -1,0 +1,42 @@
+﻿@model UserLockModel
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="modal-title">@(ViewBag.Employee). Ограничение доступа</h3>
+</div>
+<!-- // Modal heading END -->
+<!-- Modal body -->
+<div class="modal-body">
+    <div class="innerAll">
+        <div class="innerLR">
+            @using (Html.BeginForm("EmployeeLockEdit", "Employee", new { Area = "ERP" }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id="employee-lock-form" }))
+            {
+                @Html.HiddenFor(m => m.UserId)
+                <div class="widget widget-tabs border-bottom-none">
+                    <!-- // Widget heading END -->
+                    <div class="widget-body">
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.IsTokenAccess, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.CheckBoxFor(m => m.IsTokenAccess, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.LockIps, new { @class = "col-sm-3 control-label" })
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(m => m.LockIps, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.ValidationSummary()
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <span class="btn btn-primary" onclick="updateUserLock();" >Обновить</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            }
+        </div>
+
+    </div>
+</div>

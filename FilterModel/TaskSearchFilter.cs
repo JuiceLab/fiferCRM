@@ -13,6 +13,8 @@ namespace FilterModel
     {
         IFormatProvider provider = new CultureInfo("ru-RU").DateTimeFormat;
 
+        public bool HasUnssigned { get; set; }
+
         public List<string> Assigned { get; set; }
         public List<byte> Statuses { get; set; }
 
@@ -33,6 +35,10 @@ namespace FilterModel
 
         public TaskSearchFilter()
         {
+            HasUnssigned = false;
+            Statuses = new List<byte>();
+            Assigned = new List<string>();
+            AssignedAvailable = new List<SelectListItem>();
             DateRangeInvariant = new List<string>() { 
                 DateTime.Now.ToString("dd.MM.yyyy"),
                 DateTime.Now.AddMonths(1).ToString("dd.MM.yyyy") 

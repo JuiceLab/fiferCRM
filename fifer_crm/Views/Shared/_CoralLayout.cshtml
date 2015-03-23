@@ -44,8 +44,7 @@
         plugins_dependency: [
             '/assets/library/bootstrap/js/bootstrap.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
             '/assets/library/jquery/jquery-migrate.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
-            '/assets/plugins/calendar_fullcalendar/js/moment.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
-          
+            '/assets/plugins/calendar_fullcalendar/js/moment.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2'
         ],
 
         /* PLUGINS always load after CORE and PLUGINS_DEPENDENCY, but before the BUNDLE / initialization scripts; */
@@ -76,6 +75,7 @@
             '/assets/plugins/forms_wizards/jquery.bootstrap.wizard.js?v=v2.0.0-rc1&sv=v0.0.1.2',
             '/assets/plugins/forms_elements_multiselect/js/jquery.multi-select.js?v=v2.0.0-rc1&sv=v0.0.1.2',
             '/assets/plugins/forms_elements_inputmask/jquery.inputmask.bundle.min.js?v=v2.0.0-rc1&sv=v0.0.1.2',
+            '/Scripts/jquery.signalR-2.1.2.min.js',
             '/Scripts/jquery.validate.js'
         ],
 
@@ -95,18 +95,17 @@
             '/assets/components/forms_elements_fuelux-checkbox/fuelux-checkbox.init.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
             '/assets/components/forms_elements_bootstrap-select/bootstrap-select.init.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
             '/assets/plugins/forms_wizards/jquery.bootstrap.wizard.js?v=v2.0.0-rc1&sv=v0.0.1.2',
-            '/assets/components/forms_wizards/form-wizards.init.js?v=v2.0.4-rc1&sv=v0.0.1.2',
+            '/assets/components/forms_wizards/form-wizards.init.js?v=v2.0.6-rc1&sv=v0.0.1.2',
             '/assets/plugins/calendar_fullcalendar/js/lang-all.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
             '/assets/plugins/tables_datatables/extras/ColVis/media/js/ColVis.min.js?v=v2.0.0-rc1',
             '/assets/plugins/tables_datatables/extras/ColReorder/media/js/ColReorder.min.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
             '/assets/plugins/tables_datatables/extras/FixedHeader/FixedHeader.js?v=v2.0.0-rc1&amp;sv=v0.0.1.2',
             '/assets/plugins/tables_datatables/extras/TableTools/media/js/TableTools.min.js?v=v2.0.0-rc1',
-            '/scripts/custom/helper.geolocation.js?v=v2.4.8-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.geolocation.js?v=v2.6.6-rc1&sv=v0.0.1.2',
             '/scripts/jquery.tagsinput.min.js',
-
             '/Scripts/jquery.validate.unobtrusive.js',
+            '/Scripts/jquery.timers.js',
             '/Scripts/jquery.cropit.min.js',
-            '/Scripts/jquery.signalR-2.1.2.min.js',
             '/signalr/hubs'
         ],
 
@@ -114,21 +113,22 @@
         custom: [
             '/scripts/custom/helper.table.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.init.mask.js?v=v2.3.8-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.init.js?v=v2.4.9-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.init.js?v=v2.6.0-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.modal.js?v=v2.3.4-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.ticket.js?v=v2.3.0-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.signalr.js?v=v2.4.2-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.ticket.js?v=v2.3.1-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.signalr.js?v=v2.4.3-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.image.js?v=v2.3.4-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.form.js?v=v2.1.4-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.task.js?v=v2.5.4-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.filter.js?v=v2.3.6-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.form.js?v=v2.1.7-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.task.js?v=v2.5.3-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.filter.js?v=v2.3.9-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.autocomplete.js?v=v2.3.0-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.site.js?v=v2.3.2-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.excel.js?v=v2.3.2-rc1&sv=v0.0.1.2',
-            '/scripts/custom/helper.notify.js?v=v2.3.9-rc1&sv=v0.0.1.2',
+            '/scripts/custom/helper.notify.js?v=v2.3.4-rc1&sv=v0.0.1.2',
             '/scripts/custom/helper.signup.js',
+            '/scripts/custom/helper.timesheet.js',
             'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps'
-            ]
+        ]
 };
     </script>
     <script>
@@ -163,12 +163,18 @@
 
             <div>
                 <ul class="list-unstyled">
+                    <li style="opacity:0.5"><a href="#" class="glyphicons circle_question_mark"><i></i> Справка</a></li>
+                    <li style="opacity:0.5"><a href="#"  class="glyphicons conversation"><i></i><span>Чаты</span></a></li>
                     <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '', initDateMask);" class="glyphicons phone_alt"><i></i><span>Звонок</span></a></li>
-                    <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initDateMask);" class="glyphicons group"><i></i> Встреча</a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initMeetingTask);" class="glyphicons group"><i></i> Встреча</a></li>
                     <li><a href="#" onclick="loadModalContentWithCallback('modal-help', 'TaskEdit', 'Task/GroupTask', '', initDateMask);" class="glyphicons cogwheel"><i></i> Задача</a></li>
-                    <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Payment)', initPaymentCallback);" class="glyphicons money"><i></i> Счет</a></li>
+                    <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Payment)', initPaymentCallback);" class="glyphicons file_export"><i></i> Счет</a></li>
+                    <li style="opacity:0.5"><a href="#" class="glyphicons money"><i></i> Платеж</a></li>
                     <li><a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?type=@((byte)PaymentType.Expense)', initPaymentCallback);" class="glyphicons cargo"><i></i> Расход</a></li>
-
+                    <li style="opacity:0.5"><a href="#" class="glyphicons money"><i></i> Платеж</a></li>
+                    <li style="opacity:0.5"><a href="#" class="glyphicons tags"><i></i> Заметки</a></li>
+                    <li style="opacity:0.5"><a href="#" class="glyphicons thumbs_up"><i></i> Полезное</a></li>
+                    <li style="opacity:0.5"><a href="#" class="glyphicons calculator"><i></i> Калькулятор</a></li>
                 </ul>
             </div>
 
@@ -202,7 +208,7 @@
                            <!-- // Modal heading END -->
                            <!-- Modal body -->
                            <div class="modal-body">
-                               <label class="label label-info">Для установки координат просто кликните по месту на карте. Затем закройте диалоговое окно и сохраните данные</label>
+                               <label class="label label-info">Для установки координат кликните по месту на карте, закройте диалоговое окно, сохраните данные</label>
                                <br />
                                <div id="google-map-add" class="map_canvas" style="height: 300px"></div>
                            </div>
@@ -273,8 +279,6 @@
                 ajaxify_menu_selectors: ['#menu','#menu_kis'],
                 ajaxify_layout_app: true        };
                 </script>
-
         @RenderSection("scripts", required: false)
-
     </body>
 </html>

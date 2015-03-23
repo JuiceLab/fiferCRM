@@ -23,6 +23,7 @@ namespace fifer_crm.Controllers
         {
             DepartmentRepository repository = new DepartmentRepository();
             var model = new CompanyWrapViewModel(_userId);
+            ViewBag.Profile = model.UserPhoto;
             model.CompanyName = repository.GetCompanyName(model.UserId);
             model.Departments = repository.GetDepartments(model.UserId);
             model.Positions = repository.GetPositions(model.UserId);

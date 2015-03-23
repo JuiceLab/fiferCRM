@@ -128,7 +128,7 @@ namespace CRMRepositories
                     Latitude = !string.IsNullOrEmpty(company.GeoAddr.Latitude) ? Convert.ToDouble(company.GeoAddr.Latitude, provider) : new Nullable<double>(),
                     Longitude = !string.IsNullOrEmpty(company.GeoAddr.Longitude) ? Convert.ToDouble(company.GeoAddr.Longitude, provider) : new Nullable<double>(),
                     Address = string.IsNullOrEmpty(company.Address) ? "Не задан" : company.Address,
-                    C_CityId = company.City
+                    C_CityId = BaseContext.Cities.FirstOrDefault(m => m.CityGuid == company.City).CityId
                 };
                 BaseContext.InsertUnit(location);
 
@@ -199,10 +199,12 @@ namespace CRMRepositories
         public List<SelectListItem> GetCitiesSelectItems(int? distId, Guid? cityGuid = null, bool filtred = true)
         {
             
-            var companyCities= BaseContext.LegalEntityViews.Select(m => m.C_CityId).Distinct().ToList();
-            var result = filtred?  
-                BaseContext.Cities.Where(m => companyCities.Contains(m.CityId))
-                : BaseContext.Cities;
+            var result = BaseContext.Cities.AsQueryable();
+            if (filtred)
+            {
+                var companyCities = BaseContext.Cities.Where(m => m.GeoLocations.Count > 0).Select(m => m.CityId).ToList();
+                result = BaseContext.Cities.Where(m => companyCities.Contains(m.CityId));
+            } 
             if (distId.HasValue)
                 result = result.Where(m => m.C_DistrictId == distId.Value);
             else if (cityGuid.HasValue && cityGuid != Guid.Empty)

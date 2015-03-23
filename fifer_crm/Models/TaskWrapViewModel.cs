@@ -1,4 +1,5 @@
 ﻿using AccessRepositories;
+using CompanyModel;
 using CompanyRepositories;
 using CRMRepositories;
 using FilterModel;
@@ -18,10 +19,14 @@ namespace fifer_crm.Models
 {
     public class TaskWrapViewModel : ICompanyInfo
     {
-        public int CompanyId { get; set; }
-        public string Logo { get; set; }
-        public string Name { get; set; }
+        public int CompanyId { get { return Company.CompanyId; } set { Company.CompanyId = value; } }
 
+        public string Logo { get { return Company.Logo; } set { Company.Logo = value; } }
+
+        public string Name { get { return Company.PublicCompanyName; } set { Company.PublicCompanyName = value; } }
+        public string UserPhoto { get { return Company.UserPhoto; } set { Company.UserPhoto = value; } }
+
+        public CompanyViewModel Company { get; set; }
         public IEnumerable<TicketPreview> SupportTickets { get; set; }
 
         public TaskSearchFilter SearchFilter { get; set; }
@@ -32,10 +37,7 @@ namespace fifer_crm.Models
         public TaskWrapViewModel(Guid userId, bool onlySupport = false, EnumHelper.TaskStatus? status = null)
         {
             CompanyRepository companyRepository = new CompanyRepository();
-            var company = companyRepository.GetShortCompanyInfoByUserId(userId);
-            CompanyId = company.CompanyId;
-            Logo = company.Logo;
-            Name = company.PublicCompanyName;
+            Company = companyRepository.GetShortCompanyInfoByUserId(userId);
 
             if (onlySupport)
             {
@@ -50,7 +52,7 @@ namespace fifer_crm.Models
                 TaskTicketRepository _repository = new TaskTicketRepository();
                 SearchFilter = new TaskSearchFilter()
                 {
-                    SearchResult = _repository.GetTaskTickets(users.Select(m => Guid.Parse(m.Value)), status),
+                    SearchResult = _repository.GetTaskTickets(users.Select(m => Guid.Parse(m.Value)), true , status != null? new List<byte>(){ (byte)status.Value} : new List<byte>()) ,
                     AssignedAvailable = users.ToList()
                 };
 
@@ -86,9 +88,6 @@ namespace fifer_crm.Models
         {
             CompanyRepository companyRepository = new CompanyRepository();
             var company = companyRepository.GetShortCompanyInfoByUserId(userId);
-            CompanyId = company.CompanyId;
-            Logo = company.Logo;
-            Name = company.PublicCompanyName;
         }
     }
 }

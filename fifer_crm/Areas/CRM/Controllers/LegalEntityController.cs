@@ -12,6 +12,7 @@ using Microsoft.AspNet.SignalR;
 using SignalrService.Hub;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,15 +26,17 @@ namespace fifer_crm.Areas.CRM.Controllers
     {
 
         CRMRepository _repository = new CRMRepository();
-
+        [DisplayName("Страница ю.л.")]
         public ActionResult Index()
         {
             CRMWrapViewModel model = new CRMWrapViewModel(_userId);
             model.Menu = GetMenu("Компании");
+            ViewBag.Profile = model.UserPhoto;
             return View(model);
         }
 
         [HttpGet]
+        [DisplayName("Загрузка истории ю.л.")]
         public ActionResult GetHistory(Guid companyId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -41,15 +44,15 @@ namespace fifer_crm.Areas.CRM.Controllers
             ViewBag.Name = company.LegalName;
             Dictionary<string, List<MessageViewModel>> model = new Dictionary<string, List<MessageViewModel>>();
             model.Add("Компания",  repository.GetModifyLog(companyId));
-            model.Add("Встречи", repository.GetMeetingsHistory(companyId));
             
             TaskTicketRepository taskRepository = new TaskTicketRepository();
             StaffRepository staffRepository = new StaffRepository();
             var users = staffRepository.GetSubordinatedUsers(_userId);
             
             var customers = repository.GetCustomers4Subordinate(users.Select(m => Guid.Parse(m.Value)), company.LegalEntityId);
-
-            model.Add("Звонки", taskRepository.GetCallHistory(customers.Where(m=>!string.IsNullOrEmpty(m.Value)).Select(m=>Guid.Parse(m.Value))));
+            var ids = customers.Where(m=>!string.IsNullOrEmpty(m.Value)).Select(m=>Guid.Parse(m.Value));
+            model.Add("Встречи",taskRepository.GetMeetingsHistory(repository.GetMeetings(ids)));
+            model.Add("Звонки", taskRepository.GetCallHistory(ids));
             
             FinanceBaseRepository financeRepository = new FinanceBaseRepository(_userId);
             model.Add("Платежи", financeRepository.GetPaymentHistory(companyId));
@@ -69,6 +72,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             }
             return PartialView(model);
         }
+        [DisplayName("Загрузка формы редактирование ю.л.")]
         public ActionResult Edit(int? legalEnitityId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -97,6 +101,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка формы поиска ю.л.")]
         public ActionResult NoveltyLegal()
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -112,6 +117,7 @@ namespace fifer_crm.Areas.CRM.Controllers
 
 
         [HttpPost]
+        [DisplayName("Поиск по общей базе")]
         public ActionResult NoveltyLegalEdit(LegalEntitySearch search)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -140,6 +146,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение данных ю.л.")]
         public ActionResult Edit(CRMCompanyEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -149,6 +156,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка формы закрепления ю.л. за сотрудником")]
         public ActionResult Assign(int companyId)
         {
             InitSubordinatedUsers();
@@ -159,6 +167,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение ю.л. за сотрудником")]
         public ActionResult Assign(CRMCompanyEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -169,6 +178,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка статуса ю.л.")]
         public ActionResult ChangeStatus(int companyId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -177,6 +187,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение статуса ю.л.")]
         public ActionResult ChangeStatus(CRMCompanyEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -185,6 +196,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpGet]
+        [DisplayName("Загрузка комментария по ю.л.")]
         public ActionResult EditComment(int companyId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -194,6 +206,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение комментария по ю.л.")]
         public ActionResult EditComment(CRMCompanyEditModel model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -202,6 +215,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
 
+        [DisplayName("Копирование ю.л. в локальную базу")]
         public ActionResult CopyLocal(Guid companyId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -210,6 +224,7 @@ namespace fifer_crm.Areas.CRM.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Поиск по общей базе")]
         public ActionResult LegalSearch(LegalEntitySearch model)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -217,12 +232,14 @@ namespace fifer_crm.Areas.CRM.Controllers
             return PartialView(items);
         }
 
+        [DisplayName("Уведомление о закреплении клиента за сотрудником")]
         public ActionResult NotifyAssignedForm(Guid? companyId, Guid? customerId)
         {
             ViewBag.IsCompany = companyId.HasValue;
                return PartialView(companyId.HasValue? companyId.Value : customerId.Value);
         }
 
+        [DisplayName("Уведомление о закреплении ю.л.")]
         public ActionResult NotifyAssigned(Guid companyId, string msg)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);
@@ -237,6 +254,7 @@ namespace fifer_crm.Areas.CRM.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
+        [DisplayName("Уведоление о закреплении физ. лица")]
         public ActionResult NotifyNotLegalAssigned(Guid customerId, string msg)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);

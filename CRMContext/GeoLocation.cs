@@ -19,9 +19,9 @@ namespace CRMContext
             this.Districts = new HashSet<District>();
             this.LegalEnityDetails = new HashSet<LegalEnityDetail>();
             this.LegalEntities = new HashSet<LegalEntity>();
-            this.LegalEntities1 = new HashSet<LegalEntity>();
+            this.LegalEntitiesLocations = new HashSet<LegalEntity>();
             this.Customers = new HashSet<Customer>();
-            this.LegalEntityAddPhones = new HashSet<LegalEntityAddPhone>();
+            this.LegalEntityAddresses = new HashSet<LegalEntityAddress>();
         }
     
         public int GeoLocationId { get; set; }
@@ -35,8 +35,8 @@ namespace CRMContext
         public virtual ICollection<District> Districts { get; set; }
         public virtual ICollection<LegalEnityDetail> LegalEnityDetails { get; set; }
         public virtual ICollection<LegalEntity> LegalEntities { get; set; }
-        public virtual ICollection<LegalEntity> LegalEntities1 { get; set; }
+        public virtual ICollection<LegalEntity> LegalEntitiesLocations { get; set; }
         public virtual ICollection<Customer> Customers { get; set; }
-        public virtual ICollection<LegalEntityAddPhone> LegalEntityAddPhones { get; set; }
+        public virtual ICollection<LegalEntityAddress> LegalEntityAddresses { get; set; }
     }
 }

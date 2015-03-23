@@ -7,16 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CRMContext
+namespace CRMLocalContext
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class LegalEntityAddPhone
+    public partial class LegalEntityAddress
     {
         public int C_GeoLocationId { get; set; }
         public int C_LegalEntityId { get; set; }
         public string Phones { get; set; }
+        public string Mails { get; set; }
+        public string AddAddress { get; set; }
     
         public virtual GeoLocation GeoLocation { get; set; }
         public virtual LegalEntity LegalEntity { get; set; }

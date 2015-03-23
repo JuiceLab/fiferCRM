@@ -63,6 +63,14 @@
       <Project>{29aea7e6-09f5-45c3-a692-b06ed76c6790}</Project>
       <Name>AccessRepositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CompanyContext\CompanyContext.csproj">
+      <Project>{16c83465-731c-4384-a61b-4bba6f8c86c3}</Project>
+      <Name>CompanyContext</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompanyRepositories\CompanyRepositories.csproj">
+      <Project>{3f7ff331-c6f0-4c1a-be15-165f509741ef}</Project>
+      <Name>CompanyRepositories</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CRMContext\CRMContext.csproj">
       <Project>{cf2e02c5-c751-4645-86e5-15d3d83ff3f3}</Project>
       <Name>CRMContext</Name>

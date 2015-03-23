@@ -11,6 +11,8 @@ namespace Interfaces.CRM
         int CompanyId { get; set; }
         string Logo { get; set; }
         string Name { get; set; }
+
+        string UserPhoto { get; set; }
         Dictionary<string, IEnumerable<IMenuItem>> Menu { get; set; }
     }
 }

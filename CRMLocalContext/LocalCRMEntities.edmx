@@ -127,22 +127,16 @@
           <Property Name="Skype" Type="nvarchar" MaxLength="128" />
           <Property Name="LogoPath" Type="nvarchar" MaxLength="256" />
         </EntityType>
-        <EntityType Name="LegalEntityAddPhone">
+        <EntityType Name="LegalEntityAddress">
           <Key>
             <PropertyRef Name="_GeoLocationId" />
             <PropertyRef Name="_LegalEntityId" />
           </Key>
           <Property Name="_GeoLocationId" Type="int" Nullable="false" />
           <Property Name="_LegalEntityId" Type="int" Nullable="false" />
-          <Property Name="Phones" Type="nvarchar" MaxLength="512" Nullable="false" />
-        </EntityType>
-        <EntityType Name="LegalLocation">
-          <Key>
-            <PropertyRef Name="GeoLocations_GeoLocationId" />
-            <PropertyRef Name="LegalEntities1_LegalEntityId" />
-          </Key>
-          <Property Name="GeoLocations_GeoLocationId" Type="int" Nullable="false" />
-          <Property Name="LegalEntities1_LegalEntityId" Type="int" Nullable="false" />
+          <Property Name="Phones" Type="nvarchar" MaxLength="512" />
+          <Property Name="Mails" Type="nvarchar" MaxLength="512" />
+          <Property Name="AddAddress" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="Meeting">
           <Key>
@@ -170,6 +164,22 @@
           <Property Name="ToDate" Type="datetime" Nullable="false" />
           <Property Name="ReasonComment" Type="nvarchar" MaxLength="512" Nullable="false" />
           <Property Name="C_MeetingId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="1024" />
+          <Property Name="Text" Type="text" />
+          <Property Name="SendFrom" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Recipient" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IsChat" Type="bit" Nullable="false" />
+          <Property Name="IsDraft" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Readed" Type="datetime" />
+          <Property Name="C_PrevMsgId" Type="int" />
         </EntityType>
         <EntityType Name="ModifyLog">
           <Key>
@@ -413,49 +423,25 @@
         </Association>
         <Association Name="FK_LegalEntityAddPhone_GeoLocation">
           <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
-          <End Role="LegalEntityAddPhone" Type="Self.LegalEntityAddPhone" Multiplicity="*" />
+          <End Role="LegalEntityAddress" Type="Self.LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GeoLocation">
               <PropertyRef Name="GeoLocationId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="_GeoLocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_LegalEntityAddPhone_LegalEntity">
           <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
-          <End Role="LegalEntityAddPhone" Type="Self.LegalEntityAddPhone" Multiplicity="*" />
+          <End Role="LegalEntityAddress" Type="Self.LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LegalEntity">
               <PropertyRef Name="LegalEntityId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="_LegalEntityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LegalLocation_GeoLocation">
-          <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
-          <End Role="LegalLocation" Type="Self.LegalLocation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GeoLocation">
-              <PropertyRef Name="GeoLocationId" />
-            </Principal>
-            <Dependent Role="LegalLocation">
-              <PropertyRef Name="GeoLocations_GeoLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LegalLocation_LegalEntity">
-          <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
-          <End Role="LegalLocation" Type="Self.LegalLocation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LegalEntity">
-              <PropertyRef Name="LegalEntityId" />
-            </Principal>
-            <Dependent Role="LegalLocation">
-              <PropertyRef Name="LegalEntities1_LegalEntityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -480,6 +466,18 @@
             </Principal>
             <Dependent Role="MeetingTransfer">
               <PropertyRef Name="C_MeetingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Message_Message">
+          <End Role="Message" Type="Self.Message" Multiplicity="0..1" />
+          <End Role="Message1" Type="Self.Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="MessageId" />
+            </Principal>
+            <Dependent Role="Message1">
+              <PropertyRef Name="C_PrevMsgId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -564,10 +562,10 @@
           <EntitySet Name="LegalActivity" EntityType="Self.LegalActivity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalEnityDetail" EntityType="Self.LegalEnityDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LegalEntityAddPhone" EntityType="Self.LegalEntityAddPhone" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LegalLocation" EntityType="Self.LegalLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalEntityAddress" EntityType="Self.LegalEntityAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meeting" EntityType="Self.Meeting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MeetingTransfer" EntityType="Self.MeetingTransfer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ModifyLog" EntityType="Self.ModifyLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
@@ -616,19 +614,11 @@
           </AssociationSet>
           <AssociationSet Name="FK_LegalEntityAddPhone_GeoLocation" Association="Self.FK_LegalEntityAddPhone_GeoLocation">
             <End Role="GeoLocation" EntitySet="GeoLocation" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhone" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_LegalEntityAddPhone_LegalEntity" Association="Self.FK_LegalEntityAddPhone_LegalEntity">
             <End Role="LegalEntity" EntitySet="LegalEntity" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhone" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LegalLocation_GeoLocation" Association="Self.FK_LegalLocation_GeoLocation">
-            <End Role="GeoLocation" EntitySet="GeoLocation" />
-            <End Role="LegalLocation" EntitySet="LegalLocation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LegalLocation_LegalEntity" Association="Self.FK_LegalLocation_LegalEntity">
-            <End Role="LegalEntity" EntitySet="LegalEntity" />
-            <End Role="LegalLocation" EntitySet="LegalLocation" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_Meeting_Customer" Association="Self.FK_Meeting_Customer">
             <End Role="Customer" EntitySet="Customer" />
@@ -637,6 +627,10 @@
           <AssociationSet Name="FK_MeetingTransfer_Meeting" Association="Self.FK_MeetingTransfer_Meeting">
             <End Role="Meeting" EntitySet="Meeting" />
             <End Role="MeetingTransfer" EntitySet="MeetingTransfer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Message_Message" Association="Self.FK_Message_Message">
+            <End Role="Message" EntitySet="Message" />
+            <End Role="Message1" EntitySet="Message" />
           </AssociationSet>
           <AssociationSet Name="FK_Payment_LegalEnityDetail" Association="Self.FK_Payment_LegalEnityDetail">
             <End Role="LegalEnityDetail" EntitySet="LegalEnityDetail" />
@@ -697,10 +691,6 @@
             <End Role="PaymentTemplate" EntitySet="PaymentTemplates" />
             <End Role="PaymentSchedule" EntitySet="PaymentSchedules" />
           </AssociationSet>
-          <AssociationSet Name="LegalLocation" Association="LocalCRMModel.LegalLocation">
-            <End Role="GeoLocation" EntitySet="GeoLocations" />
-            <End Role="LegalEntity" EntitySet="LegalEntities" />
-          </AssociationSet>
           <EntitySet Name="PaymentInvoices" EntityType="LocalCRMModel.PaymentInvoice" />
           <AssociationSet Name="FK_PaymentInvoice_LegalEnityDetail" Association="LocalCRMModel.FK_PaymentInvoice_LegalEnityDetail">
             <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
@@ -760,14 +750,19 @@
           <EntitySet Name="TaskPeriods" EntityType="LocalCRMModel.TaskPeriod" />
           <EntitySet Name="TaskCategories" EntityType="LocalCRMModel.TaskCategory" />
           <EntitySet Name="UserNotifies" EntityType="LocalCRMModel.UserNotify" />
-          <EntitySet Name="LegalEntityAddPhones" EntityType="LocalCRMModel.LegalEntityAddPhone" />
+          <EntitySet Name="LegalEntityAddresses" EntityType="LocalCRMModel.LegalEntityAddress" />
           <AssociationSet Name="FK_LegalEntityAddPhone_GeoLocation" Association="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation">
             <End Role="GeoLocation" EntitySet="GeoLocations" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhones" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddresses" />
           </AssociationSet>
           <AssociationSet Name="FK_LegalEntityAddPhone_LegalEntity" Association="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity">
             <End Role="LegalEntity" EntitySet="LegalEntities" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhones" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddresses" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="LocalCRMModel.Message" />
+          <AssociationSet Name="FK_Message_Message" Association="LocalCRMModel.FK_Message_Message">
+            <End Role="Message" EntitySet="Messages" />
+            <End Role="Message1" EntitySet="Messages" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="CompletionAct">
@@ -799,8 +794,7 @@
           <Property Name="CityGuid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="LegalEnityDetails" Relationship="LocalCRMModel.FK_LegalEnityDetail_GeoLocation" FromRole="GeoLocation" ToRole="LegalEnityDetail" />
           <NavigationProperty Name="LegalEntities" Relationship="LocalCRMModel.FK_LegalEntity_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
-          <NavigationProperty Name="LegalEntities1" Relationship="LocalCRMModel.LegalLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
-          <NavigationProperty Name="LegalEntityAddPhones" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalEntityAddresses" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntityAddress" />
         </EntityType>
         <EntityType Name="LegalEnityDetail">
           <Key>
@@ -845,11 +839,10 @@
           <Property Name="CompanyGuid" Type="Guid" Nullable="false" />
           <NavigationProperty Name="GeoLocation" Relationship="LocalCRMModel.FK_LegalEntity_GeoLocation" FromRole="LegalEntity" ToRole="GeoLocation" />
           <NavigationProperty Name="LegalEnityDetails" Relationship="LocalCRMModel.FK_LegalEnityDetail_LegalEntity" FromRole="LegalEntity" ToRole="LegalEnityDetail" />
-          <NavigationProperty Name="GeoLocations" Relationship="LocalCRMModel.LegalLocation" FromRole="LegalEntity" ToRole="GeoLocation" />
           <Property Name="Skype" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="LocalCRMModel.FK_Customer_LegalEntity" FromRole="LegalEntity" ToRole="Customer" />
           <Property Name="LogoPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LegalEntityAddPhones" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalEntityAddresses" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalEntityAddress" />
         </EntityType>
         <EntityType Name="Meeting">
           <Key>
@@ -976,10 +969,6 @@
               <PropertyRef Name="C_PaymentTemplateId" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="LegalLocation">
-          <End Type="LocalCRMModel.GeoLocation" Role="GeoLocation" Multiplicity="*" />
-          <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="*" />
         </Association>
         <EntityType Name="PaymentInvoice">
           <Key>
@@ -1297,38 +1286,70 @@
           <Property Name="InitByUserId" Type="Guid" />
           <Property Name="ObjectId" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="LegalEntityAddPhone">
+        <EntityType Name="LegalEntityAddress">
           <Key>
             <PropertyRef Name="C_GeoLocationId" />
             <PropertyRef Name="C_LegalEntityId" />
           </Key>
           <Property Name="C_GeoLocationId" Type="Int32" Nullable="false" />
           <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
-          <Property Name="Phones" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GeoLocation" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="LegalEntityAddPhone" ToRole="GeoLocation" />
-          <NavigationProperty Name="LegalEntity" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntityAddPhone" ToRole="LegalEntity" />
+          <Property Name="Phones" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Mails" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="AddAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GeoLocation" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="LegalEntityAddress" ToRole="GeoLocation" />
+          <NavigationProperty Name="LegalEntity" Relationship="LocalCRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntityAddress" ToRole="LegalEntity" />
         </EntityType>
         <Association Name="FK_LegalEntityAddPhone_GeoLocation">
           <End Type="LocalCRMModel.GeoLocation" Role="GeoLocation" Multiplicity="1" />
-          <End Type="LocalCRMModel.LegalEntityAddPhone" Role="LegalEntityAddPhone" Multiplicity="*" />
+          <End Type="LocalCRMModel.LegalEntityAddress" Role="LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GeoLocation">
               <PropertyRef Name="GeoLocationId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="C_GeoLocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_LegalEntityAddPhone_LegalEntity">
           <End Type="LocalCRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
-          <End Type="LocalCRMModel.LegalEntityAddPhone" Role="LegalEntityAddPhone" Multiplicity="*" />
+          <End Type="LocalCRMModel.LegalEntityAddress" Role="LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LegalEntity">
               <PropertyRef Name="LegalEntityId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="MessageId" />
+          </Key>
+          <Property Name="MessageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SendFrom" Type="Guid" Nullable="false" />
+          <Property Name="Recipient" Type="Guid" Nullable="false" />
+          <Property Name="IsChat" Type="Boolean" Nullable="false" />
+          <Property Name="IsDraft" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Readed" Type="DateTime" Precision="3" />
+          <Property Name="C_PrevMsgId" Type="Int32" />
+          <NavigationProperty Name="Message1" Relationship="LocalCRMModel.FK_Message_Message" FromRole="Message" ToRole="Message1" />
+          <NavigationProperty Name="Message2" Relationship="LocalCRMModel.FK_Message_Message" FromRole="Message1" ToRole="Message" />
+        </EntityType>
+        <Association Name="FK_Message_Message">
+          <End Type="LocalCRMModel.Message" Role="Message" Multiplicity="0..1" />
+          <End Type="LocalCRMModel.Message" Role="Message1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Message">
+              <PropertyRef Name="MessageId" />
+            </Principal>
+            <Dependent Role="Message1">
+              <PropertyRef Name="C_PrevMsgId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1472,14 +1493,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="LegalLocation" TypeName="LocalCRMModel.LegalLocation" StoreEntitySet="LegalLocation">
-            <EndProperty Name="LegalEntity">
-              <ScalarProperty Name="LegalEntityId" ColumnName="LegalEntities1_LegalEntityId" />
-            </EndProperty>
-            <EndProperty Name="GeoLocation">
-              <ScalarProperty Name="GeoLocationId" ColumnName="GeoLocations_GeoLocationId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="PaymentInvoices">
             <EntityTypeMapping TypeName="LocalCRMModel.PaymentInvoice">
               <MappingFragment StoreEntitySet="PaymentInvoice">
@@ -1647,12 +1660,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LegalEntityAddPhones">
-            <EntityTypeMapping TypeName="LocalCRMModel.LegalEntityAddPhone">
-              <MappingFragment StoreEntitySet="LegalEntityAddPhone">
+          <EntitySetMapping Name="LegalEntityAddresses">
+            <EntityTypeMapping TypeName="LocalCRMModel.LegalEntityAddress">
+              <MappingFragment StoreEntitySet="LegalEntityAddress">
+                <ScalarProperty Name="AddAddress" ColumnName="AddAddress" />
+                <ScalarProperty Name="Mails" ColumnName="Mails" />
                 <ScalarProperty Name="Phones" ColumnName="Phones" />
                 <ScalarProperty Name="C_LegalEntityId" ColumnName="_LegalEntityId" />
                 <ScalarProperty Name="C_GeoLocationId" ColumnName="_GeoLocationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="LocalCRMModel.Message">
+              <MappingFragment StoreEntitySet="Message">
+                <ScalarProperty Name="C_PrevMsgId" ColumnName="C_PrevMsgId" />
+                <ScalarProperty Name="Readed" ColumnName="Readed" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsDraft" ColumnName="IsDraft" />
+                <ScalarProperty Name="IsChat" ColumnName="IsChat" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="SendFrom" ColumnName="SendFrom" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MessageId" ColumnName="MessageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

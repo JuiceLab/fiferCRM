@@ -14,6 +14,9 @@ namespace TaskModel.CRM
         public string OwnerName { get; set; }
         public Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerPhoto { get; set; }
+        public string CompanyPhoto { get; set; }
+
         public DateTime Date { get; set; }
         public byte StatusId { get; set; }
         public string Result { get; set; }

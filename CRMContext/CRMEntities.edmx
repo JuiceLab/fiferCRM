@@ -23,7 +23,7 @@
           <Property Name="CompanyServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="_ParentId" Type="int" />
-          <Property Name="ServiceGuid" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Computed" />
+          <Property Name="ServiceGuid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -125,7 +125,7 @@
           <Property Name="_MainGeoId" Type="int" Nullable="false" />
           <Property Name="_CurrentLegalDetailId" Type="int" />
         </EntityType>
-        <EntityType Name="LegalEntityAddPhone">
+        <EntityType Name="LegalEntityAddress">
           <Key>
             <PropertyRef Name="_GeoLocationId" />
             <PropertyRef Name="_LegalEntityId" />
@@ -133,6 +133,8 @@
           <Property Name="_GeoLocationId" Type="int" Nullable="false" />
           <Property Name="_LegalEntityId" Type="int" Nullable="false" />
           <Property Name="Phones" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Mails" Type="nvarchar" MaxLength="512" />
+          <Property Name="AddAddress" Type="nvarchar" MaxLength="512" />
         </EntityType>
         <EntityType Name="LegalLocation">
           <Key>
@@ -369,24 +371,24 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
         </Association>
         <Association Name="FK_LegalEntityAddPhone_GeoLocation">
           <End Role="GeoLocation" Type="Self.GeoLocation" Multiplicity="1" />
-          <End Role="LegalEntityAddPhone" Type="Self.LegalEntityAddPhone" Multiplicity="*" />
+          <End Role="LegalEntityAddress" Type="Self.LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="GeoLocation">
               <PropertyRef Name="GeoLocationId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="_GeoLocationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_LegalEntityAddPhone_LegalEntity">
           <End Role="LegalEntity" Type="Self.LegalEntity" Multiplicity="1" />
-          <End Role="LegalEntityAddPhone" Type="Self.LegalEntityAddPhone" Multiplicity="*" />
+          <End Role="LegalEntityAddress" Type="Self.LegalEntityAddress" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LegalEntity">
               <PropertyRef Name="LegalEntityId" />
             </Principal>
-            <Dependent Role="LegalEntityAddPhone">
+            <Dependent Role="LegalEntityAddress">
               <PropertyRef Name="_LegalEntityId" />
             </Dependent>
           </ReferentialConstraint>
@@ -425,7 +427,7 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           <EntitySet Name="LegalCopy" EntityType="Self.LegalCopy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalEnityDetail" EntityType="Self.LegalEnityDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LegalEntityAddPhone" EntityType="Self.LegalEntityAddPhone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LegalEntityAddress" EntityType="Self.LegalEntityAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalLocation" EntityType="Self.LegalLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeoLocationCityView" EntityType="Self.GeoLocationCityView" store:Type="Views" store:Schema="dbo">
@@ -517,11 +519,11 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           </AssociationSet>
           <AssociationSet Name="FK_LegalEntityAddPhone_GeoLocation" Association="Self.FK_LegalEntityAddPhone_GeoLocation">
             <End Role="GeoLocation" EntitySet="GeoLocation" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhone" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_LegalEntityAddPhone_LegalEntity" Association="Self.FK_LegalEntityAddPhone_LegalEntity">
             <End Role="LegalEntity" EntitySet="LegalEntity" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhone" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddress" />
           </AssociationSet>
           <AssociationSet Name="FK_LegalLocation_GeoLocation" Association="Self.FK_LegalLocation_GeoLocation">
             <End Role="GeoLocation" EntitySet="GeoLocation" />
@@ -556,15 +558,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           <AssociationSet Name="FK_LegalEntity_LegalEnityDetail" Association="CRMModel.FK_LegalEntity_LegalEnityDetail">
             <End Role="LegalEnityDetail" EntitySet="LegalEnityDetails" />
             <End Role="LegalEntity" EntitySet="LegalEntities" />
-          </AssociationSet>
-          <EntitySet Name="CompanyServices" EntityType="CRMModel.CompanyService" />
-          <AssociationSet Name="FK_CompanyService_CompanyService" Association="CRMModel.FK_CompanyService_CompanyService">
-            <End Role="CompanyService" EntitySet="CompanyServices" />
-            <End Role="CompanyService1" EntitySet="CompanyServices" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LegalActivity_CompanyService" Association="CRMModel.FK_LegalActivity_CompanyService">
-            <End Role="CompanyService" EntitySet="CompanyServices" />
-            <End Role="LegalActivity" EntitySet="LegalActivities" />
           </AssociationSet>
           <EntitySet Name="Cities" EntityType="CRMModel.City" />
           <EntitySet Name="Districts" EntityType="CRMModel.District" />
@@ -603,22 +596,31 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
             <End Role="Passport" EntitySet="Passports" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
-          <EntitySet Name="LegalEntityAddPhones" EntityType="CRMModel.LegalEntityAddPhone" />
           <AssociationSet Name="FK_Customer_LegalEntity1" Association="CRMModel.FK_Customer_LegalEntity1">
             <End Role="GeoLocation" EntitySet="GeoLocations" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
-          <AssociationSet Name="FK_LegalEntityAddPhone_GeoLocation" Association="CRMModel.FK_LegalEntityAddPhone_GeoLocation">
-            <End Role="GeoLocation" EntitySet="GeoLocations" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhones" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LegalEntityAddPhone_LegalEntity" Association="CRMModel.FK_LegalEntityAddPhone_LegalEntity">
-            <End Role="LegalEntity" EntitySet="LegalEntities" />
-            <End Role="LegalEntityAddPhone" EntitySet="LegalEntityAddPhones" />
-          </AssociationSet>
           <EntitySet Name="LegalEntityViews" EntityType="CRMModel.LegalEntityView" />
           <EntitySet Name="LegalEntityShortViews" EntityType="CRMModel.LegalEntityShortView" />
           <EntitySet Name="GeoLocationCityViews" EntityType="CRMModel.GeoLocationCityView" />
+          <EntitySet Name="CompanyServices" EntityType="CRMModel.CompanyService" />
+          <EntitySet Name="LegalEntityAddresses" EntityType="CRMModel.LegalEntityAddress" />
+          <AssociationSet Name="FK_CompanyService_CompanyService" Association="CRMModel.FK_CompanyService_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyServices" />
+            <End Role="CompanyService1" EntitySet="CompanyServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalActivity_CompanyService" Association="CRMModel.FK_LegalActivity_CompanyService">
+            <End Role="CompanyService" EntitySet="CompanyServices" />
+            <End Role="LegalActivity" EntitySet="LegalActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntityAddPhone_GeoLocation" Association="CRMModel.FK_LegalEntityAddPhone_GeoLocation">
+            <End Role="GeoLocation" EntitySet="GeoLocations" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LegalEntityAddPhone_LegalEntity" Association="CRMModel.FK_LegalEntityAddPhone_LegalEntity">
+            <End Role="LegalEntity" EntitySet="LegalEntities" />
+            <End Role="LegalEntityAddress" EntitySet="LegalEntityAddresses" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="LegalCopy">
           <Key>
@@ -655,7 +657,7 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           <Property Name="Skype" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customers" Relationship="CRMModel.FK_Customer_LegalEntity" FromRole="LegalEntity" ToRole="Customer" />
           <Property Name="LogoPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="LegalEntityAddPhones" Relationship="CRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalEntityAddresses" Relationship="CRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntity" ToRole="LegalEntityAddress" />
         </EntityType>
         <Association Name="FK_LegalCopy_LegalEntity">
           <End Type="CRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
@@ -738,42 +740,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CompanyService">
-          <Key>
-            <PropertyRef Name="CompanyServiceId" />
-          </Key>
-          <Property Name="CompanyServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="C_ParentId" Type="Int32" />
-          <Property Name="ServiceGuid" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <NavigationProperty Name="CompanyServiceChilds" Relationship="CRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService" ToRole="CompanyService1" />
-          <NavigationProperty Name="CompanyServiceParent" Relationship="CRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService1" ToRole="CompanyService" />
-          <NavigationProperty Name="LegalActivities" Relationship="CRMModel.FK_LegalActivity_CompanyService" FromRole="CompanyService" ToRole="LegalActivity" />
-        </EntityType>
-        <Association Name="FK_CompanyService_CompanyService">
-          <End Type="CRMModel.CompanyService" Role="CompanyService" Multiplicity="0..1" />
-          <End Type="CRMModel.CompanyService" Role="CompanyService1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyService">
-              <PropertyRef Name="CompanyServiceId" />
-            </Principal>
-            <Dependent Role="CompanyService1">
-              <PropertyRef Name="C_ParentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LegalActivity_CompanyService">
-          <End Type="CRMModel.CompanyService" Role="CompanyService" Multiplicity="1" />
-          <End Type="CRMModel.LegalActivity" Role="LegalActivity" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CompanyService">
-              <PropertyRef Name="CompanyServiceId" />
-            </Principal>
-            <Dependent Role="LegalActivity">
-              <PropertyRef Name="C_ServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="CityId" />
@@ -812,9 +778,9 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           <NavigationProperty Name="Districts" Relationship="CRMModel.FK_District_District" FromRole="GeoLocation" ToRole="District" />
           <NavigationProperty Name="LegalEnityDetails" Relationship="CRMModel.FK_LegalEnityDetail_GeoLocation" FromRole="GeoLocation" ToRole="LegalEnityDetail" />
           <NavigationProperty Name="LegalEntities" Relationship="CRMModel.FK_LegalEntity_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
-          <NavigationProperty Name="LegalEntities1" Relationship="CRMModel.LegalLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
+          <NavigationProperty Name="LegalEntitiesLocations" Relationship="CRMModel.LegalLocation" FromRole="GeoLocation" ToRole="LegalEntity" />
           <NavigationProperty Name="Customers" Relationship="CRMModel.FK_Customer_LegalEntity1" FromRole="GeoLocation" ToRole="Customer" />
-          <NavigationProperty Name="LegalEntityAddPhones" Relationship="CRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntityAddPhone" />
+          <NavigationProperty Name="LegalEntityAddresses" Relationship="CRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="GeoLocation" ToRole="LegalEntityAddress" />
         </EntityType>
         <Association Name="FK_GeoLocation_City">
           <End Type="CRMModel.City" Role="City" Multiplicity="1" />
@@ -946,17 +912,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="LegalEntityAddPhone">
-          <Key>
-            <PropertyRef Name="C_GeoLocationId" />
-            <PropertyRef Name="C_LegalEntityId" />
-          </Key>
-          <Property Name="C_GeoLocationId" Type="Int32" Nullable="false" />
-          <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
-          <Property Name="Phones" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="GeoLocation" Relationship="CRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="LegalEntityAddPhone" ToRole="GeoLocation" />
-          <NavigationProperty Name="LegalEntity" Relationship="CRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntityAddPhone" ToRole="LegalEntity" />
-        </EntityType>
         <Association Name="FK_Customer_LegalEntity1">
           <End Type="CRMModel.GeoLocation" Role="GeoLocation" Multiplicity="0..1" />
           <End Type="CRMModel.Customer" Role="Customer" Multiplicity="*" />
@@ -966,30 +921,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
             </Principal>
             <Dependent Role="Customer">
               <PropertyRef Name="C_GeoLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LegalEntityAddPhone_GeoLocation">
-          <End Type="CRMModel.GeoLocation" Role="GeoLocation" Multiplicity="1" />
-          <End Type="CRMModel.LegalEntityAddPhone" Role="LegalEntityAddPhone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GeoLocation">
-              <PropertyRef Name="GeoLocationId" />
-            </Principal>
-            <Dependent Role="LegalEntityAddPhone">
-              <PropertyRef Name="C_GeoLocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LegalEntityAddPhone_LegalEntity">
-          <End Type="CRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
-          <End Type="CRMModel.LegalEntityAddPhone" Role="LegalEntityAddPhone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LegalEntity">
-              <PropertyRef Name="LegalEntityId" />
-            </Principal>
-            <Dependent Role="LegalEntityAddPhone">
-              <PropertyRef Name="C_LegalEntityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1042,6 +973,79 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
           <Property Name="CityId" Type="Int32" Nullable="false" />
           <Property Name="CityGuid" Type="Guid" Nullable="false" />
         </EntityType>
+        <EntityType Name="CompanyService">
+          <Key>
+            <PropertyRef Name="CompanyServiceId" />
+          </Key>
+          <Property Name="CompanyServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="C_ParentId" Type="Int32" />
+          <Property Name="ServiceGuid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="CompanyServiceChild" Relationship="CRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService" ToRole="CompanyService1" />
+          <NavigationProperty Name="CompanyServiceParent" Relationship="CRMModel.FK_CompanyService_CompanyService" FromRole="CompanyService1" ToRole="CompanyService" />
+          <NavigationProperty Name="LegalActivities" Relationship="CRMModel.FK_LegalActivity_CompanyService" FromRole="CompanyService" ToRole="LegalActivity" />
+        </EntityType>
+        <EntityType Name="LegalEntityAddress">
+          <Key>
+            <PropertyRef Name="C_GeoLocationId" />
+            <PropertyRef Name="C_LegalEntityId" />
+          </Key>
+          <Property Name="C_GeoLocationId" Type="Int32" Nullable="false" />
+          <Property Name="C_LegalEntityId" Type="Int32" Nullable="false" />
+          <Property Name="Phones" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="Mails" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="AddAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GeoLocation" Relationship="CRMModel.FK_LegalEntityAddPhone_GeoLocation" FromRole="LegalEntityAddress" ToRole="GeoLocation" />
+          <NavigationProperty Name="LegalEntity" Relationship="CRMModel.FK_LegalEntityAddPhone_LegalEntity" FromRole="LegalEntityAddress" ToRole="LegalEntity" />
+        </EntityType>
+        <Association Name="FK_CompanyService_CompanyService">
+          <End Type="CRMModel.CompanyService" Role="CompanyService" Multiplicity="0..1" />
+          <End Type="CRMModel.CompanyService" Role="CompanyService1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="CompanyService1">
+              <PropertyRef Name="C_ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalActivity_CompanyService">
+          <End Type="CRMModel.CompanyService" Role="CompanyService" Multiplicity="1" />
+          <End Type="CRMModel.LegalActivity" Role="LegalActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyService">
+              <PropertyRef Name="CompanyServiceId" />
+            </Principal>
+            <Dependent Role="LegalActivity">
+              <PropertyRef Name="C_ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntityAddPhone_GeoLocation">
+          <End Type="CRMModel.GeoLocation" Role="GeoLocation" Multiplicity="1" />
+          <End Type="CRMModel.LegalEntityAddress" Role="LegalEntityAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GeoLocation">
+              <PropertyRef Name="GeoLocationId" />
+            </Principal>
+            <Dependent Role="LegalEntityAddress">
+              <PropertyRef Name="C_GeoLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LegalEntityAddPhone_LegalEntity">
+          <End Type="CRMModel.LegalEntity" Role="LegalEntity" Multiplicity="1" />
+          <End Type="CRMModel.LegalEntityAddress" Role="LegalEntityAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LegalEntity">
+              <PropertyRef Name="LegalEntityId" />
+            </Principal>
+            <Dependent Role="LegalEntityAddress">
+              <PropertyRef Name="C_LegalEntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1105,16 +1109,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
                 <ScalarProperty Name="INN" ColumnName="INN" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="LegalEntityDetailId" ColumnName="LegalEntityDetailId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CompanyServices">
-            <EntityTypeMapping TypeName="CRMModel.CompanyService">
-              <MappingFragment StoreEntitySet="CompanyService">
-                <ScalarProperty Name="ServiceGuid" ColumnName="ServiceGuid" />
-                <ScalarProperty Name="C_ParentId" ColumnName="_ParentId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CompanyServiceId" ColumnName="CompanyServiceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1200,15 +1194,6 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LegalEntityAddPhones">
-            <EntityTypeMapping TypeName="CRMModel.LegalEntityAddPhone">
-              <MappingFragment StoreEntitySet="LegalEntityAddPhone">
-                <ScalarProperty Name="Phones" ColumnName="Phones" />
-                <ScalarProperty Name="C_LegalEntityId" ColumnName="_LegalEntityId" />
-                <ScalarProperty Name="C_GeoLocationId" ColumnName="_GeoLocationId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="LegalEntityViews">
             <EntityTypeMapping TypeName="CRMModel.LegalEntityView">
               <MappingFragment StoreEntitySet="LegalEntityView">
@@ -1247,6 +1232,27 @@ warning 6002: The table/view 'fifer_crm.dbo.LegalEntityView' does not have a pri
                 <ScalarProperty Name="GeoLocationId" ColumnName="GeoLocationId" />
                 <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanyServices">
+            <EntityTypeMapping TypeName="CRMModel.CompanyService">
+              <MappingFragment StoreEntitySet="CompanyService">
+                <ScalarProperty Name="ServiceGuid" ColumnName="ServiceGuid" />
+                <ScalarProperty Name="C_ParentId" ColumnName="_ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyServiceId" ColumnName="CompanyServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LegalEntityAddresses">
+            <EntityTypeMapping TypeName="CRMModel.LegalEntityAddress">
+              <MappingFragment StoreEntitySet="LegalEntityAddress">
+                <ScalarProperty Name="AddAddress" ColumnName="AddAddress" />
+                <ScalarProperty Name="Mails" ColumnName="Mails" />
+                <ScalarProperty Name="Phones" ColumnName="Phones" />
+                <ScalarProperty Name="C_LegalEntityId" ColumnName="_LegalEntityId" />
+                <ScalarProperty Name="C_GeoLocationId" ColumnName="_GeoLocationId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

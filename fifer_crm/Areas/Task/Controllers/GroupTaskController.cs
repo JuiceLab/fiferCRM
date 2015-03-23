@@ -91,6 +91,7 @@ namespace fifer_crm.Areas.Task.Controllers
             return PartialView(ticket);
         }
 
+        [DisplayName("Период задачи")]
         public ActionResult TaskPeriod(Guid periodId)
         {
             CRMLocalRepository repository = new CRMLocalRepository(_userId);

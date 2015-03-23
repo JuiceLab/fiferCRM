@@ -7,18 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CRMLocalContext
+namespace CompanyContext
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class LegalEntityAddPhone
+    public partial class TimesheetBreak
     {
-        public int C_GeoLocationId { get; set; }
-        public int C_LegalEntityId { get; set; }
-        public string Phones { get; set; }
+        public int TimesheetBreakId { get; set; }
+        public System.DateTime DateStarted { get; set; }
+        public Nullable<System.DateTime> DateFinished { get; set; }
+        public byte TypeReasonId { get; set; }
+        public string Comment { get; set; }
+        public Nullable<int> C_EmployeeTimesheetId { get; set; }
     
-        public virtual GeoLocation GeoLocation { get; set; }
-        public virtual LegalEntity LegalEntity { get; set; }
+        public virtual EmployeeTimesheet EmployeeTimesheet { get; set; }
     }
 }

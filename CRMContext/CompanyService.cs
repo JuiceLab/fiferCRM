@@ -16,7 +16,7 @@ namespace CRMContext
     {
         public CompanyService()
         {
-            this.CompanyServiceChilds = new HashSet<CompanyService>();
+            this.CompanyServiceChild = new HashSet<CompanyService>();
             this.LegalActivities = new HashSet<LegalActivity>();
         }
     
@@ -25,7 +25,7 @@ namespace CRMContext
         public Nullable<int> C_ParentId { get; set; }
         public System.Guid ServiceGuid { get; set; }
     
-        public virtual ICollection<CompanyService> CompanyServiceChilds { get; set; }
+        public virtual ICollection<CompanyService> CompanyServiceChild { get; set; }
         public virtual CompanyService CompanyServiceParent { get; set; }
         public virtual ICollection<LegalActivity> LegalActivities { get; set; }
     }

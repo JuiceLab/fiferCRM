@@ -9,6 +9,7 @@ using LogService.FilterAttibute;
 using ReportService.Finance;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -19,13 +20,15 @@ namespace fifer_crm.Areas.Finances.Controllers
     public class PaymentController : BaseFiferController
     {
         // GET: Finances/Payment
+        [DisplayName("Страница платежей")]
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        public ActionResult PaymentEdit(int? paymentId, byte type, int? companyId=null)
+        [DisplayName("Загрузка формы редактирования платежа")]
+        public ActionResult PaymentEdit(int? paymentId, byte type, int? companyId = null)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);
             PaymentEditModel model = repository.GetPaymentModel(paymentId, type, companyId);
@@ -52,6 +55,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Изменение статуса платежа")]
         public ActionResult PaymentUpdateStatus(PaymentEditModel model, byte statusId)
         {
             model.StatusId = statusId;
@@ -69,6 +73,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение данных платежа")]
         public ActionResult PaymentEdit(PaymentEditModel model)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);
@@ -77,6 +82,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Загрузка формы редактирования расхода")]
         public ActionResult ExpenseEdit(PaymentEditModel model)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);
@@ -85,6 +91,7 @@ namespace fifer_crm.Areas.Finances.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Таблица деталей платежа")]
         public ActionResult PaymentDetailsTable(PaymentEditModel model, int serviceId, int? qty)
         {
             FinanceBaseRepository repository = new FinanceBaseRepository(_userId);
@@ -99,6 +106,7 @@ namespace fifer_crm.Areas.Finances.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Получение excel-файла платежа")]
         public ActionResult GetPaymentExcel(int paymentId, byte type)
         {
             ExcelReporter reporter = new ExcelReporter(_userId);

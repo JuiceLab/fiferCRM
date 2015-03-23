@@ -1,12 +1,34 @@
-﻿<div class="navbar hidden-print box main navbar-primary" role="navigation">
+﻿@{
+    var profilePhoto = (string)ViewBag.Profile;
+    var items = Enum.GetValues(typeof(TimeBreakType))
+        .Cast<TimeBreakType>()
+        .Select(m => new SelectListItem() { Text = m.GetStringValue(), Value = m.ToString("d") });
+    
+}
+<div class="navbar hidden-print box main navbar-primary" role="navigation">
     <div class="user-action user-action-btn-navbar pull-left border-right">
         <button class="btn btn-sm btn-navbar btn-primary btn-stroke"><i class="fa fa-bars fa-2x"></i></button>
     </div>
      <ul id="todayTasks" class="notifications pull-left hidden-xs">
         
+    </ul>   
+    <ul class="notifications ">
+        <li id="session-state" class="btn-group" data-toggle="buttons-radio"  style="padding-top:10px">
+            <button type="button" id="stop-session" onclick="stopSession(this);return false;" class="btn active" title="завершить работу"><i class="fa fa-stop"></i></button>
+            <button type="button" id="sessionTime" onclick="startSession(true, this);return false;" class="btn " title="начать работу"><i class="fa fa-play"></i></button>
+            <ul id="session-comment" class="hide dropdown-menu chat media-list">
+                <li class="media">
+                    <label>Комментарий</label>
+                    <div>
+                        <div><textarea id="session-result" rows="4" cols="20"></textarea></div>
+                        @Html.DropDownList("TimeBreakType", items)
+                        <input type="button" onclick="setSessionComment();" value="Подтвердить" style="float:right" />
+                    </div>
+                </li>
+            </ul>
+        </li>
     </ul>
-
-   
+  
     <div class="user-action user-action-btn-navbar pull-right">
         <button class="btn btn-sm btn-navbar-right btn-primary"><i class="fa fa-fw fa-anchor"></i></button>
     </div>
@@ -14,26 +36,27 @@
         <div class="dropdown username hidden-xs pull-left">
             <a class="dropdown-toggle  dropdown-hover" data-toggle="dropdown" href="#">
                 <span class="media margin-none">
-                    <span class="pull-left"><img src="/content/images/profile.jpg" alt="user" class="img-circle"></span>
+                    <span class="pull-left"><img src="@(string.IsNullOrEmpty(profilePhoto) ? "/content/images/profile.jpg" : profilePhoto)" alt="user" class="img-circle"></span>
                     <span class="media-body">
                         @Membership.GetUser().UserName <span class="caret"></span>
                     </span>
                 </span>
             </a>
             <input type="hidden" id="userId" value="@Membership.GetUser().ProviderUserKey" />
+            <input type="hidden" id="isAbsent" value="false" />
             <input type="hidden" id="now-date" value="@DateTime.Now.ToString("dd.MM.yyyy")" />
-            <ul class="dropdown-menu pull-right">
-                <li class="active"><a href="#" class="glyphicons user"><i></i> Профиль</a></li>
-                <li><a href="#" class="glyphicons list"><i></i>История</a></li>
-                <li><a href="#" class="glyphicons envelope"><i></i>Сообщения</a></li>
-                <li><a href="#" class="glyphicons key" onclick="resetPass();"><i></i>Сбросить пароль</a></li>
-                
-                <li><a href="#" class="glyphicons cogwheels" onclick="loadModalContent('modal-help', 'NotifySettingsEdit', 'Notify', '');"> Настройки уведомлений</a></li>
-                <li><a href="/Admin/CRMManager/Index" class="glyphicons" > Настройки</a></li>
-                
-                <li><a href="/Account/Logout">Выйти</a></li>
-            </ul>
-        </div>
+          
+                <ul class="dropdown-menu pull-right">
+                    <li class="active"><a href="#" class="glyphicons user"><i></i> Профиль</a></li>
+                    <li><a href="#" class="glyphicons envelope"><i></i>Сообщения</a></li>
+                    <li><a href="#" class="glyphicons key" onclick="resetPass();"><i></i>Сбросить пароль</a></li>
+
+                    <li><a href="#" class="glyphicons cogwheels" onclick="loadModalContent('modal-help', 'NotifySettingsEdit', 'Notify', '');"> Настройки уведомлений</a></li>
+                    <li><a href="/Admin/CRMManager/Index" class="glyphicons"> Настройки</a></li>
+
+                    <li><a href="/Account/Logout">Выйти</a></li>
+                </ul>
+</div>
 
         <a href="#" class="btn btn-default btn-circle dropdown-toggle dropdown-click" onclick="loadModalContent('modal-help', 'TicketEdit', 'Support', '');" title="Помощь"><i class="fa fa-question"></i> </a>
     </div>

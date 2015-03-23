@@ -38,7 +38,7 @@ namespace StateMachine.Dispatcher
 
         protected IDisposable cancellation;
         //protected Entry4Work workersWF;
-
+        public Guid OwnerId { get; set; }
         public BookmarksParticipant PromotedParticipant { get { return promotedParticipiant; } }
 
         /// <summary>

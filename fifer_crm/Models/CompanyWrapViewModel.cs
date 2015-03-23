@@ -46,5 +46,8 @@ namespace fifer_crm.Models
         public string Logo { get { return Company.Logo; } set { Company.Logo = value; } }
 
         public string Name { get { return Company.PublicCompanyName; } set { Company.PublicCompanyName = value; } }
+
+        public string UserPhoto { get { return Company.UserPhoto; } set { Company.UserPhoto = value; } }
+
     }
 }

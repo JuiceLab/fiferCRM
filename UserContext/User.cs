@@ -40,6 +40,8 @@ namespace UserContext
         public System.DateTime Created { get; set; }
         public Nullable<bool> IsTemporaryAbsent { get; set; }
         public string AbsentReason { get; set; }
+        public string AvailableIps { get; set; }
+        public Nullable<System.Guid> RemoteToken { get; set; }
     
         public virtual ICollection<AppCookie> AppCookies { get; set; }
         public virtual ICollection<AuthStat> AuthStats { get; set; }

@@ -39,7 +39,7 @@ namespace ContentSearchService
         {
             var search = new LegalEntitySearch();
             search.DistrictId = city.C_DistrictId.HasValue ? city.C_DistrictId.Value : 0;
-            search.City =  city.CityId ;
+            search.City =  city.CityGuid ;
             cityGuid = city.CityGuid;
             return search;
         }
@@ -84,7 +84,7 @@ namespace ContentSearchService
                result = result.Where(m => search.Name.Contains(m.LegalEntityId)).ToList();
            }
            else if (search.Cities.Count > 0)
-               result = result.Where(m => search.Cities.Contains(m.CityGuid)).ToList();
+               result = result.Where(m => search.Cities.Contains(m.City)).ToList();
          
            if (!string.IsNullOrEmpty(search.Mail))
                result = result.Where(m => m.Mails.Split(',').Any(n => n.IndexOf(search.Mail) != -1)).ToList();
@@ -243,9 +243,9 @@ namespace ContentSearchService
             {
                 if (customers.ContainsKey(item.CompanyGuid))
                 {
-                    var tasks = taskRepository.GetCallTasksPreview(customers[item.CompanyGuid]).Where(m => m.Date >= DateTime.Now.Date).ToList();
-                    var meetings = localRepository.GetMeetingsByCustomerIds(customers[item.CompanyGuid]).Where(m => m.Date >= DateTime.Now.Date).ToList();
-                    var payments = repository.GetPaymentsByIds(new List<int>(), item.CompanyGuid, false).Where(m => m.PayBefore >= DateTime.Now.Date).ToList();
+                    var tasks = taskRepository.GetCallTasksPreview(customers[item.CompanyGuid]).ToList();
+                    var meetings = localRepository.GetMeetingsByCustomerIds(customers[item.CompanyGuid]).ToList();
+                    var payments = repository.GetPaymentsByIds(new List<int>(), item.CompanyGuid, false).ToList();
                     if (tasks.Count() > 0)
                     {
                         item.CallDate = tasks.Min(m => m.Date);

@@ -95,7 +95,7 @@
     <Compile Include="LegalEntity.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="LegalEntityAddPhone.cs">
+    <Compile Include="LegalEntityAddress.cs">
       <DependentUpon>CRMEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="LegalEntityShortView.cs">

@@ -249,21 +249,23 @@
                     }
                     @if (item.CallDate.HasValue)
                     {
-                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.CallId)&customerId=@(item.Guid)', getTaskActions); return false;">
-                                 @if (item.CallDate.Value.Date == DateTime.Now.Date)
-                                 {
-                                    <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть звонок" data-content="" data-placement="top" data-original-title="" title=""></i>
-                                 }
-                                 <i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()</a></li>
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.CallId)&customerId=@(item.Guid)', initCallTask); return false;">
+    @if (item.CallDate.Value.Date == DateTime.Now.Date)
+    {
+        <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть звонок" data-content="" data-placement="top" data-original-title="" title=""></i>
+    }
+    <i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()
+</a></li>
 
                     }@if (item.MeetDate.HasValue)
                     {
-                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit', 'Task/Meeting', '?taskId=@(item.MeetingId)&customerId=@(item.Guid)', getTaskActions); return false;">
-                                 @if (item.MeetDate.Value.Date == DateTime.Now.Date)
-                                 {
-                                    <span class="btn btn-inverse" data-toggle="tooltip" data-original-title="Tooltip on Left" data-placement="left">Tooltip on Left</span>
-                                     <i style="color:red;" class="fa fa-warning btn btn-inverse" data-toggle="popover" data-title="На сегодня есть встреча" data-content="" data-placement="top" data-original-title="" title=""></i>
-                                 }<i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()</a></li>
+                        <li> <a href="#" onclick="loadModalContentWithCallback('modal-help','Edit', 'Task/Meeting', '?taskId=@(item.MeetingId)&customerId=@(item.Guid)', initMeetingTask); return false;">
+    @if (item.MeetDate.Value.Date == DateTime.Now.Date)
+    {
+        <span class="btn btn-inverse" data-toggle="tooltip" data-original-title="Tooltip on Left" data-placement="left">Tooltip on Left</span>
+        <i style="color:red;" class="fa fa-warning btn btn-inverse" data-toggle="popover" data-title="На сегодня есть встреча" data-content="" data-placement="top" data-original-title="" title=""></i>
+    }<i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()
+</a></li>
                     }
                 </ul>
                 <ul class="list-unstyled col-md-7">
@@ -274,8 +276,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu pull-right">
-                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-phone"></i>&nbsp;Звонок</a></li>
-                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?customerId=@(item.Guid)', getTaskActions); return false;"><i class="fa fa-group"></i>&nbsp;Встреча</a></li>
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?customerId=@(item.Guid)&isNovelty=true', initCallTask); return false;"><i class="fa fa-phone"></i>&nbsp;Звонок</a></li>
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?customerId=@(item.Guid)&isNovelty=true', initMeetingTask); return false;"><i class="fa fa-group"></i>&nbsp;Встреча</a></li>
                             </ul>
                         </div>
 

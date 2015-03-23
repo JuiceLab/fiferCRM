@@ -35,5 +35,6 @@ namespace CompanyContext
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<WorkGroup> WorkGroups { get; set; }
         public virtual DbSet<WebSite> WebSites { get; set; }
+        public virtual DbSet<TimesheetBreak> TimesheetBreaks { get; set; }
     }
 }

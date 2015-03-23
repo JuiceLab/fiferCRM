@@ -1,19 +1,23 @@
 ﻿using CompanyModel;
 using CRMRepositories;
 using fifer_crm.Controllers;
+using LogService.FilterAttibute;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace fifer_crm.Areas.GeoLocation.Controllers
 {
+    [Authorize, CRMLogAttribute]
     public class LegalEntityController : BaseFiferController
     {
         CRMRepository _repository = new CRMRepository();
 
         // GET: GeoLocation/LegalEntity
+        [DisplayName("Загрузка адресов ю.л.")]
         public ActionResult LegalAddress(int companyId)
         {
             CRMLocalRepository localRepository = new CRMLocalRepository(_userId);
@@ -25,6 +29,7 @@ namespace fifer_crm.Areas.GeoLocation.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Форма редактирования адреса ю.л.")]
         public ActionResult LegalAddressEdit(int companyId, int? addrId)
         {
             CRMLocalRepository localRepository = new CRMLocalRepository(_userId);
@@ -43,6 +48,7 @@ namespace fifer_crm.Areas.GeoLocation.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Сохранение адреса ю.л.")]
         public ActionResult AddressEdit(CompanyAddressViewModel model)
         {
             CRMLocalRepository localRepository = new CRMLocalRepository(_userId);

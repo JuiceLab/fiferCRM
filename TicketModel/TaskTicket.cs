@@ -351,6 +351,8 @@ namespace TicketModel
                     this.CategoryId = ticket.CategoryId;
                     this.CategoryName = ticket.CategoryId.HasValue ? ticket.Category.Name : string.Empty;
                     this.DateStarted = ticket.DateStarted;
+                    this.DateStartedStr = ticket.DateStarted.HasValue? ticket.DateStarted.Value.ToString("dd.MM.yyyy") : string.Empty;
+                    this.TimeStartedStr = ticket.DateStarted.HasValue ? ticket.DateStarted.Value.ToString("HH.mm") : string.Empty;
                     this.CurrentCommentId = ticket.CurrentCommentId;
                     this.Msg = ticket.Message == null ? "" : HttpUtility.HtmlDecode(ticket.Message);
                     this.CurrentComment = HttpUtility.HtmlDecode(wfContext.CommentBodies.Where(m => m.GuidItem == ticket.TicketId).OrderByDescending(m => m.DateCreated).First().Comment);

@@ -32,15 +32,18 @@
                                                 <div class="btn-group btn-group-xs pull-right">
                                                     @if (item.TypeId == (byte)CRMEventType.TaskCall)
                                                     {
+                                                        <span class="btn btn-info pull-right padding-none" onclick="loadModalContent('modal-help', 'TaskHistory', 'CommonTask', '?taskId=@(item.EventId)')" title="История задачи">&nbsp;<i class="icon icon-comment-1"></i>&nbsp;</span>
                                                         <span class="btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?taskId=@(item.EventId)', initDateMask);" title="Создать звонок">&nbsp;<i class="fa fa-edit"></i>&nbsp;</span>
                                                     }
                                                     else if (item.TypeId == (byte)CRMEventType.Task)
                                                     {
+                                                        <span class="btn btn-info pull-right padding-none" onclick="loadModalContent('modal-help', 'TaskHistory', 'CommonTask', '?taskId=@(item.EventId)')" title="История задачи">&nbsp;<i class="icon icon-comment-1"></i>&nbsp;</span>
                                                         <span class="btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'TaskProcess', 'CommonTask', '?taskId=@(item.EventId)', initDateMask);" title="Создать задачу">&nbsp;<i class="fa fa-edit"></i>&nbsp;</span>
                                                     }
                                                     else if (item.TypeId == (byte)CRMEventType.Meeting)
                                                     {
-                                                        <span class="btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?taskId=@(item.EventId)', initDateMask);" title="Создать встречу">&nbsp;<i class="fa fa-edit"></i>&nbsp;</span>
+                                                        <span class="btn btn-info pull-right padding-none" onclick="loadModalContent('modal-help', 'TaskHistory', 'CommonTask', '?taskId=@(item.EventId)')" title="История задачи">&nbsp;<i class="icon icon-comment-1"></i>&nbsp;</span>
+                                                        <span class="btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?taskId=@(item.EventId)', initMeetingTask);" title="Создать встречу">&nbsp;<i class="fa fa-edit"></i>&nbsp;</span>
                                                     }
                                                 </div>
                                                 <a href="" class="text-regular strong"><i class="fa fa-fw fa-user"></i></a>@item.ContactName <i class="text-faded fa fa-@(item.TypeId == (byte)CRMEventType.TaskCall ? "phone" : item.TypeId == (byte)CRMEventType.Task ? "cogs" : "suitcase")"></i> @item.OwnerName

@@ -35,5 +35,12 @@ namespace fifer_crm.Controllers
             hub.CallTaskUpdated(GlobalHost.ConnectionManager.GetHubContext<AdminHub>(), Guid.Parse(owner), msg);
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult MeetingTaskCallback(string owner, string msg)
+        {
+            AdminHub hub = new AdminHub();
+            hub.MeetingTaskUpdated(GlobalHost.ConnectionManager.GetHubContext<AdminHub>(), Guid.Parse(owner), msg);
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+        
     }
 }

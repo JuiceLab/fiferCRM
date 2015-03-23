@@ -23,7 +23,7 @@ namespace fifer_wf.Controllers
         {
             try
             {
-                Guid userGuid = value.CreatedBy;
+                Guid userGuid = value.CreatedBy == Guid.Empty? value.OwnerId : value.CreatedBy;
                 if (!string.IsNullOrEmpty(value.DateStartedStr))
                     value.DateStarted = Convert.ToDateTime(value.DateStartedStr, ruDateFormat)
                         .Add(Convert.ToDateTime(value.TimeStartedStr).TimeOfDay);

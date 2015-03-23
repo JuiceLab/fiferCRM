@@ -20,6 +20,8 @@ namespace FinanceModel
 
         public string Name { get; set; }
 
+        public string UserPhoto { get; set; }
+
         public Dictionary<string, IEnumerable<IMenuItem>> Menu { get; set; }
     }
 }

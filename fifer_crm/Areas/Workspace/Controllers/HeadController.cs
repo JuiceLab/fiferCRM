@@ -11,6 +11,7 @@ using LogService.FilterAttibute;
 using SupportContext;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,9 +23,11 @@ namespace fifer_crm.Areas.Workspace.Controllers
     {
         [Authorize, CRMLogAttribute]
         // GET: Workspace/Head
+        [DisplayName("Главаня страница клиентской базы")]
         public ActionResult Index()
         {
             CRMWrapViewModel model = new CRMWrapViewModel(_userId);
+            ViewBag.Profile = model.UserPhoto;
             StaffRepository staffRepository = new StaffRepository();
             CustomerSearch searchService = new CustomerSearch(_userId);
             var search = searchService.SearchLegalEntites(new CustomerSearchFilter()
@@ -39,6 +42,7 @@ namespace fifer_crm.Areas.Workspace.Controllers
             return View(model);
         }
 
+        [DisplayName("Получение списка клиентов")]
         public ActionResult GetCustomers(CustomerSearchFilter search)
         {
             CompanyRepository repository = new CompanyRepository();
@@ -79,14 +83,14 @@ namespace fifer_crm.Areas.Workspace.Controllers
                 foreach (CustomerViewModel item in search.SearchResult.Cast<CustomerViewModel>())
                 {
 
-                    tasks = taskRepository.GetCallTasksByCustomer(item.Guid).Where(m =>  m.DateStarted >= DateTime.Now.Date);
+                    tasks = taskRepository.GetCallTasksByCustomer(item.Guid);
                     if (tasks.Count() > 0)
                     {
                         item.CallId = tasks.OrderBy(m => m.ExpiredDate).FirstOrDefault().CallTicketId;
                         item.CallDate = tasks.Min(m => m.DateStarted);
                     }
                     
-                     meetings = localRepository.GetMeetingsByCustomer(item.CustomerId).Where(m => m.Date >= DateTime.Now.Date);
+                     meetings = localRepository.GetMeetingsByCustomer(item.CustomerId);
                     if (meetings.Count() > 0)
                     {
                         item.MeetingId = meetings.OrderBy(m => m.Date).FirstOrDefault().MeetingGuid;

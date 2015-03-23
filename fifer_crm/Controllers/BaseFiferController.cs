@@ -35,6 +35,7 @@ namespace fifer_crm.Controllers
             }
             catch
             { }
+            ViewBag.Profile = string.Empty;
             base.Initialize(requestContext);
         }
 
@@ -115,11 +116,12 @@ namespace fifer_crm.Controllers
                Url = "/Demo/Index?viewName=support_questions.html"
             });
             modelCRM.Add(new MenuViewModel()
-            {
+            {   
                 Icon = "fa-briefcase",
                  //или другой таймлайн редактируемый
-                Name = "+-Встречи ",
-                Url = "/Demo/Index?viewName=medical_appointments.html"
+                Name = "Встречи",
+                Url ="/Task/Meeting/Index"
+                //Url = "/Demo/Index?viewName=medical_appointments.html"
             });
             modelCRM.Add(new MenuViewModel()
             {

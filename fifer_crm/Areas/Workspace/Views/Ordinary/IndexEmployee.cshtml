@@ -102,7 +102,7 @@
                                                             <input type="hidden" id="event-dates" value="@string.Join(",", Model.SheduledEvents.Where(m=>m.Value.Count() > 0).Select(m=>m.Key.ToString("dd.MM.yyyy")))" />
                                                             <div class="innerAll bg-primary" style="margin-top:10px">
                                                                 <div class="pull-left">
-                                                                    <button class="btn btn-default filled padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initDateMask);" title="Создать встречу">&nbsp;<i class="fa fa-plus"></i>&nbsp;Встреча&nbsp;</button>
+                                                                    <button class="btn btn-default filled padding-none" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initMeetingTask);" title="Создать встречу">&nbsp;<i class="fa fa-plus"></i>&nbsp;Встреча&nbsp;</button>
                                                                 </div>
                                                                 <div class="pull-right">
                                                                     <a href="#" onclick="showCurDateShift(-1); return false;" class="text-white strong"><i class="fa fa-arrow-left"></i></a>

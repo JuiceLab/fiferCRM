@@ -37,8 +37,7 @@ namespace CRMModel
         public int? DistrictId { get; set; }
 
         [DisplayName("Город")]
-        public int City { get; set; }
-        public Guid CityGuid { get; set; }
+        public Guid City { get; set; }
 
         [DisplayName("Адрес")]
         public string Address { get; set; }

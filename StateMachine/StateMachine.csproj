@@ -50,11 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accessor\BaseAccessor.cs" />
+    <Compile Include="Accessor\MeetingTaskAccessor.cs" />
     <Compile Include="Accessor\FiferTaskAccessor.cs" />
     <Compile Include="Accessor\CallTaskAccessor.cs" />
     <Compile Include="Accessor\TaskAccessor.cs" />
     <Compile Include="Accessor\SupportAccessor.cs" />
     <Compile Include="Dispatcher\BaseDispatcher.cs" />
+    <Compile Include="Dispatcher\MeetingTaskDispatcher.cs" />
     <Compile Include="Dispatcher\CallTaskDispatcher.cs" />
     <Compile Include="Dispatcher\TaskDispatcher.cs" />
     <Compile Include="Dispatcher\TicketDispatcher.cs" />

@@ -25,6 +25,8 @@ namespace fifer_crm.Areas.Task.Controllers
         {
             var model = new TaskWrapViewModel((Guid)Membership.GetUser().ProviderUserKey, false);
             model.Menu = GetMenu("Активные задачи");
+            ViewBag.Profile = model.UserPhoto;
+
             return View(model);
         }
 
@@ -33,10 +35,13 @@ namespace fifer_crm.Areas.Task.Controllers
         {
             var model = new TaskWrapViewModel((Guid)Membership.GetUser().ProviderUserKey, false, TaskStatus.Completed);
             model.Menu = GetMenu("Архив задач");
+            ViewBag.Profile = model.UserPhoto;
+
             return View(model);
         }
 
         [HttpPost]
+        [DisplayName("Форма поиска задач")]
         public ActionResult SearchResult(TaskSearchFilter searchFilter)
         {
             TaskSearch search = new TaskSearch(_userId);
@@ -45,6 +50,7 @@ namespace fifer_crm.Areas.Task.Controllers
         }
 
         [HttpPost]
+        [DisplayName("Поиск задач")]
         public ActionResult GetTasks(TaskSearchFilter searchFilter)
         {
             TaskSearch search = new TaskSearch(_userId);

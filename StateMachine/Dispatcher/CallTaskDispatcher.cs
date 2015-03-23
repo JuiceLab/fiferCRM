@@ -1,4 +1,5 @@
 ﻿using EnumHelper;
+using EnumHelper.CRM;
 using Interfaces.Support;
 using Settings;
 using SupportContext;
@@ -94,7 +95,7 @@ namespace StateMachine.Dispatcher
             if (instanceId == Guid.Empty)
                 return new List<byte>();
             if (ticketId == new Guid() || instanceId == new Guid())
-                return new List<byte>() { (byte)WFTaskCommand.Create };
+                return new List<byte>() { (byte)WFCallTaskCommand.Create };
 
             var host = CreateWorkflowApplication();
 
@@ -128,7 +129,7 @@ namespace StateMachine.Dispatcher
             waitHandler.WaitOne();
             return bookmarks.Count() != 0 ?
                 bookmarks
-                : new List<byte>() { (byte)WFTaskCommand.Create };
+                : new List<byte>() { (byte)WFMeetingCommand.Create };
         }
 
         public override Guid GetInstanceIdFromObjId(Guid objId)

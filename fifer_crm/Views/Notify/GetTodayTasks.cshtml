@@ -13,7 +13,7 @@
                 </div>
             </li>
         } 
-        <li><a href="#" class="btn btn-primary"><i class="fa fa-list"></i> <span>View all messages</span></a></li>
+        <li><a href="/Task/MainTask/IndexTask" class="btn btn-primary"><i class="fa fa-list"></i> <span>Все задачи</span></a></li>
     </ul>
 </li>
 
@@ -32,7 +32,7 @@
                 </div>
             </li>
         }
-        <li><a href="#" class="btn btn-primary"><i class="fa fa-list"></i> <span>View all messages</span></a></li>
+        <li><a href="/task/call/Index" class="btn btn-primary"><i class="fa fa-list"></i> <span>Все звонки</span></a></li>
     </ul>
 </li>
 <li class="dropdown notif">
@@ -41,13 +41,14 @@
         @foreach (var item in Model[CRMEventType.Meeting])
         {
             <li>
+                <a class="pull-left" href="#"><img class="media-object thumb" src="@(string.IsNullOrEmpty(item.IconPath) ? "/content/images/profile.jpg" : item.IconPath)" alt="50x50" width="50"></a>
                 <h5 style="text-align:left">@item.Title <br /> в @(item.Created.Date == DateTime.Now.Date ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</h5>
                 <div class="btn btn-success " style="width:100%">
                     <a href="#" class="success" onclick="loadModalContentWithCallback('modal-help','Edit','Task/Meeting', '?taskId=@(item.ObjectId)', getTaskActions); return false;">Рассмотреть</a>
                 </div>
             </li>
-
         }
+        <li><a href="/task/meeting/Index" class="btn btn-primary"><i class="fa fa-list"></i> <span>Все встречи</span></a></li>
     </ul>
 </li>
 

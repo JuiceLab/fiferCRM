@@ -265,6 +265,7 @@ namespace TicketModel
                         ticket.CallStatus = (byte)EnumHelper.TaskStatus.Updated;
                         break;
                     case WFCallTaskStatus.Viewed:
+                    case WFCallTaskStatus.NotResponse:
                         break;
                     default:
                         ticket.CallStatus = (byte)EnumHelper.TaskStatus.Error;

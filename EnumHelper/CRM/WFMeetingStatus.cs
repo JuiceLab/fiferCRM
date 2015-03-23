@@ -14,12 +14,18 @@ namespace EnumHelper.CRM
         TransferMeet = 2,
         [StringValue("Назначен исполнитель")]
         AssignMeet = 3,
-        [StringValue("Платеж")]
+        [StringValue("Заврешена платежом")]
         EndPayment = 4,
-        [StringValue("Звонок")]
+        [StringValue("Заврешена звоноком")]
         EndCall = 5,
+        [StringValue("Заврешена встречей")]
+        EndMeet = 6,
+        [StringValue("Оставлен комментарий")]
+        Commented = 7,
+        [StringValue("Просмотр")]
+        Viewed = 8,
         [StringValue("Завершена")]
-        EndMeet = 6
+        Ended = 9
     }
     
 }

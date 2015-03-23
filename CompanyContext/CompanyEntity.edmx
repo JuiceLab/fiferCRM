@@ -162,6 +162,17 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <Property Name="_DepartmentId" Type="int" Nullable="false" />
           <Property Name="_ParentPosId" Type="int" />
         </EntityType>
+        <EntityType Name="TimesheetBreak">
+          <Key>
+            <PropertyRef Name="TimesheetBreakId" />
+          </Key>
+          <Property Name="TimesheetBreakId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateStarted" Type="datetime" Nullable="false" />
+          <Property Name="DateFinished" Type="datetime" />
+          <Property Name="TypeReasonId" Type="tinyint" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="1024" />
+          <Property Name="_EmployeeTimesheetId" Type="int" />
+        </EntityType>
         <EntityType Name="WebSite">
           <Key>
             <PropertyRef Name="SiteId" />
@@ -366,6 +377,18 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TimesheetBreak_EmployeeTimesheet">
+          <End Role="EmployeeTimesheet" Type="Self.EmployeeTimesheet" Multiplicity="0..1" />
+          <End Role="TimesheetBreak" Type="Self.TimesheetBreak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeTimesheet">
+              <PropertyRef Name="EmployeeTimesheetId" />
+            </Principal>
+            <Dependent Role="TimesheetBreak">
+              <PropertyRef Name="_EmployeeTimesheetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_WebSite_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="WebSite" Type="Self.WebSite" Multiplicity="*" />
@@ -400,6 +423,7 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <EntitySet Name="LegalEntity" EntityType="Self.LegalEntity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Passport" EntityType="Self.Passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TimesheetBreak" EntityType="Self.TimesheetBreak" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WebSite" EntityType="Self.WebSite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkGroup" EntityType="Self.WorkGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LegalCompany" EntityType="Self.LegalCompany" store:Type="Tables" store:Schema="dbo">
@@ -467,6 +491,10 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <AssociationSet Name="FK_Position_Position" Association="Self.FK_Position_Position">
             <End Role="Position" EntitySet="Position" />
             <End Role="Position1" EntitySet="Position" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TimesheetBreak_EmployeeTimesheet" Association="Self.FK_TimesheetBreak_EmployeeTimesheet">
+            <End Role="EmployeeTimesheet" EntitySet="EmployeeTimesheet" />
+            <End Role="TimesheetBreak" EntitySet="TimesheetBreak" />
           </AssociationSet>
           <AssociationSet Name="FK_WebSite_Company" Association="Self.FK_WebSite_Company">
             <End Role="Company" EntitySet="Company" />
@@ -551,6 +579,11 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <AssociationSet Name="FK_WebSite_Company" Association="CompanyModel.FK_WebSite_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="WebSite" EntitySet="WebSites" />
+          </AssociationSet>
+          <EntitySet Name="TimesheetBreaks" EntityType="CompanyModel.TimesheetBreak" />
+          <AssociationSet Name="FK_TimesheetBreak_EmployeeTimesheet" Association="CompanyModel.FK_TimesheetBreak_EmployeeTimesheet">
+            <End Role="EmployeeTimesheet" EntitySet="EmployeeTimesheets" />
+            <End Role="TimesheetBreak" EntitySet="TimesheetBreaks" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Address">
@@ -668,6 +701,7 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
           <Property Name="IpLocationEnd" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employee" Relationship="CompanyModel.FK_EmployeeTimesheet_Employee" FromRole="EmployeeTimesheet" ToRole="Employee" />
+          <NavigationProperty Name="TimesheetBreaks" Relationship="CompanyModel.FK_TimesheetBreak_EmployeeTimesheet" FromRole="EmployeeTimesheet" ToRole="TimesheetBreak" />
         </EntityType>
         <EntityType Name="LegalEntity">
           <Key>
@@ -910,6 +944,30 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TimesheetBreak">
+          <Key>
+            <PropertyRef Name="TimesheetBreakId" />
+          </Key>
+          <Property Name="TimesheetBreakId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateStarted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateFinished" Type="DateTime" Precision="3" />
+          <Property Name="TypeReasonId" Type="Byte" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="C_EmployeeTimesheetId" Type="Int32" />
+          <NavigationProperty Name="EmployeeTimesheet" Relationship="CompanyModel.FK_TimesheetBreak_EmployeeTimesheet" FromRole="TimesheetBreak" ToRole="EmployeeTimesheet" />
+        </EntityType>
+        <Association Name="FK_TimesheetBreak_EmployeeTimesheet">
+          <End Type="CompanyModel.EmployeeTimesheet" Role="EmployeeTimesheet" Multiplicity="0..1" />
+          <End Type="CompanyModel.TimesheetBreak" Role="TimesheetBreak" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeTimesheet">
+              <PropertyRef Name="EmployeeTimesheetId" />
+            </Principal>
+            <Dependent Role="TimesheetBreak">
+              <PropertyRef Name="C_EmployeeTimesheetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1102,6 +1160,18 @@ warning 6002: The table/view 'fifer_company.dbo.LegalCompany' does not have a pr
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimesheetBreaks">
+            <EntityTypeMapping TypeName="CompanyModel.TimesheetBreak">
+              <MappingFragment StoreEntitySet="TimesheetBreak">
+                <ScalarProperty Name="C_EmployeeTimesheetId" ColumnName="_EmployeeTimesheetId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="TypeReasonId" ColumnName="TypeReasonId" />
+                <ScalarProperty Name="DateFinished" ColumnName="DateFinished" />
+                <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
+                <ScalarProperty Name="TimesheetBreakId" ColumnName="TimesheetBreakId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

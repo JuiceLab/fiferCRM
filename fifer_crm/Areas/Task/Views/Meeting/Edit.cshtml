@@ -1,10 +1,10 @@
-﻿@model MeetingEditModel
+﻿@model MeetingTicket
 @{
     var customers = ViewBag.Customers as IEnumerable<SelectListItem>;
-    var statuses = new List<SelectListItem>();
-    foreach (TaskStatus item  in Enum.GetValues(typeof(TaskStatus)))
+    var assign = ViewBag.Assign as IEnumerable<SelectListItem>;
+    if (Model.TicketId != Guid.Empty)
     {
-        statuses.Add(new SelectListItem() { Value = item.ToString("d"), Text = item.GetStringValue() });
+        customers = customers.Where(m => m.Value == Model.CustomerId.ToString());
     }
 }
 <div class="modal-header">
@@ -18,50 +18,118 @@
         <div class="innerLR">
             @Html.Hidden("task-cmd")
             <form id="taskTicket" class="form-horizontal" role="form" method="post" action="/Task/Meeting/Edit">
+                @Html.HiddenFor(m => m.TicketId)
                 @Html.HiddenFor(m => m.OwnerId)
                 @Html.HiddenFor(m => m.MeetingId)
-                @Html.HiddenFor(m => m.StatusId)
                 <div class="form-group">
                     @Html.LabelFor(m => m.CustomerId, new { @class = "col-sm-3 control-label" })
                     <div class="col-sm-9">
                         @Html.DropDownListFor(m => m.CustomerId, customers, new { @class = "form-control" })
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-6 control-label">Дата встречи</label>
-                    <div class="col-sm-6">
-                        @Html.TextBoxFor(m => m.Date, new { @class = "form-control" })
+                @if (Model.TicketId == Guid.Empty)
+                {
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Дата встречи</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                        </div>
+                        <label class="col-sm-3 control-label">Время встречи</label>
+                        <div class="col-sm-3">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Goals, new { @class = "col-sm-3 control-label" })
-                    <div class="col-sm-9">
-                        @Html.TextBoxFor(m => m.Goals, new { @class = "form-control" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Goals, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.Goals, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Comment, new { @class = "col-sm-3 control-label" })
-                    <div class="col-sm-9">
-                        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Msg, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.TextAreaFor(m => m.Msg, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.StatusId, new { @class = "col-sm-3 control-label" })
-                    <div class="col-sm-9">
-                        @Html.DropDownListFor(m => m.StatusId, statuses, new { @class = "form-control" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Result, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.TextAreaFor(m => m.Result, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Result, new { @class = "col-sm-3 control-label" })
-                    <div class="col-sm-9">
-                        @Html.TextAreaFor(m => m.Result, new { @class = "form-control" })
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Исполнитель</label>
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    @Html.ValidationSummary();
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <span onclick="editMeeting();" class="btn btn-primary">@(Model.MeetingId != 0? "обновить": "создать") встречу </span>
+                }
+                else
+                {
+                    <h4>@Model.Title</h4>
+                    <label>Встреча @Model.DateStartedStr в @Model.TimeStartedStr</label>
+                    <p>Цель: @Model.Goals </p>
+                    <p>Комментарий @Model.Msg</p>
+                    if (Model.Assigned.HasValue)
+                    {
+                        <small>Исполнитель: @assign.FirstOrDefault(m => m.Value == Model.Assigned.Value.ToString()).Text</small>
+                    }
+                    @Html.HiddenFor(m => m.Assigned)
+                    <div id="hide@(WFMeetingCommand.ReMeet.ToString("d"))" class="hide form-group">
+                        <label class="col-sm-3 control-label">Дата встречи</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(m => m.DateStartedStr, new { @class = "form-control" })
+                        </div>
+                        <label class="col-sm-3 control-label">Время встречи</label>
+                        <div class="col-sm-3">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.TextBoxFor(m => m.TimeStartedStr, new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12"><input style="margin-top:3px; width:100%" type="button" class="btn btn-info" onclick="editMeeting(@WFMeetingCommand.ReMeet.ToString("d"))" value="Сохранить" /> </div>
                     </div>
+                    <div id="hide@(WFMeetingCommand.Assign.ToString("d"))" class="hide form-group">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Исполнитель</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.Assigned, assign, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-12"><input style="margin-top:3px; width:100%" type="button" class="btn btn-info" onclick="editMeeting(@WFMeetingCommand.Assign.ToString("d"))" value="Сохранить" /> </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Комментарий</label>
+                        <div class="col-sm-9">
+                            @Html.TextArea("CurrentComment", string.Empty, new { @class = "form-control" })
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.ValidationSummary()
+                    @if (Model.TicketId != Guid.Empty)
+                    {
+                        <div id="availableActions">
+                            <label style="width:100%">Загрузка доступных действий &nbsp;<i class="fa fa-spin fa-spinner"></i></label>
+                        </div>
+                    }
+                    else
+                    {
+                        <label class="col-sm-3 control-label">Напомнить за</label>
+                        <div class="col-sm-4">
+                            <div class="input-group bootstrap-timepicker">
+                                @Html.TextBoxFor(m => m.NotifyBeforeStr, new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <span onclick="editMeeting(@(WFMeetingCommand.Create.ToString("d")));" class="btn btn-primary">@(Model.MeetingId != 0 ? "обновить" : "создать") встречу </span>
+                        </div>
+                    }
                 </div>
             </form>
         </div>

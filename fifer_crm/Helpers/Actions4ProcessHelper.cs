@@ -148,5 +148,34 @@ namespace fifer_crm.Helpers
             return result;
 
         }
+
+        internal object ManagmentMeetingTask(Guid taskId, Guid guid)
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            MeetingTaskAccessor taskWrap = new MeetingTaskAccessor();
+            IEnumerable<string> availableCommands = taskWrap.GetBookmarks(taskId, guid);
+            var strEnum = GetByteStringEnums<WFMeetingCommand>();
+
+            foreach (var item in availableCommands)
+            {
+                var selectItem = new SelectListItem() { Value = strEnum.FirstOrDefault(m => m == item) };
+                switch ((WFMeetingCommand)Convert.ToByte(item))
+                {
+                    case WFMeetingCommand.Comment:
+                        selectItem.Text = "Оставить комментарий";
+                        break;
+                    case WFMeetingCommand.View:
+                        break;
+                    default:
+                        selectItem.Text = ((WFMeetingCommand)Convert.ToByte(strEnum.FirstOrDefault(m => m == item))).GetStringValue();
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(selectItem.Text))
+                    result.Add(selectItem);
+            }
+
+            return result;
+        }
     }
 }

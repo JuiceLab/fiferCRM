@@ -14,6 +14,7 @@
         <div class="innerLR">
             <form id="taskTicket" class="form-horizontal" role="form">
                 @Html.HiddenFor(m => m.OwnerId)
+                @Html.HiddenFor(m => m.TicketId)
                 @Html.HiddenFor(m => m.TicketStatus)
                 @Html.HiddenFor(m => m.CreatedBy)
                 @Html.HiddenFor(m => m.Assigned)

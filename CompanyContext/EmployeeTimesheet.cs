@@ -14,6 +14,11 @@ namespace CompanyContext
     
     public partial class EmployeeTimesheet
     {
+        public EmployeeTimesheet()
+        {
+            this.TimesheetBreaks = new HashSet<TimesheetBreak>();
+        }
+    
         public int EmployeeTimesheetId { get; set; }
         public int C_EmployeeId { get; set; }
         public System.DateTime Created { get; set; }
@@ -24,5 +29,6 @@ namespace CompanyContext
         public string Comment { get; set; }
     
         public virtual Employee Employee { get; set; }
+        public virtual ICollection<TimesheetBreak> TimesheetBreaks { get; set; }
     }
 }

@@ -220,7 +220,7 @@ namespace ContentImport
             foreach (var file4Update in files4Update)
             {
                 FileInfo file = new FileInfo(file4Update);
-                if (file.LastWriteTimeUtc.Date > DateTime.Now.Date.AddDays(-2))
+                if (file.LastWriteTimeUtc.Date > DateTime.Now.Date.AddDays(-7))
                 {
                     label1.Invoke((MethodInvoker)delegate
                     {

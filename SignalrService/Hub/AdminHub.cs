@@ -91,5 +91,15 @@ namespace SignalrService.Hub
             Clients.All.addNewMessageToPage(name, message);
         }
 
+
+        public void MeetingTaskUpdated(IHubContext hub, Guid userId, string msg)
+        {
+            try
+            {
+                hub.Clients.Client(connectionUserIds[userId]).meetingtaskCreated(msg);
+            }
+            catch
+            { }
+        }
     }
 }

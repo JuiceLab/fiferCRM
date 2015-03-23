@@ -10,11 +10,11 @@ namespace EnumHelper.Mailer
     {
         [StringValue("Новая компания")]
         NewCustomer = 1,
-
         [StringValue("Новый сотрудник")]
         NewEmployee = 2,
-        
         [StringValue("Сброс пароля")]
-        ResetPass = 3
+        ResetPass = 3,
+        [StringValue("Одноразовый токен доступа")]
+        RemoteToken = 4
     }
 }

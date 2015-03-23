@@ -41,6 +41,9 @@ namespace CompanyModel
         public bool IsPublic { get; set; }
 
         public string Logo { get; set; }
+
+        public string UserPhoto { get; set; }
+
         public IEnumerable<CompanyAddressViewModel> Addresses { get; set; }
 
         public IEnumerable<CompanyEmployeeViewModel> KeyEmployees { get; set; }

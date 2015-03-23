@@ -40,7 +40,7 @@ namespace FilterModel
         public int DistrictId { get; set; }
 
         [DisplayName("Города")]
-        public int? City { get; set; }
+        public Guid? City { get; set; }
 
 
         [DisplayName("Виды деятельности")]

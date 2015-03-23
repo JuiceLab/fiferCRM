@@ -23,35 +23,18 @@ namespace TicketRepositories
             : base()
         { }
 
-        public IEnumerable<TaskPreview> GetTaskTickets(IEnumerable<Guid> userIds, EnumHelper.TaskStatus? status = null)
+        public IEnumerable<TaskPreview> GetTaskTickets(IEnumerable<Guid> userIds, bool unsigned = false, IEnumerable<byte> statuses = null)
         {
-            if (!status.HasValue)
+            var result = Context.Tickets.AsQueryable();
+            
+                result  = result.Where(m => (!m.Assigned.HasValue && unsigned)  
+                            || ( m.Assigned.HasValue && userIds.Contains(m.Assigned.Value)));
+            if (statuses!=null && statuses.Count() > 0)
             {
-                return Context.Tickets
-                   .Where(m => m.TicketStatus != (byte)EnumHelper.TaskStatus.Completed
-                       && m.Assigned.HasValue && userIds.Contains(m.Assigned.Value))
-                   .ToList()
-                   .Select(m => new TaskPreview()
-                   {
-                       Created = m.DateCreated,
-                       CreatedById = m.CreatedBy,
-                       Status = (EnumHelper.TaskStatus)m.TicketStatus.Value,
-                       TaskNumber = m.TicketNumber,
-                       TaskId = m.TicketId,
-                       Title = m.Title,
-                       Msg = m.Message,
-                       IsHighProirity = m.Priory == _highPriority,
-                       AssignedById = m.Assigned.Value,
-                       DateStarted = m.DateStarted,
-                       HasGroup = m.TicketGroups.Count > 0
-                   }).ToList();
+                   result = result.Where(m =>m.TicketStatus.HasValue && statuses.Contains(m.TicketStatus.Value));
             }
-            else
-            {
-                return Context.Tickets
-                   .Where(m => m.TicketStatus == (byte)status.Value
-                       && m.Assigned.HasValue && userIds.Contains(m.Assigned.Value))
-                   .ToList()
+            
+                return result.ToList()
                    .Select(m => new TaskPreview()
                    {
                        Created = m.DateCreated,
@@ -62,19 +45,24 @@ namespace TicketRepositories
                        IsHighProirity = m.Priory == _highPriority,
                        Title = m.Title,
                        Msg = m.Message,
-                       AssignedById = m.Assigned.Value,
+                       AssignedById = m.Assigned.HasValue? m.Assigned.Value : Guid.Empty,
                        DateStarted = m.DateStarted,
                        HasGroup = m.TicketGroups.Count > 0
                    }).ToList();
-            }
         }
 
-        public JsonTaskPreview[] GetJsonTaskTickets(IEnumerable<Guid> userIds, DateTime from, DateTime to)
+        public JsonTaskPreview[] GetJsonTaskTickets(IEnumerable<Guid> userIds, DateTime from, DateTime to, bool unsigned = false, IEnumerable<byte> statuses = null)
         {
-            return Context.Tickets
-               .Where(m => m.TicketStatus != (byte)EnumHelper.TaskStatus.Completed
-                   && m.Assigned.HasValue && userIds.Contains(m.Assigned.Value) && m.DateStarted.HasValue && m.DateStarted >= from && m.DateStarted <=to)
-               .ToList()
+              var result = Context.Tickets.AsQueryable();
+            
+                result  = result.Where(m => (!m.Assigned.HasValue && unsigned)  
+                            || ( m.Assigned.HasValue && userIds.Contains(m.Assigned.Value)));
+            if (statuses!=null && statuses.Count() > 0)
+            {
+                   result = result.Where(m =>m.TicketStatus.HasValue && statuses.Contains(m.TicketStatus.Value));
+            }
+
+            return result.Where(m=>m.DateStarted.HasValue).ToList()
                .Select(m => new JsonTaskPreview()
                {
                    TaskNumber = m.TicketNumber,
@@ -95,7 +83,8 @@ namespace TicketRepositories
                    Created = m.DateCreated,
                    Msg = m.Comment,
                    UserId = m.UserId.Value
-               }).ToList();
+               })
+               .ToList();
         }
 
         public IEnumerable<MessageViewModel> GetStatus4Task(Guid taskId)
@@ -111,7 +100,7 @@ namespace TicketRepositories
                                 ((WFCallTaskStatus)m.StatusId.Value).GetStringValue()
                            :Context.Tickets.Any(n=>n.TicketId == taskId)?
                                 ((WFTaskStatus)m.StatusId.Value).GetStringValue()
-                                : string.Empty)
+                                : ((WFMeetingStatus)m.StatusId.Value).GetStringValue())
                         : m.CustomStatus,
                    UserId =  m.OwnerId.HasValue?  m.OwnerId.Value : Guid.Empty
                }).ToList();
@@ -162,7 +151,7 @@ namespace TicketRepositories
             else
             {
                 return Context.CallTickets
-                    .Where(m => m.CustomerGuid.HasValue && customerIds.Contains(m.CustomerGuid.Value))
+                    .Where(m => m.CallStatus != (byte)EnumHelper.TaskStatus.Completed && m.CustomerGuid.HasValue && customerIds.Contains(m.CustomerGuid.Value))
                     .Select(m => new CallTaskPreview()
                     {
                         AssignId = m.Assigned,
@@ -225,7 +214,7 @@ namespace TicketRepositories
 
         public Guid? GetFirstCallTask(List<Guid> customers)
         {
-            var task = Context.CallTickets.Where(m =>m.CustomerGuid.HasValue &&  customers.Contains(m.CustomerGuid.Value) && m.CallStatus != (byte)TicketStatus.Closed)
+            var task = Context.CallTickets.Where(m => m.CustomerGuid.HasValue && customers.Contains(m.CustomerGuid.Value) && m.CallStatus != (byte)EnumHelper.TaskStatus.Completed)
                 .OrderBy(m => m.ExpiredDate)
                 .FirstOrDefault();
             return task != null ? task.CallTicketId : new Nullable<Guid>();
@@ -283,7 +272,21 @@ namespace TicketRepositories
             Context.SaveChanges();
         }
 
+        public List<MessageViewModel> GetMeetingsHistory(IEnumerable<SelectListItem> meetings)
+        {
+            IEnumerable<Guid> ids = meetings.Select(m => Guid.Parse(m.Value));
+            return Context.QueryStatus
+                .Where(m => ids.Contains(m.QueryItemId))
+                .ToList()
+                .Select(m => new MessageViewModel()
+                {
+                    Type = (byte)MsgType.Status,
+                    Created = m.DateCreated,
+                    Msg = string.Format("Встреча c {0}. Статус:{1}", meetings.FirstOrDefault(n => n.Value == m.QueryItemId.ToString()).Text, m.StatusId.HasValue ? ((WFTaskStatus)m.StatusId.Value).GetStringValue() : m.CustomStatus),
+                    UserId = m.OwnerId.HasValue ? m.OwnerId.Value : Guid.Empty
+                }).ToList();
 
+        }
 
         public List<MessageViewModel> GetCallHistory(IEnumerable<Guid> customers)
         {
@@ -296,13 +299,13 @@ namespace TicketRepositories
                 .ToList();
             var ids = calls.Select(m => m.guid).ToList();
             return Context.QueryStatus
-                .ToList()
                 .Where(m => ids.Contains(m.QueryItemId))
+                .ToList()
                 .Select(m => new MessageViewModel()
                 {
                     Type = (byte)MsgType.Status,
                     Created = m.DateCreated,
-                    Msg = string.Format("Тикет {0}. Статус:{1}", calls.FirstOrDefault(n => n.guid == m.QueryItemId).id, m.StatusId.HasValue ? ((WFTaskStatus)m.StatusId.Value).GetStringValue() : m.CustomStatus),
+                    Msg = string.Format("Тикет {0}. Статус:{1}", calls.FirstOrDefault(n => n.guid == m.QueryItemId).id, m.StatusId.HasValue ? ((WFCallTaskStatus)m.StatusId.Value).GetStringValue() : m.CustomStatus),
                     UserId = m.OwnerId.HasValue ? m.OwnerId.Value : Guid.Empty
                 }).ToList();
         }

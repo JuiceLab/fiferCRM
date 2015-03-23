@@ -22,7 +22,7 @@
             {
                 <tr>
                     <td>@item.TaskNumber</td>
-                    <td><span class="btn btn-info pull-left" onclick="loadModalContent('modal-help','Task/TaskGroup','CommonTask', '?taskId=@(item.TaskId)&taskNumber=@item.TaskNumber')"><i class="icon icon-comment-1" title="История задачи"></i></span>&nbsp; @item.Title</td>
+                    <td><span class="btn btn-info pull-left" onclick="loadModalContent('modal-help','TaskHistory','CommonTask', '?taskId=@(item.TaskId)&taskNumber=@item.TaskNumber')"><i class="icon icon-comment-1" title="История задачи"></i></span>&nbsp; @item.Title</td>
                     <td>@item.Status.GetStringValue()</td>
                     <td>@item.CreatedBy</td>
                     <td>@(item.Created.Date == DateTime.Now ? item.Created.ToShortTimeString() : item.Created.ToShortDateString())</td>

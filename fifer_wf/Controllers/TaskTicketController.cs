@@ -11,6 +11,7 @@ using TicketRepositories;
 using System.Globalization;
 using NotifyEventModel;
 using CRMRepositories;
+using AccessRepositories;
 
 namespace fifer_wf.Controllers
 {
@@ -32,19 +33,52 @@ namespace fifer_wf.Controllers
                     Msg = value.Msg,
                     CurrentComment = value.CurrentComment,
                     DateStartedStr = value.DateStartedStr,
+                    TimeStartedStr = value.TimeStartedStr,
                     IsHighPriority = value.IsHighPriority,
                     CreatedBy = value.CreatedBy,
                     Assigned = value.Assigned,
                     TicketId = value.TicketId
                 };
+                TaskTicket curTicket = new TaskTicket();
+                curTicket.Load(ticket.TicketId);
+                 MembershipRepository accessRepository = new MembershipRepository();
 
+                var userIds = new List<Guid>();
+                if(ticket.Assigned.HasValue)
+                    userIds.Add(ticket.Assigned.Value);
+                if(curTicket.Assigned.HasValue)
+                    userIds.Add(curTicket.Assigned.Value);
+
+           var users = accessRepository.GetUserByIds(userIds)
+                .Where(m => m.UserId != Guid.Empty)
+                .Select(m => new System.Web.Mvc.SelectListItem() { Text = m.FirstName + " " + m.LastName, Value = m.UserId.ToString() })
+                .ToList();
+                string logComment = idCommand == WFTaskCommand.Comment?
+                    string.Format("Оставлен комментарий.'{0}' ", value.CurrentComment, userGuid, ticket.TicketId)
+                :idCommand == WFTaskCommand.Assign?
+                    string.Format(" Назначен исполнитель.'{0}' вместо '{1}'. '2'", ticket.Assigned.HasValue ? 
+                    users.FirstOrDefault(m=>m.Value == ticket.Assigned.Value.ToString()).Text
+                    : "нет исполнителя",
+                    curTicket.Assigned.HasValue ? 
+                    users.FirstOrDefault(m=>m.Value == curTicket.Assigned.Value.ToString()).Text
+                    : "нет исполнителя", ticket.CurrentComment)
+                    : idCommand == WFTaskCommand.Sсhedule?
+                    string.Format(" Изменены дата/время выполения задачи.'{0}' на '{1}' ", curTicket.DateStartedStr, value.DateStartedStr)
+                        :string.Empty;
+                
                 if (value.IsHighPriority)
                     value.Priority = 10;
                 if (!string.IsNullOrEmpty(value.DateStartedStr))
                     ticket.DateStarted = Convert.ToDateTime(value.DateStartedStr, ruDateFormat).Add(Convert.ToDateTime(value.TimeStartedStr).TimeOfDay);
                 var ticketProcessed = wrapper.RunTicketWF(ticket, idCommand, userGuid);
+                
                 var curItem = new FiferTaskTicket();
                 curItem.Load(ticketProcessed.TicketId);
+                if (!string.IsNullOrEmpty(logComment))
+                {
+                    CRMLocalRepository repository = new CRMLocalRepository(userGuid);
+                    repository.WriteModify(logComment, userGuid, ticketProcessed.TicketId);
+                }
                 if(value.HasGroup)
                 {
                     curItem.HasGroup = true;

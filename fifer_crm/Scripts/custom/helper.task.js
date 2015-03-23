@@ -1,9 +1,18 @@
 ﻿
-$(function () {
-    if ($('#calendar').length > 0) {
-        setCalendarTasks();
+function initMeetingTask() {
+    initDateMask();
+    if ($("#availableActions").length) {
+        $.ajax({
+            url: apihost + "/Meeting/SetViewed?ticketId=" + $("#taskTicket #TicketId").val() + "&userId=" + $("#userId").val(),
+            complete: function () {
+                $.get("/Task/Meeting/Actions4MeetingTask?taskId=" + $("#taskTicket #TicketId").val(),
+                     function (result) {
+                         $("#availableActions").html(result);
+                     });
+            }
+        });
     }
-})
+}
 
 function initCallTask()
 {
@@ -94,8 +103,34 @@ function createTaskTicket() {
     }
 }
 
+
+function editMeeting(cmd) {
+    if ($("#hide" + cmd).length && $("#hide" + cmd).hasClass("hide")) {
+        $("div[id^='hide']").addClass("hide");
+        $("#hide" + cmd).removeClass("hide");
+    }
+    else if ($("#taskTicket").valid()) {
+        $("#modal-help .close").trigger("click");
+        $.ajax({
+            url: apihost + "/meeting/post?idCommand=" + cmd,
+            data: $("#taskTicket").serialize(),
+            method: "POST",
+            complete: function () {
+                if (cmd == 2) {
+                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?meetingId=' + $("#taskTicket #TicketId").val(), initCallTask);
+                }
+                if (cmd == 4) {
+                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initMeetingTask);
+                }
+
+            }
+        });
+    }
+}
+
 function updateCallTask(cmd) {
     if ($("#hide" + cmd).length && $("#hide" + cmd).hasClass("hide")) {
+        $("div[id^='hide']").addClass("hide");
         $("#hide" + cmd).removeClass("hide");
     }
     else if ($("#taskTicket").valid()) {
@@ -106,9 +141,11 @@ function updateCallTask(cmd) {
             method: "POST",
             complete: function () {
                 if (cmd == 10) {
-                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?prevCallid=' + $("#taskTicket #TicketId").val(), initCallTask);
+                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?prevCallId=' + $("#taskTicket #TicketId").val(), initCallTask);
                 }
-                
+                if (cmd == 8) {
+                    loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '', initMeetingTask);
+                }
             }
         });
     }
@@ -172,6 +209,7 @@ function getTaskActions() {
 
 function changeTable(isTable)
 {
+    $('#isCalendar').val(isTable);
     if (isTable) {
         $("#option2").parent("label").removeClass("active");
         $("#option1").parent("label").addClass("active");

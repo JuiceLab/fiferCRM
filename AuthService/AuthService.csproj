@@ -66,6 +66,7 @@
     <Compile Include="FiferMembership\FormsAuthenticationService.cs" />
     <Compile Include="FiferMembership\IFormAuthenticationService.cs" />
     <Compile Include="FiferMembership\IMembershipService.cs" />
+    <Compile Include="FiferMembership\RemoteMembershipService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

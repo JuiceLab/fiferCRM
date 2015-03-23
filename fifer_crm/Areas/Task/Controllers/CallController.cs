@@ -21,14 +21,17 @@ namespace fifer_crm.Areas.Task.Controllers
     [Authorize, CRMLogAttribute]
     public class CallController : BaseFiferController
     {
+        [DisplayName("Страница звонков")]
         public ActionResult Index()
         {
             CRMWrapViewModel model = new CRMWrapViewModel(_userId, true);
             model.Menu = GetMenu("Звонки");
+            ViewBag.Profile = model.UserPhoto;
             return View(model);
         }
 
-        public ActionResult Edit(Guid? taskId, string taskNumber,Guid? prevCallId, int? companyId = null, Guid? customerId=null)
+        [DisplayName("Форма создания звонка")]
+        public ActionResult Edit(Guid? taskId, string taskNumber, Guid? prevCallId, int? companyId = null, Guid? customerId = null, bool isNovelty = false)
         {
             CallTicket ticket = new CallTicket()
             {
@@ -50,7 +53,7 @@ namespace fifer_crm.Areas.Task.Controllers
             ViewBag.Customers = (customerId.HasValue) ? customers.Where(m => m.Value == customerId.ToString()) : customers;
             ViewBag.Command = (byte)WFCallTaskCommand.Create;
 
-            if (companyId.HasValue)
+            if (companyId.HasValue && !isNovelty)
             {
                 TaskTicketRepository ticketRepository = new TaskTicketRepository();
                 taskId = ticketRepository.GetFirstCallTask(customers.Where(m=> !string.IsNullOrEmpty(m.Value)).Select(m=>Guid.Parse(m.Value)).ToList());
@@ -61,16 +64,6 @@ namespace fifer_crm.Areas.Task.Controllers
             return PartialView(ticket);
         }
 
-        [HttpPost]
-        public ActionResult Edit(CallTicket model)
-        {
-            CRMLocalRepository repository = new CRMLocalRepository(_userId);
-            CRMLocalContext.Customer customer = repository.GetCustomerByGuid(model.ObjId.Value);
-            model.Phone = customer.Phone;
-            model.Save();
-            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
-        }
-
         [DisplayName("Загрузка доступных действий для звонка")]
         public ActionResult Actions4CallTask(Guid taskId)
         {
@@ -79,6 +72,7 @@ namespace fifer_crm.Areas.Task.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Форма назначения звонка сотруднику")]
         public ActionResult TaskAssign(Guid taskId)
         {
             CallTicket ticket = new CallTicket();

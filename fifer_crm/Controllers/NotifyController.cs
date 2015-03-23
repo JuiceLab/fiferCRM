@@ -31,6 +31,7 @@ namespace fifer_crm.Controllers
             var model = new TaskWrapViewModel(_userId);
             model.Notifies = repository.GetNotifies(_userId);
             model.Menu = GetMenu("Уведомления");
+            ViewBag.Profile = model.UserPhoto;
             return View(model);
         }
 
@@ -81,6 +82,7 @@ namespace fifer_crm.Controllers
         {
             Dictionary<CRMEventType, List<MessageViewModel>> model = new Dictionary<CRMEventType, List<MessageViewModel>>();
             var employeeData = new EmployeeWrapViewModel(_userId);
+            ViewBag.Profile = employeeData.UserPhoto;
             LocalNotifyService notifyService = new LocalNotifyService();
             model.Add(CRMEventType.Task,notifyService.GetTaskItems(employeeData.TaskTickets));
             model.Add(CRMEventType.TaskCall, notifyService.GetTaskCallItems(employeeData.CallTasks));
@@ -88,6 +90,7 @@ namespace fifer_crm.Controllers
             return PartialView(model);
         }
 
+        [DisplayName("Последние уведомления просмотрены")]
         public ActionResult SetLastNotifyViewed()
         {
             NotifyRepository repository = new NotifyRepository();
@@ -95,6 +98,7 @@ namespace fifer_crm.Controllers
             return Json(new { }, JsonRequestBehavior.AllowGet);
         }
 
+        [DisplayName("Уведомление просмотрено")]
         public ActionResult SetNotifyViewed(int notifyItemId, bool isLocal)
         {
             if (isLocal)

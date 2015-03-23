@@ -12,6 +12,7 @@ namespace StateMachine.Interface
 {
     public interface IWorkflowDispatcher
     {
+        Guid OwnerId { get; set; }
         WorkflowIdentity RegistrationIdentity { get; set; }
         SqlWorkflowInstanceStore InstanceStore { get; set; }
         BookmarksParticipant PromotedParticipant { get; }

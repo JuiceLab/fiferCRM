@@ -1,19 +1,26 @@
 ﻿$(function () {
     loadFilterData();
-    $("form[id^='filter']").on("submit", function () {
-        preventDefault();
-		$.post("/Filter/", $(this).attr("id").substr(7),
-			$(this).serialaize(),
-			function (result) {
-				$("#filtred-content").html(result);
-			}
-		)
-    });
     initFilterItems();
 });
 
 
 
+function resetFilterTasks() {
+    $.post("/Task/MainTask/SearchResult",
+      null,
+      function (result) {
+          $("#task-search-div").html(result);
+          if ($('#isCalendar').val()) {
+              $('#option1').trigger("click");
+          }
+          initFilterItems();
+          initPhoneMask();
+          initScroll();
+          initWidgetCollapsable();
+          initDatePicker();
+          saveFilterData();
+      });
+}
 
 function resetFilter()
 {
@@ -22,7 +29,6 @@ function resetFilter()
         function (result) {
             $("#customerList").html(result);
             initFilterItems();
-            setCalendarTasks();
             initPhoneMask();
             initScroll();
             initWidgetCollapsable();
@@ -41,7 +47,21 @@ function loadFilterData() {
         $("#s2id_StatusId").remove();
         $("#s2id_Cities").remove();
         $("#s2id_Name").remove();
+
         filterCustomers($("#IsLegal").val());
+    }
+    if ($("#task-search").length) {
+        $("#task-search").html(localStorage.getItem("task-search"));
+        $("#s2id_Services").remove();
+        $("#s2id_Assigned").remove();
+        $("#s2id_Statuses").remove();
+        $("#s2id_Cities").remove();
+        $("#s2id_Name").remove();
+
+    
+
+        filterTasks($('#isCalendar').val());
+      
     }
 }
 
@@ -49,6 +69,11 @@ function saveFilterData() {
     if ($("#customer-search").length) {
         localStorage.setItem("customer-search", $("#customer-search").html());
     }
+
+    if ($("#task-search").length) {
+        localStorage.setItem("task-search", $("#task-search").html());
+    }
+
 }
 
 function initFilterItems()
@@ -101,18 +126,25 @@ function filterCustomers(isLegal) {
 }
 
 function filterTasks(isCalendar) {
+    showProgress();
     $.post("/Task/MainTask/SearchResult",
         $("#task-search").serialize(),
         function (result) {
+            hideProgress();
             $("#task-search-div").html(result);
             initFilterItems();
-            if ($("#IsLegal").val() != "true")
-                initPhoneMask();
-            if (isCalendar)
-            {
+            initPhoneMask();
+            initScroll();
+            initWidgetCollapsable();
+            initDatePicker();
+            setCalendarTasks();
+            saveFilterData();
+            if (isCalendar) {
+                $("#isCalendar").val(isCalendar);
                 $('#option1').trigger("click");
             }
-            initDatePicker();
-
+            else {
+                $('#option2').trigger("click");
+            }
         });
 }

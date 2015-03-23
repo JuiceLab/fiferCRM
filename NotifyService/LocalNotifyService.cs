@@ -20,7 +20,10 @@ namespace NotifyService
                 Created = m.Created,
                 Msg = m.Msg,
                 ObjectId = m.TaskId.ToString(),
-                Title = string.Format("#{0} {1} ", m.TaskNumber, m.Status.GetStringValue()),
+                Title = string.Format("#{0} {1}. {2}. {3}", 
+                    m.TaskNumber,
+                    m.Title,
+                    m.Status.GetStringValue(), m.DateStarted.HasValue? (m.DateStarted.Value.Date == DateTime.Now.Date? m.DateStarted.Value.ToShortTimeString() : m.DateStarted.Value.ToShortDateString() ): string.Empty),
                 IconPath = m.CreatedByPhotoPath,
                 UserId = m.CreatedById
             }).ToList();
@@ -33,8 +36,9 @@ namespace NotifyService
                 Created = m.Date,
                 Msg = string.Format("Телефон {0}. {1}", m.Phone, m.CustomerName),
                 ObjectId = m.CallTaskId.ToString(),
+                IconPath = !string.IsNullOrEmpty(m.CompanyPhoto)? m.CompanyPhoto : m.CustomerPhoto,
                 Title = string.Format("{1} #{2}", m.OwnerName, m.CompanyName, m.TaskNumber),
-                UserId = m.OwnerId
+                UserId = m.OwnerId,
             }).ToList();
         }
 
@@ -45,7 +49,8 @@ namespace NotifyService
                 Created = m.Date,
                 ObjectId = m.MeetingId.ToString(),
                 Title = string.Format("Телефон {0}. {1}", m.Phone, m.CustomerName),
-                UserId = m.OwnerId
+                UserId = m.OwnerId,
+                IconPath = !string.IsNullOrEmpty(m.CompanyPhoto) ? m.CompanyPhoto : m.CustomerPhoto
             }).ToList();
         }
     }

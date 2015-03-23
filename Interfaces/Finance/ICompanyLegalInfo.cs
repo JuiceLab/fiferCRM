@@ -18,7 +18,7 @@ namespace Interfaces.Finance
 
         string Address { get; set; }
         int? DistrictId { get; set; }
-        int City { get; set; }
+        Guid City { get; set; }
         string AddApp { get; set; }
         string Street { get; set; }
         string App { get; set; }

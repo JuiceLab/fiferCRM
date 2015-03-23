@@ -292,17 +292,19 @@
                              <i class="fa fa-ruble"></i> @item.PaymentDate.Value.ToShortDateString()</a></li>
                     }
 @if (item.CallDate.HasValue) {
-                    <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?companyId=@(item.LegalEntityId)', getTaskActions); return false;">
-                             @if (item.CallDate.Value.Date == DateTime.Now.Date)
-                             {
-                                 <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть звонок" data-content="" data-placement="top" data-original-title="" title=""></i>
-                             }<i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()</a></li>
+                    <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?companyId=@(item.LegalEntityId)', initCallTask); return false;">
+    @if (item.CallDate.Value.Date == DateTime.Now.Date)
+    {
+        <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть звонок" data-content="" data-placement="top" data-original-title="" title=""></i>
+    }<i class="fa fa-phone"></i>&nbsp;@item.CallDate.Value.ToShortDateString()
+</a></li>
 }@if (item.MeetDate.HasValue) {
-                    <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?companyId=@(item.LegalEntityId)', getTaskActions); return false;">
-                             @if (item.MeetDate.Value.Date == DateTime.Now.Date)
-                             {
-                                 <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть встреча" data-content="" data-placement="top" data-original-title="" title=""></i>
-                             }<i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()</a></li>
+                    <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?companyId=@(item.LegalEntityId)', initMeetingTask); return false;">
+    @if (item.MeetDate.Value.Date == DateTime.Now.Date)
+    {
+        <i style="color:red;" class="fa fa-warning" data-toggle="tooltip" data-title="На сегодня есть встреча" data-content="" data-placement="top" data-original-title="" title=""></i>
+    }<i class="fa fa-group"></i>&nbsp;@item.MeetDate.Value.ToShortDateString()
+</a></li>
 }
                 </ul>
                 <ul class="list-unstyled col-md-7">
@@ -314,8 +316,8 @@
                             </button>
                             <ul class="dropdown-menu pull-right">
                                 <li> <a href="#" onclick="loadModalContentWithCallback('modal-fullscreen', 'PaymentEdit', 'Finances/Payment', '?companyId=@(item.LegalEntityId)&type=@((byte)PaymentType.Payment)', initPaymentCallback); return false;"><i class="fa fa-ruble"></i>&nbsp;Платеж</a></li>
-                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?companyId=@(item.LegalEntityId)', getTaskActions); return false;"><i class="fa fa-phone"></i>&nbsp;Звонок</a></li>
-                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?companyId=@(item.LegalEntityId)', getTaskActions); return false;"><i class="fa fa-group"></i>&nbsp;Встреча</a></li>
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Call', '?companyId=@(item.LegalEntityId)&isNovelty=true', initCallTask); return false;"><i class="fa fa-phone"></i>&nbsp;Звонок</a></li>
+                                <li> <a href="#" onclick="loadModalContentWithCallback('modal-help', 'Edit', 'Task/Meeting', '?companyId=@(item.LegalEntityId)&isNovelty=true', initMeetingTask); return false;"><i class="fa fa-group"></i>&nbsp;Встреча</a></li>
                             </ul>
                         </div>
 
@@ -338,7 +340,7 @@
                 </ul>
                 </div>
                 <ul class="list-unstyled col-md-12" style="border-top:1px solid; padding-top:5px">
-                    <li><a href="#" onclick="loadMapWithGeo('@(item.GeoAddr.Lat.ToString().Replace(",", "."))', '@(item.GeoAddr.Long.ToString().Replace(",", "."))'); return false;"><i class="fa fa-map-marker"></i>&nbsp;@item.GeoAddr.Address</a>&nbsp;
+                    <li><a href="#" onclick="loadMapWithGeo('@(item.GeoAddr.Lat.ToString().Replace(",", "."))', '@(item.GeoAddr.Long.ToString().Replace(",", "."))', '@(item.GeoAddr.Address)'); return false;"><i class="fa fa-map-marker"></i>&nbsp;@item.GeoAddr.Address</a>&nbsp;
                         <span class="btn btn-default padding-none" onclick="loadModalContentWithCallback('modal-add', 'LegalAddress', 'GeoLocation/LegalEntity', '?companyId=@(item.LegalEntityId)', initLegalGeo);">&nbsp;<i class="fa fa-map-marker"></i>&nbsp;Еще адреса...&nbsp;</span>
                     </li>
             </ul>

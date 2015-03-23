@@ -50,12 +50,50 @@ namespace fifer_crm.Controllers
             return View(new LoginViewModel());
         }
 
+        public ActionResult RemoteSignIn(Guid remoteToken)
+        {
+            var userName = RemoteMembershipService.CheckRemoteAccess(remoteToken, ControllerContext.HttpContext.Request.UserHostAddress);
+            //todo create temp page for many account 4 one email
+            if (!string.IsNullOrEmpty(userName))
+            {
+                FormsService.SignIn(userName, false);
+                try
+                {
+                    StaffRepository repository = new StaffRepository();
+                    MembershipRepository membershipRepository = new MembershipRepository();
+                    var user = membershipRepository.Context.Users.FirstOrDefault(m => m.Login == userName);
+                    if (user != null)
+                        repository.SetLoginEmployee(user.UserId, ControllerContext.HttpContext.Request.UserHostAddress, true);
+                }
+                catch
+                {
+                }
+                return RedirectToAction("IndexEmployee", "Ordinary", new { Area = "Workspace" });
+            }
+            return RedirectToAction("SignIn");
+        
+        }
+
         [HttpPost]
         public ActionResult SignIn(LoginViewModel model)
         {
             //todo create temp page for many account 4 one email
             if (MembershipService.ValidateUser(model.Email, model.Password))
             {
+                Guid? token = RemoteMembershipService.TokenPass(model.Email);
+                if (!RemoteMembershipService.IsIpPass(model.Email, ControllerContext.HttpContext.Request.UserHostAddress))
+                {
+                    ViewBag.Error = "Доступ в систему из места, в котором вы находитесь ограничен.Обратитесь к администратору вашей компании";
+                    return View(new LoginViewModel());
+                }
+                else if (token.HasValue)
+                {
+                    AuthMailer mailer = new AuthMailer();
+                    mailer.DoNotify(_repository.GetUserId(model.Email), string.Format("Для входа в систему перейдите по <a target='_blank' href='http://bizinvit.ru/account/remotesignin?remoteToken={0}'>ссылке</a>", token.Value), AuthMail.RemoteToken);
+                    ViewBag.Error = "Доступ в систему из места, в котором вы находитесь ограничен. На почту отправлено письмо с одноразовым входом в систему";
+                    return View(new LoginViewModel());
+                }
+
                 FormsService.SignIn(model.Email, model.RememberMe);
                 try
                 {

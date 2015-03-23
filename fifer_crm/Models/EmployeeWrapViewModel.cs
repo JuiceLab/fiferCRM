@@ -64,7 +64,7 @@ namespace fifer_crm.Models
             ids.AddRange(SheduledEvents.SelectMany(m => m.Value.Select(n => n.OwnerId)).Distinct());
             ids.AddRange(CallTasks.Where(m => m.AssignId.HasValue).Select(m => m.AssignId.Value).Distinct());
             ids.AddRange(Meetings.Select(m => m.OwnerId).Distinct());
-
+            
             foreach (var item in Meetings)
             {
                 var owner = CompanyEmployees.FirstOrDefault(m => m.UserId == item.OwnerId);
@@ -102,5 +102,7 @@ namespace fifer_crm.Models
         public string Logo { get { return Company.Logo; } set { Company.Logo = value; } }
 
         public string Name { get { return Company.PublicCompanyName; } set { Company.PublicCompanyName = value; } }
+        public string UserPhoto { get { return Company.UserPhoto; } set { Company.UserPhoto = value; } }
+
     }
 }

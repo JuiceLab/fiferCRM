@@ -25,7 +25,11 @@ namespace fifer_wf
              routeTemplate: "api/calltask/{action}",
              defaults: new { controller = "CallTicket" }
          );
-
+            config.Routes.MapHttpRoute(
+           name: "MeetingTicket",
+           routeTemplate: "api/meeting/{action}",
+           defaults: new { controller = "MeetingTicket" }
+       );
             config.Routes.MapHttpRoute(
               name: "Task",
               routeTemplate: "api/task/{action}",

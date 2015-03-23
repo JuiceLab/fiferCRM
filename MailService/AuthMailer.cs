@@ -23,22 +23,10 @@ namespace MailService
             string result = string.Empty;
             if (typeof(T).IsEnum)
             {
-                switch ((byte)(object)mailType)
-                {
-                    case (byte)AuthMail.NewCustomer:
-                        UpdateMailName(AuthMail.NewCustomer.GetStringValue());
-                        break;
-                    case (byte)AuthMail.NewEmployee:
-                        UpdateMailName(AuthMail.NewEmployee.GetStringValue());
-                        break;
-                    case (byte)AuthMail.ResetPass:
-                        UpdateMailName(AuthMail.ResetPass.GetStringValue());
-                        break;
-                    default: break;
-                }
+                UpdateMailName(((AuthMail)(object)mailType).GetStringValue());
                 MembershipRepository repository = new MembershipRepository();
                 var user = repository.GetUserById(objId);
-                result = SendBodyText(new string[] { user.Mail }, "Fifer-CRM: " + AuthMail.NewCustomer.GetStringValue(), bodyText);
+                result = SendBodyText(new string[] { user.Mail }, "Fifer-CRM: " + ((AuthMail)(object)mailType).GetStringValue(), bodyText);
             }
             return result;
         }
